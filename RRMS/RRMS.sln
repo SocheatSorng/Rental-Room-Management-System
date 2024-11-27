@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RRMS", "RRMS.csproj", "{EBEC030B-1966-417B-A438-17CDFD17A731}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBEC030B-1966-417B-A438-17CDFD17A731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEC030B-1966-417B-A438-17CDFD17A731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEC030B-1966-417B-A438-17CDFD17A731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEC030B-1966-417B-A438-17CDFD17A731}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18EA9620-6FED-4E6D-AAA5-D3807EB961A1}
+	EndGlobalSection
+EndGlobal

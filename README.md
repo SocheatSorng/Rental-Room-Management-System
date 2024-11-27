@@ -7,3 +7,6 @@ How to solve 'The type or namespace name 'Model' does not exist in the namespace
 - Choose Shares.dll which locate at the First Folder of the Project
 - Click on Shares.dll and Add (make sure there is a checked icon nex to the Shares.dll)
 - Click OK
+
+Thing to do before running project application
+- Run the Script name 'Create Database and Tables'

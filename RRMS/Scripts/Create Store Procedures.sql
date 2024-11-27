@@ -10,6 +10,7 @@ BEGIN
     FROM tblResident 
     WHERE ResidentID = @ResidentID
 END
+GO
 
 CREATE PROCEDURE sp_CheckRoomID
     @RoomID INT

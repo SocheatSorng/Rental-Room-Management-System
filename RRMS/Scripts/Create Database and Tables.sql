@@ -3,6 +3,13 @@ GO
 USE rrmsdb;
 GO
 
+-- Table Room
+CREATE TABLE tblRoom (
+    RoomID INT PRIMARY KEY IDENTITY(1,1),
+    RoomNumber NVARCHAR(20)
+);
+GO
+
 -- Table RESIDENT
 CREATE TABLE tblResident (
     ResidentID INT PRIMARY KEY IDENTITY(1,1),

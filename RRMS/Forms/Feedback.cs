@@ -21,8 +21,6 @@ namespace RRMS
     }
 }
 
-// Hello everyone
-
 //namespace RRMS
 //{
 //    public partial class Feedback : Form

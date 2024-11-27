@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace RRMS
 {
-    public partial class Feedback : Form
+    public partial class FormFeedback : Form
     {
-        public Feedback()
+        public FormFeedback()
         {
             InitializeComponent();
         }

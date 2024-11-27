@@ -1,6 +1,6 @@
 namespace RRMS
 {
-    partial class Feedback
+    partial class FormFeedback
     {
         private System.ComponentModel.IContainer components = null;
 

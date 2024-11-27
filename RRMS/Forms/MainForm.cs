@@ -72,11 +72,11 @@ namespace RRMS.Forms
             };
 
             // Feedback Button
-            btnFeedback.Click += (sender, e) =>
-            {
-                Feedback feedback = new Feedback();
-                feedback.Show();
-            };
+            //btnFeedback.Click += (sender, e) =>
+            //{
+            //    Feedback feedback = new Feedback();
+            //    feedback.Show();
+            //};
 
             // Request Button
             btnRequest.Click += (sender, e) =>
@@ -105,6 +105,16 @@ namespace RRMS.Forms
                 RentForm rentForm = new RentForm();
                 rentForm.Show();
             };
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

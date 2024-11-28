@@ -30,7 +30,7 @@ CREATE TABLE tblResident (
 
 -- Table VENDOR
 Create Table tblVendor (
-	ID int primary key identity(1,1),
+	VENDERID int primary key identity(1,1),
 	Name nvarchar(50),
 	Contact nvarchar(20),
 	HNo nvarchar(30),
@@ -47,39 +47,39 @@ Create Table tblVendor (
 -- Table STAFF
 Create Table tblStaff (
 	StaffID int primary key identity(1,1),
-	StaffFName nvarchar(50),
-	StaffLName nvarchar(50),
-	StaffSex nvarchar(10),
-	StaffBOD Datetime,
-	StaffPosition nvarchar(10),
-	StaffHNo nvarchar(30),
-	StaffSNo nvarchar(30),
-	StaffCommune nvarchar(30),
-	StaffDistrict nvarchar(30),
-	StaffProvince nvarchar(30),
-	StaffPerNum nvarchar(20),
-	StaffSalary float,
-	StaffHiredDate Datetime,
-	StaffStopped bit
+	FName nvarchar(50),
+	LName nvarchar(50),
+	Sex nvarchar(10),
+	BOD Datetime,
+	Position nvarchar(10),
+	HNo nvarchar(30),
+	SNo nvarchar(30),
+	Commune nvarchar(30),
+	District nvarchar(30),
+	Province nvarchar(30),
+	PerNum nvarchar(20),
+	Salary float,
+	HiredDate Datetime,
+	Stopped bit
 );
 
 -- Table Amenity
 Create table tblAmenity(
 	AmenityID int primary key identity(1,1),
-	AmenityName nvarchar(30),
-	AmenityAvail bit,
-	AmenityLocation nvarchar(30),
-	AmenityBouPri float,
-	AmenityCPR float,
-	AmenityMainDate Datetime,
-	AmenityDesc nvarchar(100)
+	Name nvarchar(30),
+	Avail bit,
+	Location nvarchar(30),
+	BouPri float,
+	CPR float,
+	MainDate Datetime,
+	Desc nvarchar(100)
 );
 
 -- Table User
 Create Table tblUser(
 	UserID int primary key identity(1,1),
-	UserName nvarchar(30),
-	UserPass nvarchar(30),
+	Name nvarchar(30),
+	Pass nvarchar(30),
 	StaffID int,
 	Constraint FKStaffID Foreign Key(StaffID) References tblStaff(StaffID) on Delete Cascade on Update Cascade
 );
@@ -87,7 +87,7 @@ Create Table tblUser(
 -- POLICY table
 CREATE TABLE tblPolicy (
     PolicyID INT PRIMARY KEY IDENTITY(1,1),
-    PolicyName NVARCHAR(100) NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
     Description NVARCHAR(MAX),
     CreatedDate DATETIME2 DEFAULT GETDATE(),
     UpdatedDate DATETIME2,
@@ -98,7 +98,7 @@ CREATE TABLE tblPolicy (
 -- FEEDBACK table
 CREATE TABLE tblFeedback (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    FeedbackDate DATETIME2 DEFAULT GETDATE(),
+    Date DATETIME2 DEFAULT GETDATE(),
     Comments NVARCHAR(MAX),
     Rating INT CHECK (Rating >= 1 AND Rating <= 5), 
     ResidentID INT,
@@ -120,7 +120,7 @@ CREATE TABLE tblLeaseAgreement (
 -- UTILITY table
 CREATE TABLE tblUtility (
     UtilityID INT PRIMARY KEY IDENTITY(1,1),
-    UtilityType NVARCHAR(50) NOT NULL,
+    Type NVARCHAR(50) NOT NULL,
     Cost DECIMAL(10,2) NOT NULL,
     UsageDate DATE NOT NULL,
     RoomID INT,
@@ -129,20 +129,20 @@ CREATE TABLE tblUtility (
 
 CREATE TABLE Room (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
-    RoomNumber NVARCHAR(20)
+    Number NVARCHAR(20)
 );
 GO
 
 CREATE TABLE Resident (
     ResidentID INT PRIMARY KEY IDENTITY(1,1),
-    ResidentName NVARCHAR(100)
+    Name NVARCHAR(100)
 );
 GO
 
 CREATE TABLE Service (
     ServiceID INT PRIMARY KEY IDENTITY(1,1),
-    ServiceName NVARCHAR(100),
-    ServiceDescription NVARCHAR(MAX),
+    Name NVARCHAR(100),
+    Description NVARCHAR(MAX),
     Cost DECIMAL(10,2)
 );
 GO
@@ -150,7 +150,7 @@ GO
 -- Table Reservation
 CREATE TABLE Reservation (
     ReservationID INT PRIMARY KEY IDENTITY(1,1),
-    ReservationDate DATE,
+    Date DATE,
     StartDate DATE,
     EndDate DATE,
     Status NVARCHAR(50),
@@ -166,7 +166,7 @@ GO
 -- Table Request
 CREATE TABLE Request (
     RequestID INT PRIMARY KEY IDENTITY(1,1),
-    RequestDate DATE,
+    Date DATE,
     Description NVARCHAR(MAX),
     Status NVARCHAR(50),
     ResidentID INT,
@@ -183,7 +183,7 @@ CREATE TABLE Rent (
     RentID INT PRIMARY KEY IDENTITY(1,1),
     StartDate DATE,
     EndDate DATE,
-    RentAmount DECIMAL(10,2),
+    Amount DECIMAL(10,2),
     ResidentID INT,
     RoomID INT,
     ResidentName NVARCHAR(100),
@@ -192,6 +192,7 @@ CREATE TABLE Rent (
     FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
 );
 GO
+
 
 -- Create triggers (each in its own batch)
 CREATE TRIGGER trg_UpdateReservationDenormalizedData

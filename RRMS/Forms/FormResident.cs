@@ -90,19 +90,19 @@ namespace RRMS.Forms
                     if (resident != null)
                     {
                         // Populate the form fields with the resident's data
-                        txtResID.Text = resident.ResidentID.ToString();
-                        txtResType.Text = resident.ResidentType;
-                        txtResName.Text = resident.ResidentName;
+                        txtResID.Text = resident.ResID.ToString();
+                        txtResType.Text = resident.ResType;
+                        txtResName.Text = resident.ResFirstName;
                         txtResSex.Text = resident.Sex;
-                        dtpResBOD.Value = resident.ResBOD;
-                        txtResHNo.Text = resident.PrevHouseNo;
-                        txtResStNo.Text = resident.PrevStNo;
-                        txtResCom.Text = resident.PrevCommune;
-                        txtResDis.Text = resident.PrevDistrict;
+                        dtpResBOD.Value = resident.ResBD;
+                        txtResHNo.Text = resident.ResPrevHouseNo;
+                        txtResStNo.Text = resident.ResPrevStNo;
+                        txtResCom.Text = resident.ResPrevCommune;
+                        txtResDis.Text = resident.ResPrevDistrict;
                         txtResPN.Text = resident.ResPerNum;
                         txtResCN.Text = resident.ResConNum;
-                        dtpResCID.Value = resident.CheckIn;
-                        dtpResCOD.Value = resident.CheckOut;
+                        dtpResCID.Value = resident.ResCheckIn;
+                        dtpResCOD.Value = resident.ResCheckOut;
                     }
                     else
                     {
@@ -210,7 +210,7 @@ namespace RRMS.Forms
             if (dgvRes.SelectedCells.Count > 0)
             {
                 int rowIndex = dgvRes.SelectedCells[0].RowIndex;
-                object cellValue = dgvRes.Rows[rowIndex].Cells["colResidentID"].Value;
+                object cellValue = dgvRes.Rows[rowIndex].Cells["colResID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
@@ -229,19 +229,19 @@ namespace RRMS.Forms
 
                     Resident updatedResident = new Resident()
                     {
-                        ResidentID = id, // Use the ID from the selected resident
-                        ResidentType = residentType,
-                        ResidentName = residentName,
-                        Sex = sex,
-                        ResBOD = resBOD,
-                        PrevHouseNo = prevHouseNo,
-                        PrevStNo = prevStNo,
-                        PrevCommune = prevCommune,
-                        PrevDistrict = prevDistrict,
+                        ResID = id, // Use the ID from the selected resident
+                        ResType = residentType,
+                        ResFirstName = residentName,
+                        ResSex = sex,
+                        ResBD = resBOD,
+                        ResPrevHouseNo = prevHouseNo,
+                        ResPrevStNo = prevStNo,
+                        ResPrevCommune = prevCommune,
+                        ResPrevDistrict = prevDistrict,
                         ResPerNum = resPerNum,
                         ResConNum = resConNum,
-                        CheckIn = checkIn,
-                        CheckOut = checkOut
+                        ResCheckIn = checkIn,
+                        ResCheckOut = checkOut
                     };
 
                     try
@@ -302,18 +302,18 @@ namespace RRMS.Forms
             {
                 Resident newResident = new Resident()
                 {
-                    ResidentType = residentType,
-                    ResidentName = residentName,
-                    Sex = sex,
-                    ResBOD = resBOD,
-                    PrevHouseNo = prevHouseNo,
-                    PrevStNo = prevStNo,
-                    PrevCommune = prevCommune,
-                    PrevDistrict = prevDistrict,
+                    ResType = residentType,
+                    ResFirstName = residentName,
+                    ResSex= sex,
+                    ResBD = resBOD,
+                    ResPrevHouseNo = prevHouseNo,
+                    ResPrevStNo = prevStNo,
+                    ResPrevCommune = prevCommune,
+                    ResPrevDistrict = prevDistrict,
                     ResPerNum = resPerNum,
                     ResConNum = resConNum,
-                    CheckIn = checkIn,
-                    CheckOut = checkOut
+                    ResCheckIn = checkIn,
+                    ResCheckOut = checkOut
                 };
 
                 try
@@ -375,7 +375,8 @@ namespace RRMS.Forms
 
             try
             {
-                var result = Helper.GetAllResidents(Program.Connection);
+                string SP_Name = "SP_GetAllResidents";
+                var result = Helper.GetAllEntities<Resident>(Program.Connection, SP_Name);
                 dgvRes.Rows.Clear();
                 foreach (var resident in result)
                 {
@@ -391,8 +392,8 @@ namespace RRMS.Forms
         private void AddToView(Resident resident)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvRes, resident.ResidentID, resident.ResidentName);
-            row.Tag = resident.ResidentID;
+            row.CreateCells(dgvRes, resident.ResID, resident.ResFirstName);
+            row.Tag = resident.ResID;
             dgvRes.Rows.Add(row);
         }
     }

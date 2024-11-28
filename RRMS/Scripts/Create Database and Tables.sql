@@ -12,19 +12,20 @@ GO
 
 -- Table RESIDENT
 CREATE TABLE tblResident (
-    ResidentID INT PRIMARY KEY IDENTITY(1,1),
-    ResidentType NVARCHAR(10),
-	ResidentName NVARCHAR(50),
-	ResidentSex NVARCHAR(6),
-	ResidentBOD DATETIME,
-	ResidentPrevHouseNo NVARCHAR(30),
-	ResidentPrevStNo NVARCHAR(30),
-	ResidentPrevCommune NVARCHAR(30),
-	ResidentPrevDistrict NVARCHAR(30),
-	ResidentPerNum NVARCHAR(20),
-	ResidentConNum NVARCHAR(20),
-	ResidentCheckIn DATETIME,
-	ResidentCheckOut DATETIME
+    ID INT PRIMARY KEY IDENTITY(1,1),
+    Type NVARCHAR(10),
+	Name NVARCHAR(50),
+	Sex NVARCHAR(6),
+	BOD DATETIME,
+	PrevHouseNo NVARCHAR(30),
+	PrevStNo NVARCHAR(30),
+	PrevCommune NVARCHAR(30),
+	PrevDistrict NVARCHAR(30),
+    PrevProvince NVARCHAR(30),
+	PerNum NVARCHAR(20),
+	ConNum NVARCHAR(20),
+	CheckIn DATETIME,
+	CheckOut DATETIME
 );
 
 -- Table VENDOR

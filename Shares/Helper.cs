@@ -40,19 +40,20 @@ namespace RRMS
 
         #region crud(residents)
         private const string RESIDENT_TBL_NAME = "tblResident";
-        private const string RESIDENT_ID_FIELD = "ResidentID";
-        private const string RESIDENT_TYPE_FIELD = "ResidentType";
-        private const string RESIDENT_NAME_FIELD = "ResidentName";
-        private const string RESIDENT_SEX_FIELD = "ResidentSex";
-        private const string RESIDENT_BOD_FIELD = "ResidentBOD";
-        private const string RESIDENT_PREV_HOUSE_NO_FIELD = "ResidentPrevHouseNo";
-        private const string RESIDENT_PREV_ST_NO_FIELD = "ResidentPrevStNo";
-        private const string RESIDENT_PREV_COMMUNE_FIELD = "ResidentPrevCommune";
-        private const string RESIDENT_PREV_DISTRICT_FIELD = "ResidentPrevDistrict";
-        private const string RESIDENT_PER_NUM_FIELD = "ResidentPerNum";
-        private const string RESIDENT_CON_NUM_FIELD = "ResidentConNum";
-        private const string RESIDENT_CHECK_IN_FIELD = "ResidentCheckIn";
-        private const string RESIDENT_CHECK_OUT_FIELD = "ResidentCheckOut";
+        private const string RESIDENT_ID_FIELD = "ID";
+        private const string RESIDENT_TYPE_FIELD = "Type";
+        private const string RESIDENT_NAME_FIELD = "Name";
+        private const string RESIDENT_SEX_FIELD = "Sex";
+        private const string RESIDENT_BOD_FIELD = "BOD";
+        private const string RESIDENT_PREV_HOUSE_NO_FIELD = "PrevHouseNo";
+        private const string RESIDENT_PREV_ST_NO_FIELD = "PrevStNo";
+        private const string RESIDENT_PREV_COMMUNE_FIELD = "PrevCommune";
+        private const string RESIDENT_PREV_DISTRICT_FIELD = "PrevDistrict";
+        private const string RESIDENT_PREV_PROVINCE = "PrevProvince";
+        private const string RESIDENT_PER_NUM_FIELD = "PerNum";
+        private const string RESIDENT_CON_NUM_FIELD = "ConNum";
+        private const string RESIDENT_CHECK_IN_FIELD = "CheckIn";
+        private const string RESIDENT_CHECK_OUT_FIELD = "CheckOut";
 
         // Read all residents
         public static IEnumerable<Resident> GetAllResidents(SqlConnection conn)
@@ -85,19 +86,19 @@ namespace RRMS
 
                             residents.Add(new Resident()
                             {
-                                ResidentID = id,
-                                ResidentType = type,
-                                ResidentName = name,
-                                Sex = sex,
-                                ResBOD = bod,
-                                PrevHouseNo = prevHouseNo,
-                                PrevStNo = prevStNo,
-                                PrevCommune = prevCommune,
-                                PrevDistrict = prevDistrict,
+                                ResID = id,
+                                ResType = type,
+                                ResFirstName = name,
+                                ResSex = sex,
+                                ResBD = bod,
+                                ResPrevHouseNo = prevHouseNo,
+                                ResPrevStNo = prevStNo,
+                                ResPrevCommune = prevCommune,
+                                ResPrevDistrict = prevDistrict,
                                 ResPerNum = perNum,
                                 ResConNum = conNum,
-                                CheckIn = checkIn,
-                                CheckOut = checkOut
+                                ResCheckIn = checkIn,
+                                ResCheckOut = checkOut
                             });
                         }
                     }
@@ -118,7 +119,7 @@ namespace RRMS
             using (SqlCommand cmd = new SqlCommand("GetResidentById", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", id);
+                cmd.Parameters.AddWithValue("@ResID", id);
                 try
                 {
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -140,19 +141,19 @@ namespace RRMS
 
                             result = new Resident()
                             {
-                                ResidentID = id,
-                                ResidentType = type,
-                                ResidentName = name,
-                                Sex = sex,
-                                ResBOD = bod,
-                                PrevHouseNo = prevHouseNo,
-                                PrevStNo = prevStNo,
-                                PrevCommune = prevCommune,
-                                PrevDistrict = prevDistrict,
+                                ResID = id,
+                                ResType = type,
+                                ResFirstName = name,
+                                ResSex = sex,
+                                ResBD = bod,
+                                ResPrevHouseNo = prevHouseNo,
+                                ResPrevStNo = prevStNo,
+                                ResPrevCommune = prevCommune,
+                                ResPrevDistrict = prevDistrict,
                                 ResPerNum = perNum,
                                 ResConNum = conNum,
-                                CheckIn = checkIn,
-                                CheckOut = checkOut
+                                ResCheckIn = checkIn,
+                                ResCheckOut = checkOut
                             };
                         }
                     }
@@ -167,40 +168,39 @@ namespace RRMS
         }
 
         // Create a new resident
-        // Create a new resident
         public static string? AddResident(SqlConnection conn, Resident resident)
         {
             using (SqlCommand cmd = new SqlCommand("AddResident", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 // Remove the ResidentID parameter since it's auto-generated
-                cmd.Parameters.AddWithValue("@ResidentType", resident.ResidentType as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentName", resident.ResidentName as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentSex", resident.Sex as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBOD as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", resident.PrevHouseNo as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevStNo", resident.PrevStNo as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevCommune", resident.PrevCommune as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", resident.PrevDistrict as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentType", resident.ResType as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentName", resident.ResFirstName as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentSex", resident.ResSex as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBD as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", resident.ResPrevHouseNo as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentPrevStNo", resident.ResPrevStNo as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentPrevCommune", resident.ResPrevCommune as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", resident.ResPrevDistrict as object ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ResidentPerNum", resident.ResPerNum as object ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@ResidentConNum", resident.ResConNum as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.CheckIn as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.CheckOut as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.ResCheckIn as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.ResCheckOut as object ?? DBNull.Value);
 
                 try
                 {
                     int effected = cmd.ExecuteNonQuery();
 
-                    if (resident.ResidentID >= 0 && resident.ResidentID <= 255)
+                    if (resident.ResID >= 0 && resident.ResID <= 255)
                     {
-                        Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResidentID, Entity = EntityTypes.Residents });
+                        Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
                     }
                     else
                     {
-                        throw new Exception($"ResidentID {resident.ResidentID} is out of range for ByteId.");
+                        throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId.");
                     }
 
-                    return (effected > 0) ? resident.ResidentID.ToString() : null;
+                    return (effected > 0) ? resident.ResID.ToString() : null;
                 }
                 catch (Exception ex)
                 {
@@ -213,32 +213,32 @@ namespace RRMS
             using (SqlCommand cmd = new SqlCommand("UpdateResident", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", resident.ResidentID); // This should be set from the selected resident
-                cmd.Parameters.AddWithValue("@ResidentType", string.IsNullOrEmpty(resident.ResidentType) ? DBNull.Value : resident.ResidentType);
-                cmd.Parameters.AddWithValue("@ResidentName", string.IsNullOrEmpty(resident.ResidentName) ? DBNull.Value : resident.ResidentName);
-                cmd.Parameters.AddWithValue("@ResidentSex", resident.Sex);
-                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBOD);
-                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", string.IsNullOrEmpty(resident.PrevHouseNo) ? DBNull.Value : resident.PrevHouseNo);
-                cmd.Parameters.AddWithValue("@ResidentPrevStNo", string.IsNullOrEmpty(resident.PrevStNo) ? DBNull.Value : resident.PrevStNo);
-                cmd.Parameters.AddWithValue("@ResidentPrevCommune", string.IsNullOrEmpty(resident.PrevCommune) ? DBNull.Value : resident.PrevCommune);
-                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", string.IsNullOrEmpty(resident.PrevDistrict) ? DBNull.Value : resident.PrevDistrict);
+                cmd.Parameters.AddWithValue("@ResidentID", resident.ResID); // This should be set from the selected resident
+                cmd.Parameters.AddWithValue("@ResidentType", string.IsNullOrEmpty(resident.ResType) ? DBNull.Value : resident.ResType);
+                cmd.Parameters.AddWithValue("@ResidentName", string.IsNullOrEmpty(resident.ResFirstName) ? DBNull.Value : resident.ResFirstName);
+                cmd.Parameters.AddWithValue("@ResidentSex", resident.ResSex);
+                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBD);
+                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", string.IsNullOrEmpty(resident.ResPrevHouseNo) ? DBNull.Value : resident.ResPrevHouseNo);
+                cmd.Parameters.AddWithValue("@ResidentPrevStNo", string.IsNullOrEmpty(resident.ResPrevStNo) ? DBNull.Value : resident.ResPrevStNo);
+                cmd.Parameters.AddWithValue("@ResidentPrevCommune", string.IsNullOrEmpty(resident.ResPrevCommune) ? DBNull.Value : resident.ResPrevCommune);
+                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", string.IsNullOrEmpty(resident.ResPrevDistrict) ? DBNull.Value : resident.ResPrevDistrict);
                 cmd.Parameters.AddWithValue("@ResidentPerNum", string.IsNullOrEmpty(resident.ResPerNum) ? DBNull.Value : resident.ResPerNum);
                 cmd.Parameters.AddWithValue("@ResidentConNum", string.IsNullOrEmpty(resident.ResConNum) ? DBNull.Value : resident.ResConNum);
-                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.CheckIn);
-                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.CheckOut);
+                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.ResCheckIn);
+                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.ResCheckOut);
 
                 try
                 {
                     int effected = cmd.ExecuteNonQuery();
                     if (effected > 0)
                     {
-                        if (resident.ResidentID >= 0 && resident.ResidentID <= 255)
+                        if (resident.ResID >= 0 && resident.ResID <= 255)
                         {
-                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResidentID, Entity = EntityTypes.Residents });
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
                         }
                         else
                         {
-                            throw new Exception($"ResidentID {resident.ResidentID} is out of range for ByteId. It must be between 0 and 255.");
+                            throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId. It must be between 0 and 255.");
                         }
                     }
 
@@ -1289,5 +1289,60 @@ namespace RRMS
             }
         }
         #endregion
+
+        public static IEnumerable<T> GetAllEntities<T>(SqlConnection conn, string storedProcedureName) where T : IEntity, new()
+        {
+            List<T> entities = new List<T>();
+
+            using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            T entity = new T();
+
+                            // Populate specific fields based on the type
+                            if (entity is Resident resident)
+                            {
+                                resident.ResID = reader.GetInt32(reader.GetOrdinal(RESIDENT_ID_FIELD));
+                                resident.ResType = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
+                                resident.ResFirstName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
+                                resident.ResSex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
+                                resident.ResBD= reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
+                                resident.ResPrevHouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
+                                resident.ResPrevStNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD));
+                                resident.ResPrevCommune = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD));
+                                resident.ResPrevDistrict = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD));
+                                resident.ResPrevProvince = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_PROVINCE)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_PROVINCE));
+                                resident.ResPerNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD));
+                                resident.ResConNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD));
+                                resident.ResCheckIn = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD));
+                                resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
+
+                            }
+                            else if (entity is Vendor vendor)
+                            {
+                                //// Assuming Vendor has specific properties
+                                //vendor.SomeVendorProperty = reader.IsDBNull(reader.GetOrdinal("SomeVendorField")) ? string.Empty : reader.GetString(reader.GetOrdinal("SomeVendorField"));
+                                //// Populate other Vendor-specific fields...
+                            }
+
+                            entities.Add(entity);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in getting all entities > {ex.Message}", ex);
+                }
+            }
+
+            return entities;
+        }
     }
 }

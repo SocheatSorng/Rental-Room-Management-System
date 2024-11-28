@@ -329,45 +329,46 @@ END
 GO
 
 -- Resident CRUD
-Create Procedure GetAllResidents
+Create Procedure SP_GetAllResidents
 As
 Begin
-	Select ResidentID,
-		   ResidentType,
-		   ResidentName,
-		   ResidentSex,
-		   ResidentBOD,
-		   ResidentPrevHouseNo,
-		   ResidentPrevStNo,
-		   ResidentPrevCommune,
-		   ResidentPrevDistrict,
-		   ResidentPerNum,
-		   ResidentConNum,
-		   ResidentCheckIn,
-		   ResidentCheckOut
+	Select ID,
+		   Type,
+		   Name,
+		   Sex,
+		   BOD,
+		   PrevHouseNo,
+		   PrevStNo,
+		   PrevCommune,
+		   PrevDistrict,
+           PrevProvince,
+		   PerNum,
+		   ConNum,
+		   CheckIn,
+		   CheckOut
 	From tblResident;
 End
 Go
 
 Create Procedure GetResidentById
-	@ResidentID INT
+	@ResID INT
 As
 Begin
-	Select Top 1 ResidentID,
-				 ResidentType,
-				 ResidentName,
-				 ResidentSex,
-				 ResidentBOD,
-				 ResidentPrevHouseNo,
-				 ResidentPrevStNo,
-				 ResidentPrevCommune,
-				 ResidentPrevDistrict,
-				 ResidentPerNum,
-				 ResidentConNum,
-				 ResidentCheckIn,
-				 ResidentCheckOut
+	Select Top 1 ID,
+				 Type,
+				 Name,
+				 Sex,
+				 BOD,
+				 PrevHouseNo,
+				 PrevStNo,
+				 PrevCommune,
+				 PrevDistrict,
+				 PerNum,
+				 ConNum,
+				 CheckIn,
+				 CheckOut
 	From tblResident
-	Where ResidentID = @ResidentID;
+	Where ID = @ResID;
 End
 Go
 

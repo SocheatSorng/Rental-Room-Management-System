@@ -300,6 +300,39 @@ namespace RRMS
                 }
             }
         }
+
+        // Get Resident Name only
+        public static string GetResidentNameById(SqlConnection conn, int id)
+        {
+            string residentName = string.Empty;
+
+            using (SqlCommand cmd = new SqlCommand("sp_GetResidentNameById", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ResidentID", id);
+                try
+                {
+                    // Execute the command and retrieve the resident name
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        residentName = result.ToString();
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    // Handle SQL exceptions
+                    throw new Exception($"Error in getting resident name with id, {id} > {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    // Handle other exceptions
+                    throw new Exception($"Error in getting resident name with id, {id} > {ex.Message}");
+                }
+            }
+
+            return residentName;
+        }
         #endregion
 
         #region crud(vendors)

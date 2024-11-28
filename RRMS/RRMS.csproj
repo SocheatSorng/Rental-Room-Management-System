@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Reference Include="Shares">
-      <HintPath>..\Shares.dll</HintPath>
+      <HintPath>..\Shares\bin\Debug\net8.0\Shares.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -1,4 +1,6 @@
-﻿public interface IEntity
+﻿using Microsoft.Data.SqlClient;
+
+public interface IEntity
 {
     int ID { get; set; }
     string FirstName { get; set; }
@@ -22,4 +24,6 @@
     double CostPrice { get; set; }
     double RentPrice { get; set; }
     string Password { get; set; }
+    string GetSPName();
+    void AddParameters(SqlCommand cmd);
 }

@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+
 public class Resident : IEntity
 {
     public int ResID { get; set; }
@@ -41,4 +43,25 @@ public class Resident : IEntity
     public double CostPrice { get => 0; set => throw new NotSupportedException(); } // Not applicable for Resident
     public double RentPrice { get => 0; set => throw new NotSupportedException(); } // Not applicable for Resident
     public string Password { get => string.Empty; set => throw new NotSupportedException(); } // Not applicable for Resident
+
+    public string GetSPName()
+    {
+        return "AddResident"; // or whatever the stored procedure name is
+    }
+
+    public void AddParameters(SqlCommand cmd)
+    {
+        cmd.Parameters.AddWithValue("@ResType", ResType as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResName", ResFirstName as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResSex", ResSex as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResBOD", ResBD as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResPrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResPrevStNo", ResPrevStNo as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResPrevCommune", ResPrevCommune as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResPrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResPerNum", ResPerNum as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResConNum", ResConNum as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResCheckIn", ResCheckIn as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResCheckOut", ResCheckOut as object ?? DBNull.Value);
+    }
 }

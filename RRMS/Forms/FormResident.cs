@@ -19,7 +19,7 @@ namespace RRMS.Forms
             btnInsert.Click += (sender, e) =>
             {
                 Helper.Added += DoOnResidentAdded;
-                DoClickInsert(sender, e);
+                //DoClickInsert(sender, e);
                 Helper.Added -= DoOnResidentAdded;
             };
 
@@ -285,52 +285,53 @@ namespace RRMS.Forms
             DoClickNew(sender, e);
         }
 
-        private void DoClickInsert(object? sender, EventArgs e)
-        {
-            var residentType = txtResType.Text.Trim();
-            var residentName = txtResName.Text.Trim();
-            var sex = txtResSex.Text.Trim();
-            var resBOD = dtpResBOD.Value;
-            var prevHouseNo = txtResHNo.Text.Trim();
-            var prevStNo = txtResStNo.Text.Trim();
-            var prevCommune = txtResCom.Text.Trim();
-            var prevDistrict = txtResDis.Text.Trim();
-            var resPerNum = txtResPN.Text.Trim();
-            var resConNum = txtResCN.Text.Trim();
-            var checkIn = dtpResCID.Value;
-            var checkOut = dtpResCOD.Value;
+        //private void DoClickInsert(object? sender, EventArgs e)
+        //{
+        //    var residentType = txtResType.Text.Trim();
+        //    var residentName = txtResName.Text.Trim();
+        //    var sex = txtResSex.Text.Trim();
+        //    var resBOD = dtpResBOD.Value;
+        //    var prevHouseNo = txtResHNo.Text.Trim();
+        //    var prevStNo = txtResStNo.Text.Trim();
+        //    var prevCommune = txtResCom.Text.Trim();
+        //    var prevDistrict = txtResDis.Text.Trim();
+        //    var resPerNum = txtResPN.Text.Trim();
+        //    var resConNum = txtResCN.Text.Trim();
+        //    var checkIn = dtpResCID.Value;
+        //    var checkOut = dtpResCOD.Value;
 
-            // Removed residentID input
-            if (TryParseInputs(residentType, residentName, sex, resPerNum, resConNum, out string resType, out string resName, out string resSex, out string resPN, out string resCN))
-            {
-                Resident newResident = new Resident()
-                {
-                    ResType = residentType,
-                    ResFirstName = residentName,
-                    ResSex= sex,
-                    ResBD = resBOD,
-                    ResPrevHouseNo = prevHouseNo,
-                    ResPrevStNo = prevStNo,
-                    ResPrevCommune = prevCommune,
-                    ResPrevDistrict = prevDistrict,
-                    ResPerNum = resPerNum,
-                    ResConNum = resConNum,
-                    ResCheckIn = checkIn,
-                    ResCheckOut = checkOut
-                };
+        //    // Removed residentID input
+        //    if (TryParseInputs(residentType, residentName, sex, resPerNum, resConNum, out string resType, out string resName, out string resSex, out string resPN, out string resCN))
+        //    {
+        //        Resident newResident = new Resident()
+        //        {
+        //            ResType = residentType,
+        //            ResFirstName = residentName,
+        //            ResSex = sex,
+        //            ResBD = resBOD,
+        //            ResPrevHouseNo = prevHouseNo,
+        //            ResPrevStNo = prevStNo,
+        //            ResPrevCommune = prevCommune,
+        //            ResPrevDistrict = prevDistrict,
+        //            ResPerNum = resPerNum,
+        //            ResConNum = resConNum,
+        //            ResCheckIn = checkIn,
+        //            ResCheckOut = checkOut
+        //        };
 
-                try
-                {
-                    Helper.AddResident(Program.Connection, newResident);
-                    MessageBox.Show($"Successfully Inserted Resident", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        //        try
+        //        {
+        //            string storedProcedureName = "AddResident"; // Specify the stored procedure name
+        //            Helper.InsertEntity(Program.Connection, newResident, storedProcedureName);
+        //            MessageBox.Show($"Successfully Inserted Resident", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            return;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
         private bool TryParseInputs(string restype, string resname, string ressex, string respn, string rescn, out string resType, out string resName, out string resSex, out string resPN, out string resCN)
         {
             resType = restype;

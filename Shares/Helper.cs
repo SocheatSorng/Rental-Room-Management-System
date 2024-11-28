@@ -39,6 +39,8 @@ namespace RRMS
         #endregion
 
         #region(field names)
+
+        // Table Resident
         private const string RESIDENT_TBL_NAME = "tblResident";
         private const string RESIDENT_ID_FIELD = "ID";
         private const string RESIDENT_TYPE_FIELD = "Type";
@@ -1400,6 +1402,42 @@ namespace RRMS
             }
 
             return result;
+        }
+
+        public static string? InsertEntity<T>(SqlConnection conn, T entity) where T : IEntity
+        {
+            string storedProcedureName = entity.GetSPName();
+
+            using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Use the entity to add parameters
+                entity.AddParameters(cmd);
+
+                try
+                {
+                    int effected = cmd.ExecuteNonQuery();
+
+                    if (entity is Resident resident)
+                    {
+                        if (resident.ResID >= 0 && resident.ResID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
+                        }
+                        else
+                        {
+                            throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId.");
+                        }
+                    }
+
+                    return (effected > 0) ? (entity as dynamic).ResID.ToString() : null; // Cast to dynamic to access ResID
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed in inserting entity > {ex.Message}");
+                }
+            }
         }
     }
 }

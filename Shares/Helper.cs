@@ -38,6 +38,11 @@ namespace RRMS
         public static event EventHandler<EntityEventArgs>? Deleted;
         #endregion
 
+        #region(field names)
+
+        #endregion
+
+
         #region crud(residents)
         private const string RESIDENT_TBL_NAME = "tblResident";
         private const string RESIDENT_ID_FIELD = "ID";

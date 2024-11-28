@@ -30,7 +30,7 @@ CREATE TABLE tblResident (
 
 -- Table VENDOR
 Create Table tblVendor (
-	VENDERID int primary key identity(1,1),
+	VendorID int primary key identity(1,1),
 	Name nvarchar(50),
 	Contact nvarchar(20),
 	HNo nvarchar(30),
@@ -127,19 +127,21 @@ CREATE TABLE tblUtility (
     FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
 );
 
-CREATE TABLE Room (
+CREATE TABLE tblRoom (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
-    Number NVARCHAR(20)
+    Number NVARCHAR(10),
+    RoomTypeID INT,
+    FOREIGN KEY (RoomTypeID) REFERENCES tblRoomType(RoomTypeID),
 );
 GO
 
-CREATE TABLE Resident (
+CREATE TABLE tblResident (
     ResidentID INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100)
 );
 GO
 
-CREATE TABLE Service (
+CREATE TABLE tblService (
     ServiceID INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100),
     Description NVARCHAR(MAX),
@@ -147,8 +149,18 @@ CREATE TABLE Service (
 );
 GO
 
+CREATE TABLE tblRoomType(
+    RoomTypeID INT PRIMARY KEY,
+    RoomTypeName NVARCHAR(100),
+    Capacity INT,
+    Feature NVARCHAR(100),
+    PricePerNight MONEY,
+    Status NVARCHAR(100),
+);
+GO
+
 -- Table Reservation
-CREATE TABLE Reservation (
+CREATE TABLE tblReservation (
     ReservationID INT PRIMARY KEY IDENTITY(1,1),
     Date DATE,
     StartDate DATE,
@@ -164,7 +176,7 @@ CREATE TABLE Reservation (
 GO
 
 -- Table Request
-CREATE TABLE Request (
+CREATE TABLE tblRequest (
     RequestID INT PRIMARY KEY IDENTITY(1,1),
     Date DATE,
     Description NVARCHAR(MAX),
@@ -179,7 +191,7 @@ CREATE TABLE Request (
 GO
 
 -- Table Rent
-CREATE TABLE Rent (
+CREATE TABLE tblRent (
     RentID INT PRIMARY KEY IDENTITY(1,1),
     StartDate DATE,
     EndDate DATE,

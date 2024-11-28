@@ -42,7 +42,7 @@ namespace RRMS
 
         // Table Resident
         private const string RESIDENT_TBL_NAME = "tblResident";
-        private const string RESIDENT_ID_FIELD = "ID";
+        private const string RESIDENT_ID_FIELD = "ResidentID";
         private const string RESIDENT_TYPE_FIELD = "Type";
         private const string RESIDENT_NAME_FIELD = "Name";
         private const string RESIDENT_SEX_FIELD = "Sex";
@@ -56,6 +56,141 @@ namespace RRMS
         private const string RESIDENT_CON_NUM_FIELD = "ConNum";
         private const string RESIDENT_CHECK_IN_FIELD = "CheckIn";
         private const string RESIDENT_CHECK_OUT_FIELD = "CheckOut";
+        
+        // Table Vendor
+        private const string VENDOR_TBL_NAME = "tblVendor";
+        private const string VENDOR_ID_FIELD = "VendorID";
+        private const string VENDOR_NAME_FIELD = "Name";
+        private const string VENDOR_CONTACT_FIELD = "Contact";
+        private const string VENDOR_HNO_FIELD = "HNo";
+        private const string VENDOR_SNO_FIELD = "SNo";
+        private const string VENDOR_COMMUNE_FIELD = "Commune";
+        private const string VENDOR_DISTRICT_FIELD = "District";
+        private const string VENDOR_PROVINCE_FIELD = "Province";
+        private const string VENDOR_CONSTART_FIELD = "ConStart";
+        private const string VENDOR_CONEND_FIELD = "ConEnd";
+        private const string VENDOR_STATUS_FIELD = "Status";
+        private const string VENDOR_DESC_FIELD = "Desc";
+
+        // Table STAFF
+        private const string STAFF_TBL_NAME = "tblStaff";
+        private const string STAFF_ID_FIELD = "StaffID";
+        private const string STAFF_FNAME_FIELD = "FName";
+        private const string STAFF_LNAME_FIELD = "LName";
+        private const string STAFF_SEX_FIELD = "Sex";
+        private const string STAFF_BOD_FIELD = "BOD";
+        private const string STAFF_POSITION_FIELD = "Position";
+        private const string STAFF_HNO_FIELD = "HNo";
+        private const string STAFF_SNO_FIELD = "SNo";
+        private const string STAFF_COMMUNE_FIELD = "Commune";
+        private const string STAFF_DISTRICT_FIELD = "District";
+        private const string STAFF_PROVINCE_FIELD = "Province";
+        private const string STAFF_PERNUM_FIELD = "PerNum";
+        private const string STAFF_SALARY_FIELD = "Salary";
+        private const string STAFF_HIREDDATE_FIELD = "HiredDate";
+        private const string STAFF_STOPPED_FIELD = "Stopped";
+
+        // Table Amenity
+        private const string AMENITY_TBL_NAME = "tblAmenity";
+        private const string AMENITY_ID_FIELD = "AmenityID";
+        private const string AMENITY_NAME_FIELD = "Name";
+        private const string AMENITY_AVAIL_FIELD = "Avail";
+        private const string AMENITY_LOCATION_FIELD = "Location";
+        private const string AMENITY_BOUPRI_FIELD = "BouPri";
+        private const string AMENITY_CPR_FIELD = "CPR";
+        private const string AMENITY_MAINDATE_FIELD = "MainDate";
+        private const string AMENITY_DESC_FIELD = "Desc";
+
+        // Table User
+        private const string USER_TBL_NAME = "tblUser";
+        private const string USER_USERID_FIELD = "UserID";
+        private const string USER_NAME_FIELD = "Name";
+        private const string USER_PASS_FIELD = "Pass";
+        private const string USER_STAFFID_FIELD = "StaffID"; //FK
+
+        // Table Policy
+        private const string POLICY_TBL_NAME = "tblPolicy";
+        private const string POLICY_POLICYID_FIELD = "PolicyID";
+        private const string POLICY_NAME_FIELD = "Name";
+        private const string POLICY_DESRIPTION_FIELD = "Description";
+        private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
+        private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
+        private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
+
+        // Table Feedback
+        private const string FEEDBACK_TBL_NAME = "tblFeedback";
+        private const string FEEDBACK_ID_FIELD = "FeedbackID";
+        private const string FEEDBACK_DATE_FIELD = "Date";
+        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
+        private const string FEEDBACK_RATING_FIELD = "Rating";
+        private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
+
+        // Table LeaseAgreement
+        private const string LEASEAGREEMENT_TBL_NAME = "tblLeaseAgreement";
+        private const string LEASEAGREEMENT_LESAEAGREEMENTID_FIELD = "LeaseAgreementID";
+        private const string LEASEAGREEMENT_STARTDATE_FIELD = "StartDate";
+        private const string LEASEAGREEMENT_ENDDATE_FIELD = "EndDate";
+        private const string LEASEAGREEMENT_MONTHLYRENT_FIELD = "MonthlyRent";
+        private const string LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
+        private const string LEASEAGREEMENT_RESIDNETID_FIELD = "ResidentID"; //FK
+
+        // Table Utility
+        private const string UTILITY_TBL_NAME = "tblUtility";
+        private const string UTILITY_UTILITYID_FIELD = "UtilityID";
+        private const string UTILITY_TYPE_FIELD = "Type";
+        private const string UTILITY_COST_FIELD = "Cost";
+        private const string UTILITY_USAGEDATE_FIELD = "UsageDate";
+        private const string UTILITY_ROOMID_FIELD = "RoomID"; //FK
+
+        // Table Room
+        private const string ROOM_TBL_NAME = "tblRoom";
+        private const string ROOM_ROOMID_FIELD = "RoomID";
+        private const string ROOM_NUMBER_FIELD = "Number";
+        
+        // Table Service
+        private const string SERVICE_TBL_NAME = "tblService";
+        private const string SERVICE_SERVICEID_FIELD = "ServiceID";
+        private const string SERVICE_NAME_FIELD = "Name";
+        private const string SERVICE_DESCRIPTION_FIELD = "Description";
+        private const string SERVICE_COST_FIELD = "Cost";
+
+        // Table Reservation
+
+        private const string RESERVATION_TBL_NAME = "tblReservation";
+        private const string RESERVATION_RESERVATIONID_FIELD = "ReservationID";
+        private const string RESERVATION_DATE_FIELD = "Date";
+        private const string RESERVATION_STARTDATE_FIELD = "StartDate";
+        private const string RESERVATION_ENDDATE_FIELD = "EndDate";
+        private const string RESERVATION_STATUS_FIELD = "Status";
+        private const string RESERVATION_RESIDENTID_FIELD = "ResidentID";
+        private const string RESERVATION_ROOMID_FIELD = "RoomID";
+        private const string RESERVATION_RESIDENTNAME_FIELD = "ResidentName";
+        private const string RESERVATION_ROOMNUMBER_FIELD = "RoomNumber";
+
+        // Table Request
+
+        private const string REQUEST_TBL_NAME = "tblRequest";
+        private const string REQUEST_REQUESTID_FIELD = "RequestID";
+        private const string REQUEST_DATE_FIELD = "Date";
+        private const string REQUEST_DESCRIPTION_FIELD = "Description";
+        private const string REQUEST_STATUS_FIELD = "Status";
+        private const string REQUEST_RESIDENTID_FIELD = "ResidentID";
+        private const string REQUEST_SERVICEID_FIELD = "ServiceID";
+        private const string REQUEST_RESIDENTNAME_FIELD = "ResidentName";
+        private const string REQUEST_SERVICENAME_FIELD = "ServiceName";
+
+        // Table Rent
+
+        private const string RENT_TBL_NAME = "tblRent";
+        private const string RENT_RENTID_FIELD = "RentID";
+        private const string RENT_STARTDATE_FIELD = "StartDate";
+        private const string RENT_ENDDATE_FIELD = "EndDate";
+        private const string RENT_AMOUNT_FIELD = "Amount";
+        private const string RENT_RESIDENTID_FIELD = "ResidentID";
+        private const string RENT_ROOMID_FIELD = "RoomID";
+        private const string RENT_RESIDENTNAME_FIELD = "ResidentName";
+        private const string RENT_ROOMNUMBER_FIELD = "RoomNumber";
+
 
 
         #endregion
@@ -345,19 +480,6 @@ namespace RRMS
         #endregion
 
         #region crud(vendors)
-        private const string VENDOR_TBL_NAME = "tblVendor";
-        private const string VENDOR_ID_FIELD = "VendorID";
-        private const string VENDOR_NAME_FIELD = "VendorName";
-        private const string VENDOR_CONTACT_FIELD = "VendorContact";
-        private const string VENDOR_HOUSE_NO_FIELD = "VendorHNo";
-        private const string VENDOR_STREET_NO_FIELD = "VendorSNo";
-        private const string VENDOR_COMMUNE_FIELD = "VendorCommune";
-        private const string VENDOR_DISTRICT_FIELD = "VendorDistrict";
-        private const string VENDOR_PROVINCE_FIELD = "VendorProvince";
-        private const string VENDOR_CON_START_FIELD = "VendorConStart";
-        private const string VENDOR_CON_END_FIELD = "VendorConEnd";
-        private const string VENDOR_STATUS_FIELD = "VendorStatus";
-        private const string VENDOR_DESC_FIELD = "VendorDesc";
 
         // Read all vendors
         public static IEnumerable<Vendor> GetAllVendors(SqlConnection conn)
@@ -377,13 +499,13 @@ namespace RRMS
                             int id = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
                             string name = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
                             string contact = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_CONTACT_FIELD));
-                            string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD));
-                            string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_STREET_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STREET_NO_FIELD));
+                            string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                            string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
                             string commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
                             string district = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
                             string province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-                            DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_START_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_START_FIELD));
-                            DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_END_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_END_FIELD));
+                            DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                            DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
                             bool status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
                             string desc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
 
@@ -431,13 +553,13 @@ namespace RRMS
                         {
                             string name = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
                             string contact = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_CONTACT_FIELD));
-                            string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD));
-                            string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_STREET_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STREET_NO_FIELD));
+                            string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                            string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
                             string commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
                             string district = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
                             string province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-                            DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_START_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_START_FIELD));
-                            DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_END_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_END_FIELD));
+                            DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                            DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
                             bool status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
                             string desc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
 
@@ -605,22 +727,6 @@ namespace RRMS
         #endregion
 
         #region crud(staff)
-        private const string STAFF_TBL_NAME = "tblStaff";
-        private const string STAFF_ID_FIELD = "StaffId";
-        private const string STAFF_FNAME_FIELD = "StaffFName";
-        private const string STAFF_LNAME_FIELD = "StaffLName";
-        private const string STAFF_SEX_FIELD = "StaffSex";
-        private const string STAFF_BOD_FIELD = "StaffBOD";
-        private const string STAFF_POSITION_FIELD = "StaffPosition";
-        private const string STAFF_HNO_FIELD = "StaffHNo";
-        private const string STAFF_SNO_FIELD = "StaffSNo";
-        private const string STAFF_COMMUNE_FIELD = "StaffCommune";
-        private const string STAFF_DISTRICT_FIELD = "StaffDistrict";
-        private const string STAFF_PROVINCE_FIELD = "StaffProvince";
-        private const string STAFF_PER_NUM_FIELD = "StaffPerNum";
-        private const string STAFF_SALARY_FIELD = "StaffSalary";
-        private const string STAFF_HIRED_DATE_FIELD = "StaffHiredDate";
-        private const string STAFF_STOPPED_FIELD = "StaffStopped";
 
         // Read all staff members
         public static IEnumerable<Staff> GetAllStaff(SqlConnection conn)
@@ -648,9 +754,9 @@ namespace RRMS
                             string commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
                             string district = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
                             string province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
-                            string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PER_NUM_FIELD));
+                            string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PERNUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PERNUM_FIELD));
                             double salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
-                            DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD));
+                            DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
                             bool stopped = reader.GetBoolean(reader.GetOrdinal(STAFF_STOPPED_FIELD));
 
                             staffList.Add(new Staff()
@@ -708,9 +814,9 @@ namespace RRMS
                             string commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
                             string district = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
                             string province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
-                            string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PER_NUM_FIELD));
+                            string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PERNUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PERNUM_FIELD));
                             double salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
-                            DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD));
+                            DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
                             bool stopped = reader.GetBoolean(reader.GetOrdinal(STAFF_STOPPED_FIELD));
 
                             result = new Staff()
@@ -883,15 +989,6 @@ namespace RRMS
         #endregion
 
         #region crud(amenities)
-        private const string AMENITY_TBL_NAME = "tblAmenity";
-        private const string AMENITY_ID_FIELD = "AmenityId";
-        private const string AMENITY_NAME_FIELD = "AmenityName";
-        private const string AMENITY_AVAIL_FIELD = "AmenityAvail";
-        private const string AMENITY_LOCATION_FIELD = "AmenityLocation";
-        private const string AMENITY_BOU_PRI_FIELD = "AmenityBouPri";
-        private const string AMENITY_CPR_FIELD = "AmenityCPR";
-        private const string AMENITY_MAIN_DATE_FIELD = "AmenityMainDate";
-        private const string AMENITY_DESC_FIELD = "AmenityDesc";
 
         // Read all amenities
         public static IEnumerable<Amenity> GetAllAmenities(SqlConnection conn)
@@ -912,9 +1009,9 @@ namespace RRMS
                             string name = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
                             bool avail = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
                             string location = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-                            double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD));
+                            double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
                             double cpr = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-                            DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD));
+                            DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
                             string desc = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
 
                             amenities.Add(new Amenity()
@@ -958,9 +1055,9 @@ namespace RRMS
                             string name = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
                             bool avail = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
                             string location = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-                            double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD));
+                            double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
                             double cpr = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-                            DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD));
+                            DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
                             string desc = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
 
                             result = new Amenity()
@@ -1112,23 +1209,12 @@ namespace RRMS
         #endregion
 
         #region crud(users)
-        private const string USER_TBL_NAME = "tblUser";
-        private const string USER_ID_FIELD = "UserID";
-        private const string USER_NAME_FIELD = "UserName";
-        private const string USER_PASS_FIELD = "UserPass";
-        private const string USER_STAFF_ID_FIELD = "StaffID";
 
         // Foreign Key Constraint Name (if needed)
         private const string FK_USER_STAFF = "FKStaffID";
         #endregion
 
         #region crud(feedback)
-        private const string FEEDBACK_TBL_NAME = "tblFeedback";
-        private const string FEEDBACK_ID_FIELD = "FeedbackID";
-        private const string FEEDBACK_DATE_FIELD = "FeedbackDate";
-        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
-        private const string FEEDBACK_RATING_FIELD = "Rating";
-        private const string FEEDBACK_RESIDENT_ID_FIELD = "ResidentID";
 
         // Read all feedback records
         public static IEnumerable<Feedback> GetAllFeedback(SqlConnection conn)
@@ -1149,7 +1235,7 @@ namespace RRMS
                             DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                             string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
                             int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
-                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
+                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
 
                             feedbacks.Add(new Feedback()
                             {
@@ -1189,7 +1275,7 @@ namespace RRMS
                             DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                             string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
                             int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
-                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
+                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
 
                             result = new Feedback()
                             {
@@ -1332,11 +1418,10 @@ namespace RRMS
                                 resident.ResConNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD));
                                 resident.ResCheckIn = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD));
                                 resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
-
                             }
                             else if (entity is Vendor vendor)
                             {
-                                
+                                vendor.VendorID = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
                             }
 
                             entities.Add(entity);

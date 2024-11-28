@@ -129,7 +129,9 @@ CREATE TABLE tblUtility (
 
 CREATE TABLE tblRoom (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
-    Number NVARCHAR(20)
+    Number NVARCHAR(10),
+    RoomTypeID INT,
+    FOREIGN KEY (RoomTypeID) REFERENCES tblRoomType(RoomTypeID),
 );
 GO
 
@@ -144,6 +146,16 @@ CREATE TABLE tblService (
     Name NVARCHAR(100),
     Description NVARCHAR(MAX),
     Cost DECIMAL(10,2)
+);
+GO
+
+CREATE TABLE tblRoomType(
+    RoomTypeID INT PRIMARY KEY,
+    RoomTypeName NVARCHAR(100),
+    Capacity INT,
+    Feature NVARCHAR(100),
+    PricePerNight MONEY,
+    Status NVARCHAR(100),
 );
 GO
 

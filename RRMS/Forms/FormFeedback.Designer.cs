@@ -1,4 +1,4 @@
-namespace RRMS
+namespace RRMS.Forms
 {
     partial class FormFeedback
     {
@@ -22,17 +22,19 @@ namespace RRMS
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
-            listView1 = new ListView();
-            txtID = new TextBox();
-            txtComments = new TextBox();
-            txtResidentID = new TextBox();
+            dgvFeed = new ListView();
+            txtFeedID = new TextBox();
+            txtFeedCom = new TextBox();
+            txtResID = new TextBox();
             numRating = new NumericUpDown();
             dateFeedback = new DateTimePicker();
             btnInsert = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
-            txtResidentName = new TextBox();
+            txtResName = new TextBox();
             label6 = new Label();
+            btnNew = new Button();
+            btnClose = new Button();
             ((System.ComponentModel.ISupportInitialize)numRating).BeginInit();
             SuspendLayout();
             // 
@@ -40,9 +42,9 @@ namespace RRMS
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 38);
+            label1.Location = new Point(10, 28);
             label1.Name = "label1";
-            label1.Size = new Size(112, 22);
+            label1.Size = new Size(89, 19);
             label1.TabIndex = 0;
             label1.Text = "FeedbackID:";
             // 
@@ -50,9 +52,9 @@ namespace RRMS
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(12, 96);
+            label2.Location = new Point(10, 72);
             label2.Name = "label2";
-            label2.Size = new Size(98, 22);
+            label2.Size = new Size(77, 19);
             label2.TabIndex = 1;
             label2.Text = "Comments:";
             // 
@@ -60,9 +62,9 @@ namespace RRMS
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(12, 159);
+            label3.Location = new Point(10, 119);
             label3.Name = "label3";
-            label3.Size = new Size(67, 22);
+            label3.Size = new Size(50, 19);
             label3.TabIndex = 2;
             label3.Text = "Rating:";
             // 
@@ -70,9 +72,9 @@ namespace RRMS
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(12, 218);
+            label4.Location = new Point(10, 164);
             label4.Name = "label4";
-            label4.Size = new Size(134, 22);
+            label4.Size = new Size(106, 19);
             label4.TabIndex = 3;
             label4.Text = "Feedback Date:";
             // 
@@ -80,125 +82,158 @@ namespace RRMS
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(12, 269);
+            label5.Location = new Point(10, 202);
             label5.Name = "label5";
-            label5.Size = new Size(110, 22);
+            label5.Size = new Size(84, 19);
             label5.TabIndex = 4;
             label5.Text = "Resident ID:";
             // 
-            // listView1
+            // dgvFeed
             // 
-            listView1.Location = new Point(400, 100);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(388, 304);
-            listView1.TabIndex = 7;
-            listView1.UseCompatibleStateImageBehavior = false;
+            dgvFeed.Location = new Point(350, 75);
+            dgvFeed.Margin = new Padding(3, 2, 3, 2);
+            dgvFeed.Name = "dgvFeed";
+            dgvFeed.Size = new Size(340, 229);
+            dgvFeed.TabIndex = 7;
+            dgvFeed.UseCompatibleStateImageBehavior = false;
             // 
-            // txtID
+            // txtFeedID
             // 
-            txtID.Location = new Point(149, 36);
-            txtID.Name = "txtID";
-            txtID.Size = new Size(183, 27);
-            txtID.TabIndex = 8;
+            txtFeedID.Location = new Point(130, 27);
+            txtFeedID.Margin = new Padding(3, 2, 3, 2);
+            txtFeedID.Name = "txtFeedID";
+            txtFeedID.Size = new Size(161, 23);
+            txtFeedID.TabIndex = 8;
             // 
-            // txtComments
+            // txtFeedCom
             // 
-            txtComments.Location = new Point(149, 94);
-            txtComments.Multiline = true;
-            txtComments.Name = "txtComments";
-            txtComments.Size = new Size(183, 27);
-            txtComments.TabIndex = 9;
+            txtFeedCom.Location = new Point(130, 70);
+            txtFeedCom.Margin = new Padding(3, 2, 3, 2);
+            txtFeedCom.Multiline = true;
+            txtFeedCom.Name = "txtFeedCom";
+            txtFeedCom.Size = new Size(161, 21);
+            txtFeedCom.TabIndex = 9;
             // 
-            // txtResidentID
+            // txtResID
             // 
-            txtResidentID.Location = new Point(149, 267);
-            txtResidentID.Name = "txtResidentID";
-            txtResidentID.Size = new Size(183, 27);
-            txtResidentID.TabIndex = 12;
+            txtResID.Location = new Point(130, 200);
+            txtResID.Margin = new Padding(3, 2, 3, 2);
+            txtResID.Name = "txtResID";
+            txtResID.Size = new Size(161, 23);
+            txtResID.TabIndex = 12;
             // 
             // numRating
             // 
-            numRating.Location = new Point(149, 157);
+            numRating.Location = new Point(130, 118);
+            numRating.Margin = new Padding(3, 2, 3, 2);
             numRating.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             numRating.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numRating.Name = "numRating";
-            numRating.Size = new Size(183, 27);
+            numRating.Size = new Size(160, 23);
             numRating.TabIndex = 10;
             numRating.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // dateFeedback
             // 
-            dateFeedback.Location = new Point(149, 214);
+            dateFeedback.Location = new Point(130, 160);
+            dateFeedback.Margin = new Padding(3, 2, 3, 2);
             dateFeedback.Name = "dateFeedback";
-            dateFeedback.Size = new Size(250, 27);
+            dateFeedback.Size = new Size(219, 23);
             dateFeedback.TabIndex = 11;
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(400, 40);
+            btnInsert.Location = new Point(438, 30);
+            btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
-            btnInsert.Size = new Size(94, 29);
+            btnInsert.Size = new Size(82, 22);
             btnInsert.TabIndex = 14;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = true;
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(553, 40);
+            btnUpdate.Location = new Point(526, 30);
+            btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(94, 29);
+            btnUpdate.Size = new Size(82, 22);
             btnUpdate.TabIndex = 15;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = true;
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(694, 40);
+            btnDelete.Location = new Point(614, 28);
+            btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(94, 29);
+            btnDelete.Size = new Size(82, 22);
             btnDelete.TabIndex = 16;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = true;
             // 
-            // txtResidentName
+            // txtResName
             // 
-            txtResidentName.Location = new Point(149, 320);
-            txtResidentName.Name = "txtResidentName";
-            txtResidentName.Size = new Size(183, 27);
-            txtResidentName.TabIndex = 13;
+            txtResName.Location = new Point(130, 240);
+            txtResName.Margin = new Padding(3, 2, 3, 2);
+            txtResName.Name = "txtResName";
+            txtResName.Size = new Size(161, 23);
+            txtResName.TabIndex = 13;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(12, 322);
+            label6.Location = new Point(10, 242);
             label6.Name = "label6";
-            label6.Size = new Size(136, 22);
+            label6.Size = new Size(105, 19);
             label6.TabIndex = 6;
             label6.Text = "Resident Name:";
             // 
-            // Feedback
+            // btnNew
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            btnNew.Location = new Point(350, 30);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(82, 22);
+            btnNew.TabIndex = 17;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = true;
+            // 
+            // btnClose
+            // 
+            btnClose.Location = new Point(702, 30);
+            btnClose.Margin = new Padding(3, 2, 3, 2);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(82, 22);
+            btnClose.TabIndex = 18;
+            btnClose.Text = "Close";
+            btnClose.UseVisualStyleBackColor = true;
+            // 
+            // FormFeedback
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(860, 338);
+            Controls.Add(btnClose);
+            Controls.Add(btnNew);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
             Controls.Add(btnInsert);
-            Controls.Add(txtResidentID);
+            Controls.Add(txtResID);
             Controls.Add(dateFeedback);
             Controls.Add(numRating);
-            Controls.Add(txtComments);
-            Controls.Add(txtID);
-            Controls.Add(listView1);
+            Controls.Add(txtFeedCom);
+            Controls.Add(txtFeedID);
+            Controls.Add(dgvFeed);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(txtResidentName);
+            Controls.Add(txtResName);
             Controls.Add(label6);
-            Name = "Feedback";
+            Margin = new Padding(3, 2, 3, 2);
+            Name = "FormFeedback";
             Text = "Feedback Management";
             ((System.ComponentModel.ISupportInitialize)numRating).EndInit();
             ResumeLayout(false);
@@ -212,16 +247,18 @@ namespace RRMS
         private Label label3;
         private Label label4;
         private Label label5;
-        private ListView listView1;
-        private TextBox txtID;
-        private TextBox txtComments;
+        private ListView dgvFeed;
+        private TextBox txtFeedID;
+        private TextBox txtFeedCom;
         private NumericUpDown numRating;
         private DateTimePicker dateFeedback;
-        private TextBox txtResidentID;
+        private TextBox txtResID;
         private Button btnInsert;
         private Button btnUpdate;
         private Button btnDelete;
         private Label label6;
-        private TextBox txtResidentName;
+        private TextBox txtResName;
+        private Button btnNew;
+        private Button btnClose;
     }
 } 

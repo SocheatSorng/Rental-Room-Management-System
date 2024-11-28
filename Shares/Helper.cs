@@ -1068,6 +1068,7 @@ namespace RRMS
             }
         }
         #endregion
+
         #region crud(users)
         private const string USER_TBL_NAME = "tblUser";
         private const string USER_ID_FIELD = "UserID";
@@ -1077,6 +1078,183 @@ namespace RRMS
 
         // Foreign Key Constraint Name (if needed)
         private const string FK_USER_STAFF = "FKStaffID";
+        #endregion
+
+        #region crud(feedback)
+        private const string FEEDBACK_TBL_NAME = "tblFeedback";
+        private const string FEEDBACK_ID_FIELD = "FeedbackID";
+        private const string FEEDBACK_DATE_FIELD = "FeedbackDate";
+        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
+        private const string FEEDBACK_RATING_FIELD = "Rating";
+        private const string FEEDBACK_RESIDENT_ID_FIELD = "ResidentID";
+
+        // Read all feedback records
+        public static IEnumerable<Feedback> GetAllFeedback(SqlConnection conn)
+        {
+            List<Feedback> feedbacks = new List<Feedback>();
+
+            using (SqlCommand cmd = new SqlCommand("GetAllFeedback", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                try
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = reader.GetInt32(reader.GetOrdinal(FEEDBACK_ID_FIELD));
+                            DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
+                            string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                            int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
+                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
+
+                            feedbacks.Add(new Feedback()
+                            {
+                                FeedbackID = id,
+                                FeedbackDate = date,
+                                Comments = comments,
+                                Rating = rating,
+                                ResidentID = residentId
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in getting all feedback > {ex.Message}");
+                }
+            }
+
+            return feedbacks;
+        }
+
+        // Read a specified feedback by ID
+        public static Feedback? GetFeedbackById(SqlConnection conn, int id)
+        {
+            Feedback? result = null;
+
+            using (SqlCommand cmd = new SqlCommand("GetFeedbackById", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FeedbackID", id);
+                try
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
+                            string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                            int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
+                            int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
+
+                            result = new Feedback()
+                            {
+                                FeedbackID = id,
+                                FeedbackDate = date,
+                                Comments = comments,
+                                Rating = rating,
+                                ResidentID = residentId
+                            };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in getting feedback with id, {id} > {ex.Message}");
+                }
+            }
+
+            return result;
+        }
+
+        // Create a new feedback
+        public static int AddFeedback(SqlConnection conn, Feedback feedback)
+        {
+            using (SqlCommand cmd = new SqlCommand("AddFeedback", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Comments", feedback.Comments as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Rating", feedback.Rating);
+                cmd.Parameters.AddWithValue("@ResidentID", feedback.ResidentID);
+
+                try
+                {
+                    conn.Open();
+                    int newFeedbackId = Convert.ToInt32(cmd.ExecuteScalar());
+                    return newFeedbackId;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed in adding new feedback > {ex.Message}");
+                }
+            }
+        }
+
+        // Update an existing feedback
+        public static bool UpdateFeedback(SqlConnection conn, Feedback feedback)
+        {
+            using (SqlCommand cmd = new SqlCommand("UpdateFeedback", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FeedbackID", feedback.FeedbackID);
+                cmd.Parameters.AddWithValue("@Comments", feedback.Comments as object ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Rating", feedback.Rating);
+                cmd.Parameters.AddWithValue("@ResidentID", feedback.ResidentID);
+
+                try
+                {
+                    conn.Open();
+                    int effected = cmd.ExecuteNonQuery();
+                    return (effected > 0);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed in updating feedback > {ex.Message}");
+                }
+            }
+        }
+
+        // Delete an existing feedback
+        public static bool DeleteFeedback(SqlConnection conn, int id)
+        {
+            using (SqlCommand cmd = new SqlCommand("DeleteFeedback", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FeedbackID", id);
+                try
+                {
+                    conn.Open();
+                    int effected = cmd.ExecuteNonQuery();
+                    return (effected > 0);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed in deleting feedback with id {id} > {ex.Message}");
+                }
+            }
+        }
+
+        // Validate Feedback ID
+        public static bool ValidateFeedbackID(SqlConnection conn, int feedbackID)
+        {
+            using (SqlCommand cmd = new SqlCommand("ValidateFeedbackID", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FeedbackID", feedbackID);
+                try
+                {
+                    int count = (int)cmd.ExecuteScalar();
+                    return (count > 0);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Failed in validating feedback id > {ex.Message}");
+                }
+            }
+        }
         #endregion
     }
 }

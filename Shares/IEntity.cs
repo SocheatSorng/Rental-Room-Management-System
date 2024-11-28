@@ -24,6 +24,6 @@ public interface IEntity
     double CostPrice { get; set; }
     double RentPrice { get; set; }
     string Password { get; set; }
-    string GetSPName();
     void AddParameters(SqlCommand cmd);
+    void AddParametersWithID(SqlCommand cmd);
 }

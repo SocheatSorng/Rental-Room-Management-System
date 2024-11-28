@@ -64,6 +64,8 @@
             dtpResBOD = new DateTimePicker();
             dtpResCID = new DateTimePicker();
             dtpResCOD = new DateTimePicker();
+            label10 = new Label();
+            txtResPro = new TextBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvRes).BeginInit();
             SuspendLayout();
@@ -136,6 +138,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(txtResPro);
+            groupBox1.Controls.Add(label10);
             groupBox1.Controls.Add(txtResDis);
             groupBox1.Controls.Add(txtResCom);
             groupBox1.Controls.Add(txtResStNo);
@@ -147,7 +151,7 @@
             groupBox1.Controls.Add(label5);
             groupBox1.Location = new Point(257, 172);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(543, 135);
+            groupBox1.Size = new Size(543, 176);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Previous Address";
@@ -230,7 +234,7 @@
             // txtResPN
             // 
             txtResPN.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResPN.Location = new Point(429, 323);
+            txtResPN.Location = new Point(420, 382);
             txtResPN.Name = "txtResPN";
             txtResPN.Size = new Size(100, 35);
             txtResPN.TabIndex = 26;
@@ -240,7 +244,7 @@
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(267, 323);
+            label12.Location = new Point(258, 382);
             label12.Name = "label12";
             label12.Size = new Size(127, 27);
             label12.TabIndex = 7;
@@ -251,7 +255,7 @@
             label13.AutoSize = true;
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(555, 328);
+            label13.Location = new Point(546, 387);
             label13.Name = "label13";
             label13.Size = new Size(119, 27);
             label13.TabIndex = 8;
@@ -262,7 +266,7 @@
             label14.AutoSize = true;
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(266, 380);
+            label14.Location = new Point(266, 438);
             label14.Name = "label14";
             label14.Size = new Size(107, 27);
             label14.TabIndex = 9;
@@ -273,7 +277,7 @@
             label15.AutoSize = true;
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(257, 439);
+            label15.Location = new Point(257, 497);
             label15.Name = "label15";
             label15.Size = new Size(116, 27);
             label15.TabIndex = 10;
@@ -284,7 +288,7 @@
             dgvRes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRes.Location = new Point(12, 47);
             dgvRes.Name = "dgvRes";
-            dgvRes.Size = new Size(227, 419);
+            dgvRes.Size = new Size(227, 498);
             dgvRes.TabIndex = 11;
             // 
             // btnNew
@@ -303,8 +307,8 @@
             // 
             btnInsert.BackColor = Color.FromArgb(255, 255, 128);
             btnInsert.FlatStyle = FlatStyle.Popup;
-            btnInsert.Location = new Point(836, 67);
             btnInsert.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnInsert.Location = new Point(836, 67);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(97, 42);
             btnInsert.TabIndex = 13;
@@ -315,8 +319,8 @@
             // 
             btnUpdate.BackColor = Color.FromArgb(255, 255, 128);
             btnUpdate.FlatStyle = FlatStyle.Popup;
-            btnUpdate.Location = new Point(836, 125);
             btnUpdate.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnUpdate.Location = new Point(836, 125);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(97, 42);
             btnUpdate.TabIndex = 14;
@@ -327,8 +331,8 @@
             // 
             btnDelete.BackColor = Color.FromArgb(255, 255, 128);
             btnDelete.FlatStyle = FlatStyle.Popup;
-            btnDelete.Location = new Point(836, 171);
             btnDelete.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnDelete.Location = new Point(836, 171);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(97, 42);
             btnDelete.TabIndex = 15;
@@ -370,7 +374,7 @@
             // txtResCN
             // 
             txtResCN.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResCN.Location = new Point(693, 320);
+            txtResCN.Location = new Point(684, 379);
             txtResCN.Name = "txtResCN";
             txtResCN.Size = new Size(100, 35);
             txtResCN.TabIndex = 27;
@@ -411,23 +415,42 @@
             // 
             // dtpResCID
             // 
-            dtpResCID.Location = new Point(411, 384);
+            dtpResCID.Location = new Point(411, 442);
             dtpResCID.Name = "dtpResCID";
             dtpResCID.Size = new Size(200, 23);
             dtpResCID.TabIndex = 34;
             // 
             // dtpResCOD
             // 
-            dtpResCOD.Location = new Point(402, 439);
+            dtpResCOD.Location = new Point(402, 497);
             dtpResCOD.Name = "dtpResCOD";
             dtpResCOD.Size = new Size(200, 23);
             dtpResCOD.TabIndex = 35;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.BackColor = Color.Transparent;
+            label10.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(16, 124);
+            label10.Name = "label10";
+            label10.Size = new Size(69, 27);
+            label10.TabIndex = 25;
+            label10.Text = "Province";
+            // 
+            // txtResPro
+            // 
+            txtResPro.Font = new Font("Khmer OS Siemreap", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtResPro.Location = new Point(155, 121);
+            txtResPro.Name = "txtResPro";
+            txtResPro.Size = new Size(100, 35);
+            txtResPro.TabIndex = 26;
             // 
             // FormResident
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1030, 491);
+            ClientSize = new Size(1030, 557);
             Controls.Add(txtResPN);
             Controls.Add(dtpResCOD);
             Controls.Add(dtpResCID);
@@ -502,5 +525,7 @@
         private DateTimePicker dtpResBOD;
         private DateTimePicker dtpResCID;
         private DateTimePicker dtpResCOD;
+        private Label label10;
+        private TextBox txtResPro;
     }
 }

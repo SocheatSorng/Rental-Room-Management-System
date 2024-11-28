@@ -7,7 +7,7 @@ using System;
 //Hello
 namespace RRMS
 {
-    public static class Helper
+    public static class Backup_Helper
     {
         public static string ConnectionStringKey { get; set; } = "ConnectionString";
         public static IConfiguration? Configuration { get; set; } = null;
@@ -82,7 +82,7 @@ namespace RRMS
                             int id = reader.GetInt32(reader.GetOrdinal(RESIDENT_ID_FIELD));
                             string type = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
                             string name = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
-                            string sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty: reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
+                            string sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
                             DateTime bod = reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
                             string prevHouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
                             string prevStNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD));
@@ -1336,7 +1336,7 @@ namespace RRMS
                             }
                             else if (entity is Vendor vendor)
                             {
-                                
+
                             }
 
                             entities.Add(entity);

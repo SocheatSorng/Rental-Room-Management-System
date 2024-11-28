@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using RRMS;
+using RRMS.Model;
 
 namespace RRMS.Forms
 {
@@ -19,7 +20,7 @@ namespace RRMS.Forms
             btnInsert.Click += (sender, e) =>
             {
                 Helper.Added += DoOnResidentAdded;
-                //DoClickInsert(sender, e);
+                DoClickInsert(sender, e);
                 Helper.Added -= DoOnResidentAdded;
             };
 
@@ -54,8 +55,8 @@ namespace RRMS.Forms
                 {
                     foreach (DataGridViewRow row in dgvRes.Rows)
                     {
-                        string? id = row.Cells["colResidentID"].Value.ToString();
-                        string? residentName = row.Cells["colResidentName"].Value.ToString();
+                        string? id = row.Cells["colResiID"].Value.ToString();
+                        string? residentName = row.Cells["colResName"].Value.ToString();
 
                         if (id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0 ||
                             residentName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -81,7 +82,7 @@ namespace RRMS.Forms
                 DataGridViewRow row = dgvRes.Rows[rowIndex];
 
                 // Retrieve the value from the cell and convert it to int?
-                object cellValue = row.Cells["colResidentID"].Value;
+                object cellValue = row.Cells["colResID"].Value;
                 int? residentID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
 
                 if (residentID.HasValue) // Check if residentID is not null
@@ -171,25 +172,43 @@ namespace RRMS.Forms
 
         private void DoClickDelete(object? sender, EventArgs e)
         {
-            int rowIndex = dgvRes.CurrentCell.RowIndex;
-            object? tag = dgvRes.Rows[rowIndex].Tag;
-            if (tag != null)
+            if (dgvRes.SelectedCells.Count > 0)
             {
-                int id = (int)tag;
+                int rowIndex = dgvRes.SelectedCells[0].RowIndex;
+                object cellValue = dgvRes.Rows[rowIndex].Cells["colResID"].Value;
 
-                try
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
-                    Helper.DeleteResident(Program.Connection, id);
-                    MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Assuming that the Resident class implements IEntity
+                    Resident residentToDelete = new Resident { ResID = id };
+
+                    try
+                    {
+                        // Use the generic DeleteEntity method
+                        bool isDeleted = Helper.DeleteEntity(Program.Connection, residentToDelete, "SP_DeleteResident");
+
+                        if (isDeleted)
+                        {
+                            MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show($"No resident found with ID > {id}. Deletion failed.", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show(ex.Message, "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please select a valid resident to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("No row selected", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a resident to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -215,6 +234,7 @@ namespace RRMS.Forms
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
+                    // Gather input values from UI controls
                     var residentType = txtResType.Text.Trim();
                     var residentName = txtResName.Text.Trim();
                     var sex = txtResSex.Text.Trim();
@@ -223,11 +243,13 @@ namespace RRMS.Forms
                     var prevStNo = txtResStNo.Text.Trim();
                     var prevCommune = txtResCom.Text.Trim();
                     var prevDistrict = txtResDis.Text.Trim();
+                    var prevProvince = txtResPro.Text.Trim();
                     var resPerNum = txtResPN.Text.Trim();
                     var resConNum = txtResCN.Text.Trim();
                     var checkIn = dtpResCID.Value;
                     var checkOut = dtpResCOD.Value;
 
+                    // Create an updated Resident object with the gathered data
                     Resident updatedResident = new Resident()
                     {
                         ResID = id, // Use the ID from the selected resident
@@ -239,6 +261,7 @@ namespace RRMS.Forms
                         ResPrevStNo = prevStNo,
                         ResPrevCommune = prevCommune,
                         ResPrevDistrict = prevDistrict,
+                        ResPrevProvince = prevProvince,
                         ResPerNum = resPerNum,
                         ResConNum = resConNum,
                         ResCheckIn = checkIn,
@@ -247,14 +270,24 @@ namespace RRMS.Forms
 
                     try
                     {
-                        Helper.UpdateResident(Program.Connection, updatedResident);
+                        // Update the resident in the database
+                        Helper.UpdateEntity(Program.Connection, updatedResident, "SP_UpdateResident");
                         MessageBox.Show($"Successfully Updated Resident ID > {id}", "Updating", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // Show error message if update fails
+                        MessageBox.Show($"Error: {ex.Message}", "Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Please select a valid resident to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a resident to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void DoOnResidentAdded(object? sender, EntityEventArgs e)
@@ -285,53 +318,62 @@ namespace RRMS.Forms
             DoClickNew(sender, e);
         }
 
-        //private void DoClickInsert(object? sender, EventArgs e)
-        //{
-        //    var residentType = txtResType.Text.Trim();
-        //    var residentName = txtResName.Text.Trim();
-        //    var sex = txtResSex.Text.Trim();
-        //    var resBOD = dtpResBOD.Value;
-        //    var prevHouseNo = txtResHNo.Text.Trim();
-        //    var prevStNo = txtResStNo.Text.Trim();
-        //    var prevCommune = txtResCom.Text.Trim();
-        //    var prevDistrict = txtResDis.Text.Trim();
-        //    var resPerNum = txtResPN.Text.Trim();
-        //    var resConNum = txtResCN.Text.Trim();
-        //    var checkIn = dtpResCID.Value;
-        //    var checkOut = dtpResCOD.Value;
+        private void DoClickInsert(object? sender, EventArgs e)
+        {
+            // Gather input values from UI controls
+            var residentType = txtResType.Text.Trim();
+            var residentName = txtResName.Text.Trim();
+            var sex = txtResSex.Text.Trim();
+            var resBOD = dtpResBOD.Value;
+            var prevHouseNo = txtResHNo.Text.Trim();
+            var prevStNo = txtResStNo.Text.Trim();
+            var prevCommune = txtResCom.Text.Trim();
+            var prevDistrict = txtResDis.Text.Trim();
+            var prevProvince = txtResPro.Text.Trim();
+            var resPerNum = txtResPN.Text.Trim();
+            var resConNum = txtResCN.Text.Trim();
+            var checkIn = dtpResCID.Value;
+            var checkOut = dtpResCOD.Value;
 
-        //    // Removed residentID input
-        //    if (TryParseInputs(residentType, residentName, sex, resPerNum, resConNum, out string resType, out string resName, out string resSex, out string resPN, out string resCN))
-        //    {
-        //        Resident newResident = new Resident()
-        //        {
-        //            ResType = residentType,
-        //            ResFirstName = residentName,
-        //            ResSex = sex,
-        //            ResBD = resBOD,
-        //            ResPrevHouseNo = prevHouseNo,
-        //            ResPrevStNo = prevStNo,
-        //            ResPrevCommune = prevCommune,
-        //            ResPrevDistrict = prevDistrict,
-        //            ResPerNum = resPerNum,
-        //            ResConNum = resConNum,
-        //            ResCheckIn = checkIn,
-        //            ResCheckOut = checkOut
-        //        };
+            // Validate inputs and parse them
+            if (TryParseInputs(residentType, residentName, sex, resPerNum, resConNum, out string resType, out string resName, out string resSex, out string resPN, out string resCN))
+            {
+                // Create a new Resident object with the gathered data
+                Resident newResident = new Resident()
+                {
+                    ResType = residentType,
+                    ResFirstName = residentName,
+                    ResSex = sex,
+                    ResBD = resBOD,
+                    ResPrevHouseNo = prevHouseNo,
+                    ResPrevStNo = prevStNo,
+                    ResPrevCommune = prevCommune,
+                    ResPrevDistrict = prevDistrict,
+                    ResPrevProvince = prevProvince,
+                    ResPerNum = resPerNum,
+                    ResConNum = resConNum,
+                    ResCheckIn = checkIn,
+                    ResCheckOut = checkOut
+                };
 
-        //        try
-        //        {
-        //            string storedProcedureName = "AddResident"; // Specify the stored procedure name
-        //            Helper.InsertEntity(Program.Connection, newResident, storedProcedureName);
-        //            MessageBox.Show($"Successfully Inserted Resident", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            return;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        }
-        //    }
-        //}
+                try
+                {
+                    // Insert the new resident into the database
+                    Helper.InsertEntity(Program.Connection, newResident, "SP_AddResident");
+                    MessageBox.Show("Successfully Inserted Resident", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    // Show error message if insertion fails
+                    MessageBox.Show($"Error: {ex.Message}", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // Handle the case where input parsing fails
+                MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
         private bool TryParseInputs(string restype, string resname, string ressex, string respn, string rescn, out string resType, out string resName, out string resSex, out string resPN, out string resCN)
         {
             resType = restype;
@@ -370,8 +412,8 @@ namespace RRMS.Forms
         private void ConfigView()
         {
             dgvRes.Columns.Clear();
-            dgvRes.Columns.Add("colResidentID", "Resident ID");
-            dgvRes.Columns.Add("colResidentName", "Resident Name");
+            dgvRes.Columns.Add("colResID", "Resident ID");
+            dgvRes.Columns.Add("colResName", "Resident Name");
             dgvRes.Columns[0].Width = 100;
             dgvRes.Columns[1].Width = 200;
             dgvRes.DefaultCellStyle.BackColor = Color.White;

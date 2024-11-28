@@ -30,18 +30,18 @@ CREATE TABLE tblResident (
 
 -- Table VENDOR
 Create Table tblVendor (
-	VendorID int primary key identity(1,1),
-	VendorName nvarchar(50),
-	VendorContact nvarchar(20),
-	VendorHNo nvarchar(30),
-	VendorSNo nvarchar(30),
-	VendorCommune nvarchar(30),
-	VendorDistrict nvarchar(30),
-	VendorProvince nvarchar(30),
-	VendorConStart Datetime,
-	VendorConEnd Datetime,
-	VendorStatus bit,
-	VendorDesc nvarchar(100)
+	ID int primary key identity(1,1),
+	Name nvarchar(50),
+	Contact nvarchar(20),
+	HNo nvarchar(30),
+	SNo nvarchar(30),
+	Commune nvarchar(30),
+	District nvarchar(30),
+	Province nvarchar(30),
+	ConStart Datetime,
+	ConEnd Datetime,
+	Status bit,
+	Desc nvarchar(100)
 );
 
 -- Table STAFF

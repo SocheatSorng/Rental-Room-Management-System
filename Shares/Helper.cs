@@ -1334,9 +1334,7 @@ namespace RRMS
                             }
                             else if (entity is Vendor vendor)
                             {
-                                //// Assuming Vendor has specific properties
-                                //vendor.SomeVendorProperty = reader.IsDBNull(reader.GetOrdinal("SomeVendorField")) ? string.Empty : reader.GetString(reader.GetOrdinal("SomeVendorField"));
-                                //// Populate other Vendor-specific fields...
+                                vendor.VendorID = reader 
                             }
 
                             entities.Add(entity);
@@ -1419,6 +1417,7 @@ namespace RRMS
                 {
                     int effected = cmd.ExecuteNonQuery();
 
+                    // Handle specific logic for Resident
                     if (entity is Resident resident)
                     {
                         if (resident.ResID >= 0 && resident.ResID <= 255)
@@ -1429,6 +1428,11 @@ namespace RRMS
                         {
                             throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId.");
                         }
+                    }
+                    // Handle specific logic for Vendor (if needed)
+                    else if (entity is Vendor vendor)
+                    {
+                        // Similar logic for Vendor can be added here if required
                     }
 
                     return (effected > 0) ? (entity as dynamic).ResID.ToString() : null; // Cast to dynamic to access ResID
@@ -1442,3 +1446,5 @@ namespace RRMS
     }
 }
 // fsdafs
+
+// abcdef

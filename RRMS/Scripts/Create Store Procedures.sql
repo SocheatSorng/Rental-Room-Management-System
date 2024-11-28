@@ -350,7 +350,7 @@ Begin
 End
 Go
 
-Create Procedure GetResidentById
+Create Procedure SP_GetResidentById
 	@ResID INT
 As
 Begin
@@ -363,6 +363,7 @@ Begin
 				 PrevStNo,
 				 PrevCommune,
 				 PrevDistrict,
+                 PrevProvince,
 				 PerNum,
 				 ConNum,
 				 CheckIn,

@@ -86,14 +86,15 @@ namespace RRMS.Forms
 
                 if (residentID.HasValue) // Check if residentID is not null
                 {
-                    var resident = Helper.GetResidentById(Program.Connection, residentID.Value);
+                    // Use the generic GetEntityById method to retrieve the Resident
+                    var resident = Helper.GetEntityById<Resident>(Program.Connection, residentID.Value, "SP_GetResidentById");
                     if (resident != null)
                     {
                         // Populate the form fields with the resident's data
                         txtResID.Text = resident.ResID.ToString();
                         txtResType.Text = resident.ResType;
                         txtResName.Text = resident.ResFirstName;
-                        txtResSex.Text = resident.Sex;
+                        txtResSex.Text = resident.ResSex; // Corrected from Sex to ResSex
                         dtpResBOD.Value = resident.ResBD;
                         txtResHNo.Text = resident.ResPrevHouseNo;
                         txtResStNo.Text = resident.ResPrevStNo;
@@ -258,12 +259,14 @@ namespace RRMS.Forms
         }
         private void DoOnResidentAdded(object? sender, EntityEventArgs e)
         {
+            string SP_Name = "SP_GetResidentById";
             if (e.ByteId == 0) return;
             Task.Run(() =>
             {
                 try
                 {
-                    var result = Helper.GetResidentById(Program.Connection, e.ByteId);
+                    //var result = Helper.GetEntityById<Resident>(Program.Connection, e.ByteId);
+                    var result = Helper.GetEntityById<Resident>(Program.Connection, e.ByteId, SP_Name);
 
                     if (result != null)
                     {

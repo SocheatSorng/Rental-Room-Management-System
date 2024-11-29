@@ -50,9 +50,9 @@
             btnRoom = new Button();
             btnPlace = new Button();
             panelsubmenu1 = new Panel();
-            btnUser = new Button();
-            btnResident = new Button();
             btnStaff = new Button();
+            btnResident = new Button();
+            btnUser = new Button();
             btnlist1 = new Button();
             panelname = new Panel();
             label2 = new Label();
@@ -255,13 +255,14 @@
             btnTransaction.FlatAppearance.BorderSize = 0;
             btnTransaction.FlatStyle = FlatStyle.Flat;
             btnTransaction.Font = new Font("Segoe UI", 16F);
+            btnTransaction.Image = Properties.Resources.percent_solid1;
+            btnTransaction.ImageAlign = ContentAlignment.MiddleLeft;
             btnTransaction.Location = new Point(0, 540);
             btnTransaction.Margin = new Padding(2, 1, 2, 1);
             btnTransaction.Name = "btnTransaction";
             btnTransaction.Size = new Size(164, 52);
             btnTransaction.TabIndex = 7;
             btnTransaction.Text = "Transaction";
-            btnTransaction.TextAlign = ContentAlignment.MiddleLeft;
             btnTransaction.UseVisualStyleBackColor = false;
             // 
             // panelsubmenu3
@@ -331,13 +332,14 @@
             btnAsset.FlatAppearance.BorderSize = 0;
             btnAsset.FlatStyle = FlatStyle.Flat;
             btnAsset.Font = new Font("Segoe UI", 16F);
+            btnAsset.Image = Properties.Resources.inbox_solid1;
+            btnAsset.ImageAlign = ContentAlignment.MiddleLeft;
             btnAsset.Location = new Point(0, 382);
             btnAsset.Margin = new Padding(2, 1, 2, 1);
             btnAsset.Name = "btnAsset";
             btnAsset.Size = new Size(164, 52);
             btnAsset.TabIndex = 5;
             btnAsset.Text = "Asset";
-            btnAsset.TextAlign = ContentAlignment.MiddleLeft;
             btnAsset.UseVisualStyleBackColor = false;
             // 
             // panelsubmenu2
@@ -390,20 +392,21 @@
             btnPlace.FlatAppearance.BorderSize = 0;
             btnPlace.FlatStyle = FlatStyle.Flat;
             btnPlace.Font = new Font("Segoe UI", 16F);
+            btnPlace.Image = Properties.Resources.house_user_solid3;
+            btnPlace.ImageAlign = ContentAlignment.MiddleLeft;
             btnPlace.Location = new Point(0, 258);
-            btnPlace.Margin = new Padding(2, 1, 2, 1);
+            btnPlace.Margin = new Padding(0);
             btnPlace.Name = "btnPlace";
             btnPlace.Size = new Size(164, 52);
             btnPlace.TabIndex = 3;
-            btnPlace.Text = "Property Management";
-            btnPlace.TextAlign = ContentAlignment.MiddleLeft;
+            btnPlace.Text = "Property";
             btnPlace.UseVisualStyleBackColor = false;
             // 
             // panelsubmenu1
             // 
-            panelsubmenu1.Controls.Add(btnUser);
-            panelsubmenu1.Controls.Add(btnResident);
             panelsubmenu1.Controls.Add(btnStaff);
+            panelsubmenu1.Controls.Add(btnResident);
+            panelsubmenu1.Controls.Add(btnUser);
             panelsubmenu1.Dock = DockStyle.Top;
             panelsubmenu1.Location = new Point(0, 152);
             panelsubmenu1.Margin = new Padding(2, 1, 2, 1);
@@ -411,21 +414,21 @@
             panelsubmenu1.Size = new Size(164, 106);
             panelsubmenu1.TabIndex = 2;
             // 
-            // btnUser
+            // btnStaff
             // 
-            btnUser.BackColor = Color.MistyRose;
-            btnUser.Dock = DockStyle.Top;
-            btnUser.FlatAppearance.BorderSize = 0;
-            btnUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
-            btnUser.FlatStyle = FlatStyle.Flat;
-            btnUser.Location = new Point(0, 70);
-            btnUser.Margin = new Padding(2, 1, 2, 1);
-            btnUser.Name = "btnUser";
-            btnUser.Size = new Size(164, 35);
-            btnUser.TabIndex = 2;
-            btnUser.Text = "Staff";
-            btnUser.UseVisualStyleBackColor = false;
-            btnUser.Click += btnUser_Click;
+            btnStaff.BackColor = Color.MistyRose;
+            btnStaff.Dock = DockStyle.Top;
+            btnStaff.FlatAppearance.BorderSize = 0;
+            btnStaff.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btnStaff.FlatStyle = FlatStyle.Flat;
+            btnStaff.Location = new Point(0, 70);
+            btnStaff.Margin = new Padding(2, 1, 2, 1);
+            btnStaff.Name = "btnStaff";
+            btnStaff.Size = new Size(164, 35);
+            btnStaff.TabIndex = 2;
+            btnStaff.Text = "User";
+            btnStaff.UseVisualStyleBackColor = false;
+            btnStaff.Click += btnUser_Click;
             // 
             // btnResident
             // 
@@ -443,21 +446,21 @@
             btnResident.UseVisualStyleBackColor = false;
             btnResident.Click += btnResident_Click;
             // 
-            // btnStaff
+            // btnUser
             // 
-            btnStaff.BackColor = Color.MistyRose;
-            btnStaff.Dock = DockStyle.Top;
-            btnStaff.FlatAppearance.BorderSize = 0;
-            btnStaff.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
-            btnStaff.FlatStyle = FlatStyle.Flat;
-            btnStaff.Location = new Point(0, 0);
-            btnStaff.Margin = new Padding(2, 1, 2, 1);
-            btnStaff.Name = "btnStaff";
-            btnStaff.Size = new Size(164, 35);
-            btnStaff.TabIndex = 0;
-            btnStaff.Text = "User";
-            btnStaff.UseVisualStyleBackColor = false;
-            btnStaff.Click += btnUtility_Click;
+            btnUser.BackColor = Color.MistyRose;
+            btnUser.Dock = DockStyle.Top;
+            btnUser.FlatAppearance.BorderSize = 0;
+            btnUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btnUser.FlatStyle = FlatStyle.Flat;
+            btnUser.Location = new Point(0, 0);
+            btnUser.Margin = new Padding(2, 1, 2, 1);
+            btnUser.Name = "btnUser";
+            btnUser.Size = new Size(164, 35);
+            btnUser.TabIndex = 0;
+            btnUser.Text = "Staff";
+            btnUser.UseVisualStyleBackColor = false;
+            btnUser.Click += btnUtility_Click;
             // 
             // btnlist1
             // 
@@ -466,13 +469,14 @@
             btnlist1.FlatAppearance.BorderSize = 0;
             btnlist1.FlatStyle = FlatStyle.Flat;
             btnlist1.Font = new Font("Segoe UI", 16F);
+            btnlist1.Image = Properties.Resources.user_solid2;
+            btnlist1.ImageAlign = ContentAlignment.MiddleLeft;
             btnlist1.Location = new Point(0, 100);
             btnlist1.Margin = new Padding(2, 1, 2, 1);
             btnlist1.Name = "btnlist1";
             btnlist1.Size = new Size(164, 52);
             btnlist1.TabIndex = 1;
             btnlist1.Text = "People";
-            btnlist1.TextAlign = ContentAlignment.MiddleLeft;
             btnlist1.UseVisualStyleBackColor = false;
             // 
             // panelname
@@ -535,7 +539,7 @@
         private Button btnAmenity;
         private Button btnLeaseAgreement;
         private Button btnFeedback;
-        private Button btnStaff;
+        private Button btnUser;
         private Button btnPolicy;
         private Button btnReservation;
         private Button btnService;
@@ -547,7 +551,7 @@
         private HelpProvider helpProvider1;
         private Button btnlist1;
         private Panel panelsubmenu1;
-        private Button btnUser;
+        private Button btnStaff;
         private Button btnResident;
         private Button btnPlace;
         private Panel panelsubmenu3;

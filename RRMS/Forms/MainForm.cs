@@ -38,15 +38,15 @@ namespace RRMS.Forms
             panelsubmenu4.Visible = false;
 
             // Set up the Utility button click event
-            btnStaff.Click += btnUtility_Click;
+            btnUser.Click += btnUtility_Click;
         }
 
         private void SetupPanels()
         {
             // Setup List1 submenu
-            panelsubmenu1.Controls.Add(btnUser);
-            panelsubmenu1.Controls.Add(btnResident);
             panelsubmenu1.Controls.Add(btnStaff);
+            panelsubmenu1.Controls.Add(btnResident);
+            panelsubmenu1.Controls.Add(btnUser);
 
             // Setup List2 submenu
             panelsubmenu2.Controls.Add(btnRoom);
@@ -337,7 +337,7 @@ namespace RRMS.Forms
 
         private void btnLeaseAgreement_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ServiceForm());
+            OpenChildForm(new LeaseAgreement());
         }
 
         private void btnPolicy_Click(object sender, EventArgs e)

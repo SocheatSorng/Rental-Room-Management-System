@@ -2,7 +2,7 @@ USE rrmsdb;
 GO
 
 
-CREATE PROCEDURE sp_GetResidentName
+CREATE PROCEDURE SP_GetResidentName
     @ResidentID INT
 AS
 BEGIN
@@ -12,7 +12,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_CheckRoomID
+CREATE PROCEDURE SP_CheckRoomID
     @RoomID INT
 AS
 BEGIN
@@ -24,7 +24,7 @@ GO
 
 
 -- Policy CRUD
-CREATE PROCEDURE sp_CreatePolicy
+CREATE PROCEDURE SP_InsertPolicy
     @PolicyName NVARCHAR(100),
     @Description NVARCHAR(MAX),
     @ResidentID INT
@@ -36,7 +36,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_ReadPolicy
+CREATE PROCEDURE SP_ReadPolicy
     @PolicyID INT = NULL
 AS
 BEGIN
@@ -47,7 +47,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_UpdatePolicy
+CREATE PROCEDURE SP_UpdatePolicy
     @PolicyID INT,
     @PolicyName NVARCHAR(100),
     @Description NVARCHAR(MAX),
@@ -63,16 +63,17 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_DeletePolicy
+CREATE PROCEDURE SP_DeletePolicy
     @PolicyID INT
 AS
 BEGIN
     DELETE FROM tblPolicy WHERE PolicyID = @PolicyID
 END
 GO
+--End of Store Procedure Policy
 
 -- Feedback CRUD
-CREATE PROCEDURE sp_CreateFeedback
+CREATE PROCEDURE SP_CreateFeedback
     @Comments NVARCHAR(MAX),
     @Rating INT,
     @ResidentID INT
@@ -84,7 +85,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_ReadFeedback
+CREATE PROCEDURE SP_ReadFeedback
     @FeedbackID INT = NULL
 AS
 BEGIN
@@ -95,7 +96,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_UpdateFeedback
+CREATE PROCEDURE SP_UpdateFeedback
     @FeedbackID INT,
     @Comments NVARCHAR(MAX),
     @Rating INT,
@@ -110,16 +111,17 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_DeleteFeedback
+CREATE PROCEDURE SP_DeleteFeedback
     @FeedbackID INT
 AS
 BEGIN
     DELETE FROM tblFeedback WHERE FeedbackID = @FeedbackID
 END
 GO
+--End of Store Procedure LeaseAgreement
 
 -- LeaseAgreement CRUD
-CREATE PROCEDURE sp_CreateLeaseAgreement
+CREATE PROCEDURE SP_InsertLeaseAgreement
     @StartDate DATE,
     @EndDate DATE,
     @MonthlyRent DECIMAL(10,2),
@@ -133,7 +135,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_ReadLeaseAgreement
+CREATE PROCEDURE SP_ReadLeaseAgreement
     @LeaseAgreementID INT = NULL
 AS
 BEGIN
@@ -144,7 +146,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_UpdateLeaseAgreement
+CREATE PROCEDURE SP_UpdateLeaseAgreement
     @LeaseAgreementID INT,
     @StartDate DATE,
     @EndDate DATE,
@@ -163,16 +165,17 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_DeleteLeaseAgreement
+CREATE PROCEDURE SP_DeleteLeaseAgreement
     @LeaseAgreementID INT
 AS
 BEGIN
     DELETE FROM tblLeaseAgreement WHERE LeaseAgreementID = @LeaseAgreementID
 END
 GO
+--End of Store Procedure LeaseAgreement
 
 -- Utility CRUD
-CREATE PROCEDURE sp_CreateUtility
+CREATE PROCEDURE SP_InsertUtility
     @UtilityType NVARCHAR(50),
     @Cost DECIMAL(10,2),
     @UsageDate DATE,
@@ -185,7 +188,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_ReadUtility
+CREATE PROCEDURE SP_ReadUtility
     @UtilityID INT = NULL
 AS
 BEGIN
@@ -196,7 +199,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_UpdateUtility
+CREATE PROCEDURE SP_UpdateUtility
     @UtilityID INT,
     @UtilityType NVARCHAR(50),
     @Cost DECIMAL(10,2),
@@ -213,48 +216,49 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_DeleteUtility
+CREATE PROCEDURE SP_DeleteUtility
     @UtilityID INT
 AS
 BEGIN
     DELETE FROM tblUtility WHERE UtilityID = @UtilityID
 END
 GO 
+--End of Store Procedure Utility
 
 -- Amenity CRUD
-CREATE PROCEDURE GetAllAmenities
+CREATE PROCEDURE SP_GetAllAmenities
 AS
 BEGIN
 	SELECT AmenityID,
-		   AmenityName,
-		   AmenityAvail,
-		   AmenityLocation,
-		   AmenityBouPri,
-		   AmenityCPR,
-		   AmenityMainDate,
-		   AmenityDesc
+		   Name,
+		   Avail,
+		   Location,
+		   BouPri,
+		   CPR,
+		   MainDate,
+		   Desc
 	FROM tblAmenity;
 END
 GO
 
-CREATE PROCEDURE GetAmenityById
+CREATE PROCEDURE SP_GetAmenityById
 	@AmenityID INT
 AS
 BEGIN
 	SELECT TOP 1 AmenityID,
-				 AmenityName,
-				 AmenityAvail,
-				 AmenityLocation,
-				 AmenityBouPri,
-				 AmenityCPR,
-				 AmenityMainDate,
-				 AmenityDesc
+				 Name,
+				 Avail,
+				 Location,
+				 BouPri,
+				 CPR,
+				 MainDate,
+				 Desc
 	FROM tblAmenity
 	WHERE AmenityID = @AmenityID;
 END
 GO
 
-CREATE PROCEDURE AddAmenity
+CREATE PROCEDURE SP_InsertAmenity
 	@AmenityName NVARCHAR(30),
 	@AmenityAvail BIT,
 	@AmenityLocation NVARCHAR(30),
@@ -265,13 +269,13 @@ CREATE PROCEDURE AddAmenity
 AS
 BEGIN
 	INSERT INTO tblAmenity
-	(	AmenityName,
-		AmenityAvail,
-		AmenityLocation,
-		AmenityBouPri,
-		AmenityCPR,
-		AmenityMainDate,
-		AmenityDesc
+	(	Name,
+		Avail,
+		Location,
+		BouPri,
+		CPR,
+		MainDate,
+		Desc
 	)
 	VALUES
 	(
@@ -286,7 +290,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE UpdateAmenity
+CREATE PROCEDURE SP_UpdateAmenity
 	@AmenityID INT,
 	@AmenityName NVARCHAR(30),
 	@AmenityAvail BIT,
@@ -298,13 +302,13 @@ CREATE PROCEDURE UpdateAmenity
 AS
 BEGIN
 	UPDATE tblAmenity
-	SET AmenityName = @AmenityName,
-		AmenityAvail = @AmenityAvail,
-		AmenityLocation = @AmenityLocation,
-		AmenityBouPri = @AmenityBouPri,
-		AmenityCPR = @AmenityCPR,
-		AmenityMainDate = @AmenityMainDate,
-		AmenityDesc = @AmenityDesc
+	SET Name = @AmenityName,
+		Avail = @AmenityAvail,
+		Location = @AmenityLocation,
+		BouPri = @AmenityBouPri,
+		CPR = @AmenityCPR,
+		MainDate = @AmenityMainDate,
+		Desc = @AmenityDesc
 	WHERE AmenityID = @AmenityID
 END
 GO
@@ -318,7 +322,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE ValidateAmenityID
+CREATE PROCEDURE SP_ValidateAmenityID
 	@AmenityID INT
 AS
 BEGIN
@@ -327,6 +331,7 @@ BEGIN
 	WHERE AmenityID = @AmenityID
 END
 GO
+--End of Store Procedure Amenity
 
 -- Resident CRUD
 Create Procedure SP_GetAllResidents
@@ -466,7 +471,7 @@ Begin
 End
 Go
 
-Create Procedure ValidateResidentID
+Create Procedure SP_ValidateResidentID
 	@ResidentID INT
 As
 Begin
@@ -475,9 +480,10 @@ Begin
 	Where ResidentID = @ResidentID
 End
 Go
+--End of Store Precedure Resident
 
 -- Staff CRUD
-CREATE PROCEDURE AddStaff
+CREATE PROCEDURE SP_InsertStaff
     @StaffFName NVARCHAR(50),
     @StaffLName NVARCHAR(50),
     @StaffSex NVARCHAR(10),
@@ -495,9 +501,9 @@ CREATE PROCEDURE AddStaff
 AS
 BEGIN
     INSERT INTO tblStaff (
-        StaffFName, StaffLName, StaffSex, StaffBOD, StaffPosition,
-        StaffHNo, StaffSNo, StaffCommune, StaffDistrict, StaffProvince,
-        StaffPerNum, StaffSalary, StaffHiredDate, StaffStopped
+        FName, LName, Sex, BOD, Position,
+        HNo, SNo, Commune, District, Province,
+        PerNum, Salary, HiredDate, Stopped
     )
     VALUES (
         @StaffFName, @StaffLName, @StaffSex, @StaffBOD, @StaffPosition,
@@ -507,14 +513,14 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE GetAllStaff
+CREATE PROCEDURE SP_GetAllStaff
 AS
 BEGIN
     SELECT * FROM tblStaff;
 END
 GO
 
-CREATE PROCEDURE GetStaffById
+CREATE PROCEDURE SP_GetStaffById
     @StaffId INT
 AS
 BEGIN
@@ -522,7 +528,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE UpdateStaff
+CREATE PROCEDURE SP_UpdateStaff
     @StaffId INT,
     @StaffFName NVARCHAR(50),
     @StaffLName NVARCHAR(50),
@@ -543,57 +549,56 @@ AS
 BEGIN
     UPDATE tblStaff
     SET 
-        StaffFName = @StaffFName,
-        StaffLName = @StaffLName,
-        StaffSex = @StaffSex,
-        StaffBOD = @StaffBOD,
-        StaffPosition = @StaffPosition,
-        StaffHNo = @StaffHNo,
-        StaffSNo = @StaffSNo,
-        StaffCommune = @StaffCommune,
-        StaffDistrict = @StaffDistrict,
-        StaffProvince = @StaffProvince,
-        StaffPerNum = @StaffPerNum,
-        StaffSalary = @StaffSalary,
-        StaffHiredDate = @StaffHiredDate,
-        StaffPhoto = @StaffPhoto,
-        StaffStopped = @StaffStopped
+        FName = @StaffFName,
+        LName = @StaffLName,
+        Sex = @StaffSex,
+        BOD = @StaffBOD,
+        Position = @StaffPosition,
+        HNo = @StaffHNo,
+        SNo = @StaffSNo,
+        Commune = @StaffCommune,
+        District = @StaffDistrict,
+        Province = @StaffProvince,
+        PerNum = @StaffPerNum,
+        Salary = @StaffSalary,
+        HiredDate = @StaffHiredDate,
+        Photo = @StaffPhoto,
+        Stopped = @StaffStopped
     WHERE StaffId = @StaffId;
 END
 GO
 
-CREATE PROCEDURE DeleteStaff 
+CREATE PROCEDURE SP_DeleteStaff 
 	@StaffId INT 
 AS BEGIN DELETE FROM tblStaff WHERE StaffId = @StaffId; 
 END
 GO
 
-
-
-CREATE PROCEDURE ValidateStaffID
+CREATE PROCEDURE SP_ValidateStaffID
     @StaffID INT
 AS
 BEGIN
     SELECT COUNT(*) FROM tblStaff WHERE StaffId = @StaffID;
 END
 GO
+--End of Store Precedure Staff
 
 -- Vendor CRUD
-Create Procedure GetAllVendors
+Create Procedure SP_GetAllVendors
 As
 Begin
 	Select VendorID,
-		   VendorName,
-		   VendorContact,
-		   VendorHNo,
-		   VendorSNo,
-		   VendorCommune,
-		   VendorDistrict,
-		   VendorProvince,
-		   VendorConStart,
-		   VendorConEnd,
-		   VendorStatus,
-		   VendorDesc
+		   Name,
+		   Contact,
+		   HNo,
+		   SNo,
+		   Commune,
+		   District,
+		   Province,
+		   ConStart,
+		   ConEnd,
+		   Status,
+		   Desc
 	From tblVendor;
 End
 Go
@@ -603,23 +608,23 @@ Create Procedure GetVendorById
 As
 Begin
 	Select Top 1 VendorID,
-				 VendorName,
-				 VendorContact,
-				 VendorHNo,
-				 VendorSNo,
-				 VendorCommune,
-				 VendorDistrict,
-				 VendorProvince,
-				 VendorConStart,
-				 VendorConEnd,
-				 VendorStatus,
-				 VendorDesc
+				 Name,
+				 Contact,
+				 HNo,
+				 SNo,
+				 Commune,
+				 District,
+				 Province,
+				 ConStart,
+				 ConEnd,
+				 Status,
+				 Desc
 	From tblVendor
 	Where VendorID = @VendorID;
 End
 Go
 
-Create Procedure AddVendor
+Create Procedure SP_InsertVendor
 	@VendorName NVARCHAR(50),
 	@VendorContact NVARCHAR(20),
 	@VendorHNo NVARCHAR(30),
@@ -634,17 +639,17 @@ Create Procedure AddVendor
 As
 Begin
 	Insert into tblVendor
-	(	VendorName,
-		VendorContact,
-		VendorHNo,
-		VendorSNo,
-		VendorCommune,
-		VendorDistrict,
-		VendorProvince,
-		VendorConStart,
-		VendorConEnd,
-		VendorStatus,
-		VendorDesc
+	(	Name,
+		Contact,
+		HNo,
+		SNo,
+		Commune,
+		District,
+		Province,
+		ConStart,
+		ConEnd,
+		Status,
+		Desc
 	)
 	Values
 	(
@@ -663,7 +668,7 @@ Begin
 End
 Go
 
-Create Procedure UpdateVendor
+Create Procedure SP_UpdateVendor
 	@VendorID INT,
 	@VendorName NVARCHAR(50),
 	@VendorContact NVARCHAR(20),
@@ -679,22 +684,22 @@ Create Procedure UpdateVendor
 As
 Begin
 	Update tblVendor
-	Set VendorName = @VendorName,
-		VendorContact = @VendorContact,
-		VendorHNo = @VendorHNo,
-		VendorSNo = @VendorSNo,
-		VendorCommune = @VendorCommune,
-		VendorDistrict = @VendorDistrict,
-		VendorProvince = @VendorProvince,
-		VendorConStart = @VendorConStart,
-		VendorConEnd = @VendorConEnd,
-		VendorStatus = @VendorStatus,
-		VendorDesc = @VendorDesc
+	Set Name = @VendorName,
+		Contact = @VendorContact,
+		HNo = @VendorHNo,
+		SNo = @VendorSNo,
+		Commune = @VendorCommune,
+	    District = @VendorDistrict,
+		Province = @VendorProvince,
+		ConStart = @VendorConStart,
+		ConEnd = @VendorConEnd,
+		Status = @VendorStatus,
+		Desc = @VendorDesc
 	Where VendorID = @VendorID
 End
 Go
 
-Create Procedure DeleteVendor
+Create Procedure SP_DeleteVendor
 	@VendorID INT
 As
 Begin
@@ -703,7 +708,7 @@ Begin
 End
 Go
 
-Create Procedure ValidateVendorID
+Create Procedure SP_ValidateVendorID
 	@VendorID INT
 As
 Begin
@@ -712,9 +717,10 @@ Begin
 	Where VendorID = @VendorID
 End
 Go
+--End of Store Precedure Vendor
 
 -- Rent CRUD
-CREATE PROCEDURE sp_GetAllRents
+CREATE PROCEDURE SP_GetAllRents
 AS
 BEGIN
     SELECT 
@@ -733,7 +739,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_SearchRents
+CREATE PROCEDURE SP_SearchRents
     @SearchTerm NVARCHAR(100)
 AS
 BEGIN
@@ -754,7 +760,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetResidentNameById
+CREATE PROCEDURE SP_GetResidentNameById
     @ResidentID INT
 AS
 BEGIN
@@ -770,7 +776,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetRoomNumberById
+CREATE PROCEDURE SP_GetRoomNumberById
     @RoomID INT
 AS
 BEGIN
@@ -786,7 +792,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_InsertRent
+CREATE PROCEDURE SP_InsertRent
     @StartDate DATE,
     @EndDate DATE,
     @RentAmount DECIMAL(10,2),
@@ -858,7 +864,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateRent
+CREATE PROCEDURE SP_UpdateRent
     @RentID INT,
     @StartDate DATE,
     @EndDate DATE,
@@ -917,7 +923,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteRent
+CREATE PROCEDURE SP_DeleteRent
     @RentID INT
 AS
 BEGIN
@@ -945,9 +951,10 @@ BEGIN
     WHERE RentID = @RentID;
 END;
 GO
+--End of Store Precedure Rent
 
 -- Request CRUD
-CREATE PROCEDURE sp_GetAllRequests
+CREATE PROCEDURE SP_GetAllRequests
 AS
 BEGIN
     SELECT 
@@ -966,7 +973,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetRequestById
+CREATE PROCEDURE SP_GetRequestById
     @RequestID INT
 AS
 BEGIN
@@ -986,7 +993,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_SearchRequests
+CREATE PROCEDURE SP_SearchRequests
     @SearchTerm NVARCHAR(100)
 AS
 BEGIN
@@ -1010,7 +1017,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetServiceNameById
+CREATE PROCEDURE SP_GetServiceNameById
     @ServiceID INT
 AS
 BEGIN
@@ -1026,7 +1033,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_InsertRequest
+CREATE PROCEDURE SP_InsertRequest
     @RequestDate DATE,
     @Description NVARCHAR(MAX),
     @Status NVARCHAR(50),
@@ -1073,7 +1080,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateRequest
+CREATE PROCEDURE SP_UpdateRequest
     @RequestID INT,
     @RequestDate DATE,
     @Description NVARCHAR(MAX),
@@ -1120,7 +1127,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteRequest
+CREATE PROCEDURE SP_DeleteRequest
     @RequestID INT
 AS
 BEGIN
@@ -1143,10 +1150,10 @@ BEGIN
     WHERE RequestID = @RequestID;
 END;
 GO
-
+--End of Store Precedure Request
 
 -- Reservation CRUD
-CREATE PROCEDURE sp_GetAllReservations
+CREATE PROCEDURE SP_GetAllReservations
 AS
 BEGIN
     SELECT 
@@ -1166,7 +1173,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetReservationById
+CREATE PROCEDURE SP_GetReservationById
     @ReservationID INT
 AS
 BEGIN
@@ -1187,7 +1194,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_InsertReservation
+CREATE PROCEDURE SP_InsertReservation
     @ReservationDate DATE,
     @StartDate DATE,
     @EndDate DATE,
@@ -1257,7 +1264,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateReservation
+CREATE PROCEDURE SP_UpdateReservation
     @ReservationID INT,
     @ReservationDate DATE,
     @StartDate DATE,
@@ -1326,7 +1333,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteReservation
+CREATE PROCEDURE SP_DeleteReservation
     @ReservationID INT
 AS
 BEGIN
@@ -1357,7 +1364,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetResidentById
+CREATE PROCEDURE SP_GetResidentById
     @ResidentID INT
 AS
 BEGIN
@@ -1395,9 +1402,11 @@ BEGIN
     WHERE RoomID = @RoomID;
 END;
 GO
+--End of Store Precedure Resident
+
 
 -- Service CRUD
-CREATE PROCEDURE sp_GetAllServices
+CREATE PROCEDURE SP_GetAllServices
 AS
 BEGIN
     SELECT 
@@ -1410,7 +1419,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_GetServiceById
+CREATE PROCEDURE SP_GetServiceById
     @ServiceID INT
 AS
 BEGIN
@@ -1424,7 +1433,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_SearchServices
+CREATE PROCEDURE SP_SearchServices
     @SearchTerm NVARCHAR(100)
 AS
 BEGIN
@@ -1441,7 +1450,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_InsertService
+CREATE PROCEDURE SP_InsertService
     @ServiceName NVARCHAR(100),
     @ServiceDescription NVARCHAR(MAX),
     @Cost DECIMAL(10,2)
@@ -1483,7 +1492,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_UpdateService
+CREATE PROCEDURE SP_UpdateService
     @ServiceID INT,
     @ServiceName NVARCHAR(100),
     @ServiceDescription NVARCHAR(MAX),
@@ -1527,7 +1536,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE sp_DeleteService
+CREATE PROCEDURE SP_DeleteService
     @ServiceID INT
 AS
 BEGIN
@@ -1549,3 +1558,4 @@ BEGIN
     WHERE ServiceID = @ServiceID;
 END;
 GO
+--End of Store Precedure Request

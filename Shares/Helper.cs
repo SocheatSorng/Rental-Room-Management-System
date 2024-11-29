@@ -3247,11 +3247,8 @@ namespace RRMS
                                 resident.ResPerNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD));
                                 resident.ResConNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD));
                                 resident.ResCheckIn = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD));
-<<<<<<< HEAD
                                 resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
-=======
                                 resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD))
->>>>>>> 0624e880a2602f439a190527761330e19f88685b
                             }
                             else if (entity is Vendor vendor)
                             {
@@ -3267,9 +3264,7 @@ namespace RRMS
                                 vendor.VendorConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
                                 vendor.VendorStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STATUS_FIELD));
                                 vendor.VendorDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
-=======
                             }
->>>>>>> 0624e880a2602f439a190527761330e19f88685b
 
                             }
                             else if (entity is Room room)

@@ -1585,7 +1585,7 @@ namespace RRMS
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 // Use the entity to add parameters
-                entity.AddParametersWithID(cmd);
+                entity.AddOnlyIDParameter(cmd);
 
                 try
                 {

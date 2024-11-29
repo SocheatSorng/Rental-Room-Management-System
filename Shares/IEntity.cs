@@ -26,4 +26,5 @@ public interface IEntity
     string Password { get; set; }
     void AddParameters(SqlCommand cmd);
     void AddParametersWithID(SqlCommand cmd);
+    void AddOnlyIDParameter(SqlCommand cmd);
 }

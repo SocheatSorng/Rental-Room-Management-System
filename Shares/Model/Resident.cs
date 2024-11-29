@@ -81,4 +81,9 @@ public class Resident : IEntity
         cmd.Parameters.AddWithValue("@ResCheckIn", ResCheckIn as object ?? DBNull.Value);
         cmd.Parameters.AddWithValue("@ResCheckOut", ResCheckOut as object ?? DBNull.Value);
     }
+
+    public void AddOnlyIDParameter(SqlCommand cmd)
+    {
+        cmd.Parameters.AddWithValue("@ResID", ResID);
+    }
 }

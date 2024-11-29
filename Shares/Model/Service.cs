@@ -1,10 +1,59 @@
-﻿namespace RRMS.Model
+﻿using Microsoft.Data.SqlClient;
+
+namespace RRMS.Model
 {
-    public class Service
+    public class Service : IEntity
     {
-        public int ServiceID { get; set; }
-        public string ServiceName { get; set; }
-        public string ServiceDescription { get; set; }
+        // Original properties
+        public int ServID { get; set; }
+        public string? ServName { get; set; }
+        public string? ServDescription { get; set; }
         public decimal Cost { get; set; }
+
+        // Implementing applicable interface members
+        public int ID { get => ServID; set => ServID = value; }
+        public string FirstName { get => ServName ?? string.Empty; set => ServName = value; }
+        public string Description { get => ServDescription ?? string.Empty; set => ServDescription = value; }
+        public double CostPrice { get => (double)Cost; set => Cost = (decimal)value; }
+
+        // Not applicable properties
+        public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
+        public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
+        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public string Type { get => string.Empty; set => throw new NotSupportedException(); }
+        public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
+        public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
+        public string Commune { get => string.Empty; set => throw new NotSupportedException(); }
+        public string District { get => string.Empty; set => throw new NotSupportedException(); }
+        public string Province { get => string.Empty; set => throw new NotSupportedException(); }
+        public string PersonalNumber { get => string.Empty; set => throw new NotSupportedException(); }
+        public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
+        public double Salary { get => 0; set => throw new NotSupportedException(); }
+        public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime Start { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public bool Status { get => false; set => throw new NotSupportedException(); }
+        public double RentPrice { get => 0; set => throw new NotSupportedException(); }
+        public string Password { get => string.Empty; set => throw new NotSupportedException(); }
+
+        public void AddParameters(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@ServName", ServName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServDescription", ServDescription as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
+        }
+
+        public void AddParametersWithID(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@ServID", ServID);
+            cmd.Parameters.AddWithValue("@ServName", ServName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServDescription", ServDescription as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
+        }
+
+        public void AddOnlyIDParameter(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@ServID", ServID);
+        }
     }
 }

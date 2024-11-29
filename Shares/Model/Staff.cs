@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,23 +7,91 @@ using System.Threading.Tasks;
 
 namespace RRMS
 {
-    public class Staff
+    public class Staff : IEntity
     {
-        public int StaffId { get; set; }
-        public string? StaffFName {  get; set; }
-        public string? StaffLName {  get; set; }
-        public string? StaffSex { get; set; }
-        public DateTime StaffBOD { get; set; }
-        public string? StaffPosition {  get; set; }
-        public string? StaffHNo { get; set; }
-        public string? StaffSNo { get; set; }
-        public string? StaffCommune { get; set; }
-        public string? StaffDistrict { get; set; }
-        public string? StaffProvince { get; set; }
-        public string? StaffPerNum { get; set; }
-        public double? StaffSalary { get; set; }
-        public DateTime StaffHiredDate { get; set; }
-        public string StaffPhoto { get; set; }
-        public Boolean StaffStopped { get; set; }
+        // Original properties
+        public int StaId { get; set; }
+        public string? StaFName { get; set; }
+        public string? StaLName { get; set; }
+        public string? StaSex { get; set; }
+        public DateTime StaBOD { get; set; }
+        public string? StaPosition { get; set; }
+        public string? StaHNo { get; set; }
+        public string? StaSNo { get; set; }
+        public string? StaCommune { get; set; }
+        public string? StaDistrict { get; set; }
+        public string? StaProvince { get; set; }
+        public string? StaPerNum { get; set; }
+        public double? StaSalary { get; set; }
+        public DateTime StaHiredDate { get; set; }
+        public Boolean StaStopped { get; set; }
+
+        // Implementing applicable interface members
+        public int ID { get => StaId; set => StaId = value; }
+        public string FirstName { get => StaFName ?? string.Empty; set => StaFName = value; }
+        public string LastName { get => StaLName ?? string.Empty; set => StaLName = value; }
+        public string Sex { get => StaSex ?? string.Empty; set => StaSex = value; }
+        public DateTime BirthDate { get => StaBOD; set => StaBOD = value; }
+        public string Type { get => StaPosition ?? string.Empty; set => StaPosition = value; }
+        public string HouseNo { get => StaHNo ?? string.Empty; set => StaHNo = value; }
+        public string StreetNo { get => StaSNo ?? string.Empty; set => StaSNo = value; }
+        public string Commune { get => StaCommune ?? string.Empty; set => StaCommune = value; }
+        public string District { get => StaDistrict ?? string.Empty; set => StaDistrict = value; }
+        public string Province { get => StaProvince ?? string.Empty; set => StaProvince = value; }
+        public string PersonalNumber { get => StaPerNum ?? string.Empty; set => StaPerNum = value; }
+        public double Salary { get => StaSalary ?? 0; set => StaSalary = value; }
+        public DateTime Start { get => StaHiredDate; set => StaHiredDate = value; }
+        public bool Status { get => StaStopped; set => StaStopped = value; }
+
+        // Not applicable properties
+        public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
+        public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public string Description { get => string.Empty; set => throw new NotSupportedException(); }
+        public double CostPrice { get => 0; set => throw new NotSupportedException(); }
+        public double RentPrice { get => 0; set => throw new NotSupportedException(); }
+        public string Password { get => string.Empty; set => throw new NotSupportedException(); }
+
+        public void AddParameters(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@StaFName", StaFName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaLName", StaLName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSex", StaSex as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaBOD", StaBOD as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaPosition", StaPosition as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaHNo", StaHNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSNo", StaSNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaCommune", StaCommune as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaDistrict", StaDistrict as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaProvince", StaProvince as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaPerNum", StaPerNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSalary", StaSalary as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaHiredDate", StaHiredDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaStopped", StaStopped as object ?? DBNull.Value);
+        }
+
+        public void AddParametersWithID(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@StaId", StaId);
+            cmd.Parameters.AddWithValue("@StaFName", StaFName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaLName", StaLName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSex", StaSex as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaBOD", StaBOD as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaPosition", StaPosition as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaHNo", StaHNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSNo", StaSNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaCommune", StaCommune as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaDistrict", StaDistrict as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaProvince", StaProvince as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaPerNum", StaPerNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaSalary", StaSalary as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaHiredDate", StaHiredDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaStopped", StaStopped as object ?? DBNull.Value);
+        }
+
+        public void AddOnlyIDParameter(SqlCommand cmd)
+        {
+            cmd.Parameters.AddWithValue("@StaId", StaId);
+        }
     }
 }

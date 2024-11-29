@@ -134,6 +134,7 @@ namespace RRMS.Forms
             txtResStNo.Text = string.Empty;
             txtResCom.Text = string.Empty;
             txtResDis.Text = string.Empty;
+            txtResPro.Text = string.Empty;
             txtResPN.Text = string.Empty;
             txtResCN.Text = string.Empty;
             dtpResCID.Value = DateTime.Now;
@@ -320,40 +321,38 @@ namespace RRMS.Forms
 
         private void DoClickInsert(object? sender, EventArgs e)
         {
-            // Gather input values from UI controls
-            var residentType = txtResType.Text.Trim();
-            var residentName = txtResName.Text.Trim();
-            var sex = txtResSex.Text.Trim();
-            var resBOD = dtpResBOD.Value;
-            var prevHouseNo = txtResHNo.Text.Trim();
-            var prevStNo = txtResStNo.Text.Trim();
-            var prevCommune = txtResCom.Text.Trim();
-            var prevDistrict = txtResDis.Text.Trim();
-            var prevProvince = txtResPro.Text.Trim();
-            var resPerNum = txtResPN.Text.Trim();
-            var resConNum = txtResCN.Text.Trim();
-            var checkIn = dtpResCID.Value;
-            var checkOut = dtpResCOD.Value;
+            // Gather input values from UI controls into a dictionary
+            var inputs = new Dictionary<string, string>
+            {
+                { "Resident Type", txtResType.Text.Trim() },
+                { "Resident Name", txtResName.Text.Trim() },
+                { "Sex", txtResSex.Text.Trim() },
+                { "Personal Number", txtResPN.Text.Trim() },
+                { "Contact Number", txtResCN.Text.Trim() }
+            };
 
-            // Validate inputs and parse them
-            if (TryParseInputs(residentType, residentName, sex, resPerNum, resConNum, out string resType, out string resName, out string resSex, out string resPN, out string resCN))
+            // Create an instance of InputValidator
+            InputValidator validator = new InputValidator();
+
+            // Validate inputs using the InputValidator
+            if (validator.TryValidateInputs(inputs, out var validatedInputs))
             {
                 // Create a new Resident object with the gathered data
-                Resident newResident = new Resident()
+                Resident newResident = new Resident
                 {
-                    ResType = residentType,
-                    ResFirstName = residentName,
-                    ResSex = sex,
-                    ResBD = resBOD,
-                    ResPrevHouseNo = prevHouseNo,
-                    ResPrevStNo = prevStNo,
-                    ResPrevCommune = prevCommune,
-                    ResPrevDistrict = prevDistrict,
-                    ResPrevProvince = prevProvince,
-                    ResPerNum = resPerNum,
-                    ResConNum = resConNum,
-                    ResCheckIn = checkIn,
-                    ResCheckOut = checkOut
+                    ResType = validatedInputs["Resident Type"],
+                    ResFirstName = validatedInputs["Resident Name"],
+                    ResSex = validatedInputs["Sex"],
+                    ResBD = dtpResBOD.Value,
+                    ResPrevHouseNo = txtResHNo.Text.Trim(),
+                    ResPrevStNo = txtResStNo.Text.Trim(),
+                    ResPrevCommune = txtResCom.Text.Trim(),
+                    ResPrevDistrict = txtResDis.Text.Trim(),
+                    ResPrevProvince = txtResPro.Text.Trim(),
+                    ResPerNum = validatedInputs["Personal Number"],
+                    ResConNum = validatedInputs["Contact Number"],
+                    ResCheckIn = dtpResCID.Value,
+                    ResCheckOut = dtpResCOD.Value
                 };
 
                 try
@@ -374,41 +373,42 @@ namespace RRMS.Forms
                 MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private bool TryParseInputs(string restype, string resname, string ressex, string respn, string rescn, out string resType, out string resName, out string resSex, out string resPN, out string resCN)
-        {
-            resType = restype;
-            resName = resname;
-            resSex = ressex;
-            resPN = respn;
-            resCN = rescn;
 
-            if (string.IsNullOrEmpty(resType))
-            {
-                MessageBox.Show("Resident type must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (string.IsNullOrEmpty(resName))
-            {
-                MessageBox.Show("Resident name must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (string.IsNullOrEmpty(resSex))
-            {
-                MessageBox.Show("Resident sex must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (string.IsNullOrEmpty(resPN))
-            {
-                MessageBox.Show("Resident personal number must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (string.IsNullOrEmpty(resCN))
-            {
-                MessageBox.Show("Resident contact number must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            return true;
-        }
+        //private bool TryParseInputs(string restype, string resname, string ressex, string respn, string rescn, out string resType, out string resName, out string resSex, out string resPN, out string resCN)
+        //{
+        //    resType = restype;
+        //    resName = resname;
+        //    resSex = ressex;
+        //    resPN = respn;
+        //    resCN = rescn;
+
+        //    if (string.IsNullOrEmpty(resType))
+        //    {
+        //        MessageBox.Show("Resident type must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(resName))
+        //    {
+        //        MessageBox.Show("Resident name must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(resSex))
+        //    {
+        //        MessageBox.Show("Resident sex must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(resPN))
+        //    {
+        //        MessageBox.Show("Resident personal number must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(resCN))
+        //    {
+        //        MessageBox.Show("Resident contact number must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //        return false;
+        //    }
+        //    return true;
+        //}
         private void ConfigView()
         {
             dgvRes.Columns.Clear();

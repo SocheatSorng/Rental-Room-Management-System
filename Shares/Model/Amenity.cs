@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -72,3 +73,4 @@ namespace RRMS
             cmd.Parameters.AddWithValue("@AmenId", AmenId);
         }
     }
+}

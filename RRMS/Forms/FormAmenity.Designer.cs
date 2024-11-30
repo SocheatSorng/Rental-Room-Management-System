@@ -52,6 +52,8 @@
             panel1 = new Panel();
             label10 = new Label();
             titleLabel = new Label();
+            label9 = new Label();
+            txtSearch = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvAme).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -236,9 +238,9 @@
             // dgvAme
             // 
             dgvAme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAme.Location = new Point(371, 33);
+            dgvAme.Location = new Point(371, 76);
             dgvAme.Name = "dgvAme";
-            dgvAme.Size = new Size(383, 359);
+            dgvAme.Size = new Size(383, 316);
             dgvAme.TabIndex = 20;
             // 
             // dtpAmeMD
@@ -302,11 +304,29 @@
             titleLabel.Text = "Amenity Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(377, 45);
+            label9.Name = "label9";
+            label9.Size = new Size(42, 15);
+            label9.TabIndex = 49;
+            label9.Text = "Search";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(425, 42);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(327, 23);
+            txtSearch.TabIndex = 49;
+            // 
             // FormAmenity
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(764, 403);
+            Controls.Add(txtSearch);
+            Controls.Add(label9);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(dgvAme);
@@ -317,6 +337,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -345,5 +366,7 @@
         private Panel panel1;
         private Label titleLabel;
         private Label label10;
+        private Label label9;
+        private TextBox txtSearch;
     }
 }

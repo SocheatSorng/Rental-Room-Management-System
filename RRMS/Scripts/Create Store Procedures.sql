@@ -483,94 +483,93 @@ Go
 --End of Store Procedure Resident
 
 -- Staff CRUD
-CREATE PROCEDURE SP_InsertStaff
-    @StaffFName NVARCHAR(50),
-    @StaffLName NVARCHAR(50),
-    @StaffSex NVARCHAR(10),
-    @StaffBOD DATETIME,
-    @StaffPosition NVARCHAR(50),
-    @StaffHNo NVARCHAR(30),
-    @StaffSNo NVARCHAR(30),
-    @StaffCommune NVARCHAR(30),
-    @StaffDistrict NVARCHAR(30),
-    @StaffProvince NVARCHAR(30),
-    @StaffPerNum NVARCHAR(30),
-    @StaffSalary NVARCHAR(20),
-    @StaffHiredDate DATETIME,
-    @StaffStopped BIT
-AS
-BEGIN
-    INSERT INTO tblStaff (
-        FName, LName, Sex, BOD, Position,
-        HNo, SNo, Commune, District, Province,
-        PerNum, Salary, HiredDate, Stopped
-    )
-    VALUES (
-        @StaffFName, @StaffLName, @StaffSex, @StaffBOD, @StaffPosition,
-        @StaffHNo, @StaffSNo, @StaffCommune, @StaffDistrict, @StaffProvince,
-        @StaffPerNum, @StaffSalary, @StaffHiredDate, @StaffStopped
-    );
-END
-GO
 
-CREATE PROCEDURE SP_GetAllStaff
+CREATE PROCEDURE SP_GetAllStaffs
 AS
 BEGIN
     SELECT * FROM tblStaff;
 END
 GO
 
-CREATE PROCEDURE SP_GetStaffById
-    @StaffId INT
+CREATE PROCEDURE SP_GetStaffByID
+    @StaID INT
 AS
 BEGIN
-    SELECT * FROM tblStaff WHERE StaffId = @StaffId;
+    SELECT * FROM tblStaff WHERE StaffID = @StaID;
+END
+GO 
+
+CREATE PROCEDURE SP_InsertStaff
+    @StaFName NVARCHAR(50),
+    @StaLName NVARCHAR(50),
+    @StaSex NVARCHAR(10),
+    @StaBD DATETIME,
+    @StaPosition NVARCHAR(50),
+    @StaHNo NVARCHAR(30),
+    @StaSNo NVARCHAR(30),
+    @StaCommune NVARCHAR(30),
+    @StaDistrict NVARCHAR(30),
+    @StaProvince NVARCHAR(30),
+    @StaPerNum NVARCHAR(30),
+    @StaSalary FLOAT,
+    @StaHiredDate DATETIME,
+    @StaStopped DATETIME,
+AS
+BEGIN
+    INSERT INTO tblStaff (
+        FName, LName, Sex, BD, Position,
+        HNo, SNo, Commune, District, Province,
+        PerNum, Salary, HiredDate, Stopped
+    )
+    VALUES (
+        @StaFName, @StaLName, @StaSex, @StaBD, @StaPosition,
+        @StaHNo, @StaSNo, @StaCommune, @StaDistrict, @StaProvince,
+        @StaPerNum, @StaSalary, @StaHiredDate, @StaStopped
+    );
 END
 GO
 
 CREATE PROCEDURE SP_UpdateStaff
-    @StaffId INT,
-    @StaffFName NVARCHAR(50),
-    @StaffLName NVARCHAR(50),
-    @StaffSex NVARCHAR(10),
-    @StaffBOD DATETIME,
-    @StaffPosition NVARCHAR(50),
-    @StaffHNo NVARCHAR(30),
-    @StaffSNo NVARCHAR(30),
-    @StaffCommune NVARCHAR(30),
-    @StaffDistrict NVARCHAR(30),
-    @StaffProvince NVARCHAR(30),
-    @StaffPerNum NVARCHAR(30),
-    @StaffSalary NVARCHAR(20),
-    @StaffHiredDate DATETIME,
-    @StaffPhoto NVARCHAR(MAX),
-    @StaffStopped BIT
+    @StaID INT,
+    @StaFName NVARCHAR(50),
+    @StaLName NVARCHAR(50),
+    @StaSex NVARCHAR(10),
+    @StaBD DATETIME,
+    @StaPosition NVARCHAR(50),
+    @StaHNo NVARCHAR(30),
+    @StaSNo NVARCHAR(30),
+    @StaCommune NVARCHAR(30),
+    @StaDistrict NVARCHAR(30),
+    @StaProvince NVARCHAR(30),
+    @StaPerNum NVARCHAR(30),
+    @StaSalary NVARCHAR(20),
+    @StaHiredDate DATETIME,
+    @StaStopped DATETIME
 AS
 BEGIN
     UPDATE tblStaff
     SET 
-        FName = @StaffFName,
-        LName = @StaffLName,
-        Sex = @StaffSex,
-        BOD = @StaffBOD,
-        Position = @StaffPosition,
-        HNo = @StaffHNo,
-        SNo = @StaffSNo,
-        Commune = @StaffCommune,
-        District = @StaffDistrict,
-        Province = @StaffProvince,
-        PerNum = @StaffPerNum,
-        Salary = @StaffSalary,
-        HiredDate = @StaffHiredDate,
-        Photo = @StaffPhoto,
-        Stopped = @StaffStopped
-    WHERE StaffId = @StaffId;
+        FName = @StaFName,
+        LName = @StaLName,
+        Sex = @StaSex,
+        BD = @StaBD,
+        Position = @StaPosition,
+        HNo = @StaHNo,
+        SNo = @StaSNo,
+        Commune = @StaCommune,
+        District = @StaDistrict,
+        Province = @StaProvince,
+        PerNum = @StaPerNum,
+        Salary = @StaSalary,
+        HiredDate = @StaHiredDate,
+        Stopped = @StaStopped
+    WHERE StaffId = @StaID;
 END
 GO
 
 CREATE PROCEDURE SP_DeleteStaff 
-	@StaffId INT 
-AS BEGIN DELETE FROM tblStaff WHERE StaffId = @StaffId; 
+	@StaID INT 
+AS BEGIN DELETE FROM tblStaff WHERE StaffID = @StaID; 
 END
 GO
 

@@ -50,7 +50,7 @@ Create Table tblStaff (
 	FName nvarchar(50),
 	LName nvarchar(50),
 	Sex nvarchar(10),
-	BOD Datetime,
+	BD Datetime,
 	Position nvarchar(10),
 	HNo nvarchar(30),
 	SNo nvarchar(30),
@@ -60,7 +60,7 @@ Create Table tblStaff (
 	PerNum nvarchar(20),
 	Salary float,
 	HiredDate Datetime,
-	Stopped bit
+	Stopped DateTime,
 );
 
 -- Table Amenity

@@ -225,7 +225,7 @@ namespace RRMS.Forms
         }
         private void DoOnStaffInserted(object? sender, EntityEventArgs e)
         {
-            string SP_Name = "SP_GetStaffById";
+            string SP_Name = "SP_GetStaffByID";
             if (e.ByteId == 0) return;
             Task.Run(() =>
             {
@@ -259,7 +259,7 @@ namespace RRMS.Forms
                 var entityService = new EntityService();
 
                 // Call InsertOrUpdateEntity method
-                entityService.InsertOrUpdateEntity(staff, "SP_AddStaff", "Insert");
+                entityService.InsertOrUpdateEntity(staff, "SP_InsertStaff", "Insert");
             }
             else
             {
@@ -334,9 +334,10 @@ namespace RRMS.Forms
                 StaCommune = txtStaCom.Text.Trim(),
                 StaDistrict = txtStaDis.Text.Trim(),
                 StaProvince = txtStaPro.Text.Trim(),
+                StaPerNum = txtStaPN.Text.Trim(),
                 StaSalary = salary,
                 StaHiredDate = dtpStaHD.Value,
-                StaStopped = chkStaSW.Checked
+                StaStopped = dtpStaStop.Value,
             };
         }
         private void PopulateFields(Staff? staff)
@@ -358,7 +359,7 @@ namespace RRMS.Forms
                 txtStaPN.Text = staff.StaPerNum;
                 txtStaSal.Text = staff.StaSalary.ToString("F2");
                 dtpStaHD.Value = staff.StaHiredDate;
-                chkStaSW.Checked = staff.StaStopped;
+                dtpStaStop.Value = staff.StaStopped;
             }
             else
             {
@@ -375,16 +376,16 @@ namespace RRMS.Forms
                 txtStaDis.Text = string.Empty;
                 txtStaPro.Text = string.Empty;
                 txtStaPN.Text = string.Empty;
-                txtStaSal.Text = string.Empty; // Clear salary field
+                txtStaSal.Text = string.Empty;
                 dtpStaHD.Value = DateTime.Now;
-                chkStaSW.Checked = false;
+                dtpStaStop.Value = DateTime.Now;
             }
         }
         private void ConfigView()
         {
             dgvSta.Columns.Clear();
-            dgvSta.Columns.Add("colStaffID", "Staff ID");
-            dgvSta.Columns.Add("colStaffName", "Staff Name");
+            dgvSta.Columns.Add("colStaID", "Staff ID");
+            dgvSta.Columns.Add("colStaName", "Staff Name");
             dgvSta.Columns[0].Width = 100;
             dgvSta.Columns[1].Width = 200;
             dgvSta.DefaultCellStyle.BackColor = Color.White;
@@ -411,7 +412,7 @@ namespace RRMS.Forms
         private void AddToView(Staff staff)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvSta, staff.StaID, staff.StaFName + " " + staff.StaLName);
+            row.CreateCells(dgvSta, staff.StaID, staff.StaFName);
             row.Tag = staff.StaID;
             dgvSta.Rows.Add(row);
         }

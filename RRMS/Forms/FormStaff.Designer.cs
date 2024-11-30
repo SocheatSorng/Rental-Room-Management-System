@@ -62,8 +62,8 @@
             dgvSta = new DataGridView();
             dtpStaBD = new DateTimePicker();
             dtpStaHD = new DateTimePicker();
-            chkStaSW = new CheckBox();
             panel1 = new Panel();
+            dtpStaStop = new DateTimePicker();
             label5 = new Label();
             titleLabel = new Label();
             label17 = new Label();
@@ -369,19 +369,10 @@
             dtpStaHD.Size = new Size(200, 23);
             dtpStaHD.TabIndex = 40;
             // 
-            // chkStaSW
-            // 
-            chkStaSW.AutoSize = true;
-            chkStaSW.Location = new Point(118, 470);
-            chkStaSW.Name = "chkStaSW";
-            chkStaSW.Size = new Size(15, 14);
-            chkStaSW.TabIndex = 41;
-            chkStaSW.UseVisualStyleBackColor = true;
-            // 
             // panel1
             // 
+            panel1.Controls.Add(dtpStaStop);
             panel1.Controls.Add(label5);
-            panel1.Controls.Add(chkStaSW);
             panel1.Controls.Add(dtpStaHD);
             panel1.Controls.Add(txtStaSal);
             panel1.Controls.Add(dtpStaBD);
@@ -419,6 +410,13 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(334, 550);
             panel1.TabIndex = 42;
+            // 
+            // dtpStaStop
+            // 
+            dtpStaStop.Location = new Point(118, 463);
+            dtpStaStop.Name = "dtpStaStop";
+            dtpStaStop.Size = new Size(200, 23);
+            dtpStaStop.TabIndex = 49;
             // 
             // label5
             // 
@@ -517,11 +515,11 @@
         private DataGridView dgvSta;
         private DateTimePicker dtpStaBD;
         private DateTimePicker dtpStaHD;
-        private CheckBox chkStaSW;
         private Panel panel1;
         private Label titleLabel;
         private Label label5;
         private Label label17;
         private TextBox txtSearch;
+        private DateTimePicker dtpStaStop;
     }
 }

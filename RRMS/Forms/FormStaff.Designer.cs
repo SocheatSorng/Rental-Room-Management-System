@@ -125,7 +125,6 @@
             label7.Size = new Size(99, 15);
             label7.TabIndex = 6;
             label7.Text = "Personal Number";
-            label7.Click += label7_Click;
             // 
             // label8
             // 
@@ -421,7 +420,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(334, 550);
             panel1.TabIndex = 42;
-            panel1.Paint += panel1_Paint;
             // 
             // label5
             // 

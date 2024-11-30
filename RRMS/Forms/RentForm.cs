@@ -11,6 +11,21 @@ namespace WinFormsApp1
         {
             InitializeComponent();
         }
+
+        private void RentForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void titleLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

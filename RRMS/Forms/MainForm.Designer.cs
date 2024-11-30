@@ -83,7 +83,7 @@
             panelmenu.Dock = DockStyle.Left;
             panelmenu.Location = new Point(0, 0);
             panelmenu.Name = "panelmenu";
-            panelmenu.Size = new Size(181, 561);
+            panelmenu.Size = new Size(204, 561);
             panelmenu.TabIndex = 13;
             // 
             // panelsubmenu4
@@ -101,7 +101,7 @@
             panelsubmenu4.Location = new Point(0, 592);
             panelsubmenu4.Margin = new Padding(2, 1, 2, 1);
             panelsubmenu4.Name = "panelsubmenu4";
-            panelsubmenu4.Size = new Size(164, 313);
+            panelsubmenu4.Size = new Size(187, 313);
             panelsubmenu4.TabIndex = 8;
             // 
             // btnFeedback
@@ -114,7 +114,7 @@
             btnFeedback.Location = new Point(0, 280);
             btnFeedback.Margin = new Padding(2, 1, 2, 1);
             btnFeedback.Name = "btnFeedback";
-            btnFeedback.Size = new Size(164, 35);
+            btnFeedback.Size = new Size(187, 35);
             btnFeedback.TabIndex = 8;
             btnFeedback.Text = "Feedback";
             btnFeedback.UseVisualStyleBackColor = false;
@@ -130,7 +130,7 @@
             btnPolicy.Location = new Point(0, 245);
             btnPolicy.Margin = new Padding(2, 1, 2, 1);
             btnPolicy.Name = "btnPolicy";
-            btnPolicy.Size = new Size(164, 35);
+            btnPolicy.Size = new Size(187, 35);
             btnPolicy.TabIndex = 7;
             btnPolicy.Text = "Policy";
             btnPolicy.UseVisualStyleBackColor = false;
@@ -146,7 +146,7 @@
             btnLeaseAgreement.Location = new Point(0, 210);
             btnLeaseAgreement.Margin = new Padding(2, 1, 2, 1);
             btnLeaseAgreement.Name = "btnLeaseAgreement";
-            btnLeaseAgreement.Size = new Size(164, 35);
+            btnLeaseAgreement.Size = new Size(187, 35);
             btnLeaseAgreement.TabIndex = 6;
             btnLeaseAgreement.Text = "LeaseAgreement";
             btnLeaseAgreement.UseVisualStyleBackColor = false;
@@ -162,7 +162,7 @@
             btnInvoice.Location = new Point(0, 175);
             btnInvoice.Margin = new Padding(2, 1, 2, 1);
             btnInvoice.Name = "btnInvoice";
-            btnInvoice.Size = new Size(164, 35);
+            btnInvoice.Size = new Size(187, 35);
             btnInvoice.TabIndex = 5;
             btnInvoice.Text = "Invoice(Not Done)";
             btnInvoice.UseVisualStyleBackColor = false;
@@ -178,7 +178,7 @@
             btnPayment.Location = new Point(0, 140);
             btnPayment.Margin = new Padding(2, 1, 2, 1);
             btnPayment.Name = "btnPayment";
-            btnPayment.Size = new Size(164, 35);
+            btnPayment.Size = new Size(187, 35);
             btnPayment.TabIndex = 4;
             btnPayment.Text = "Payment(Not Done)";
             btnPayment.UseVisualStyleBackColor = false;
@@ -194,7 +194,7 @@
             btnService.Location = new Point(0, 105);
             btnService.Margin = new Padding(2, 1, 2, 1);
             btnService.Name = "btnService";
-            btnService.Size = new Size(164, 35);
+            btnService.Size = new Size(187, 35);
             btnService.TabIndex = 3;
             btnService.Text = "Service";
             btnService.UseVisualStyleBackColor = false;
@@ -210,7 +210,7 @@
             btnRequest.Location = new Point(0, 70);
             btnRequest.Margin = new Padding(2, 1, 2, 1);
             btnRequest.Name = "btnRequest";
-            btnRequest.Size = new Size(164, 35);
+            btnRequest.Size = new Size(187, 35);
             btnRequest.TabIndex = 2;
             btnRequest.Text = "Request\r\n";
             btnRequest.UseVisualStyleBackColor = false;
@@ -226,7 +226,7 @@
             btnReservation.Location = new Point(0, 35);
             btnReservation.Margin = new Padding(2, 1, 2, 1);
             btnReservation.Name = "btnReservation";
-            btnReservation.Size = new Size(164, 35);
+            btnReservation.Size = new Size(187, 35);
             btnReservation.TabIndex = 1;
             btnReservation.Text = "Reservation";
             btnReservation.UseVisualStyleBackColor = false;
@@ -242,7 +242,7 @@
             btnRent.Location = new Point(0, 0);
             btnRent.Margin = new Padding(2, 1, 2, 1);
             btnRent.Name = "btnRent";
-            btnRent.Size = new Size(164, 35);
+            btnRent.Size = new Size(187, 35);
             btnRent.TabIndex = 0;
             btnRent.Text = "Rent";
             btnRent.UseVisualStyleBackColor = false;
@@ -260,7 +260,7 @@
             btnTransaction.Location = new Point(0, 540);
             btnTransaction.Margin = new Padding(2, 1, 2, 1);
             btnTransaction.Name = "btnTransaction";
-            btnTransaction.Size = new Size(164, 52);
+            btnTransaction.Size = new Size(187, 52);
             btnTransaction.TabIndex = 7;
             btnTransaction.Text = "Transaction";
             btnTransaction.UseVisualStyleBackColor = false;
@@ -274,7 +274,7 @@
             panelsubmenu3.Location = new Point(0, 434);
             panelsubmenu3.Margin = new Padding(2, 1, 2, 1);
             panelsubmenu3.Name = "panelsubmenu3";
-            panelsubmenu3.Size = new Size(164, 106);
+            panelsubmenu3.Size = new Size(187, 106);
             panelsubmenu3.TabIndex = 6;
             // 
             // btnRoomType
@@ -287,7 +287,7 @@
             btnRoomType.Location = new Point(0, 70);
             btnRoomType.Margin = new Padding(2, 1, 2, 1);
             btnRoomType.Name = "btnRoomType";
-            btnRoomType.Size = new Size(164, 35);
+            btnRoomType.Size = new Size(187, 35);
             btnRoomType.TabIndex = 2;
             btnRoomType.Text = "RoomType";
             btnRoomType.UseVisualStyleBackColor = false;
@@ -303,7 +303,7 @@
             btnAmenity.Location = new Point(0, 35);
             btnAmenity.Margin = new Padding(2, 1, 2, 1);
             btnAmenity.Name = "btnAmenity";
-            btnAmenity.Size = new Size(164, 35);
+            btnAmenity.Size = new Size(187, 35);
             btnAmenity.TabIndex = 1;
             btnAmenity.Text = "Amenity";
             btnAmenity.UseVisualStyleBackColor = false;
@@ -319,7 +319,7 @@
             btnUtility.Location = new Point(0, 0);
             btnUtility.Margin = new Padding(2, 1, 2, 1);
             btnUtility.Name = "btnUtility";
-            btnUtility.Size = new Size(164, 35);
+            btnUtility.Size = new Size(187, 35);
             btnUtility.TabIndex = 0;
             btnUtility.Text = "Utility";
             btnUtility.UseVisualStyleBackColor = false;
@@ -337,7 +337,7 @@
             btnAsset.Location = new Point(0, 382);
             btnAsset.Margin = new Padding(2, 1, 2, 1);
             btnAsset.Name = "btnAsset";
-            btnAsset.Size = new Size(164, 52);
+            btnAsset.Size = new Size(187, 52);
             btnAsset.TabIndex = 5;
             btnAsset.Text = "Asset";
             btnAsset.UseVisualStyleBackColor = false;
@@ -350,7 +350,7 @@
             panelsubmenu2.Location = new Point(0, 310);
             panelsubmenu2.Margin = new Padding(2, 1, 2, 1);
             panelsubmenu2.Name = "panelsubmenu2";
-            panelsubmenu2.Size = new Size(164, 72);
+            panelsubmenu2.Size = new Size(187, 72);
             panelsubmenu2.TabIndex = 4;
             // 
             // btnVendor
@@ -363,7 +363,7 @@
             btnVendor.Location = new Point(0, 35);
             btnVendor.Margin = new Padding(2, 1, 2, 1);
             btnVendor.Name = "btnVendor";
-            btnVendor.Size = new Size(164, 35);
+            btnVendor.Size = new Size(187, 35);
             btnVendor.TabIndex = 1;
             btnVendor.Text = "Vendor";
             btnVendor.UseVisualStyleBackColor = false;
@@ -379,7 +379,7 @@
             btnRoom.Location = new Point(0, 0);
             btnRoom.Margin = new Padding(2, 1, 2, 1);
             btnRoom.Name = "btnRoom";
-            btnRoom.Size = new Size(164, 35);
+            btnRoom.Size = new Size(187, 35);
             btnRoom.TabIndex = 0;
             btnRoom.Text = "Room";
             btnRoom.UseVisualStyleBackColor = false;
@@ -397,7 +397,7 @@
             btnPlace.Location = new Point(0, 258);
             btnPlace.Margin = new Padding(0);
             btnPlace.Name = "btnPlace";
-            btnPlace.Size = new Size(164, 52);
+            btnPlace.Size = new Size(187, 52);
             btnPlace.TabIndex = 3;
             btnPlace.Text = "Property";
             btnPlace.UseVisualStyleBackColor = false;
@@ -411,7 +411,7 @@
             panelsubmenu1.Location = new Point(0, 152);
             panelsubmenu1.Margin = new Padding(2, 1, 2, 1);
             panelsubmenu1.Name = "panelsubmenu1";
-            panelsubmenu1.Size = new Size(164, 106);
+            panelsubmenu1.Size = new Size(187, 106);
             panelsubmenu1.TabIndex = 2;
             // 
             // btnStaff
@@ -424,7 +424,7 @@
             btnStaff.Location = new Point(0, 70);
             btnStaff.Margin = new Padding(2, 1, 2, 1);
             btnStaff.Name = "btnStaff";
-            btnStaff.Size = new Size(164, 35);
+            btnStaff.Size = new Size(187, 35);
             btnStaff.TabIndex = 2;
             btnStaff.Text = "User";
             btnStaff.UseVisualStyleBackColor = false;
@@ -440,7 +440,7 @@
             btnResident.Location = new Point(0, 35);
             btnResident.Margin = new Padding(2, 1, 2, 1);
             btnResident.Name = "btnResident";
-            btnResident.Size = new Size(164, 35);
+            btnResident.Size = new Size(187, 35);
             btnResident.TabIndex = 1;
             btnResident.Text = "Resident";
             btnResident.UseVisualStyleBackColor = false;
@@ -456,7 +456,7 @@
             btnUser.Location = new Point(0, 0);
             btnUser.Margin = new Padding(2, 1, 2, 1);
             btnUser.Name = "btnUser";
-            btnUser.Size = new Size(164, 35);
+            btnUser.Size = new Size(187, 35);
             btnUser.TabIndex = 0;
             btnUser.Text = "Staff";
             btnUser.UseVisualStyleBackColor = false;
@@ -474,7 +474,7 @@
             btnlist1.Location = new Point(0, 100);
             btnlist1.Margin = new Padding(2, 1, 2, 1);
             btnlist1.Name = "btnlist1";
-            btnlist1.Size = new Size(164, 52);
+            btnlist1.Size = new Size(187, 52);
             btnlist1.TabIndex = 1;
             btnlist1.Text = "People";
             btnlist1.UseVisualStyleBackColor = false;
@@ -487,7 +487,7 @@
             panelname.Dock = DockStyle.Top;
             panelname.Location = new Point(0, 0);
             panelname.Name = "panelname";
-            panelname.Size = new Size(164, 100);
+            panelname.Size = new Size(187, 100);
             panelname.TabIndex = 0;
             // 
             // label2
@@ -504,10 +504,10 @@
             // panelform
             // 
             panelform.Dock = DockStyle.Fill;
-            panelform.Location = new Point(181, 0);
+            panelform.Location = new Point(204, 0);
             panelform.Margin = new Padding(2, 1, 2, 1);
             panelform.Name = "panelform";
-            panelform.Size = new Size(668, 561);
+            panelform.Size = new Size(860, 561);
             panelform.TabIndex = 15;
             // 
             // MainForm
@@ -516,7 +516,7 @@
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.White;
             CausesValidation = false;
-            ClientSize = new Size(849, 561);
+            ClientSize = new Size(1064, 561);
             Controls.Add(panelform);
             Controls.Add(panelmenu);
             HelpButton = true;

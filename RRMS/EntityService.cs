@@ -21,7 +21,7 @@ namespace RRMS
                 {
                     Helper.UpdateEntity(Program.Connection, entity, storedProcedure);
                     // Assuming that the entity has a property called ResID or similar
-                    var entityId = (entity as dynamic).ResID; // Use dynamic to access ResID
+                    var entityId = entity.ID;
                     MessageBox.Show($"Successfully Updated Entity ID > {entityId}", "Updating", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

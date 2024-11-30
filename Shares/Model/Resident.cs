@@ -68,20 +68,7 @@ namespace RRMS {
             // Assuming ResID is the identifier for the resident
             cmd.Parameters.AddWithValue("@ResID", ResID);
 
-            // Add the rest of the parameters, similar to AddParameters
-            cmd.Parameters.AddWithValue("@ResType", ResType as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResFirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResSex", ResSex as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResBOD", ResBD as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevStNo", ResPrevStNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevCommune", ResPrevCommune as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevProvince", ResPrevProvince as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPerNum", ResPerNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResConNum", ResConNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResCheckIn", ResCheckIn as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResCheckOut", ResCheckOut as object ?? DBNull.Value);
+            AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)

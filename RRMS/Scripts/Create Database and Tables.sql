@@ -41,7 +41,7 @@ Create Table tblVendor (
 	ConStart Datetime,
 	ConEnd Datetime,
 	Status bit,
-	Desc nvarchar(100)
+	Description nvarchar(100)
 );
 
 -- Table STAFF
@@ -72,7 +72,7 @@ Create table tblAmenity(
 	BouPri float,
 	CPR float,
 	MainDate Datetime,
-	Desc nvarchar(100)
+	Description nvarchar(100)
 );
 
 -- Table User

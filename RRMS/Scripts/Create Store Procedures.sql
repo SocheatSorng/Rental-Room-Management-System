@@ -480,7 +480,7 @@ Begin
 	Where ResidentID = @ResidentID
 End
 Go
---End of Store Precedure Resident
+--End of Store Procedure Resident
 
 -- Staff CRUD
 CREATE PROCEDURE SP_InsertStaff
@@ -598,13 +598,13 @@ Begin
 		   ConStart,
 		   ConEnd,
 		   Status,
-		   Desc
+		   Description
 	From tblVendor;
 End
 Go
 
-Create Procedure GetVendorById
-	@VendorID INT
+Create Procedure SP_GetVendorById
+	@VenID INT
 As
 Begin
 	Select Top 1 VendorID,
@@ -618,24 +618,24 @@ Begin
 				 ConStart,
 				 ConEnd,
 				 Status,
-				 Desc
+				 Description
 	From tblVendor
-	Where VendorID = @VendorID;
+	Where VendorID = @VenID;
 End
 Go
 
 Create Procedure SP_InsertVendor
-	@VendorName NVARCHAR(50),
-	@VendorContact NVARCHAR(20),
-	@VendorHNo NVARCHAR(30),
-	@VendorSNo NVARCHAR(30),
-	@VendorCommune NVARCHAR(30),
-	@VendorDistrict NVARCHAR(30),
-	@VendorProvince NVARCHAR(30),
-	@VendorConStart DATETIME,
-	@VendorConEnd DATETIME,
-	@VendorStatus BIT,
-	@VendorDesc NVARCHAR(MAX)
+	@VenName NVARCHAR(50),
+	@VenContact NVARCHAR(20),
+	@VenHNo NVARCHAR(30),
+	@VenSNo NVARCHAR(30),
+	@VenCommune NVARCHAR(30),
+	@VenDistrict NVARCHAR(30),
+	@VenProvince NVARCHAR(30),
+	@VenConStart DATETIME,
+	@VenConEnd DATETIME,
+	@VenStatus BIT,
+	@VenDesc NVARCHAR(MAX)
 As
 Begin
 	Insert into tblVendor
@@ -649,62 +649,62 @@ Begin
 		ConStart,
 		ConEnd,
 		Status,
-		Desc
+		Description
 	)
 	Values
 	(
-		@VendorName,
-		@VendorContact,
-		@VendorHNo,
-		@VendorSNo,
-		@VendorCommune,
-		@VendorDistrict,
-		@VendorProvince,
-		@VendorConStart,
-		@VendorConEnd,
-		@VendorStatus,
-		@VendorDesc
+		@VenName,
+		@VenContact,
+		@VenHNo,
+		@VenSNo,
+		@VenCommune,
+		@VenDistrict,
+		@VenProvince,
+		@VenConStart,
+		@VenConEnd,
+		@VenStatus,
+		@VenDesc
 	)
 End
 Go
 
 Create Procedure SP_UpdateVendor
-	@VendorID INT,
-	@VendorName NVARCHAR(50),
-	@VendorContact NVARCHAR(20),
-	@VendorHNo NVARCHAR(30),
-	@VendorSNo NVARCHAR(30),
-	@VendorCommune NVARCHAR(30),
-	@VendorDistrict NVARCHAR(30),
-	@VendorProvince NVARCHAR(30),
-	@VendorConStart DATETIME,
-	@VendorConEnd DATETIME,
-	@VendorStatus BIT,
-	@VendorDesc NVARCHAR(MAX)
+	@VenID INT,
+	@VenName NVARCHAR(50),
+	@VenContact NVARCHAR(20),
+	@VenHNo NVARCHAR(30),
+	@VenSNo NVARCHAR(30),
+	@VenCommune NVARCHAR(30),
+	@VenDistrict NVARCHAR(30),
+	@VenProvince NVARCHAR(30),
+	@VenConStart DATETIME,
+	@VenConEnd DATETIME,
+	@VenStatus BIT,
+	@VenDesc NVARCHAR(MAX)
 As
 Begin
 	Update tblVendor
-	Set Name = @VendorName,
-		Contact = @VendorContact,
-		HNo = @VendorHNo,
-		SNo = @VendorSNo,
-		Commune = @VendorCommune,
-	    District = @VendorDistrict,
-		Province = @VendorProvince,
-		ConStart = @VendorConStart,
-		ConEnd = @VendorConEnd,
-		Status = @VendorStatus,
-		Desc = @VendorDesc
-	Where VendorID = @VendorID
+	Set Name = @VenName,
+		Contact = @VenContact,
+		HNo = @VenHNo,
+		SNo = @VenSNo,
+		Commune = @VenCommune,
+	    District = @VenDistrict,
+		Province = @VenProvince,
+		ConStart = @VenConStart,
+		ConEnd = @VenConEnd,
+		Status = @VenStatus,
+		Description = @VenDesc
+	Where VendorID = @VenID
 End
 Go
 
 Create Procedure SP_DeleteVendor
-	@VendorID INT
+	@VenID INT
 As
 Begin
 	Delete from tblVendor
-	Where VendorID = @VendorID;
+	Where VendorID = @VenID;
 End
 Go
 
@@ -717,7 +717,7 @@ Begin
 	Where VendorID = @VendorID
 End
 Go
---End of Store Precedure Vendor
+--End of Store Procedure Vendor
 
 -- Rent CRUD
 CREATE PROCEDURE SP_GetAllRents

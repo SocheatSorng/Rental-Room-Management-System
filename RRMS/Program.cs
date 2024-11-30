@@ -15,7 +15,7 @@ namespace RRMS
             // see https://aka.ms/applicationconfiguration.
             ConnectToServer();
             ApplicationConfiguration.Initialize();
-            Application.Run(new FormResident());
+            Application.Run(new MainForm());
         }
 
         static void ConnectToServer()

@@ -10,11 +10,11 @@ namespace RRMS
     public class Staff : IEntity
     {
         // Original properties
-        public int StaId { get; set; }
+        public int StaID { get; set; }
         public string? StaFName { get; set; }
         public string? StaLName { get; set; }
         public string? StaSex { get; set; }
-        public DateTime StaBOD { get; set; }
+        public DateTime StaBD { get; set; }
         public string? StaPosition { get; set; }
         public string? StaHNo { get; set; }
         public string? StaSNo { get; set; }
@@ -22,16 +22,16 @@ namespace RRMS
         public string? StaDistrict { get; set; }
         public string? StaProvince { get; set; }
         public string? StaPerNum { get; set; }
-        public double? StaSalary { get; set; }
+        public double StaSalary { get; set; }
         public DateTime StaHiredDate { get; set; }
         public Boolean StaStopped { get; set; }
 
         // Implementing applicable interface members
-        public int ID { get => StaId; set => StaId = value; }
+        public int ID { get => StaID; set => StaID = value; }
         public string FirstName { get => StaFName ?? string.Empty; set => StaFName = value; }
         public string LastName { get => StaLName ?? string.Empty; set => StaLName = value; }
         public string Sex { get => StaSex ?? string.Empty; set => StaSex = value; }
-        public DateTime BirthDate { get => StaBOD; set => StaBOD = value; }
+        public DateTime BirthDate { get => StaBD; set => StaBD = value; }
         public string Type { get => StaPosition ?? string.Empty; set => StaPosition = value; }
         public string HouseNo { get => StaHNo ?? string.Empty; set => StaHNo = value; }
         public string StreetNo { get => StaSNo ?? string.Empty; set => StaSNo = value; }
@@ -39,7 +39,7 @@ namespace RRMS
         public string District { get => StaDistrict ?? string.Empty; set => StaDistrict = value; }
         public string Province { get => StaProvince ?? string.Empty; set => StaProvince = value; }
         public string PersonalNumber { get => StaPerNum ?? string.Empty; set => StaPerNum = value; }
-        public double Salary { get => StaSalary ?? 0; set => StaSalary = value; }
+        public double Salary { get => StaSalary; set => StaSalary = value; }
         public DateTime Start { get => StaHiredDate; set => StaHiredDate = value; }
         public bool Status { get => StaStopped; set => StaStopped = value; }
 
@@ -57,7 +57,7 @@ namespace RRMS
             cmd.Parameters.AddWithValue("@StaFName", StaFName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaLName", StaLName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaSex", StaSex as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@StaBOD", StaBOD as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaBOD", StaBD as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaPosition", StaPosition as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaHNo", StaHNo as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaSNo", StaSNo as object ?? DBNull.Value);
@@ -72,11 +72,11 @@ namespace RRMS
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@StaId", StaId);
+            cmd.Parameters.AddWithValue("@StaID", StaID);
             cmd.Parameters.AddWithValue("@StaFName", StaFName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaLName", StaLName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaSex", StaSex as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@StaBOD", StaBOD as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaBOD", StaBD as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaPosition", StaPosition as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaHNo", StaHNo as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaSNo", StaSNo as object ?? DBNull.Value);
@@ -91,7 +91,7 @@ namespace RRMS
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@StaId", StaId);
+            cmd.Parameters.AddWithValue("@StaID", StaID);
         }
     }
 }

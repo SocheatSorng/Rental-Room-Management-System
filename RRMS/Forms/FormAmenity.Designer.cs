@@ -332,7 +332,6 @@
             Controls.Add(dgvAme);
             Name = "FormAmenity";
             Text = "Amenity";
-            Load += FormAmenity_Load;
             ((System.ComponentModel.ISupportInitialize)dgvAme).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

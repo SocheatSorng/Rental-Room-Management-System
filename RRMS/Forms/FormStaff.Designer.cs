@@ -60,7 +60,7 @@
             btnUpdate = new Button();
             btnDelete = new Button();
             dgvSta = new DataGridView();
-            dtpStaBOD = new DateTimePicker();
+            dtpStaBD = new DateTimePicker();
             dtpStaHD = new DateTimePicker();
             chkStaSW = new CheckBox();
             panel1 = new Panel();
@@ -355,12 +355,12 @@
             dgvSta.Size = new Size(502, 519);
             dgvSta.TabIndex = 35;
             // 
-            // dtpStaBOD
+            // dtpStaBD
             // 
-            dtpStaBOD.Location = new Point(118, 164);
-            dtpStaBOD.Name = "dtpStaBOD";
-            dtpStaBOD.Size = new Size(200, 23);
-            dtpStaBOD.TabIndex = 39;
+            dtpStaBD.Location = new Point(118, 164);
+            dtpStaBD.Name = "dtpStaBD";
+            dtpStaBD.Size = new Size(200, 23);
+            dtpStaBD.TabIndex = 39;
             // 
             // dtpStaHD
             // 
@@ -372,11 +372,10 @@
             // chkStaSW
             // 
             chkStaSW.AutoSize = true;
-            chkStaSW.Location = new Point(118, 465);
+            chkStaSW.Location = new Point(118, 470);
             chkStaSW.Name = "chkStaSW";
-            chkStaSW.Size = new Size(85, 19);
+            chkStaSW.Size = new Size(15, 14);
             chkStaSW.TabIndex = 41;
-            chkStaSW.Text = "CheckBox1";
             chkStaSW.UseVisualStyleBackColor = true;
             // 
             // panel1
@@ -385,7 +384,7 @@
             panel1.Controls.Add(chkStaSW);
             panel1.Controls.Add(dtpStaHD);
             panel1.Controls.Add(txtStaSal);
-            panel1.Controls.Add(dtpStaBOD);
+            panel1.Controls.Add(dtpStaBD);
             panel1.Controls.Add(txtStaPN);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(txtStaPro);
@@ -516,7 +515,7 @@
         private Button btnUpdate;
         private Button btnDelete;
         private DataGridView dgvSta;
-        private DateTimePicker dtpStaBOD;
+        private DateTimePicker dtpStaBD;
         private DateTimePicker dtpStaHD;
         private CheckBox chkStaSW;
         private Panel panel1;

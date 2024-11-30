@@ -42,7 +42,7 @@ namespace RRMS
 
         // Table Resident
         private const string RESIDENT_TBL_NAME = "tblResident";
-        private const string RESIDENT_ID_FIELD = "ResidentID";
+        private const string RESIDENT_ID_FIELD = "ID";
         private const string RESIDENT_TYPE_FIELD = "Type";
         private const string RESIDENT_NAME_FIELD = "Name";
         private const string RESIDENT_SEX_FIELD = "Sex";
@@ -70,7 +70,7 @@ namespace RRMS
         private const string VENDOR_CONSTART_FIELD = "ConStart";
         private const string VENDOR_CONEND_FIELD = "ConEnd";
         private const string VENDOR_STATUS_FIELD = "Status";
-        private const string VENDOR_DESC_FIELD = "Desc";
+        private const string VENDOR_DESC_FIELD = "Description";
 
         // Table STAFF
         private const string STAFF_TBL_NAME = "tblStaff";
@@ -201,537 +201,6 @@ namespace RRMS
         private const string ROOMTYPE_FEATURE_FIELD = "Feature";
         private const string ROOMTYPE_PRICEPERNIGHT_FIELD = "PricePerNight";
         private const string ROOMTYPE_STATUSS_FIELD = "Status";
-        #endregion
-
-
-        #region crud(residents)
-
-
-        // Read all residents
-        public static IEnumerable<Resident> GetAllResidents(SqlConnection conn)
-        {
-            List<Resident> residents = new List<Resident>();
-
-            using (SqlCommand cmd = new SqlCommand("GetAllResidents", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                try
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = reader.GetInt32(reader.GetOrdinal(RESIDENT_ID_FIELD));
-                            string type = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
-                            string name = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
-                            string sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
-                            DateTime bod = reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
-                            string prevHouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
-                            string prevStNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD));
-                            string prevCommune = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD));
-                            string prevDistrict = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD));
-                            string perNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD));
-                            string conNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD));
-                            DateTime checkIn = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD));
-                            DateTime checkOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
-
-                            residents.Add(new Resident()
-                            {
-                                ResID = id,
-                                ResType = type,
-                                ResFirstName = name,
-                                ResSex = sex,
-                                ResBD = bod,
-                                ResPrevHouseNo = prevHouseNo,
-                                ResPrevStNo = prevStNo,
-                                ResPrevCommune = prevCommune,
-                                ResPrevDistrict = prevDistrict,
-                                ResPerNum = perNum,
-                                ResConNum = conNum,
-                                ResCheckIn = checkIn,
-                                ResCheckOut = checkOut
-                            });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error in getting all residents > {ex.Message}");
-                }
-            }
-
-            return residents;
-        }
-        // Read a specified resident by ID
-        public static Resident? GetResidentById(SqlConnection conn, int id)
-        {
-            Resident? result = null;
-
-            using (SqlCommand cmd = new SqlCommand("GetResidentById", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", id);
-                try
-                {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            string type = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
-                            string name = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
-                            string sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
-                            DateTime bod = reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
-                            string prevHouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
-                            string prevStNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_ST_NO_FIELD));
-                            string prevCommune = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_COMMUNE_FIELD));
-                            string prevDistrict = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_DISTRICT_FIELD));
-                            string perNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PER_NUM_FIELD));
-                            string conNum = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_CON_NUM_FIELD));
-                            DateTime checkIn = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_IN_FIELD));
-                            DateTime checkOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
-
-                            result = new Resident()
-                            {
-                                ResID = id,
-                                ResType = type,
-                                ResFirstName = name,
-                                ResSex = sex,
-                                ResBD = bod,
-                                ResPrevHouseNo = prevHouseNo,
-                                ResPrevStNo = prevStNo,
-                                ResPrevCommune = prevCommune,
-                                ResPrevDistrict = prevDistrict,
-                                ResPerNum = perNum,
-                                ResConNum = conNum,
-                                ResCheckIn = checkIn,
-                                ResCheckOut = checkOut
-                            };
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error in getting resident with id, {id} > {ex.Message}");
-                }
-            }
-
-            return result;
-        }
-
-        // Create a new resident
-        public static string? AddResident(SqlConnection conn, Resident resident)
-        {
-            using (SqlCommand cmd = new SqlCommand("AddResident", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                // Remove the ResidentID parameter since it's auto-generated
-                cmd.Parameters.AddWithValue("@ResidentType", resident.ResType as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentName", resident.ResFirstName as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentSex", resident.ResSex as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBD as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", resident.ResPrevHouseNo as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevStNo", resident.ResPrevStNo as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevCommune", resident.ResPrevCommune as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", resident.ResPrevDistrict as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentPerNum", resident.ResPerNum as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentConNum", resident.ResConNum as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.ResCheckIn as object ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.ResCheckOut as object ?? DBNull.Value);
-
-                try
-                {
-                    int effected = cmd.ExecuteNonQuery();
-
-                    if (resident.ResID >= 0 && resident.ResID <= 255)
-                    {
-                        Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
-                    }
-                    else
-                    {
-                        throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId.");
-                    }
-
-                    return (effected > 0) ? resident.ResID.ToString() : null;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Failed in adding new resident > {ex.Message}");
-                }
-            }
-        }        // Update an existing resident
-        public static bool UpdateResident(SqlConnection conn, Resident resident)
-        {
-            using (SqlCommand cmd = new SqlCommand("UpdateResident", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", resident.ResID); // This should be set from the selected resident
-                cmd.Parameters.AddWithValue("@ResidentType", string.IsNullOrEmpty(resident.ResType) ? DBNull.Value : resident.ResType);
-                cmd.Parameters.AddWithValue("@ResidentName", string.IsNullOrEmpty(resident.ResFirstName) ? DBNull.Value : resident.ResFirstName);
-                cmd.Parameters.AddWithValue("@ResidentSex", resident.ResSex);
-                cmd.Parameters.AddWithValue("@ResidentBOD", resident.ResBD);
-                cmd.Parameters.AddWithValue("@ResidentPrevHouseNo", string.IsNullOrEmpty(resident.ResPrevHouseNo) ? DBNull.Value : resident.ResPrevHouseNo);
-                cmd.Parameters.AddWithValue("@ResidentPrevStNo", string.IsNullOrEmpty(resident.ResPrevStNo) ? DBNull.Value : resident.ResPrevStNo);
-                cmd.Parameters.AddWithValue("@ResidentPrevCommune", string.IsNullOrEmpty(resident.ResPrevCommune) ? DBNull.Value : resident.ResPrevCommune);
-                cmd.Parameters.AddWithValue("@ResidentPrevDistrict", string.IsNullOrEmpty(resident.ResPrevDistrict) ? DBNull.Value : resident.ResPrevDistrict);
-                cmd.Parameters.AddWithValue("@ResidentPerNum", string.IsNullOrEmpty(resident.ResPerNum) ? DBNull.Value : resident.ResPerNum);
-                cmd.Parameters.AddWithValue("@ResidentConNum", string.IsNullOrEmpty(resident.ResConNum) ? DBNull.Value : resident.ResConNum);
-                cmd.Parameters.AddWithValue("@ResidentCheckIn", resident.ResCheckIn);
-                cmd.Parameters.AddWithValue("@ResidentCheckOut", resident.ResCheckOut);
-
-                try
-                {
-                    int effected = cmd.ExecuteNonQuery();
-                    if (effected > 0)
-                    {
-                        if (resident.ResID >= 0 && resident.ResID <= 255)
-                        {
-                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
-                        }
-                        else
-                        {
-                            throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId. It must be between 0 and 255.");
-                        }
-                    }
-
-                    return (effected > 0);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Failed in updating resident > {ex.Message}");
-                }
-            }
-        }
-        // Delete an existing resident
-        public static bool DeleteResident(SqlConnection conn, int id)
-        {
-            using (SqlCommand cmd = new SqlCommand("DeleteResident", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", id);
-                try
-                {
-                    int effected = cmd.ExecuteNonQuery();
-                    if (effected > 0)
-                    {
-                        // Ensure id can be safely cast to byte
-                        if (id >= 0 && id <= 255)
-                        {
-                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)id, Entity = EntityTypes.Residents });
-                        }
-                        else
-                        {
-                            // Handle the case where id is out of range
-                            throw new Exception($"ResidentID {id} is out of range for ByteId. It must be between 0 and 255.");
-                        }
-                    }
-                    return (effected > 0);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Failed in deleting a resident with id {id} > {ex.Message}");
-                }
-            }
-        }
-
-        // Validate Resident ID
-        public static bool ValidateResidentID(SqlConnection conn, int residentID)
-        {
-            using (SqlCommand cmd = new SqlCommand("ValidateResidentID", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", residentID);
-                try
-                {
-                    int count = (int)cmd.ExecuteScalar();
-                    return (count > 0);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Failed in validating resident id > {ex.Message}");
-                }
-            }
-        }
-
-        // Get Resident Name only
-        public static string GetResidentNameById(SqlConnection conn, int id)
-        {
-            string residentName = string.Empty;
-
-            using (SqlCommand cmd = new SqlCommand("sp_GetResidentNameById", conn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", id);
-                try
-                {
-                    // Execute the command and retrieve the resident name
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
-                    {
-                        residentName = result.ToString();
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    // Handle SQL exceptions
-                    throw new Exception($"Error in getting resident name with id, {id} > {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    // Handle other exceptions
-                    throw new Exception($"Error in getting resident name with id, {id} > {ex.Message}");
-                }
-            }
-
-            return residentName;
-        }
-        #endregion
-
-        #region crud(vendors)
-
-        //// Read all vendors
-        //public static IEnumerable<Vendor> GetAllVendors(SqlConnection conn)
-        //{
-        //    List<Vendor> vendors = new List<Vendor>();
-
-        //    using (SqlCommand cmd = new SqlCommand("GetAllVendors", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    int id = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
-        //                    string name = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-        //                    string contact = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_CONTACT_FIELD));
-        //                    string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD));
-        //                    string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_STREET_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STREET_NO_FIELD));
-        //                    string commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
-        //                    string district = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
-        //                    string province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-        //                    DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_START_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_START_FIELD));
-        //                    DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_END_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_END_FIELD));
-        //                    bool status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
-        //                    string desc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
-
-        //                    vendors.Add(new Vendor()
-        //                    {
-        //                        VendorID = id,
-        //                        VendorName = name,
-        //                        VendorContact = contact,
-        //                        VendorHNo = houseNo,
-        //                        VendorSNo = streetNo,
-        //                        VendorCommune = commune,
-        //                        VendorDistrict = district,
-        //                        VendorProvince = province,
-        //                        VendorConStart = conStart,
-        //                        VendorConEnd = conEnd,
-        //                        VendorStatus = status,
-        //                        VendorDesc = desc
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting all vendors > {ex.Message}");
-        //        }
-        //    }
-
-        //    return vendors;
-        //}
-
-        //// Read a specified vendor by ID
-        //public static Vendor? GetVendorById(SqlConnection conn, int id)
-        //{
-        //    Vendor? result = null;
-
-        //    using (SqlCommand cmd = new SqlCommand("GetVendorById", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@VendorID", id);
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    string name = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-        //                    string contact = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_CONTACT_FIELD));
-        //                    string houseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HOUSE_NO_FIELD));
-        //                    string streetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_STREET_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STREET_NO_FIELD));
-        //                    string commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
-        //                    string district = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
-        //                    string province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-        //                    DateTime conStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_START_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_START_FIELD));
-        //                    DateTime conEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CON_END_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CON_END_FIELD));
-        //                    bool status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
-        //                    string desc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
-
-        //                    result = new Vendor()
-        //                    {
-        //                        VendorID = id,
-        //                        VendorName = name,
-        //                        VendorContact = contact,
-        //                        VendorHNo = houseNo,
-        //                        VendorSNo = streetNo,
-        //                        VendorCommune = commune,
-        //                        VendorDistrict = district,
-        //                        VendorProvince = province,
-        //                        VendorConStart = conStart,
-        //                        VendorConEnd = conEnd,
-        //                        VendorStatus = status,
-        //                        VendorDesc = desc
-        //                    };
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting vendor with id, {id} > {ex.Message}");
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //// Create a new vendor
-        //public static string? AddVendor(SqlConnection conn, Vendor vendor)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("AddVendor", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        // Remove the VendorID parameter since it's auto-generated
-        //        cmd.Parameters.AddWithValue("@VendorName", vendor.VendorName as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorContact", vendor.VendorContact as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorHNo", vendor.VendorHNo as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorSNo", vendor.VendorSNo as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorCommune", vendor.VendorCommune as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorDistrict", vendor.VendorDistrict as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorProvince", vendor.VendorProvince as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorConStart", vendor.VendorConStart as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorConEnd", vendor.VendorConEnd as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorStatus", vendor.VendorStatus as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@VendorDesc", vendor.VendorDesc as object ?? DBNull.Value);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-
-        //            if (vendor.VendorID >= 0 && vendor.VendorID <= 255)
-        //            {
-        //                Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VendorID, Entity = EntityTypes.Vendors });
-        //            }
-        //            else
-        //            {
-        //                throw new Exception($"VendorID {vendor.VendorID} is out of range for ByteId.");
-        //            }
-
-        //            return (effected > 0) ? vendor.VendorID.ToString() : null;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in adding new vendor > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Update an existing vendor
-        //public static bool UpdateVendor(SqlConnection conn, Vendor vendor)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("UpdateVendor", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@VendorID", vendor.VendorID); // This should be set from the selected vendor
-        //        cmd.Parameters.AddWithValue("@VendorName", string.IsNullOrEmpty(vendor.VendorName) ? DBNull.Value : vendor.VendorName);
-        //        cmd.Parameters.AddWithValue("@VendorContact", string.IsNullOrEmpty(vendor.VendorContact) ? DBNull.Value : vendor.VendorContact);
-        //        cmd.Parameters.AddWithValue("@VendorHNo", string.IsNullOrEmpty(vendor.VendorHNo) ? DBNull.Value : vendor.VendorHNo);
-        //        cmd.Parameters.AddWithValue("@VendorSNo", string.IsNullOrEmpty(vendor.VendorSNo) ? DBNull.Value : vendor.VendorSNo);
-        //        cmd.Parameters.AddWithValue("@VendorCommune", string.IsNullOrEmpty(vendor.VendorCommune) ? DBNull.Value : vendor.VendorCommune);
-        //        cmd.Parameters.AddWithValue("@VendorDistrict", string.IsNullOrEmpty(vendor.VendorDistrict) ? DBNull.Value : vendor.VendorDistrict);
-        //        cmd.Parameters.AddWithValue("@VendorProvince", string.IsNullOrEmpty(vendor.VendorProvince) ? DBNull.Value : vendor.VendorProvince);
-        //        cmd.Parameters.AddWithValue("@VendorConStart", vendor.VendorConStart);
-        //        cmd.Parameters.AddWithValue("@VendorConEnd", vendor.VendorConEnd);
-        //        cmd.Parameters.AddWithValue("@VendorStatus", vendor.VendorStatus);
-        //        cmd.Parameters.AddWithValue("@VendorDesc", string.IsNullOrEmpty(vendor.VendorDesc) ? DBNull.Value : vendor.VendorDesc);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                if (vendor.VendorID >= 0 && vendor.VendorID <= 255)
-        //                {
-        //                    Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VendorID, Entity = EntityTypes.Vendors });
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"VendorID {vendor.VendorID} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in updating vendor > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Delete an existing vendor
-        //public static bool DeleteVendor(SqlConnection conn, int id)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("DeleteVendor", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@VendorID", id);
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                // Ensure id can be safely cast to byte
-        //                if (id >= 0 && id <= 255)
-        //                {
-        //                    Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)id, Entity = EntityTypes.Vendors });
-        //                }
-        //                else
-        //                {
-        //                    // Handle the case where id is out of range
-        //                    throw new Exception($"VendorID {id} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in deleting a vendor with id {id} > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Validate Vendor ID
-        //public static bool ValidateVendorID(SqlConnection conn, int vendorID)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("ValidateVendorID", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@VendorID", vendorID);
-        //        try
-        //        {
-        //            int count = (int)cmd.ExecuteScalar();
-        //            return (count > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in validating vendor id > {ex.Message}");
-        //        }
-        //    }
-        //}
         #endregion
 
         #region crud(staff)
@@ -1425,22 +894,21 @@ namespace RRMS
                                 resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
                                 resident.ResCheckOut = reader.IsDBNull(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_CHECK_OUT_FIELD));
                             }
-                            //else if (entity is Vendor vendor)
-                            //{
-                            //    vendor.VenID = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
-                            //    vendor.VenName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-                            //    vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
-                            //    vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
-                            //    vendor.VenHNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
-                            //    vendor.VenSNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
-                            //    vendor.VenCommune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
-                            //    vendor.VenDistrict = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
-                            //    vendor.VenProvince = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-                            //    vendor.VenConStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
-                            //    vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
-                            //    vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_STATUS_FIELD));
-                            //    vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
-                            //}
+                            else if (entity is Vendor vendor)
+                            {
+                                vendor.VenID = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
+                                vendor.VenName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
+                                vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
+                                vendor.VenHNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                                vendor.VenSNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
+                                vendor.VenCommune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
+                                vendor.VenDistrict = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
+                                vendor.VenProvince = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
+                                vendor.VenConStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                                vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
+                                vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
+                                vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
+                            }
                             //else if (entity is Room room)
                             //{
                             //    room.RoomID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMID_FIELD));
@@ -1599,7 +1067,10 @@ namespace RRMS
             using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", id); // Adjust this parameter name if needed
+
+                // Set the parameter name based on the type of T
+                string parameterName = typeof(T) == typeof(Resident) ? "@ResID" : "@VenID";
+                cmd.Parameters.AddWithValue(parameterName, id);
 
                 try
                 {
@@ -1629,8 +1100,18 @@ namespace RRMS
                             }
                             else if (result is Vendor vendor)
                             {
-                                // Populate Vendor-specific fields here
-                                // vendor.SomeVendorProperty = reader.IsDBNull(reader.GetOrdinal("SomeVendorField")) ? string.Empty : reader.GetString(reader.GetOrdinal("SomeVendorField"));
+                                vendor.VenID = id;
+                                vendor.VenName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
+                                vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
+                                vendor.VenHNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                                vendor.VenSNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
+                                vendor.VenCommune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
+                                vendor.VenDistrict = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
+                                vendor.VenProvince = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
+                                vendor.VenConStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                                vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
+                                vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
+                                vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
                             }
                         }
                     }
@@ -1646,37 +1127,62 @@ namespace RRMS
 
         public static string? InsertEntity<T>(SqlConnection conn, T entity, string storedProcedureName) where T : IEntity
         {
-
             using (SqlCommand cmd = new SqlCommand(storedProcedureName, conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                // Use the entity to add parameters
                 entity.AddParameters(cmd);
 
                 try
                 {
                     int effected = cmd.ExecuteNonQuery();
 
-                    // Handle specific logic for Resident
+                    if (effected <= 0)
+                        return null;
+
+                    // Handle different entity types
+                    string? entityId = null;
                     if (entity is Resident resident)
                     {
                         if (resident.ResID >= 0 && resident.ResID <= 255)
                         {
-                            Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)resident.ResID, Entity = EntityTypes.Residents });
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)resident.ResID,
+                                Entity = EntityTypes.Residents
+                            });
+                            entityId = resident.ResID.ToString();
                         }
                         else
                         {
-                            throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId.");
+                            throw new Exception($"Resident ID {resident.ResID} is out of range for ByteId.");
                         }
                     }
-                    // Handle specific logic for Vendor (if needed)
                     else if (entity is Vendor vendor)
                     {
-                        // Similar logic for Vendor can be added here if required
+                        if (vendor.VenID >= 0 && vendor.VenID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)vendor.VenID,
+                                Entity = EntityTypes.Vendors
+                            });
+                            entityId = vendor.VenID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Vendor ID {vendor.VenID} is out of range for ByteId.");
+                        }
+                    }
+                    // Add other entity type handling here if needed
+                    else
+                    {
+                        // For any other entity types that might be added in the future
+                        // You might want to implement a common interface method to get the ID
+                        // or handle them specifically like above
+                        throw new NotSupportedException($"Entity type {entity.GetType().Name} is not supported.");
                     }
 
-                    return (effected > 0) ? (entity as dynamic).ResID.ToString() : null; // Cast to dynamic to access ResID
+                    return entityId;
                 }
                 catch (Exception ex)
                 {
@@ -1696,7 +1202,7 @@ namespace RRMS
 
                 try
                 {
-                    int effected = cmd.ExecuteNonQuery();
+                    int affectedRows = cmd.ExecuteNonQuery();
 
                     // Handle specific logic for Resident
                     if (entity is Resident resident)
@@ -1707,28 +1213,36 @@ namespace RRMS
                         }
                         else
                         {
-                            throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId. It must be between 0 and 255.");
+                            throw new ArgumentOutOfRangeException(nameof(resident.ResID), "Resident ID must be between 0 and 255.");
                         }
                     }
-                    // Handle specific logic for Vendor (if needed)
-                    //else if (entity is Vendor vendor)
-                    //{
-                    //    // Similar logic for Vendor can be added here if required
-                    //    if (vendor.VendorID >= 0 && vendor.VendorID <= 255) // Assuming VendorID is a property
-                    //    {
-                    //        Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VendorID, Entity = EntityTypes.Vendors });
-                    //    }
-                    //    else
-                    //    {
-                    //        throw new Exception($"VendorID {vendor.VendorID} is out of range for ByteId.");
-                    //    }
-                    //}
+                    // Handle specific logic for Vendor
+                    else if (entity is Vendor vendor)
+                    {
+                        if (vendor.VenID >= 0 && vendor.VenID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VenID, Entity = EntityTypes.Vendors });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(vendor.VenID), "Vendor ID must be between 0 and 255.");
+                        }
+                    }
+                    // Add handling for other entity types if needed
+                    else
+                    {
+                        throw new NotSupportedException($"Entity type {entity.GetType().Name} is not supported for updates.");
+                    }
 
-                    return (effected > 0);
+                    return affectedRows > 0; // Return true if at least one row was affected
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception($"Database error occurred while updating entity: {sqlEx.Message}", sqlEx);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Failed in updating entity > {ex.Message}");
+                    throw new Exception($"Failed to update entity of type {typeof(T).Name}: {ex.Message}", ex);
                 }
             }
         }
@@ -1759,18 +1273,15 @@ namespace RRMS
                         }
                     }
                     // Handle specific logic for Vendor (if needed)
-                    //else if (entity is Vendor vendor)
-                    //{
-                    //    // Similar logic for Vendor can be added here if required
-                    //    if (vendor.VendorID >= 0 && vendor.VendorID <= 255) // Assuming VendorID is a property
-                    //    {
-                    //        Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VendorID, Entity = EntityTypes.Vendors });
-                    //    }
-                    //    else
-                    //    {
-                    //        throw new Exception($"VendorID {vendor.VendorID} is out of range for ByteId.");
-                    //    }
-                    //}
+                    else if (entity is Vendor vendor)
+                        if (vendor.VenID>= 0 && vendor.VenID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VenID, Entity = EntityTypes.Vendors });
+                        }
+                        else
+                        {
+                            throw new Exception($"Vendor ID {vendor.VenID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
 
                     return (effected > 0);
                 }

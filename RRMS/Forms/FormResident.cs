@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using System.Threading.Tasks;
 using RRMS;
 using RRMS.Model;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace RRMS.Forms
 {
@@ -31,12 +33,14 @@ namespace RRMS.Forms
                 Helper.Updated -= DoOnResidentUpdated;
             };
 
-            btnDelete.Click += (sender, e) =>
-            {
-                Helper.Deleted += DoOnResidentDeleted;
-                DoClickDelete(sender, e);
-                Helper.Deleted -= DoOnResidentDeleted;
-            };
+            //btnDelete.Click += (sender, e) =>
+            //{
+            //    Helper.Deleted += DoOnResidentDeleted;
+            //    DoClickDelete(sender, e);
+            //    Helper.Deleted -= DoOnResidentDeleted;
+            //};
+
+            btnDelete.Click += DoClickDelete;
 
             btnNew.Click += DoClickNew;
             btnClose.Click += (sender, e) => { this.Close(); };
@@ -140,6 +144,7 @@ namespace RRMS.Forms
             dtpResCID.Value = DateTime.Now;
             dtpResCOD.Value = DateTime.Now;
 
+
             ManageControl.EnableControl(btnInsert, true);
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
@@ -173,43 +178,25 @@ namespace RRMS.Forms
 
         private void DoClickDelete(object? sender, EventArgs e)
         {
-            if (dgvRes.SelectedCells.Count > 0)
+            if (dgvRes.SelectedCells.Count <= 0) return;
+
+            try
             {
                 int rowIndex = dgvRes.SelectedCells[0].RowIndex;
-                object cellValue = dgvRes.Rows[rowIndex].Cells["colResID"].Value;
+                int id = Convert.ToInt32(dgvRes.Rows[rowIndex].Cells["colResID"].Value);
 
-                if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
-                {
-                    // Assuming that the Resident class implements IEntity
-                    Resident residentToDelete = new Resident { ResID = id };
+                using var cmd = Program.Connection.CreateCommand();
+                cmd.CommandText = "SP_DeleteResident";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ResID", id);
 
-                    try
-                    {
-                        // Use the generic DeleteEntity method
-                        bool isDeleted = Helper.DeleteEntity(Program.Connection, residentToDelete, "SP_DeleteResident");
-
-                        if (isDeleted)
-                        {
-                            MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show($"No resident found with ID > {id}. Deletion failed.", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Please select a valid resident to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                cmd.ExecuteNonQuery();
+                MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ConfigView();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a resident to delete.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

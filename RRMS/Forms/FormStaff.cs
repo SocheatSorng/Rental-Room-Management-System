@@ -100,7 +100,7 @@ namespace RRMS.Forms
                         txtStaDis.Text = staff.StaffDistrict;
                         txtStaPro.Text = staff.StaffProvince;
                         txtStaPN.Text = staff.StaffPerNum;
-                        txtStaSal.Text = staff.StaffSalary.HasValue? staff.StaffSalary.Value.ToString("F2") : string.Empty;
+                        txtStaSal.Text = staff.StaffSalary.HasValue ? staff.StaffSalary.Value.ToString("F2") : string.Empty;
                         dtpStaHD.Value = staff.StaffHiredDate;
                         chkStaSW.Checked = staff.StaffStopped;
                     }
@@ -470,6 +470,16 @@ namespace RRMS.Forms
             row.CreateCells(dgvSta, staff.StaffId, staff.StaffFName + " " + staff.StaffLName);
             row.Tag = staff.StaffId;
             dgvSta.Rows.Add(row);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

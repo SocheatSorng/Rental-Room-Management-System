@@ -9,9 +9,14 @@ namespace RRMS
 {
     public partial class RequestForm : Form
     {
-        public RequestForm ()
+        public RequestForm()
         {
             InitializeComponent();
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

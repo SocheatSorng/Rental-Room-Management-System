@@ -352,5 +352,10 @@ namespace RRMS.Forms
             row.Tag = amenity.AmenityId;
             dgvAme.Rows.Add(row);
         }
+
+        private void FormAmenity_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

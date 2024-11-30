@@ -348,13 +348,13 @@
             // 
             label10.BackColor = Color.FromArgb(51, 122, 183);
             label10.Dock = DockStyle.Top;
-            label10.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            label10.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
             label10.ForeColor = Color.White;
             label10.Location = new Point(3, 2);
             label10.Name = "label10";
             label10.Size = new Size(366, 29);
             label10.TabIndex = 47;
-            label10.Text = "Rent Details";
+            label10.Text = "Rent Management";
             label10.TextAlign = ContentAlignment.MiddleCenter;
             label10.Click += label10_Click;
             // 

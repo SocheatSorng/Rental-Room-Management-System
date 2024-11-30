@@ -31,137 +31,216 @@ namespace RRMS
             btnInsert = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
+            panel1 = new Panel();
+            label10 = new Label();
+            titleLabel = new Label();
+            panel1.SuspendLayout();
             SuspendLayout();
-            
+            // 
             // label1
+            // 
             label1.AutoSize = true;
             label1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 38);
+            label1.Location = new Point(16, 42);
             label1.Name = "label1";
-            label1.Size = new Size(92, 22);
+            label1.Size = new Size(67, 19);
             label1.TabIndex = 0;
             label1.Text = "Utility ID:";
-            
+            // 
             // label2
+            // 
             label2.AutoSize = true;
             label2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(12, 96);
+            label2.Location = new Point(16, 84);
             label2.Name = "label2";
-            label2.Size = new Size(110, 22);
+            label2.Size = new Size(81, 19);
             label2.TabIndex = 1;
             label2.Text = "Utility Type:";
-            
+            // 
             // label3
+            // 
             label3.AutoSize = true;
             label3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(12, 159);
+            label3.Location = new Point(16, 132);
             label3.Name = "label3";
-            label3.Size = new Size(52, 22);
+            label3.Size = new Size(41, 19);
             label3.TabIndex = 2;
             label3.Text = "Cost:";
-            
+            // 
             // label4
+            // 
             label4.AutoSize = true;
             label4.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(12, 218);
+            label4.Location = new Point(16, 178);
             label4.Name = "label4";
-            label4.Size = new Size(108, 22);
+            label4.Size = new Size(83, 19);
             label4.TabIndex = 3;
             label4.Text = "Usage Date:";
-            
+            // 
             // label5
+            // 
             label5.AutoSize = true;
             label5.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(12, 269);
+            label5.Location = new Point(16, 218);
             label5.Name = "label5";
-            label5.Size = new Size(89, 22);
+            label5.Size = new Size(69, 19);
             label5.TabIndex = 4;
             label5.Text = "Room ID:";
-            
+            label5.Click += label5_Click;
+            // 
             // listView1
-            listView1.Location = new Point(400, 100);
+            // 
+            listView1.Location = new Point(372, 38);
+            listView1.Margin = new Padding(3, 2, 3, 2);
             listView1.Name = "listView1";
-            listView1.Size = new Size(388, 304);
+            listView1.Size = new Size(379, 290);
             listView1.TabIndex = 7;
             listView1.UseCompatibleStateImageBehavior = false;
-            
+            // 
             // txtID
-            txtID.Location = new Point(149, 36);
+            // 
+            txtID.Location = new Point(122, 42);
+            txtID.Margin = new Padding(3, 2, 3, 2);
             txtID.Name = "txtID";
-            txtID.Size = new Size(183, 27);
+            txtID.Size = new Size(219, 23);
             txtID.TabIndex = 8;
-            
-            // cboUtilityType
-            cboUtilityType.Location = new Point(149, 94);
-            cboUtilityType.Name = "cboUtilityType";
-            cboUtilityType.Size = new Size(183, 27);
-            cboUtilityType.TabIndex = 9;
-            cboUtilityType.Items.AddRange(new string[] { "Electricity", "Water", "Internet", "Other" });
-            
+            // 
             // txtCost
-            txtCost.Location = new Point(149, 157);
+            // 
+            txtCost.Location = new Point(122, 132);
+            txtCost.Margin = new Padding(3, 2, 3, 2);
             txtCost.Name = "txtCost";
-            txtCost.Size = new Size(183, 27);
+            txtCost.Size = new Size(219, 23);
             txtCost.TabIndex = 10;
-            
-            // dateUsage
-            dateUsage.Location = new Point(149, 214);
-            dateUsage.Name = "dateUsage";
-            dateUsage.Size = new Size(250, 27);
-            dateUsage.TabIndex = 11;
-            
+            // 
+            // cboUtilityType
+            // 
+            cboUtilityType.Items.AddRange(new object[] { "Electricity", "Water", "Internet", "Other" });
+            cboUtilityType.Location = new Point(122, 84);
+            cboUtilityType.Margin = new Padding(3, 2, 3, 2);
+            cboUtilityType.Name = "cboUtilityType";
+            cboUtilityType.Size = new Size(219, 23);
+            cboUtilityType.TabIndex = 9;
+            // 
             // txtRoomID
-            txtRoomID.Location = new Point(149, 267);
+            // 
+            txtRoomID.Location = new Point(122, 214);
+            txtRoomID.Margin = new Padding(3, 2, 3, 2);
             txtRoomID.Name = "txtRoomID";
-            txtRoomID.Size = new Size(183, 27);
+            txtRoomID.Size = new Size(219, 23);
             txtRoomID.TabIndex = 12;
-            
+            // 
+            // dateUsage
+            // 
+            dateUsage.Location = new Point(122, 174);
+            dateUsage.Margin = new Padding(3, 2, 3, 2);
+            dateUsage.Name = "dateUsage";
+            dateUsage.Size = new Size(219, 23);
+            dateUsage.TabIndex = 11;
+            // 
             // btnInsert
-            btnInsert.Location = new Point(400, 40);
+            // 
+            btnInsert.BackColor = Color.FromArgb(92, 184, 92);
+            btnInsert.FlatStyle = FlatStyle.Flat;
+            btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnInsert.ForeColor = Color.White;
+            btnInsert.Location = new Point(51, 253);
+            btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
-            btnInsert.Size = new Size(94, 29);
-            btnInsert.TabIndex = 13;
+            btnInsert.Size = new Size(83, 26);
+            btnInsert.TabIndex = 0;
             btnInsert.Text = "Insert";
-            btnInsert.UseVisualStyleBackColor = true;
-            
+            btnInsert.UseVisualStyleBackColor = false;
+            // 
             // btnUpdate
-            btnUpdate.Location = new Point(553, 40);
+            // 
+            btnUpdate.BackColor = Color.FromArgb(240, 173, 78);
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(140, 253);
+            btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(94, 29);
-            btnUpdate.TabIndex = 14;
+            btnUpdate.Size = new Size(83, 26);
+            btnUpdate.TabIndex = 1;
             btnUpdate.Text = "Update";
-            btnUpdate.UseVisualStyleBackColor = true;
-            
+            btnUpdate.UseVisualStyleBackColor = false;
+            // 
             // btnDelete
-            btnDelete.Location = new Point(694, 40);
+            // 
+            btnDelete.BackColor = Color.FromArgb(217, 83, 79);
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(229, 253);
+            btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(94, 29);
-            btnDelete.TabIndex = 15;
+            btnDelete.Size = new Size(83, 26);
+            btnDelete.TabIndex = 2;
             btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
-            
-            // Utility Form
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            btnDelete.UseVisualStyleBackColor = false;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(btnDelete);
+            panel1.Controls.Add(btnUpdate);
+            panel1.Controls.Add(btnInsert);
+            panel1.Controls.Add(txtRoomID);
+            panel1.Controls.Add(dateUsage);
+            panel1.Controls.Add(txtCost);
+            panel1.Controls.Add(cboUtilityType);
+            panel1.Controls.Add(txtID);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(12, 38);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(354, 290);
+            panel1.TabIndex = 16;
+            // 
+            // label10
+            // 
+            label10.BackColor = Color.FromArgb(51, 122, 183);
+            label10.Dock = DockStyle.Top;
+            label10.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label10.ForeColor = Color.White;
+            label10.Location = new Point(0, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(354, 29);
+            label10.TabIndex = 48;
+            label10.Text = "Rent Management";
+            label10.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // titleLabel
+            // 
+            titleLabel.BackColor = Color.FromArgb(51, 122, 183);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.ForeColor = Color.White;
+            titleLabel.Location = new Point(0, 0);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(769, 30);
+            titleLabel.TabIndex = 43;
+            titleLabel.Text = "Rent Management";
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // Utility
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(btnDelete);
-            Controls.Add(btnUpdate);
-            Controls.Add(btnInsert);
-            Controls.Add(txtRoomID);
-            Controls.Add(dateUsage);
-            Controls.Add(txtCost);
-            Controls.Add(cboUtilityType);
-            Controls.Add(txtID);
+            ClientSize = new Size(769, 341);
+            Controls.Add(titleLabel);
+            Controls.Add(panel1);
             Controls.Add(listView1);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Utility";
             Text = "Utility Management";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -180,5 +259,8 @@ namespace RRMS
         private Button btnInsert;
         private Button btnUpdate;
         private Button btnDelete;
+        private Panel panel1;
+        private Label titleLabel;
+        private Label label10;
     }
 } 

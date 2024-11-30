@@ -48,17 +48,18 @@
             btnUpdate = new Button();
             btnDelete = new Button();
             dgvAme = new DataGridView();
-            btnClose = new Button();
-            txtSearch = new TextBox();
-            label9 = new Label();
             dtpAmeMD = new DateTimePicker();
+            panel1 = new Panel();
+            label10 = new Label();
+            titleLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvAme).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 9);
+            label1.Location = new Point(16, 43);
             label1.Name = "label1";
             label1.Size = new Size(66, 15);
             label1.TabIndex = 0;
@@ -67,7 +68,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 40);
+            label2.Location = new Point(16, 74);
             label2.Name = "label2";
             label2.Size = new Size(39, 15);
             label2.TabIndex = 1;
@@ -76,7 +77,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(13, 77);
+            label3.Location = new Point(17, 111);
             label3.Name = "label3";
             label3.Size = new Size(65, 15);
             label3.TabIndex = 2;
@@ -85,7 +86,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(13, 108);
+            label4.Location = new Point(17, 142);
             label4.Name = "label4";
             label4.Size = new Size(53, 15);
             label4.TabIndex = 3;
@@ -94,7 +95,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(13, 140);
+            label5.Location = new Point(17, 174);
             label5.Name = "label5";
             label5.Size = new Size(75, 15);
             label5.TabIndex = 4;
@@ -103,7 +104,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(13, 178);
+            label6.Location = new Point(17, 212);
             label6.Name = "label6";
             label6.Size = new Size(78, 15);
             label6.TabIndex = 5;
@@ -112,7 +113,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(13, 248);
+            label8.Location = new Point(17, 282);
             label8.Name = "label8";
             label8.Size = new Size(67, 15);
             label8.TabIndex = 7;
@@ -121,7 +122,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(13, 215);
+            label7.Location = new Point(17, 249);
             label7.Name = "label7";
             label7.Size = new Size(103, 15);
             label7.TabIndex = 6;
@@ -129,163 +130,193 @@
             // 
             // txtAmeID
             // 
-            txtAmeID.Location = new Point(190, 5);
+            txtAmeID.Location = new Point(134, 39);
             txtAmeID.Name = "txtAmeID";
-            txtAmeID.Size = new Size(100, 23);
+            txtAmeID.Size = new Size(200, 23);
             txtAmeID.TabIndex = 8;
             // 
             // txtAmeName
             // 
-            txtAmeName.Location = new Point(190, 40);
+            txtAmeName.Location = new Point(134, 74);
             txtAmeName.Name = "txtAmeName";
-            txtAmeName.Size = new Size(100, 23);
+            txtAmeName.Size = new Size(200, 23);
             txtAmeName.TabIndex = 9;
             // 
             // txtAmeAvail
             // 
-            txtAmeAvail.Location = new Point(190, 69);
+            txtAmeAvail.Location = new Point(134, 103);
             txtAmeAvail.Name = "txtAmeAvail";
-            txtAmeAvail.Size = new Size(100, 23);
+            txtAmeAvail.Size = new Size(200, 23);
             txtAmeAvail.TabIndex = 10;
             // 
             // txtAmeLoc
             // 
-            txtAmeLoc.Location = new Point(190, 105);
+            txtAmeLoc.Location = new Point(134, 139);
             txtAmeLoc.Name = "txtAmeLoc";
-            txtAmeLoc.Size = new Size(100, 23);
+            txtAmeLoc.Size = new Size(200, 23);
             txtAmeLoc.TabIndex = 11;
             // 
             // txtAmeBP
             // 
-            txtAmeBP.Location = new Point(190, 140);
+            txtAmeBP.Location = new Point(134, 174);
             txtAmeBP.Name = "txtAmeBP";
-            txtAmeBP.Size = new Size(100, 23);
+            txtAmeBP.Size = new Size(200, 23);
             txtAmeBP.TabIndex = 12;
             // 
             // txtAmeCPR
             // 
-            txtAmeCPR.Location = new Point(190, 178);
+            txtAmeCPR.Location = new Point(134, 212);
             txtAmeCPR.Name = "txtAmeCPR";
-            txtAmeCPR.Size = new Size(100, 23);
+            txtAmeCPR.Size = new Size(200, 23);
             txtAmeCPR.TabIndex = 13;
             // 
             // txtAmeDesc
             // 
-            txtAmeDesc.Location = new Point(190, 248);
+            txtAmeDesc.Location = new Point(134, 282);
             txtAmeDesc.Name = "txtAmeDesc";
-            txtAmeDesc.Size = new Size(100, 23);
+            txtAmeDesc.Size = new Size(200, 23);
             txtAmeDesc.TabIndex = 15;
             // 
             // btnNew
             // 
-            btnNew.Location = new Point(334, 11);
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(12, 320);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
-            btnNew.Size = new Size(75, 23);
-            btnNew.TabIndex = 16;
+            btnNew.Size = new Size(80, 26);
+            btnNew.TabIndex = 2;
             btnNew.Text = "New";
-            btnNew.UseVisualStyleBackColor = true;
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // btnInsert
             // 
-            btnInsert.Location = new Point(415, 12);
+            btnInsert.BackColor = Color.FromArgb(92, 184, 92);
+            btnInsert.FlatStyle = FlatStyle.Flat;
+            btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnInsert.ForeColor = Color.White;
+            btnInsert.Location = new Point(98, 320);
+            btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
-            btnInsert.Size = new Size(75, 23);
-            btnInsert.TabIndex = 17;
+            btnInsert.Size = new Size(80, 26);
+            btnInsert.TabIndex = 0;
             btnInsert.Text = "Insert";
-            btnInsert.UseVisualStyleBackColor = true;
+            btnInsert.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(496, 12);
+            btnUpdate.BackColor = Color.FromArgb(240, 173, 78);
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(184, 320);
+            btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(75, 23);
-            btnUpdate.TabIndex = 18;
+            btnUpdate.Size = new Size(80, 26);
+            btnUpdate.TabIndex = 1;
             btnUpdate.Text = "Update";
-            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.UseVisualStyleBackColor = false;
             // 
             // btnDelete
             // 
-            btnDelete.Location = new Point(577, 12);
+            btnDelete.BackColor = Color.FromArgb(217, 83, 79);
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(270, 320);
+            btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(75, 23);
-            btnDelete.TabIndex = 19;
+            btnDelete.Size = new Size(80, 26);
+            btnDelete.TabIndex = 2;
             btnDelete.Text = "Delete";
-            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.UseVisualStyleBackColor = false;
             // 
             // dgvAme
             // 
             dgvAme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvAme.Location = new Point(452, 113);
+            dgvAme.Location = new Point(371, 33);
             dgvAme.Name = "dgvAme";
-            dgvAme.Size = new Size(240, 150);
+            dgvAme.Size = new Size(383, 359);
             dgvAme.TabIndex = 20;
-            // 
-            // btnClose
-            // 
-            btnClose.Location = new Point(658, 12);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(75, 23);
-            btnClose.TabIndex = 21;
-            btnClose.Text = "Close";
-            btnClose.UseVisualStyleBackColor = true;
-            // 
-            // txtSearch
-            // 
-            txtSearch.Location = new Point(506, 59);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(100, 23);
-            txtSearch.TabIndex = 23;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(374, 62);
-            label9.Name = "label9";
-            label9.Size = new Size(66, 15);
-            label9.TabIndex = 22;
-            label9.Text = "Amenity ID";
             // 
             // dtpAmeMD
             // 
-            dtpAmeMD.Location = new Point(190, 215);
+            dtpAmeMD.Location = new Point(134, 249);
             dtpAmeMD.Name = "dtpAmeMD";
             dtpAmeMD.Size = new Size(200, 23);
             dtpAmeMD.TabIndex = 24;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(txtAmeDesc);
+            panel1.Controls.Add(dtpAmeMD);
+            panel1.Controls.Add(btnDelete);
+            panel1.Controls.Add(txtAmeCPR);
+            panel1.Controls.Add(btnUpdate);
+            panel1.Controls.Add(txtAmeBP);
+            panel1.Controls.Add(btnInsert);
+            panel1.Controls.Add(txtAmeLoc);
+            panel1.Controls.Add(btnNew);
+            panel1.Controls.Add(txtAmeAvail);
+            panel1.Controls.Add(txtAmeName);
+            panel1.Controls.Add(txtAmeID);
+            panel1.Controls.Add(label8);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(12, 33);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(353, 359);
+            panel1.TabIndex = 25;
+            // 
+            // label10
+            // 
+            label10.BackColor = Color.FromArgb(51, 122, 183);
+            label10.Dock = DockStyle.Top;
+            label10.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            label10.ForeColor = Color.White;
+            label10.Location = new Point(0, 0);
+            label10.Name = "label10";
+            label10.Size = new Size(353, 29);
+            label10.TabIndex = 48;
+            label10.Text = "Amenity Details";
+            label10.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // titleLabel
+            // 
+            titleLabel.BackColor = Color.FromArgb(51, 122, 183);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.ForeColor = Color.White;
+            titleLabel.Location = new Point(0, 0);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(764, 30);
+            titleLabel.TabIndex = 43;
+            titleLabel.Text = "Amenity Management";
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FormAmenity
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(dtpAmeMD);
-            Controls.Add(txtSearch);
-            Controls.Add(label9);
-            Controls.Add(btnClose);
+            ClientSize = new Size(764, 403);
+            Controls.Add(titleLabel);
+            Controls.Add(panel1);
             Controls.Add(dgvAme);
-            Controls.Add(btnDelete);
-            Controls.Add(btnUpdate);
-            Controls.Add(btnInsert);
-            Controls.Add(btnNew);
-            Controls.Add(txtAmeDesc);
-            Controls.Add(txtAmeCPR);
-            Controls.Add(txtAmeBP);
-            Controls.Add(txtAmeLoc);
-            Controls.Add(txtAmeAvail);
-            Controls.Add(txtAmeName);
-            Controls.Add(txtAmeID);
-            Controls.Add(label8);
-            Controls.Add(label7);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
             Name = "FormAmenity";
             Text = "Amenity";
+            Load += FormAmenity_Load;
             ((System.ComponentModel.ISupportInitialize)dgvAme).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -310,9 +341,9 @@
         private Button btnUpdate;
         private Button btnDelete;
         private DataGridView dgvAme;
-        private Button btnClose;
-        private TextBox txtSearch;
-        private Label label9;
         private DateTimePicker dtpAmeMD;
+        private Panel panel1;
+        private Label titleLabel;
+        private Label label10;
     }
 }

@@ -353,7 +353,7 @@
             label8.Name = "label8";
             label8.Size = new Size(431, 30);
             label8.TabIndex = 49;
-            label8.Text = "Rent Management";
+            label8.Text = "Reservation Details";
             label8.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // titleLabel
@@ -366,7 +366,7 @@
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(870, 30);
             titleLabel.TabIndex = 50;
-            titleLabel.Text = "Rent Management";
+            titleLabel.Text = "Reservation Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ReservationForm

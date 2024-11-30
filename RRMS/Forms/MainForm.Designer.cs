@@ -50,9 +50,9 @@
             btnRoom = new Button();
             btnPlace = new Button();
             panelsubmenu1 = new Panel();
-            btnStaff = new Button();
-            btnResident = new Button();
             btnUser = new Button();
+            btnResident = new Button();
+            btnStaff = new Button();
             btnlist1 = new Button();
             panelname = new Panel();
             label2 = new Label();
@@ -404,9 +404,9 @@
             // 
             // panelsubmenu1
             // 
-            panelsubmenu1.Controls.Add(btnStaff);
-            panelsubmenu1.Controls.Add(btnResident);
             panelsubmenu1.Controls.Add(btnUser);
+            panelsubmenu1.Controls.Add(btnResident);
+            panelsubmenu1.Controls.Add(btnStaff);
             panelsubmenu1.Dock = DockStyle.Top;
             panelsubmenu1.Location = new Point(0, 152);
             panelsubmenu1.Margin = new Padding(2, 1, 2, 1);
@@ -414,21 +414,21 @@
             panelsubmenu1.Size = new Size(187, 106);
             panelsubmenu1.TabIndex = 2;
             // 
-            // btnStaff
+            // btnUser
             // 
-            btnStaff.BackColor = Color.MistyRose;
-            btnStaff.Dock = DockStyle.Top;
-            btnStaff.FlatAppearance.BorderSize = 0;
-            btnStaff.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
-            btnStaff.FlatStyle = FlatStyle.Flat;
-            btnStaff.Location = new Point(0, 70);
-            btnStaff.Margin = new Padding(2, 1, 2, 1);
-            btnStaff.Name = "btnStaff";
-            btnStaff.Size = new Size(187, 35);
-            btnStaff.TabIndex = 2;
-            btnStaff.Text = "User";
-            btnStaff.UseVisualStyleBackColor = false;
-            btnStaff.Click += btnUser_Click;
+            btnUser.BackColor = Color.MistyRose;
+            btnUser.Dock = DockStyle.Top;
+            btnUser.FlatAppearance.BorderSize = 0;
+            btnUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btnUser.FlatStyle = FlatStyle.Flat;
+            btnUser.Location = new Point(0, 70);
+            btnUser.Margin = new Padding(2, 1, 2, 1);
+            btnUser.Name = "btnUser";
+            btnUser.Size = new Size(187, 35);
+            btnUser.TabIndex = 2;
+            btnUser.Text = "User";
+            btnUser.UseVisualStyleBackColor = false;
+            btnUser.Click += btnUser_Click;
             // 
             // btnResident
             // 
@@ -446,21 +446,21 @@
             btnResident.UseVisualStyleBackColor = false;
             btnResident.Click += btnResident_Click;
             // 
-            // btnUser
+            // btnStaff
             // 
-            btnUser.BackColor = Color.MistyRose;
-            btnUser.Dock = DockStyle.Top;
-            btnUser.FlatAppearance.BorderSize = 0;
-            btnUser.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
-            btnUser.FlatStyle = FlatStyle.Flat;
-            btnUser.Location = new Point(0, 0);
-            btnUser.Margin = new Padding(2, 1, 2, 1);
-            btnUser.Name = "btnUser";
-            btnUser.Size = new Size(187, 35);
-            btnUser.TabIndex = 0;
-            btnUser.Text = "Staff";
-            btnUser.UseVisualStyleBackColor = false;
-            btnUser.Click += btnUtility_Click;
+            btnStaff.BackColor = Color.MistyRose;
+            btnStaff.Dock = DockStyle.Top;
+            btnStaff.FlatAppearance.BorderSize = 0;
+            btnStaff.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
+            btnStaff.FlatStyle = FlatStyle.Flat;
+            btnStaff.Location = new Point(0, 0);
+            btnStaff.Margin = new Padding(2, 1, 2, 1);
+            btnStaff.Name = "btnStaff";
+            btnStaff.Size = new Size(187, 35);
+            btnStaff.TabIndex = 0;
+            btnStaff.Text = "Staff";
+            btnStaff.UseVisualStyleBackColor = false;
+            btnStaff.Click += btnStaff_Click;
             // 
             // btnlist1
             // 
@@ -539,7 +539,7 @@
         private Button btnAmenity;
         private Button btnLeaseAgreement;
         private Button btnFeedback;
-        private Button btnUser;
+        private Button btnStaff;
         private Button btnPolicy;
         private Button btnReservation;
         private Button btnService;
@@ -551,7 +551,7 @@
         private HelpProvider helpProvider1;
         private Button btnlist1;
         private Panel panelsubmenu1;
-        private Button btnStaff;
+        private Button btnUser;
         private Button btnResident;
         private Button btnPlace;
         private Panel panelsubmenu3;

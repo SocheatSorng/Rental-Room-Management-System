@@ -38,7 +38,7 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            btnClose.Click += (sender, e) => { this.Close(); };
+            //btnClose.Click += (sender, e) => { this.Close(); };
             dgvSta.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }

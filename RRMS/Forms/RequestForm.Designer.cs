@@ -331,7 +331,7 @@
             label10.Name = "label10";
             label10.Size = new Size(436, 29);
             label10.TabIndex = 50;
-            label10.Text = "Rent Management";
+            label10.Text = "Request Details";
             label10.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // titleLabel
@@ -344,7 +344,7 @@
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(873, 30);
             titleLabel.TabIndex = 51;
-            titleLabel.Text = "Rent Management";
+            titleLabel.Text = "Request Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // RequestForm

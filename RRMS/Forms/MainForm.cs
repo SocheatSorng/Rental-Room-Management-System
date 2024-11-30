@@ -38,15 +38,15 @@ namespace RRMS.Forms
             panelsubmenu4.Visible = false;
 
             // Set up the Utility button click event
-            btnUser.Click += btnUtility_Click;
+            btnStaff.Click += btnStaff_Click;
         }
 
         private void SetupPanels()
         {
             // Setup List1 submenu
-            panelsubmenu1.Controls.Add(btnStaff);
-            panelsubmenu1.Controls.Add(btnResident);
             panelsubmenu1.Controls.Add(btnUser);
+            panelsubmenu1.Controls.Add(btnResident);
+            panelsubmenu1.Controls.Add(btnStaff);
 
             // Setup List2 submenu
             panelsubmenu2.Controls.Add(btnRoom);
@@ -265,9 +265,9 @@ namespace RRMS.Forms
              }
         */
 
-        private void btnUtility_Click(object sender, EventArgs e)
+        private void btnStaff_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new Utility());
+            OpenChildForm(new FormStaff());
         }
 
         private void btnResident_Click(object sender, EventArgs e)

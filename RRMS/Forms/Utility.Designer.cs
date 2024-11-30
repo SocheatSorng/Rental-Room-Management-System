@@ -211,7 +211,7 @@ namespace RRMS
             label10.Name = "label10";
             label10.Size = new Size(354, 29);
             label10.TabIndex = 48;
-            label10.Text = "Rent Management";
+            label10.Text = "Utility Details";
             label10.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // titleLabel
@@ -224,7 +224,7 @@ namespace RRMS
             titleLabel.Name = "titleLabel";
             titleLabel.Size = new Size(769, 30);
             titleLabel.TabIndex = 43;
-            titleLabel.Text = "Rent Management";
+            titleLabel.Text = "Utility Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // Utility

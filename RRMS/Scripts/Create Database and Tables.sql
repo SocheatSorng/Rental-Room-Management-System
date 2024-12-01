@@ -67,9 +67,9 @@ Create Table tblStaff (
 Create table tblAmenity(
 	AmenityID int primary key identity(1,1),
 	Name nvarchar(30),
-	Avail bit,
+	Availability bit,
 	Location nvarchar(30),
-	BouPri float,
+	BoughtPrice float,
 	CPR float,
 	MainDate Datetime,
 	Description nvarchar(100)

@@ -4,7 +4,6 @@ using Microsoft.Data.SqlClient;
 using RRMS.Model;
 using System;
 
-//Hello
 namespace RRMS
 {
     public static class Helper
@@ -57,7 +56,7 @@ namespace RRMS
         private const string RESIDENT_CHECK_IN_FIELD = "CheckIn";
         private const string RESIDENT_CHECK_OUT_FIELD = "CheckOut";
 
-        // Table Vender
+        // Table Vendor
         private const string VENDOR_TBL_NAME = "tblVendor";
         private const string VENDOR_ID_FIELD = "VendorID";
         private const string VENDOR_NAME_FIELD = "Name";
@@ -78,7 +77,7 @@ namespace RRMS
         private const string STAFF_FNAME_FIELD = "FName";
         private const string STAFF_LNAME_FIELD = "LName";
         private const string STAFF_SEX_FIELD = "Sex";
-        private const string STAFF_BOD_FIELD = "BOD";
+        private const string STAFF_BD_FIELD = "BD";
         private const string STAFF_POSITION_FIELD = "Position";
         private const string STAFF_HNO_FIELD = "HNo";
         private const string STAFF_SNO_FIELD = "SNo";
@@ -92,14 +91,23 @@ namespace RRMS
 
         // Table Amenity
         private const string AMENITY_TBL_NAME = "tblAmenity";
-        private const string AMENITY_AMENITYID_FIELD = "AmenityID";
+        private const string AMENITY_ID_FIELD = "AmenityID";
         private const string AMENITY_NAME_FIELD = "Name";
-        private const string AMENITY_AVAIL_FIELD = "Avail";
+        private const string AMENITY_AVAIL_FIELD = "Availability";
         private const string AMENITY_LOCATION_FIELD = "Location";
-        private const string AMENITY_BOUPRI_FIELD = "BouPri";
+        private const string AMENITY_BOUPRI_FIELD = "BoughtPrice";
         private const string AMENITY_CPR_FIELD = "CPR";
         private const string AMENITY_MAINDATE_FIELD = "MainDate";
-        private const string AMENITY_DESC_FIELD = "Desc";
+        private const string AMENITY_DESC_FIELD = "Description";
+
+        // Table Feedback
+        private const string FEEDBACK_TBL_NAME = "tblFeedback";
+        private const string FEEDBACK_ID_FIELD = "FeedbackID";
+        private const string FEEDBACK_DATE_FIELD = "Date";
+        private const string FEEDBACK_CONTENT_FIELD = "Content";
+        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
+        private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
+        private const string FEEDBACK_RESIDENTNAME_FIELD = "ResName";
 
         // Table User
         private const string USER_TBL_NAME = "tblUser";
@@ -117,13 +125,6 @@ namespace RRMS
         private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
         private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
 
-        // Table Feedback
-        private const string FEEDBACK_TBL_NAME = "tblFeedback";
-        private const string FEEDBACK_FEEDBACKID_FIELD = "FeedbackID";
-        private const string FEEDBACK_DATE_FIELD = "Date";
-        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
-        private const string FEEDBACK_RATING_FIELD = "Rating";
-        private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
 
         // Table LeaseAgreement
         private const string LEASEAGREEMENT_TBL_NAME = "tblLeaseAgreement";
@@ -203,660 +204,8 @@ namespace RRMS
         private const string ROOMTYPE_STATUSS_FIELD = "Status";
         #endregion
 
-        #region crud(staff)
-
-        //// Read all staff members
-        //public static IEnumerable<Staff> GetAllStaff(SqlConnection conn)
-        //{
-        //    List<Staff> staffList = new List<Staff>();
-
-        //    using (SqlCommand cmd = new SqlCommand("GetAllStaff", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    int id = reader.GetInt32(reader.GetOrdinal(STAFF_ID_FIELD));
-        //                    string fName = reader.IsDBNull(reader.GetOrdinal(STAFF_FNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_FNAME_FIELD));
-        //                    string lName = reader.IsDBNull(reader.GetOrdinal(STAFF_LNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_LNAME_FIELD));
-        //                    string sex = reader.IsDBNull(reader.GetOrdinal(STAFF_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SEX_FIELD));
-        //                    DateTime bod = reader.IsDBNull(reader.GetOrdinal(STAFF_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_BOD_FIELD));
-        //                    string position = reader.IsDBNull(reader.GetOrdinal(STAFF_POSITION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_POSITION_FIELD));
-        //                    string hNo = reader.IsDBNull(reader.GetOrdinal(STAFF_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_HNO_FIELD));
-        //                    string sNo = reader.IsDBNull(reader.GetOrdinal(STAFF_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SNO_FIELD));
-        //                    string commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
-        //                    string district = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
-        //                    string province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
-        //                    string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PER_NUM_FIELD));
-        //                    double salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
-        //                    DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD));
-        //                    bool stopped = reader.GetBoolean(reader.GetOrdinal(STAFF_STOPPED_FIELD));
-
-        //                    staffList.Add(new Staff()
-        //                    {
-        //                        StaffId = id,
-        //                        StaffFName = fName,
-        //                        StaffLName = lName,
-        //                        StaffSex = sex,
-        //                        StaffBOD = bod,
-        //                        StaffPosition = position,
-        //                        StaffHNo = hNo,
-        //                        StaffSNo = sNo,
-        //                        StaffCommune = commune,
-        //                        StaffDistrict = district,
-        //                        StaffProvince = province,
-        //                        StaffPerNum = perNum,
-        //                        StaffSalary = salary,
-        //                        StaffHiredDate = hiredDate,
-        //                        StaffStopped = stopped
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting all staff > {ex.Message}");
-        //        }
-        //    }
-
-        //    return staffList;
-        //}
-
-        //// Read a specified staff member by ID
-        //public static Staff? GetStaffById(SqlConnection conn, int id)
-        //{
-        //    Staff? result = null;
-
-        //    using (SqlCommand cmd = new SqlCommand("GetStaffById", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@StaffId", id);
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    string fName = reader.IsDBNull(reader.GetOrdinal(STAFF_FNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_FNAME_FIELD));
-        //                    string lName = reader.IsDBNull(reader.GetOrdinal(STAFF_LNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_LNAME_FIELD));
-        //                    string sex = reader.IsDBNull(reader.GetOrdinal(STAFF_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SEX_FIELD));
-        //                    DateTime bod = reader.IsDBNull(reader.GetOrdinal(STAFF_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_BOD_FIELD));
-        //                    string position = reader.IsDBNull(reader.GetOrdinal(STAFF_POSITION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_POSITION_FIELD));
-        //                    string hNo = reader.IsDBNull(reader.GetOrdinal(STAFF_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_HNO_FIELD));
-        //                    string sNo = reader.IsDBNull(reader.GetOrdinal(STAFF_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SNO_FIELD));
-        //                    string commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
-        //                    string district = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
-        //                    string province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
-        //                    string perNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PER_NUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PER_NUM_FIELD));
-        //                    double salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
-        //                    DateTime hiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIRED_DATE_FIELD));
-        //                    bool stopped = reader.GetBoolean(reader.GetOrdinal(STAFF_STOPPED_FIELD));
-
-        //                    result = new Staff()
-        //                    {
-        //                        StaffId = id,
-        //                        StaffFName = fName,
-        //                        StaffLName = lName,
-        //                        StaffSex = sex,
-        //                        StaffBOD = bod,
-        //                        StaffPosition = position,
-        //                        StaffHNo = hNo,
-        //                        StaffSNo = sNo,
-        //                        StaffCommune = commune,
-        //                        StaffDistrict = district,
-        //                        StaffProvince = province,
-        //                        StaffPerNum = perNum,
-        //                        StaffSalary = salary,
-        //                        StaffHiredDate = hiredDate,
-        //                        StaffStopped = stopped
-        //                    };
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting staff with id, {id} > {ex.Message}");
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //// Create a new staff member
-        //public static string? AddStaff(SqlConnection conn, Staff staff)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("AddStaff", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@StaffFName", staff.StaffFName as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffLName", staff.StaffLName as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffSex", staff.StaffSex as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffBOD", staff.StaffBOD as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffPosition", staff.StaffPosition as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffHNo", staff.StaffHNo as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffSNo", staff.StaffSNo as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffCommune", staff.StaffCommune as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffDistrict", staff.StaffDistrict as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffProvince", staff.StaffProvince as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffPerNum", staff.StaffPerNum as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffSalary", staff.StaffSalary as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffHiredDate", staff.StaffHiredDate as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@StaffStopped", staff.StaffStopped);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-
-        //            if (staff.StaffId >= 0 && staff.StaffId <= 255)
-        //            {
-        //                Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)staff.StaffId, Entity = EntityTypes.Staffs });
-        //            }
-        //            else
-        //            {
-        //                throw new Exception($"StaffID {staff.StaffId} is out of range for ByteId.");
-        //            }
-
-        //            return (effected > 0) ? staff.StaffId.ToString() : null;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in adding new staff > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Update an existing staff member
-        //public static bool UpdateStaff(SqlConnection conn, Staff staff)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("UpdateStaff", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@StaffId", staff.StaffId);
-        //        cmd.Parameters.AddWithValue("@StaffFName", string.IsNullOrEmpty(staff.StaffFName) ? DBNull.Value : staff.StaffFName);
-        //        cmd.Parameters.AddWithValue("@StaffLName", string.IsNullOrEmpty(staff.StaffLName) ? DBNull.Value : staff.StaffLName);
-        //        cmd.Parameters.AddWithValue("@StaffSex", staff.StaffSex);
-        //        cmd.Parameters.AddWithValue("@StaffBOD", staff.StaffBOD);
-        //        cmd.Parameters.AddWithValue("@StaffPosition", string.IsNullOrEmpty(staff.StaffPosition) ? DBNull.Value : staff.StaffPosition);
-        //        cmd.Parameters.AddWithValue("@StaffHNo", string.IsNullOrEmpty(staff.StaffHNo) ? DBNull.Value : staff.StaffHNo);
-        //        cmd.Parameters.AddWithValue("@StaffSNo", string.IsNullOrEmpty(staff.StaffSNo) ? DBNull.Value : staff.StaffSNo);
-        //        cmd.Parameters.AddWithValue("@StaffCommune", string.IsNullOrEmpty(staff.StaffCommune) ? DBNull.Value : staff.StaffCommune);
-        //        cmd.Parameters.AddWithValue("@StaffDistrict", string.IsNullOrEmpty(staff.StaffDistrict) ? DBNull.Value : staff.StaffDistrict);
-        //        cmd.Parameters.AddWithValue("@StaffProvince", string.IsNullOrEmpty(staff.StaffProvince) ? DBNull.Value : staff.StaffProvince);
-        //        cmd.Parameters.AddWithValue("@StaffPerNum", string.IsNullOrEmpty(staff.StaffPerNum) ? DBNull.Value : staff.StaffPerNum);
-        //        cmd.Parameters.AddWithValue("@StaffSalary", staff.StaffSalary == 0 ? DBNull.Value : staff.StaffSalary);
-        //        cmd.Parameters.AddWithValue("@StaffHiredDate", staff.StaffHiredDate);
-        //        cmd.Parameters.AddWithValue("@StaffStopped", staff.StaffStopped);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                if (staff.StaffId >= 0 && staff.StaffId <= 255)
-        //                {
-        //                    Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)staff.StaffId, Entity = EntityTypes.Staffs });
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"StaffID {staff.StaffId} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in updating staff > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Delete an existing staff member
-        //public static bool DeleteStaff(SqlConnection conn, int id)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("DeleteStaff", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@StaffId", id);
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                if (id >= 0 && id <= 255)
-        //                {
-        //                    Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)id, Entity = EntityTypes.Staffs });
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"StaffID {id} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in deleting a staff member with id {id} > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Validate Staff ID
-        //public static bool ValidateStaffID(SqlConnection conn, int staffID)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("ValidateStaffID", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@StaffID", staffID);
-        //        try
-        //        {
-        //            int count = (int)cmd.ExecuteScalar();
-        //            return (count > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in validating staff id > {ex.Message}");
-        //        }
-        //    }
-        //}
-        #endregion
-
-        #region crud(amenities)
-
-        //// Read all amenities
-        //public static IEnumerable<Amenity> GetAllAmenities(SqlConnection conn)
-        //{
-        //    List<Amenity> amenities = new List<Amenity>();
-
-        //    using (SqlCommand cmd = new SqlCommand("GetAllAmenities", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    int id = reader.GetInt32(reader.GetOrdinal(AMENITY_ID_FIELD));
-        //                    string name = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
-        //                    bool avail = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
-        //                    string location = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-        //                    double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD));
-        //                    double cpr = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-        //                    DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD));
-        //                    string desc = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
-
-        //                    amenities.Add(new Amenity()
-        //                    {
-        //                        AmenityId = id,
-        //                        AmenityName = name,
-        //                        AmenityAvail = avail,
-        //                        AmenityLocation = location,
-        //                        AmenityBouPri = bouPri,
-        //                        AmenityCPR = cpr,
-        //                        AmenityMainDate = mainDate,
-        //                        AmenityDesc = desc
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting all amenities > {ex.Message}");
-        //        }
-        //    }
-
-        //    return amenities;
-        //}
-
-        //// Read a specified amenity by ID
-        //public static Amenity? GetAmenityById(SqlConnection conn, int id)
-        //{
-        //    Amenity? result = null;
-
-        //    using (SqlCommand cmd = new SqlCommand("GetAmenityById", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@AmenityId", id);
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    string name = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
-        //                    bool avail = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
-        //                    string location = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-        //                    double bouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOU_PRI_FIELD));
-        //                    double cpr = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-        //                    DateTime mainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAIN_DATE_FIELD));
-        //                    string desc = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
-
-        //                    result = new Amenity()
-        //                    {
-        //                        AmenityId = id,
-        //                        AmenityName = name,
-        //                        AmenityAvail = avail,
-        //                        AmenityLocation = location,
-        //                        AmenityBouPri = bouPri,
-        //                        AmenityCPR = cpr,
-        //                        AmenityMainDate = mainDate,
-        //                        AmenityDesc = desc
-        //                    };
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting amenity with id, {id} > {ex.Message}");
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //// Create a new amenity
-        //public static string? AddAmenity(SqlConnection conn, Amenity amenity)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("AddAmenity", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@AmenityName", amenity.AmenityName as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@AmenityAvail", amenity.AmenityAvail);
-        //        cmd.Parameters.AddWithValue("@AmenityLocation", amenity.AmenityLocation as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@AmenityBouPri", amenity.AmenityBouPri);
-        //        cmd.Parameters.AddWithValue("@AmenityCPR", amenity.AmenityCPR);
-        //        cmd.Parameters.AddWithValue("@AmenityMainDate", amenity.AmenityMainDate as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@AmenityDesc", amenity.AmenityDesc as object ?? DBNull.Value);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-
-        //            if (amenity.AmenityId >= 0 && amenity.AmenityId <= 255)
-        //            {
-        //                Added?.Invoke(null, new EntityEventArgs() { ByteId = (byte)amenity.AmenityId, Entity = EntityTypes.Amenities });
-        //            }
-        //            else
-        //            {
-        //                throw new Exception($"AmenityId {amenity.AmenityId} is out of range for ByteId.");
-        //            }
-
-        //            return (effected > 0) ? amenity.AmenityId.ToString() : null;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in adding new amenity > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Update an existing amenity
-        //public static bool UpdateAmenity(SqlConnection conn, Amenity amenity)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("UpdateAmenity", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@AmenityId", amenity.AmenityId);
-        //        cmd.Parameters.AddWithValue("@AmenityName", string.IsNullOrEmpty(amenity.AmenityName) ? DBNull.Value : amenity.AmenityName);
-        //        cmd.Parameters.AddWithValue("@AmenityAvail", amenity.AmenityAvail);
-        //        cmd.Parameters.AddWithValue("@AmenityLocation", string.IsNullOrEmpty(amenity.AmenityLocation) ? DBNull.Value : amenity.AmenityLocation);
-        //        cmd.Parameters.AddWithValue("@AmenityBouPri", amenity.AmenityBouPri);
-        //        cmd.Parameters.AddWithValue("@AmenityCPR", amenity.AmenityCPR);
-        //        cmd.Parameters.AddWithValue("@AmenityMainDate", amenity.AmenityMainDate);
-        //        cmd.Parameters.AddWithValue("@AmenityDesc", string.IsNullOrEmpty(amenity.AmenityDesc) ? DBNull.Value : amenity.AmenityDesc);
-
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                if (amenity.AmenityId >= 0 && amenity.AmenityId <= 255)
-        //                {
-        //                    Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)amenity.AmenityId, Entity = EntityTypes.Amenities });
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"AmenityId {amenity.AmenityId} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in updating amenity > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Delete an existing amenity
-        //public static bool DeleteAmenity(SqlConnection conn, int id)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("DeleteAmenity", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@AmenityId", id);
-        //        try
-        //        {
-        //            int effected = cmd.ExecuteNonQuery();
-        //            if (effected > 0)
-        //            {
-        //                if (id >= 0 && id <= 255)
-        //                {
-        //                    Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)id, Entity = EntityTypes.Amenities });
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception($"AmenityId {id} is out of range for ByteId. It must be between 0 and 255.");
-        //                }
-        //            }
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in deleting an amenity with id {id} > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Validate Amenity ID
-        //public static bool ValidateAmenityID(SqlConnection conn, int amenityID)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("ValidateAmenityID", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@AmenityId", amenityID);
-        //        try
-        //        {
-        //            int count = (int)cmd.ExecuteScalar();
-        //            return (count > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in validating amenity id > {ex.Message}");
-        //        }
-        //    }
-        //}
-        #endregion
 
         #region crud(users)
-        #endregion
-
-        #region crud(feedback)
-
-        //// Read all feedback records
-        //public static IEnumerable<Feedback> GetAllFeedback(SqlConnection conn)
-        //{
-        //    List<Feedback> feedbacks = new List<Feedback>();
-
-        //    using (SqlCommand cmd = new SqlCommand("GetAllFeedback", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    int id = reader.GetInt32(reader.GetOrdinal(FEEDBACK_ID_FIELD));
-        //                    DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
-        //                    string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
-        //                    int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
-        //                    int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
-
-        //                    feedbacks.Add(new Feedback()
-        //                    {
-        //                        FeedbackID = id,
-        //                        FeedbackDate = date,
-        //                        Comments = comments,
-        //                        Rating = rating,
-        //                        ResidentID = residentId
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting all feedback > {ex.Message}");
-        //        }
-        //    }
-
-        //    return feedbacks;
-        //}
-
-        //// Read a specified feedback by ID
-        //public static Feedback? GetFeedbackById(SqlConnection conn, int id)
-        //{
-        //    Feedback? result = null;
-
-        //    using (SqlCommand cmd = new SqlCommand("GetFeedbackById", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@FeedbackID", id);
-        //        try
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    DateTime date = reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
-        //                    string comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
-        //                    int rating = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
-        //                    int residentId = reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENT_ID_FIELD));
-
-        //                    result = new Feedback()
-        //                    {
-        //                        FeedbackID = id,
-        //                        FeedbackDate = date,
-        //                        Comments = comments,
-        //                        Rating = rating,
-        //                        ResidentID = residentId
-        //                    };
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Error in getting feedback with id, {id} > {ex.Message}");
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //// Create a new feedback
-        //public static int AddFeedback(SqlConnection conn, Feedback feedback)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("AddFeedback", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        cmd.Parameters.AddWithValue("@Comments", feedback.Comments as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@Rating", feedback.Rating);
-        //        cmd.Parameters.AddWithValue("@ResidentID", feedback.ResidentID);
-
-        //        try
-        //        {
-        //            conn.Open();
-        //            int newFeedbackId = Convert.ToInt32(cmd.ExecuteScalar());
-        //            return newFeedbackId;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in adding new feedback > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Update an existing feedback
-        //public static bool UpdateFeedback(SqlConnection conn, Feedback feedback)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("UpdateFeedback", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@FeedbackID", feedback.FeedbackID);
-        //        cmd.Parameters.AddWithValue("@Comments", feedback.Comments as object ?? DBNull.Value);
-        //        cmd.Parameters.AddWithValue("@Rating", feedback.Rating);
-        //        cmd.Parameters.AddWithValue("@ResidentID", feedback.ResidentID);
-
-        //        try
-        //        {
-        //            conn.Open();
-        //            int effected = cmd.ExecuteNonQuery();
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in updating feedback > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Delete an existing feedback
-        //public static bool DeleteFeedback(SqlConnection conn, int id)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("DeleteFeedback", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@FeedbackID", id);
-        //        try
-        //        {
-        //            conn.Open();
-        //            int effected = cmd.ExecuteNonQuery();
-        //            return (effected > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in deleting feedback with id {id} > {ex.Message}");
-        //        }
-        //    }
-        //}
-
-        //// Validate Feedback ID
-        //public static bool ValidateFeedbackID(SqlConnection conn, int feedbackID)
-        //{
-        //    using (SqlCommand cmd = new SqlCommand("ValidateFeedbackID", conn))
-        //    {
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.Parameters.AddWithValue("@FeedbackID", feedbackID);
-        //        try
-        //        {
-        //            int count = (int)cmd.ExecuteScalar();
-        //            return (count > 0);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new Exception($"Failed in validating feedback id > {ex.Message}");
-        //        }
-        //    }
-        //}
         #endregion
 
         public static IEnumerable<T> GetAllEntities<T>(SqlConnection conn, string storedProcedureName) where T : IEntity, new()
@@ -908,6 +257,45 @@ namespace RRMS
                                 vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
                                 vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
                                 vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
+                            }
+                            else if (entity is Staff staff)
+                            {
+                                staff.ID = reader.GetInt32(reader.GetOrdinal(STAFF_ID_FIELD));
+                                staff.FirstName = reader.IsDBNull(reader.GetOrdinal(STAFF_FNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_FNAME_FIELD));
+                                staff.LastName = reader.IsDBNull(reader.GetOrdinal(STAFF_LNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_LNAME_FIELD));
+                                staff.Sex = reader.IsDBNull(reader.GetOrdinal(STAFF_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SEX_FIELD));
+                                staff.BirthDate = reader.IsDBNull(reader.GetOrdinal(STAFF_BD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_BD_FIELD));
+                                staff.Type = reader.IsDBNull(reader.GetOrdinal(STAFF_POSITION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_POSITION_FIELD));
+                                staff.HouseNo = reader.IsDBNull(reader.GetOrdinal(STAFF_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_HNO_FIELD));
+                                staff.StreetNo = reader.IsDBNull(reader.GetOrdinal(STAFF_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SNO_FIELD));
+                                staff.Commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
+                                staff.District = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
+                                staff.Province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
+                                staff.PersonalNumber = reader.IsDBNull(reader.GetOrdinal(STAFF_PERNUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PERNUM_FIELD));
+                                staff.Salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
+                                staff.Start = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
+                                staff.End = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
+                            }
+                            else if (entity is Amenity amenity)
+                            {
+                                amenity.ID = reader.IsDBNull(reader.GetOrdinal(AMENITY_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_ID_FIELD));
+                                amenity.FirstName = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
+                                amenity.Status = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
+                                amenity.Province = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
+                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
+                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
+                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
+                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
+                            }
+                            else if (entity is Feedback feedback)
+                            {
+                                feedback.ID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_ID_FIELD));
+                                feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
+                                feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
+                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                                feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
+                                feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
+                                
                             }
                             //else if (entity is Room room)
                             //{
@@ -973,14 +361,7 @@ namespace RRMS
                             //    leaseAgreement.TermsAndConditions = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
                             //    leaseAgreement.ResidentID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDNETID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDNETID_FIELD));
                             //}
-                            //else if (entity is Feedback feedback)
-                            //{
-                            //    feedback.FeedbackID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_FEEDBACKID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_FEEDBACKID_FIELD));
-                            //    feedback.Date = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
-                            //    feedback.Comments = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
-                            //    feedback.Rating = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RATING_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RATING_FIELD));
-                            //    feedback.ResidentID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
-                            //}
+
                             //else if (entity is Policy policy)
                             //{
                             //    policy.PolicyID = reader.IsDBNull(reader.GetOrdinal(POLICY_POLICYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_POLICYID_FIELD));
@@ -996,35 +377,6 @@ namespace RRMS
                             //    user.Name = reader.IsDBNull(reader.GetOrdinal(USER_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(USER_NAME_FIELD));
                             //    user.Pass = reader.IsDBNull(reader.GetOrdinal(USER_PASS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(USER_PASS_FIELD));
                             //    user.StaffID = reader.IsDBNull(reader.GetOrdinal(USER_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(USER_STAFFID_FIELD));
-                            //}
-                            //else if (entity is Amenity amenity)
-                            //{
-                            //    amenity.AmenityID = reader.IsDBNull(reader.GetOrdinal(AMENITY_AMENITYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_AMENITYID_FIELD));
-                            //    amenity.Name = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
-                            //    amenity.Avail = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
-                            //    amenity.Location = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-                            //    amenity.BouPri = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
-                            //    amenity.CPR = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_CPR_FIELD));
-                            //    amenity.MainDate = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
-                            //    amenity.Desc = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
-                            //}
-                            //else if (entity is Staff staff)
-                            //{
-                            //    staff.StaffID = reader.IsDBNull(reader.GetOrdinal(STAFF_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(STAFF_ID_FIELD));
-                            //    staff.FName = reader.IsDBNull(reader.GetOrdinal(STAFF_FNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_FNAME_FIELD));
-                            //    staff.LName = reader.IsDBNull(reader.GetOrdinal(STAFF_LNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_LNAME_FIELD));
-                            //    staff.Sex = reader.IsDBNull(reader.GetOrdinal(STAFF_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SEX_FIELD));
-                            //    staff.BOD = reader.IsDBNull(reader.GetOrdinal(STAFF_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_BOD_FIELD));
-                            //    staff.Position = reader.IsDBNull(reader.GetOrdinal(STAFF_POSITION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_POSITION_FIELD));
-                            //    staff.HNo = reader.IsDBNull(reader.GetOrdinal(STAFF_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_HNO_FIELD));
-                            //    staff.SNo = reader.IsDBNull(reader.GetOrdinal(STAFF_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SNO_FIELD));
-                            //    staff.Commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
-                            //    staff.District = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
-                            //    staff.Province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
-                            //    staff.PerNum = reader.IsDBNull(reader.GetOrdinal(STAFF_PERNUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PERNUM_FIELD));
-                            //    staff.Salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(STAFF_SALARY_FIELD));
-                            //    staff.HiredDate = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
-                            //    staff.Stopped = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
                             //}
                             //else if (entity is RoomType roomType)
                             //{
@@ -1069,8 +421,14 @@ namespace RRMS
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 // Set the parameter name based on the type of T
-                string parameterName = typeof(T) == typeof(Resident) ? "@ResID" : "@VenID";
+                string parameterName = typeof(T) == typeof(Resident) ? "@ResID" :
+                          typeof(T) == typeof(Vendor) ? "@VenID" :
+                          typeof(T) == typeof(Staff) ? "@StaID" :
+                          typeof(T) == typeof(Amenity) ? "@AmeID" :
+                          typeof(T) == typeof(Feedback) ? "@FeedID" :
+                          throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
+
 
                 try
                 {
@@ -1100,18 +458,56 @@ namespace RRMS
                             }
                             else if (result is Vendor vendor)
                             {
-                                vendor.VenID = id;
-                                vendor.VenName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-                                vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
-                                vendor.VenHNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
-                                vendor.VenSNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
-                                vendor.VenCommune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
-                                vendor.VenDistrict = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
-                                vendor.VenProvince = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-                                vendor.VenConStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
-                                vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
-                                vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
-                                vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
+                                vendor.ID = id;
+                                vendor.FirstName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
+                                vendor.PersonalNumber = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
+                                vendor.HouseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                                vendor.StreetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
+                                vendor.Commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
+                                vendor.District = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
+                                vendor.Province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
+                                vendor.Start = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                                vendor.End = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
+                                vendor.Status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
+                                vendor.Description = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
+                            }
+                            else if (result is Staff staff) 
+                            {
+                                staff.ID = id;
+                                staff.FirstName = reader.IsDBNull(reader.GetOrdinal(STAFF_FNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_FNAME_FIELD));
+                                staff.LastName = reader.IsDBNull(reader.GetOrdinal(STAFF_LNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_LNAME_FIELD));
+                                staff.Sex = reader.IsDBNull(reader.GetOrdinal(STAFF_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SEX_FIELD));
+                                staff.BirthDate = reader.IsDBNull(reader.GetOrdinal(STAFF_BD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_BD_FIELD));
+                                staff.Type = reader.IsDBNull(reader.GetOrdinal(STAFF_POSITION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_POSITION_FIELD));
+                                staff.HouseNo = reader.IsDBNull(reader.GetOrdinal(STAFF_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_HNO_FIELD));
+                                staff.StreetNo = reader.IsDBNull(reader.GetOrdinal(STAFF_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_SNO_FIELD));
+                                staff.Commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
+                                staff.District = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
+                                staff.Province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
+                                staff.Salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
+                                staff.Start = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
+                                staff.End = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
+                            }
+                            else if (result is Amenity amenity)
+                            {
+                                amenity.ID = id;
+                                amenity.FirstName = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
+                                amenity.Status = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
+                                amenity.Province = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
+                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
+                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
+                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
+                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
+                            }
+                            else if (result is Feedback feedback)
+                            {
+                                feedback.ID = id;
+                                feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
+                                feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
+                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                                feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
+                                feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
+
                             }
                         }
                     }
@@ -1173,6 +569,42 @@ namespace RRMS
                             throw new Exception($"Vendor ID {vendor.VenID} is out of range for ByteId.");
                         }
                     }
+                    else if (entity is Staff staff)
+                    {
+                        if (staff.ID >= 0 && staff.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)staff.ID,
+                                Entity = EntityTypes.Staffs
+                            });
+                            entityId = staff.ID.ToString();
+                        }
+                    }
+                    else if(entity is Amenity amenity)
+                    {
+                        if (amenity.ID >= 0 && amenity.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs() 
+                            { 
+                                ByteId = (byte)amenity.ID,
+                                Entity = EntityTypes.Amenitys
+                             });
+                            entityId = amenity.ID.ToString();
+                        }
+                    }
+                    else if (entity is Feedback feedback)
+                    {
+                        if(feedback.ID >= 0 &&  feedback.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)feedback.ID,
+                                Entity = EntityTypes.Feedbacks
+                            });
+                            entityId = feedback.ID.ToString();
+                        }
+                    }
                     // Add other entity type handling here if needed
                     else
                     {
@@ -1228,7 +660,39 @@ namespace RRMS
                             throw new ArgumentOutOfRangeException(nameof(vendor.VenID), "Vendor ID must be between 0 and 255.");
                         }
                     }
-                    // Add handling for other entity types if needed
+                    else if (entity is Staff staff)
+                    {
+                        if (staff.ID >= 0 && staff.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)staff.ID, Entity = EntityTypes.Staffs });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(staff.ID), "Staff ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Amenity amenity)
+                    {
+                        if(amenity.ID >= 0 && amenity.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId= (byte)amenity.ID, Entity = EntityTypes.Amenitys });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(amenity.ID), "Amenity ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Feedback feedback)
+                    {
+                        if(feedback.ID >= 0 &&  feedback.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)feedback.ID, Entity = EntityTypes.Feedbacks });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(feedback.ID), "Feedback ID must be between 0 and 255.");
+                        }
+                    }
                     else
                     {
                         throw new NotSupportedException($"Entity type {entity.GetType().Name} is not supported for updates.");
@@ -1274,7 +738,7 @@ namespace RRMS
                     }
                     // Handle specific logic for Vendor (if needed)
                     else if (entity is Vendor vendor)
-                        if (vendor.VenID>= 0 && vendor.VenID <= 255)
+                        if (vendor.VenID >= 0 && vendor.VenID <= 255)
                         {
                             Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VenID, Entity = EntityTypes.Vendors });
                         }
@@ -1282,6 +746,34 @@ namespace RRMS
                         {
                             throw new Exception($"Vendor ID {vendor.VenID} is out of range for ByteId. It must be between 0 and 255.");
                         }
+                    else if (entity is Staff staff)
+                        if (staff.ID >= 0 && staff.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)staff.ID, Entity = EntityTypes.Staffs });
+                        }
+                        else
+                        {
+                            throw new Exception($"Vendor ID {staff.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    else if (entity is Amenity amenity)
+                        if (amenity.ID >= 0 && amenity.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)amenity.ID, Entity = EntityTypes.Amenitys });
+                        }
+                        else
+                        {
+                            throw new Exception($"Amenity ID {amenity.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    else if (entity is Feedback feedback)
+                        if(feedback.ID >= 0 && feedback.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)feedback.ID, Entity = EntityTypes.Feedbacks });
+                        }
+                        else
+                        {
+                            throw new Exception($"Feedback ID {feedback.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+
 
                     return (effected > 0);
                 }

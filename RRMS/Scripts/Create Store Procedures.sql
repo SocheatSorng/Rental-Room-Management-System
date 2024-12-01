@@ -226,99 +226,99 @@ GO
 --End of Store Procedure Utility
 
 -- Amenity CRUD
-CREATE PROCEDURE SP_GetAllAmenities
+CREATE PROCEDURE SP_GetAllAmenitys
 AS
 BEGIN
 	SELECT AmenityID,
 		   Name,
-		   Avail,
+		   Availability,
 		   Location,
-		   BouPri,
+		   BoughtPrice,
 		   CPR,
 		   MainDate,
-		   Desc
+		   Description
 	FROM tblAmenity;
 END
 GO
 
-CREATE PROCEDURE SP_GetAmenityById
-	@AmenityID INT
+CREATE PROCEDURE SP_GetAmenityByID
+	@AmeID INT
 AS
 BEGIN
 	SELECT TOP 1 AmenityID,
 				 Name,
-				 Avail,
+				 Availability,
 				 Location,
-				 BouPri,
+				 BoughtPrice,
 				 CPR,
 				 MainDate,
-				 Desc
+				 Description
 	FROM tblAmenity
-	WHERE AmenityID = @AmenityID;
+	WHERE AmenityID = @AmeID;
 END
 GO
 
 CREATE PROCEDURE SP_InsertAmenity
-	@AmenityName NVARCHAR(30),
-	@AmenityAvail BIT,
-	@AmenityLocation NVARCHAR(30),
-	@AmenityBouPri FLOAT,
-	@AmenityCPR FLOAT,
-	@AmenityMainDate DATETIME,
-	@AmenityDesc NVARCHAR(100)
+	@AmeName NVARCHAR(30),
+	@AmeAvail BIT,
+	@AmeLoc NVARCHAR(30),
+	@AmeBP FLOAT,
+	@AmeCPR FLOAT,
+	@AmeMD DATETIME,
+	@AmeDesc NVARCHAR(100)
 AS
 BEGIN
 	INSERT INTO tblAmenity
 	(	Name,
-		Avail,
+		Availability,
 		Location,
-		BouPri,
+		BoughtPrice,
 		CPR,
 		MainDate,
-		Desc
+		Description
 	)
 	VALUES
 	(
-		@AmenityName,
-		@AmenityAvail,
-		@AmenityLocation,
-		@AmenityBouPri,
-		@AmenityCPR,
-		@AmenityMainDate,
-		@AmenityDesc
+		@AmeName,
+		@AmeAvail,
+		@AmeLoc,
+		@AmeBP,
+		@AmeCPR,
+		@AmeMD,
+		@AmeDesc
 	)
 END
 GO
 
 CREATE PROCEDURE SP_UpdateAmenity
-	@AmenityID INT,
-	@AmenityName NVARCHAR(30),
-	@AmenityAvail BIT,
-	@AmenityLocation NVARCHAR(30),
-	@AmenityBouPri FLOAT,
-	@AmenityCPR FLOAT,
-	@AmenityMainDate DATETIME,
-	@AmenityDesc NVARCHAR(100)
+	@AmeID INT,
+	@AmeName NVARCHAR(30),
+	@AmeAvail BIT,
+	@AmeLoc NVARCHAR(30),
+	@AmeBP FLOAT,
+	@AmeCPR FLOAT,
+	@AmeMD DATETIME,
+	@AmeDesc NVARCHAR(100)
 AS
 BEGIN
 	UPDATE tblAmenity
-	SET Name = @AmenityName,
-		Avail = @AmenityAvail,
-		Location = @AmenityLocation,
-		BouPri = @AmenityBouPri,
-		CPR = @AmenityCPR,
-		MainDate = @AmenityMainDate,
-		Desc = @AmenityDesc
-	WHERE AmenityID = @AmenityID
+	SET Name = @AmeName,
+		Availability = @AmeAvail,
+		Location = @AmeLoc,
+		BoughtPrice = @AmeBP,
+		CPR = @AmeCPR,
+		MainDate = @AmeMD,
+		Description = @AmeDesc
+	WHERE AmenityID = @AmeID
 END
 GO
 
-CREATE PROCEDURE DeleteAmenity
-	@AmenityID INT
+CREATE PROCEDURE SP_DeleteAmenity
+	@AmeID INT
 AS
 BEGIN
 	DELETE FROM tblAmenity
-	WHERE AmenityID = @AmenityID;
+	WHERE AmenityID = @AmeID;
 END
 GO
 

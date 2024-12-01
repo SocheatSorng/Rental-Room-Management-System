@@ -38,7 +38,6 @@
             label7 = new Label();
             txtAmeID = new TextBox();
             txtAmeName = new TextBox();
-            txtAmeAvail = new TextBox();
             txtAmeLoc = new TextBox();
             txtAmeBP = new TextBox();
             txtAmeCPR = new TextBox();
@@ -50,6 +49,7 @@
             dgvAme = new DataGridView();
             dtpAmeMD = new DateTimePicker();
             panel1 = new Panel();
+            chkAmeAvail = new CheckBox();
             label10 = new Label();
             titleLabel = new Label();
             label9 = new Label();
@@ -143,13 +143,6 @@
             txtAmeName.Name = "txtAmeName";
             txtAmeName.Size = new Size(200, 23);
             txtAmeName.TabIndex = 9;
-            // 
-            // txtAmeAvail
-            // 
-            txtAmeAvail.Location = new Point(134, 103);
-            txtAmeAvail.Name = "txtAmeAvail";
-            txtAmeAvail.Size = new Size(200, 23);
-            txtAmeAvail.TabIndex = 10;
             // 
             // txtAmeLoc
             // 
@@ -252,6 +245,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(chkAmeAvail);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(txtAmeDesc);
             panel1.Controls.Add(dtpAmeMD);
@@ -262,7 +256,6 @@
             panel1.Controls.Add(btnInsert);
             panel1.Controls.Add(txtAmeLoc);
             panel1.Controls.Add(btnNew);
-            panel1.Controls.Add(txtAmeAvail);
             panel1.Controls.Add(txtAmeName);
             panel1.Controls.Add(txtAmeID);
             panel1.Controls.Add(label8);
@@ -277,6 +270,15 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(353, 359);
             panel1.TabIndex = 25;
+            // 
+            // chkAmeAvail
+            // 
+            chkAmeAvail.AutoSize = true;
+            chkAmeAvail.Location = new Point(134, 110);
+            chkAmeAvail.Name = "chkAmeAvail";
+            chkAmeAvail.Size = new Size(15, 14);
+            chkAmeAvail.TabIndex = 49;
+            chkAmeAvail.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -351,7 +353,6 @@
         private Label label7;
         private TextBox txtAmeID;
         private TextBox txtAmeName;
-        private TextBox txtAmeAvail;
         private TextBox txtAmeLoc;
         private TextBox txtAmeBP;
         private TextBox txtAmeCPR;
@@ -367,5 +368,6 @@
         private Label label10;
         private Label label9;
         private TextBox txtSearch;
+        private CheckBox chkAmeAvail;
     }
 }

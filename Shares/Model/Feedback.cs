@@ -8,7 +8,7 @@ namespace RRMS.Model
         public int FeedID { get; set; }
         public DateTime Date { get; set; }
         public string? Content { get; set; }
-        public string? Comments { get; set; }
+        public string? Comment { get; set; }
         public int ResID { get; set; }
         public string? ResName { get; set; }
 
@@ -16,7 +16,7 @@ namespace RRMS.Model
         public int ID { get => FeedID; set => FeedID = value; }
         public DateTime Start { get => Date; set => Date = value; }
         public string Type { get => Content ?? string.Empty; set => Content = value; }
-        public string Description { get => Comments ?? string.Empty; set => Comments = value; }
+        public string Description { get => Comment ?? string.Empty; set => Comment = value; }
         public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
 
         // Not applicable properties
@@ -41,7 +41,7 @@ namespace RRMS.Model
         public void AddParameters(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Comments", Comments as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
         }
@@ -50,7 +50,7 @@ namespace RRMS.Model
         {
             cmd.Parameters.AddWithValue("@FeedID", FeedID);
             cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Comments", Comments as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
         }

@@ -1,364 +1,480 @@
 using Microsoft.Data.SqlClient;
 using RRMS.Model;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace RRMS
+namespace RRMS.Forms
 {
     public partial class LeaseAgreement : Form
     {
+        BindingSource _bs = new();
+        private int lastHighlightedIndex = -1;
+
         public LeaseAgreement()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            DataGridView.CheckForIllegalCrossThreadCalls = false;
+            ConfigView();
+            _bs.DataSource = dgvLease;
+            LoadResidentIDs();
+
+            // Make ID textbox and resident name read-only
+            txtID.ReadOnly = true;
+            txtResidentName.ReadOnly = true;
+
+            // Event handlers
+            cbbResidentID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
+
+            btnInsert.Click += (sender, e) =>
+            {
+                Helper.Added += DoOnLeaseInserted;
+                DoClickInsert(sender, e);
+                Helper.Added -= DoOnLeaseInserted;
+            };
+
+            btnUpdate.Click += (sender, e) =>
+            {
+                Helper.Updated += DoOnLeaseUpdated;
+                DoClickUpdate(sender, e);
+                Helper.Updated -= DoOnLeaseUpdated;
+            };
+
+            btnDelete.Click += (sender, e) =>
+            {
+                Helper.Deleted += DoOnLeaseDeleted;
+                DoClickDelete(sender, e);
+                Helper.Deleted -= DoOnLeaseDeleted;
+            };
+
+            btnNew.Click += DoClickNew;
+            dgvLease.SelectionChanged += DoClickRecord;
+            txtSearch.KeyDown += DoSearch;
+        }
+
+        private void LoadResidentIDs()
+        {
+            SqlCommand cmd = new SqlCommand("SP_LoadResidentIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    object resIDObj = dr["ID"];
+                    if (resIDObj != DBNull.Value)
+                    {
+                        string? resID = resIDObj.ToString();
+                        cbbResidentID.Items.Add(resID);
+                        cbbResidentID.DisplayMember = resID;
+                        cbbResidentID.ValueMember = resID;
+                    }
+                }
+            }
+        }
+
+        private void CbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbResidentID.SelectedItem != null)
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ResID", cbbResidentID.SelectedItem);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        txtResidentName.Text = dr[2].ToString();
+                    }
+                }
+            }
+            else
+            {
+                txtResidentName.Text = "";
+            }
+        }
+
+        private void DoSearch(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string searchValue = txtSearch.Text.Trim();
+                dgvLease.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
+                {
+                    lastHighlightedIndex = -1;
+                }
+
+                try
+                {
+                    bool found = false;
+                    int startIndex = (lastHighlightedIndex + 1) % dgvLease.Rows.Count;
+
+                    for (int i = startIndex; i < dgvLease.Rows.Count + startIndex; i++)
+                    {
+                        int currentIndex = i % dgvLease.Rows.Count;
+                        DataGridViewRow row = dgvLease.Rows[currentIndex];
+
+                        string? id = row.Cells["colLeaseID"].Value?.ToString();
+                        string? monthlyRent = row.Cells["colMonthlyRent"].Value?.ToString();
+                        string? residentId = row.Cells["colResidentID"].Value?.ToString();
+
+                        if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                            (monthlyRent != null && monthlyRent.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                            (residentId != null && residentId.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
+                        {
+                            dgvLease.ClearSelection();
+                            row.Selected = true;
+                            dgvLease.FirstDisplayedScrollingRowIndex = row.Index;
+                            lastHighlightedIndex = currentIndex;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        MessageBox.Show("No more matching leases found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lastHighlightedIndex = -1;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void DoClickRecord(object? sender, EventArgs e)
+        {
+            if (dgvLease.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgvLease.SelectedCells[0].RowIndex;
+                DataGridViewRow row = dgvLease.Rows[rowIndex];
+
+                object cellValue = row.Cells["colLeaseID"].Value;
+                int? leaseID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
+
+                if (leaseID.HasValue)
+                {
+                    var lease = Helper.GetEntityById<Model.LeaseAgreement>(Program.Connection, leaseID.Value, "SP_GetLeaseAgreementByID");
+                    if (lease != null)
+                    {
+                        PopulateFields(lease);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lease not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Lease ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            ManageControl.EnableControl(btnInsert, false);
+            ManageControl.EnableControl(btnUpdate, true);
+            ManageControl.EnableControl(btnDelete, true);
+            ManageControl.EnableControl(txtID, false);
+        }
+
+        private void DoClickNew(object? sender, EventArgs e)
+        {
+            PopulateFields(null);
+
+            ManageControl.EnableControl(btnInsert, true);
+            ManageControl.EnableControl(btnUpdate, false);
+            ManageControl.EnableControl(btnDelete, false);
+            ManageControl.EnableControl(txtID, false);
+        }
+
+        private void DoOnLeaseDeleted(object? sender, EntityEventArgs e)
+        {
+            if (e.ByteId == 0) return;
+            Task.Run(() =>
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    UpdateLeaseView();
+                });
+            });
+        }
+
+        private void DoClickDelete(object? sender, EventArgs e)
+        {
+            if (dgvLease.SelectedCells.Count <= 0) return;
+            try
+            {
+                int rowIndex = dgvLease.SelectedCells[0].RowIndex;
+                int id = Convert.ToInt32(dgvLease.Rows[rowIndex].Cells["colLeaseID"].Value);
+
+                using var cmd = Program.Connection.CreateCommand();
+                cmd.CommandText = "SP_DeleteLeaseAgreement";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LeaseID", id);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show($"Successfully Deleted Lease ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ConfigView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DoOnLeaseUpdated(object? sender, EntityEventArgs e)
+        {
+            if (dgvLease.CurrentCell == null) return;
+            int rowIndex = dgvLease.CurrentCell.RowIndex;
+
+            UpdateLeaseView();
+
+            // Restore selection to the updated row
+            if (rowIndex < dgvLease.Rows.Count)
+            {
+                dgvLease.Rows[rowIndex].Selected = true;
+                dgvLease.CurrentCell = dgvLease[0, rowIndex];
+            }
+        }
+
+        private void DoClickUpdate(object? sender, EventArgs e)
+        {
+            if (dgvLease.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgvLease.SelectedCells[0].RowIndex;
+                object cellValue = dgvLease.Rows[rowIndex].Cells["colLeaseID"].Value;
+
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
+                {
+                    var lease = GatherLeaseInput();
+                    lease.ID = id;
+
+                    if (ValidateInputs())
+                    {
+                        var entityService = new EntityService();
+                        entityService.InsertOrUpdateEntity(lease, "SP_UpdateLeaseAgreement", "Update");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a valid lease to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a lease to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void DoOnLeaseInserted(object? sender, EntityEventArgs e)
+        {
+            string SP_Name = "SP_GetLeaseAgreementByID";
+            if (e.ByteId == 0) return;
+            Task.Run(() =>
+            {
+                try
+                {
+                    var result = Helper.GetEntityById<Model.LeaseAgreement>(Program.Connection, e.ByteId, SP_Name);
+
+                    if (result != null)
+                    {
+                        dgvLease.Invoke((MethodInvoker)delegate
+                        {
+                            AddToView(result);
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            });
+
+            DoClickNew(sender, e);
+        }
+
+        private void DoClickInsert(object? sender, EventArgs e)
+        {
+            var lease = GatherLeaseInput();
+
+            if (ValidateInputs())
+            {
+                var entityService = new EntityService();
+                entityService.InsertOrUpdateEntity(lease, "SP_InsertLeaseAgreement", "Insert");
+            }
+        }
+
+        private Model.LeaseAgreement GatherLeaseInput()
+        {
+            int residentId;
+            if (cbbResidentID.SelectedItem != null && int.TryParse(cbbResidentID.SelectedItem.ToString(), out residentId))
+            {
+                return new Model.LeaseAgreement
+                {
+                    StartDate = dateStart.Value,
+                    EndDate = dateEnd.Value,
+                    CostPrice = Double.Parse(txtMonthlyRent.Text),
+                    Description = txtTerms.Text.Trim(),
+                    ResID = residentId
+                };
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid Resident ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private void UpdateLeaseView()
+        {
+            try
+            {
+                dgvLease.Rows.Clear();
+                string SP_Name = "SP_GetAllLeaseAgreements";
+
+                var result = Helper.GetAllEntities<Model.LeaseAgreement>(Program.Connection, SP_Name);
+
+                foreach (var lease in result)
+                {
+                    AddToView(lease);
+                }
+                dgvLease.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvLease.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Updating Leases", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PopulateFields(Model.LeaseAgreement? lease)
+        {
+            if (lease != null)
+            {
+                txtID.Text = lease.ID.ToString();
+                dateStart.Value = lease.StartDate;
+                dateEnd.Value = lease.EndDate;
+                txtMonthlyRent.Text = lease.CostPrice.ToString();
+                txtTerms.Text = lease.Description;
+                cbbResidentID.Text = lease.ResID.ToString();
+                txtResidentName.Text = lease.ResName;
+            }
+            else
+            {
+                txtID.Text = string.Empty;
+                dateStart.Value = DateTime.Now;
+                dateEnd.Value = DateTime.Now;
+                txtMonthlyRent.Text = string.Empty;
+                txtTerms.Text = string.Empty;
+                cbbResidentID.SelectedIndex = -1;
+                txtResidentName.Text = string.Empty;
+            }
+        }
+
+        private bool ValidateInputs()
+        {
+            if (dateEnd.Value < dateStart.Value)
+            {
+                MessageBox.Show("End date must be after start date.", "Validation Error");
+                return false;
+            }
+
+            if (!decimal.TryParse(txtMonthlyRent.Text, out _))
+            {
+                MessageBox.Show("Please enter a valid monthly rent amount.", "Validation Error");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtTerms.Text))
+            {
+                MessageBox.Show("Please enter terms and conditions.", "Validation Error");
+                return false;
+            }
+
+            if (cbbResidentID.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a Resident ID.", "Validation Error");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtResidentName.Text))
+            {
+                MessageBox.Show("Invalid Resident ID. Please select a valid Resident ID.", "Validation Error");
+                return false;
+            }
+
+            return true;
+        }
+        private void ConfigView()
+        {
+            dgvLease.Columns.Clear();
+            dgvLease.Columns.Add("colLeaseID", "Lease ID");
+            dgvLease.Columns.Add("colStartDate", "Start Date");
+            dgvLease.Columns.Add("colEndDate", "End Date");
+            dgvLease.Columns.Add("colMonthlyRent", "Monthly Rent");
+            dgvLease.Columns.Add("colTerms", "Terms");
+            dgvLease.Columns.Add("colResidentID", "Resident ID");
+            dgvLease.Columns.Add("colResidentName", "Resident Name");
+
+            dgvLease.Columns[0].Width = 80;
+            dgvLease.Columns[1].Width = 100;
+            dgvLease.Columns[2].Width = 100;
+            dgvLease.Columns[3].Width = 100;
+            dgvLease.Columns[4].Width = 150;
+            dgvLease.Columns[5].Width = 80;
+            dgvLease.Columns[6].Width = 120;
+
+            dgvLease.DefaultCellStyle.BackColor = Color.White;
+            dgvLease.ScrollBars = ScrollBars.Both;
+
+            try
+            {
+                string SP_Name = "SP_GetAllLeaseAgreements";
+                var result = Helper.GetAllEntities<Model.LeaseAgreement>(Program.Connection, SP_Name);
+                dgvLease.Rows.Clear();
+
+                var entityViewAdder = new EntityViewAdder<Model.LeaseAgreement>(dgvLease, lease => new object[]
+                {
+                    lease.ID,
+                    lease.StartDate.ToString("yyyy-MM-dd"),
+                    lease.EndDate.ToString("yyyy-MM-dd"),
+                    lease.CostPrice,
+                    lease.Description,
+                    lease.ResID,
+                    lease.ResName
+                });
+
+                foreach (var lease in result)
+                {
+                    entityViewAdder.AddToView(lease);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Retrieving leases", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AddToView(Model.LeaseAgreement lease)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.CreateCells(dgvLease,
+                lease.ID,
+                lease.StartDate.ToString("yyyy-MM-dd"),
+                lease.EndDate.ToString("yyyy-MM-dd"),
+                lease.CostPrice,
+                lease.Description,
+                lease.ResID,
+                lease.ResName
+            );
+            row.Tag = lease.ID;
+            dgvLease.Rows.Add(row);
         }
     }
 }
-
-//namespace RRMS
-//{
-//    public partial class LeaseAgreement : Form
-//    {
-//        public LeaseAgreement()
-//        {
-//            InitializeComponent();
-//            btnInsert.Click += BtnInsert_Click;
-//            btnUpdate.Click += BtnUpdate_Click;
-//            btnDelete.Click += BtnDelete_Click;
-//            txtResidentID.Leave += TxtResidentID_Leave;
-//            listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
-
-//            // Make ID textbox read-only since it's auto-generated
-//            txtID.ReadOnly = true;
-//            txtResidentName.ReadOnly = true;
-
-//            // Setup ListView
-//            SetupListView();
-//            // Load initial data
-//            LoadLeaseData();
-//        }
-
-//        private void SetupListView()
-//        {
-//            listView1.View = View.Details;
-//            listView1.FullRowSelect = true;
-//            listView1.GridLines = true;
-
-//            // Add columns
-//            listView1.Columns.Add("ID", 50);
-//            listView1.Columns.Add("Start Date", 100);
-//            listView1.Columns.Add("End Date", 100);
-//            listView1.Columns.Add("Monthly Rent", 100);
-//            listView1.Columns.Add("Terms", 150);
-//            listView1.Columns.Add("Resident ID", 80);
-//            listView1.Columns.Add("Resident Name", 120);
-//        }
-
-//        private void LoadLeaseData()
-//        {
-//            try
-//            {
-//                listView1.Items.Clear();
-//                using (SqlConnection conn = DbHelper.GetConnection())
-//                {
-//                    using (SqlCommand cmd = new SqlCommand("sp_ReadLeaseAgreement", conn))
-//                    {
-//                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                        conn.Open();
-//                        using (SqlDataReader reader = cmd.ExecuteReader())
-//                        {
-//                            while (reader.Read())
-//                            {
-//                                ListViewItem item = new ListViewItem(reader["LeaseAgreementID"].ToString());
-//                                item.SubItems.Add(Convert.ToDateTime(reader["StartDate"]).ToString("yyyy-MM-dd"));
-//                                item.SubItems.Add(Convert.ToDateTime(reader["EndDate"]).ToString("yyyy-MM-dd"));
-//                                item.SubItems.Add(reader["MonthlyRent"].ToString());
-//                                item.SubItems.Add(reader["TermsAndConditions"].ToString());
-//                                item.SubItems.Add(reader["ResidentID"].ToString());
-
-//                                using (SqlCommand cmd2 = new SqlCommand("sp_GetResidentName", conn))
-//                                {
-//                                    cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-//                                    cmd2.Parameters.AddWithValue("@ResidentID", reader["ResidentID"]);
-//                                    var residentName = cmd2.ExecuteScalar()?.ToString() ?? "";
-//                                    item.SubItems.Add(residentName);
-//                                }
-
-//                                listView1.Items.Add(item);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error loading lease data: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void TxtResidentID_Leave(object sender, EventArgs e)
-//        {
-//            if (!string.IsNullOrWhiteSpace(txtResidentID.Text) && int.TryParse(txtResidentID.Text, out int residentId))
-//            {
-//                FillResidentName(residentId);
-//            }
-//        }
-
-//        private void FillResidentName(int residentId)
-//        {
-//            try
-//            {
-//                using (SqlConnection conn = DbHelper.GetConnection())
-//                {
-//                    using (SqlCommand cmd = new SqlCommand("sp_GetResidentName", conn))
-//                    {
-//                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                        cmd.Parameters.AddWithValue("@ResidentID", residentId);
-//                        conn.Open();
-//                        var result = cmd.ExecuteScalar();
-
-//                        if (result != null)
-//                        {
-//                            txtResidentName.Text = result.ToString();
-//                        }
-//                        else
-//                        {
-//                            MessageBox.Show("Resident ID not found!", "Error", 
-//                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-//                            txtResidentName.Clear();
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
-//        {
-//            if (listView1.SelectedItems.Count > 0)
-//            {
-//                ListViewItem item = listView1.SelectedItems[0];
-
-//                txtID.Text = item.SubItems[0].Text;
-//                dateStart.Value = DateTime.Parse(item.SubItems[1].Text);
-//                dateEnd.Value = DateTime.Parse(item.SubItems[2].Text);
-//                txtMonthlyRent.Text = item.SubItems[3].Text;
-//                txtTerms.Text = item.SubItems[4].Text;
-//                txtResidentID.Text = item.SubItems[5].Text;
-//                txtResidentName.Text = item.SubItems[6].Text;
-//            }
-//        }
-
-//        private void BtnInsert_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (ValidateInputs())
-//                {
-//                    var lease = new Model.LeaseAgreement
-//                    {
-//                        StartDate = dateStart.Value,
-//                        EndDate = dateEnd.Value,
-//                        MonthlyRent = decimal.Parse(txtMonthlyRent.Text),
-//                        TermsAndConditions = txtTerms.Text,
-//                        ResidentID = int.Parse(txtResidentID.Text)
-//                    };
-
-//                    int newLeaseId = InsertLease(lease);
-//                    txtID.Text = newLeaseId.ToString();
-//                    MessageBox.Show("Lease agreement inserted successfully!", "Success", 
-//                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                    LoadLeaseData();
-//                    ClearForm();
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error inserting lease agreement: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private bool ValidateInputs()
-//        {
-//            if (dateEnd.Value < dateStart.Value)
-//            {
-//                MessageBox.Show("End date must be after start date.", "Validation Error");
-//                return false;
-//            }
-
-//            if (!decimal.TryParse(txtMonthlyRent.Text, out _))
-//            {
-//                MessageBox.Show("Please enter a valid monthly rent amount.", "Validation Error");
-//                return false;
-//            }
-
-//            if (string.IsNullOrWhiteSpace(txtTerms.Text))
-//            {
-//                MessageBox.Show("Please enter terms and conditions.", "Validation Error");
-//                return false;
-//            }
-
-//            if (!int.TryParse(txtResidentID.Text, out _))
-//            {
-//                MessageBox.Show("Please enter a valid Resident ID.", "Validation Error");
-//                return false;
-//            }
-
-//            if (string.IsNullOrWhiteSpace(txtResidentName.Text))
-//            {
-//                MessageBox.Show("Invalid Resident ID. Please enter a valid Resident ID.", "Validation Error");
-//                return false;
-//            }
-
-//            return true;
-//        }
-
-//        private int InsertLease(Model.LeaseAgreement lease)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_CreateLeaseAgreement", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-//                    cmd.Parameters.AddWithValue("@StartDate", lease.StartDate);
-//                    cmd.Parameters.AddWithValue("@EndDate", lease.EndDate);
-//                    cmd.Parameters.AddWithValue("@MonthlyRent", lease.MonthlyRent);
-//                    cmd.Parameters.AddWithValue("@TermsAndConditions", lease.TermsAndConditions);
-//                    cmd.Parameters.AddWithValue("@ResidentID", lease.ResidentID);
-
-//                    conn.Open();
-//                    var result = cmd.ExecuteScalar();
-//                    return Convert.ToInt32(result);
-//                }
-//            }
-//        }
-
-//        private void BtnUpdate_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (string.IsNullOrEmpty(txtID.Text))
-//                {
-//                    MessageBox.Show("Please select a lease agreement to update.", "Validation Error");
-//                    return;
-//                }
-
-//                if (ValidateInputs())
-//                {
-//                    var lease = new Model.LeaseAgreement
-//                    {
-//                        LeaseAgreementID = int.Parse(txtID.Text),
-//                        StartDate = dateStart.Value,
-//                        EndDate = dateEnd.Value,
-//                        MonthlyRent = decimal.Parse(txtMonthlyRent.Text),
-//                        TermsAndConditions = txtTerms.Text,
-//                        ResidentID = int.Parse(txtResidentID.Text)
-//                    };
-
-//                    DialogResult result = MessageBox.Show(
-//                        "Are you sure you want to update this lease agreement?",
-//                        "Confirm Update",
-//                        MessageBoxButtons.YesNo,
-//                        MessageBoxIcon.Question);
-
-//                    if (result == DialogResult.Yes)
-//                    {
-//                        UpdateLease(lease);
-//                        MessageBox.Show("Lease agreement updated successfully!", "Success", 
-//                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                        LoadLeaseData();
-//                        ClearForm();
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error updating lease agreement: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void UpdateLease(Model.LeaseAgreement lease)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_UpdateLeaseAgreement", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-//                    cmd.Parameters.AddWithValue("@LeaseAgreementID", lease.LeaseAgreementID);
-//                    cmd.Parameters.AddWithValue("@StartDate", lease.StartDate);
-//                    cmd.Parameters.AddWithValue("@EndDate", lease.EndDate);
-//                    cmd.Parameters.AddWithValue("@MonthlyRent", lease.MonthlyRent);
-//                    cmd.Parameters.AddWithValue("@TermsAndConditions", lease.TermsAndConditions);
-//                    cmd.Parameters.AddWithValue("@ResidentID", lease.ResidentID);
-
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        private void BtnDelete_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (string.IsNullOrEmpty(txtID.Text))
-//                {
-//                    MessageBox.Show("Please select a lease agreement to delete.", "Validation Error");
-//                    return;
-//                }
-
-//                DialogResult result = MessageBox.Show(
-//                    "Are you sure you want to delete this lease agreement?",
-//                    "Confirm Delete",
-//                    MessageBoxButtons.YesNo,
-//                    MessageBoxIcon.Warning);
-
-//                if (result == DialogResult.Yes)
-//                {
-//                    DeleteLease(int.Parse(txtID.Text));
-//                    MessageBox.Show("Lease agreement deleted successfully!", "Success", 
-//                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                    LoadLeaseData();
-//                    ClearForm();
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error deleting lease agreement: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void DeleteLease(int leaseId)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_DeleteLeaseAgreement", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                    cmd.Parameters.AddWithValue("@LeaseAgreementID", leaseId);
-
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        private void ClearForm()
-//        {
-//            txtID.Clear();
-//            dateStart.Value = DateTime.Now;
-//            dateEnd.Value = DateTime.Now;
-//            txtMonthlyRent.Clear();
-//            txtTerms.Clear();
-//            txtResidentID.Clear();
-//            txtResidentName.Clear();
-//        }
-//    }
-//} 

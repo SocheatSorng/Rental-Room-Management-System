@@ -292,7 +292,7 @@ namespace RRMS.Forms
             {
                 try
                 {
-                    var result = Helper.GetEntityById<Policy>(Program.Connection, e.ByteId, SP_Name);
+                    var result = Helper.GetEntityById<Model.Policy>(Program.Connection, e.ByteId, SP_Name);
 
                     if (result != null)
                     {
@@ -322,16 +322,16 @@ namespace RRMS.Forms
             }
         }
 
-        private Policy GatherPolicyInput()
+        private Model.Policy GatherPolicyInput()
         {
             int residentId;
             if (cbbResidentID.SelectedItem != null && int.TryParse(cbbResidentID.SelectedItem.ToString(), out residentId))
             {
-                return new Policy
+                return new Model.Policy
                 {
-                    PolicyName = txtName.Text.Trim(),
-                    Description = txtDesc.Text.Trim(),
-                    ResidentID = residentId
+                    PolName = txtName.Text.Trim(),
+                    Des = txtDesc.Text.Trim(),
+                    ResID = residentId
                 };
             }
             else
@@ -348,7 +348,7 @@ namespace RRMS.Forms
                 dgvPolicy.Rows.Clear();
                 string SP_Name = "SP_GetAllPolicies";
 
-                var result = Helper.GetAllEntities<Policy>(Program.Connection, SP_Name);
+                var result = Helper.GetAllEntities<Model.Policy>(Program.Connection, SP_Name);
 
                 foreach (var policy in result)
                 {
@@ -363,15 +363,15 @@ namespace RRMS.Forms
             }
         }
 
-        private void PopulateFields(Policy? policy)
+        private void PopulateFields(Model.Policy? policy)
         {
             if (policy != null)
             {
-                txtID.Text = policy.ID.ToString();
+                txtID.Text = policy.PolID.ToString();
                 txtName.Text = policy.PolName;
-                txtDesc.Text = policy.Description;
-                dateCreate.Value = policy.Start;
-                dateUpdate.Value = policy.End ?? DateTime.Now;
+                txtDesc.Text = policy.Des;
+                dateCreate.Value = policy.CreDate;
+                dateUpdate.Value = policy.UpdDate ?? DateTime.Now;
                 cbbResidentID.Text = policy.ResID.ToString();
                 txtResidentName.Text = policy.ResName;
             }
@@ -440,18 +440,18 @@ namespace RRMS.Forms
             try
             {
                 string SP_Name = "SP_GetAllPolicies";
-                var result = Helper.GetAllEntities<Policy>(Program.Connection, SP_Name);
+                var result = Helper.GetAllEntities<Model.Policy>(Program.Connection, SP_Name);
                 dgvPolicy.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Policy>(dgvPolicy, policy => new object[]
+                var entityViewAdder = new EntityViewAdder<Model.Policy>(dgvPolicy, policy => new object[]
                 {
-                    policy.PolicyID,
-                    policy.PolicyName,
-                    policy.Description,
-                    policy.CreatedDate.ToString("yyyy-MM-dd"),
-                    policy.UpdatedDate?.ToString("yyyy-MM-dd") ?? "",
-                    policy.ResidentID,
-                    policy.ResidentName
+                    policy.PolID,
+                    policy.PolName,
+                    policy.Des,
+                    policy.CreDate.ToString("yyyy-MM-dd"),
+                    policy.UpdDate?.ToString("yyyy-MM-dd") ?? "",
+                    policy.ResID,
+                    policy.ResName
                 });
 
                 foreach (var policy in result)
@@ -465,19 +465,19 @@ namespace RRMS.Forms
             }
         }
 
-        private void AddToView(Policy policy)
+        private void AddToView(Model.Policy policy)
         {
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(dgvPolicy,
-                policy.PolicyID,
-                policy.PolicyName,
-                policy.Description,
-                policy.CreatedDate.ToString("yyyy-MM-dd"),
-                policy.UpdatedDate?.ToString("yyyy-MM-dd") ?? "",
-                policy.ResidentID,
-                policy.ResidentName
+                policy.PolID,
+                policy.PolName,
+                policy.Des,
+                policy.CreDate.ToString("yyyy-MM-dd"),
+                policy.UpdDate?.ToString("yyyy-MM-dd") ?? "",
+                policy.ResID,
+                policy.ResName
             );
-            row.Tag = policy.PolicyID;
+            row.Tag = policy.PolID;
             dgvPolicy.Rows.Add(row);
         }
 

@@ -322,17 +322,17 @@ namespace RRMS.Forms
 
         private void btnService_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ServiceForm());
+            OpenChildForm(new FormService());
         }
 
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ServiceForm());
+            OpenChildForm(new FormService());
         }
 
         private void btnInvoice_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ServiceForm());
+            OpenChildForm(new FormService());
         }
 
         private void btnLeaseAgreement_Click(object sender, EventArgs e)

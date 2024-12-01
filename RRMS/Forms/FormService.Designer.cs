@@ -1,6 +1,6 @@
-﻿namespace RRMS
+﻿namespace RRMS.Forms
 {
-    partial class ServiceForm
+    partial class FormService
     {
         /// <summary>
         /// Required designer variable.

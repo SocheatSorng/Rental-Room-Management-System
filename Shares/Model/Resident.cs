@@ -1,7 +1,8 @@
 using Microsoft.Data.SqlClient;
 
 
-namespace RRMS {
+namespace RRMS.Model
+{
     public class Resident : IEntity
     {
         public int ResID { get; set; }

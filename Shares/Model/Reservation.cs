@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace RRMS {
+namespace RRMS.Model
+{
     public class Reservation : IEntity
     {
         // Original properties

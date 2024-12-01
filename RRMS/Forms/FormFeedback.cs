@@ -113,7 +113,7 @@ namespace RRMS.Forms
 
                         string? id = row.Cells["colFeedID"].Value?.ToString();
                         string? contentName = row.Cells["colFeedCon"].Value?.ToString();
-                        string? residentName = row.Cells["colResName"].Value?.ToString();
+                        //string? residentName = row.Cells["colResName"].Value?.ToString();
 
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (contentName != null && contentName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
@@ -393,8 +393,8 @@ namespace RRMS.Forms
         {
             dgvFeed.Columns.Clear();
             dgvFeed.Columns.Add("colFeedID", "Feedback ID");
-            dgvFeed.Columns.Add("colFeedCon", "Staff Name");
-            dgvFeed.Columns.Add("colResName", "Resident Name");
+            dgvFeed.Columns.Add("colFeedCon", "Content");
+            //dgvFeed.Columns.Add("colResName", "Resident Name");
             dgvFeed.Columns[0].Width = 100;
             dgvFeed.Columns[1].Width = 200;
             dgvFeed.DefaultCellStyle.BackColor = Color.White;
@@ -406,7 +406,7 @@ namespace RRMS.Forms
                 var result = Helper.GetAllEntities<Feedback>(Program.Connection, SP_Name);
                 dgvFeed.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Feedback>(dgvFeed, feedback => new object[] { feedback.FeedID, feedback.Type, feedback.ResName});
+                var entityViewAdder = new EntityViewAdder<Feedback>(dgvFeed, feedback => new object[] { feedback.ID, feedback.Type});
                 foreach (var feedback in result)
                 {
                     entityViewAdder.AddToView(feedback);
@@ -421,7 +421,7 @@ namespace RRMS.Forms
         private void AddToView(Feedback feedback)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvFeed, feedback.ID, feedback.Type, feedback.ResName);
+            row.CreateCells(dgvFeed, feedback.ID, feedback.Type);
             row.Tag = feedback.ID;
             dgvFeed.Rows.Add(row);
         }

@@ -1,6 +1,6 @@
-﻿namespace WinFormsApp1
+﻿namespace RRMS.Forms
 {
-    partial class RentForm
+    partial class FormRent
     {
         /// <summary>
         /// Required designer variable.
@@ -356,7 +356,6 @@
             label10.TabIndex = 47;
             label10.Text = "Rent Management";
             label10.TextAlign = ContentAlignment.MiddleCenter;
-            label10.Click += label10_Click;
             // 
             // RentForm
             // 

@@ -245,7 +245,7 @@ namespace RRMS.Forms
                     if (TryParseInputs(feedback.Type, feedback.Description, feedback.ResID))
                     {
                         var entityService = new EntityService();
-                        entityService.InsertOrUpdateEntity(feedback, "SP_UpdateStaff", "Update");
+                        entityService.InsertOrUpdateEntity(feedback, "SP_UpdateFeedback", "Update");
                     }
                     else
                     {

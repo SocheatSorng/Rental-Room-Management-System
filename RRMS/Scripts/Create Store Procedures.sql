@@ -23,54 +23,6 @@ END
 GO
 
 
--- Policy CRUD
-CREATE PROCEDURE SP_InsertPolicy
-    @PolicyName NVARCHAR(100),
-    @Description NVARCHAR(MAX),
-    @ResidentID INT
-AS
-BEGIN
-    INSERT INTO tblPolicy (PolicyName, Description, ResidentID)
-    VALUES (@PolicyName, @Description, @ResidentID)
-    SELECT SCOPE_IDENTITY() as PolicyID
-END
-GO
-
-CREATE PROCEDURE SP_ReadPolicy
-    @PolicyID INT = NULL
-AS
-BEGIN
-    IF @PolicyID IS NULL
-        SELECT * FROM tblPolicy
-    ELSE
-        SELECT * FROM tblPolicy WHERE PolicyID = @PolicyID
-END
-GO
-
-CREATE PROCEDURE SP_UpdatePolicy
-    @PolicyID INT,
-    @PolicyName NVARCHAR(100),
-    @Description NVARCHAR(MAX),
-    @ResidentID INT
-AS
-BEGIN
-    UPDATE tblPolicy
-    SET PolicyName = @PolicyName,
-        Description = @Description,
-        ResidentID = @ResidentID,
-        UpdatedDate = GETDATE()
-    WHERE PolicyID = @PolicyID
-END
-GO
-
-CREATE PROCEDURE SP_DeletePolicy
-    @PolicyID INT
-AS
-BEGIN
-    DELETE FROM tblPolicy WHERE PolicyID = @PolicyID
-END
-GO
---End of Store Procedure Policy
 
 -- Feedback CRUD
 CREATE PROCEDURE SP_GetAllFeedbacks
@@ -107,9 +59,9 @@ GO
 
 CREATE PROCEDURE SP_UpdateFeedback
     @FeedID INT,
-	@FeedDate DATETIME,
-    @FeedCon NVARCHAR(50),
-    @FeedCom NVARCHAR(50),
+	@Date DATETIME,
+    @Content NVARCHAR(50),
+    @Comment NVARCHAR(50),
     @ResID INT,
     @ResName NVARCHAR(50)
 AS
@@ -117,8 +69,8 @@ BEGIN
     Update tblFeedback
     SET
 		DATE = @FeedDate,
-        Content = @FeedCon,
-        Comment = @FeedCom,
+        Content = @Content,
+        Comment = @Comment,
         ResidentID = @ResID,
         ResName = @ResName
     WHERE FeedbackID = @FeedID;
@@ -518,6 +470,53 @@ GO
     
 --End of Store Procedure Resident
 
+-- Policy CRUD
+
+CREATE PROCEDURE SP_GetAllPolicys
+AS
+BEGIN
+    SELECT * FROM tblPolicy;
+END
+GO
+
+CREATE PROCEDURE SP_InsertPolicy
+    @Name NVARCHAR(100),
+    @Description NVARCHAR(MAX),
+    @CreatedDate DATETIME,
+    @UpdatedDate DATETIME,
+    @ResidentID INT
+AS
+BEGIN
+    INSERT INTO tblPolicy (Name, Description, CreatedDate, UpdatedDate, ResidentID)
+    VALUES (@Name, @Description, @CreatedDate, @UpdatedDate, @ResidentID)
+END
+GO
+
+CREATE PROCEDURE SP_UpdatePolicy
+    @PolicyID INT,
+    @Name NVARCHAR(100),
+    @CreatedDate DATETIME,
+    @UpdatedDate DATETIME,
+    @Description NVARCHAR(MAX),
+    @ResidentID INT
+AS
+BEGIN
+    UPDATE tblPolicy
+    SET Name = @Name, Description = @Description, CreatedDate = @CreatedDate, UpdatedDate = @UpdatedDate,
+				ResidentID = @ResidentID
+    WHERE PolicyID = @PolicyID
+END
+GO
+
+CREATE PROCEDURE SP_DeletePolicy
+    @PolicyID INT
+AS
+BEGIN
+    DELETE FROM tblPolicy WHERE PolicyID = @PolicyID
+END
+GO
+--End of Store Procedure Policy
+
 -- Staff CRUD
 
 CREATE PROCEDURE SP_GetAllStaffs
@@ -526,6 +525,7 @@ BEGIN
     SELECT * FROM tblStaff;
 END
 GO
+
 
 CREATE PROCEDURE SP_GetStaffByID
     @StaID INT
@@ -1578,3 +1578,13 @@ BEGIN
 END;
 GO
 --End of Store Precedure Request
+
+--Start of Room CRUD
+Create Procedure SP_LoadRoomIDs
+As
+Begin
+	Select Name,
+			ID
+	From tblResident
+END 
+GO

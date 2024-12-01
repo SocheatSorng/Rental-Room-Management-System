@@ -43,7 +43,7 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Content", Content as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResidentID", ResID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
         }
 

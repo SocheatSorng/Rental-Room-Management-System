@@ -89,10 +89,10 @@ CREATE TABLE tblPolicy (
     PolicyID INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100) NOT NULL,
     Description NVARCHAR(MAX),
-    CreatedDate DATETIME2 DEFAULT GETDATE(),
-    UpdatedDate DATETIME2,
+    CreatedDate DATETIME,
+    UpdatedDate DATETIME,
     ResidentID INT,
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ResidentID)
+    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
 );
 
 -- FEEDBACK table

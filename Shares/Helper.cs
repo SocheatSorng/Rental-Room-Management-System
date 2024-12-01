@@ -107,7 +107,6 @@ namespace RRMS
         private const string FEEDBACK_CONTENT_FIELD = "Content";
         private const string FEEDBACK_COMMENT_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
-        private const string FEEDBACK_RESIDENTNAME_FIELD = "ResName";
 
         // Table leaseagreement
         private const string leaseagreement_TBL_NAME = "tblleaseagreement";
@@ -127,7 +126,6 @@ namespace RRMS
         private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
         private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
         private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
-        private const string POLICY_RESIDENTNAME_FIELD = "ResName";
 
         // Table User
         private const string USER_TBL_NAME = "tblUser";
@@ -297,7 +295,6 @@ namespace RRMS
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
-                                feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
                             }
                             else if (entity is LeaseAgreement leaseagreement)
                             {
@@ -366,7 +363,7 @@ namespace RRMS
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
                                 policy.ResID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
-                                policy.ResName = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD));
+                                
                             }
                             //else if (entity is RoomType roomType)
                             //{
@@ -421,7 +418,7 @@ namespace RRMS
                           typeof(T) == typeof(Rent) ? "RentID" :
                           typeof(T) == typeof(Request) ? "ReqID" :
                           typeof(T) == typeof(Reservation) ? "ReserID" :
-                          typeof(T) == typeof(Service) ? "Ser" :
+                          typeof(T) == typeof(Service) ? "SerID" :
                           typeof(T) == typeof(Utility) ? "UtiID" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
@@ -502,7 +499,6 @@ namespace RRMS
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
-                                feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
                             }
                             else if (result is LeaseAgreement leaseagreement)
                             {
@@ -571,7 +567,6 @@ namespace RRMS
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
                                 policy.ResID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
-                                policy.ResName = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD));
                             }
                         }
                     }

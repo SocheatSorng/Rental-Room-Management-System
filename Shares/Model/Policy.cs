@@ -9,16 +9,15 @@ namespace RRMS.Model
         public string? PolName { get; set; }
         public string? Des { get; set; }
         public DateTime CreDate { get; set; }
-        public DateTime? UpdDate { get; set; }
+        public DateTime UpdDate { get; set; }
         public int ResID { get; set; }
-        public string? ResName { get; set; }
 
         // Implementing applicable interface members
         public int ID { get => PolID; set => PolID = value; }
         public string FirstName { get => PolName ?? string.Empty; set => PolName = value; }
         public string Description { get => Des ?? string.Empty; set => Des = value; }
         public DateTime Start { get => CreDate; set => CreDate = value; }
-        public DateTime End { get => UpdDate ?? DateTime.MinValue; set => UpdDate = value; }
+        public DateTime End { get => UpdDate; set => UpdDate = value; }
 
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -41,23 +40,17 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@PolName", PolName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CreDate", CreDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@UpdDate", UpdDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Name", PolName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Description", Des as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@CreatedDate", CreDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@UpdatedDate", UpdDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResidentID", ResID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@PolID", PolID);
-            cmd.Parameters.AddWithValue("@PolName", PolName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CreDate", CreDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@UpdDate", UpdDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
+            AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)

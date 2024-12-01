@@ -1,6 +1,6 @@
 ﻿namespace RRMS.Forms
 {
-    partial class Policy
+    partial class FormPolicy
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -288,7 +288,6 @@
             dgvPolicy.Name = "dgvPolicy";
             dgvPolicy.Size = new Size(354, 320);
             dgvPolicy.TabIndex = 44;
-            dgvPolicy.CellContentClick += dataGridView1_CellContentClick;
             // 
             // label8
             // 
@@ -308,7 +307,7 @@
             txtSearch.Size = new Size(279, 23);
             txtSearch.TabIndex = 51;
             // 
-            // Policy
+            // FormPolicy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -319,7 +318,7 @@
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Margin = new Padding(3, 2, 3, 2);
-            Name = "Policy";
+            Name = "FormPolicy";
             Text = "Policy Management";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

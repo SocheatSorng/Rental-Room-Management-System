@@ -1,6 +1,6 @@
-﻿namespace RRMS
+﻿namespace RRMS.Forms
 {
-    partial class RequestForm
+    partial class FormRequest
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,7 @@
             description = new TextBox();
             residentid = new TextBox();
             serviceid = new TextBox();
-            dataGridView1 = new DataGridView();
+            dgvReq = new DataGridView();
             btnClear = new Button();
             btnUpdate = new Button();
             requestdate = new DateTimePicker();
@@ -48,13 +48,13 @@
             servicename = new TextBox();
             label8 = new Label();
             btnInsert = new Button();
-            searchbox = new TextBox();
+            txtSearch = new TextBox();
             label9 = new Label();
             btnDelete = new Button();
             panel1 = new Panel();
             label10 = new Label();
             titleLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvReq).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -154,13 +154,13 @@
             serviceid.TabIndex = 11;
             serviceid.TextAlign = HorizontalAlignment.Center;
             // 
-            // dataGridView1
+            // dgvReq
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(447, 35);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(414, 475);
-            dataGridView1.TabIndex = 12;
+            dgvReq.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReq.Location = new Point(447, 80);
+            dgvReq.Name = "dgvReq";
+            dgvReq.Size = new Size(414, 430);
+            dgvReq.TabIndex = 12;
             // 
             // btnClear
             // 
@@ -242,7 +242,6 @@
             label8.Size = new Size(113, 21);
             label8.TabIndex = 45;
             label8.Text = "Service Name :";
-            label8.Click += label8_Click;
             // 
             // btnInsert
             // 
@@ -258,20 +257,20 @@
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
-            // searchbox
+            // txtSearch
             // 
-            searchbox.Location = new Point(145, 381);
-            searchbox.Name = "searchbox";
-            searchbox.PlaceholderText = "Search by Status, Name, Service";
-            searchbox.Size = new Size(288, 23);
-            searchbox.TabIndex = 48;
-            searchbox.TextAlign = HorizontalAlignment.Center;
+            txtSearch.Location = new Point(517, 43);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Search by Status, Name, Service";
+            txtSearch.Size = new Size(344, 23);
+            txtSearch.TabIndex = 48;
+            txtSearch.TextAlign = HorizontalAlignment.Center;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F);
-            label9.Location = new Point(14, 383);
+            label9.Location = new Point(447, 43);
             label9.Name = "label9";
             label9.Size = new Size(64, 21);
             label9.TabIndex = 47;
@@ -294,10 +293,8 @@
             // panel1
             // 
             panel1.Controls.Add(label10);
-            panel1.Controls.Add(searchbox);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(label9);
             panel1.Controls.Add(btnClear);
             panel1.Controls.Add(label8);
             panel1.Controls.Add(btnUpdate);
@@ -347,20 +344,23 @@
             titleLabel.Text = "Request Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // RequestForm
+            // FormRequest
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(873, 521);
             Controls.Add(titleLabel);
+            Controls.Add(txtSearch);
             Controls.Add(panel1);
-            Controls.Add(dataGridView1);
-            Name = "RequestForm";
+            Controls.Add(dgvReq);
+            Controls.Add(label9);
+            Name = "FormRequest";
             Text = "RequestForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvReq).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -375,7 +375,7 @@
         private TextBox description;
         private TextBox residentid;
         private TextBox serviceid;
-        private DataGridView dataGridView1;
+        private DataGridView dgvReq;
         private Button btnClear;
         private Button btnUpdate;
         private DateTimePicker requestdate;
@@ -385,7 +385,7 @@
         private TextBox servicename;
         private Label label8;
         private Button btnInsert;
-        private TextBox searchbox;
+        private TextBox txtSearch;
         private Label label9;
         private Button btnDelete;
         private Panel panel1;

@@ -1,361 +1,489 @@
 using Microsoft.Data.SqlClient;
 using RRMS.Model;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace RRMS
+
+namespace RRMS.Forms
 {
     public partial class Policy : Form
     {
+        BindingSource _bs = new();
+        private int lastHighlightedIndex = -1;
+
         public Policy()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            DataGridView.CheckForIllegalCrossThreadCalls = false;
+            ConfigView();
+            _bs.DataSource = dgvPolicy;
+            LoadResidentIDs();
+
+            // Make ID textbox and dates read-only
+            txtID.ReadOnly = true;
+            txtResidentName.ReadOnly = true;
+            dateCreate.Enabled = false;
+            dateUpdate.Enabled = false;
+
+            // Event handlers
+            cbbResidentID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
+
+            btnInsert.Click += (sender, e) =>
+            {
+                Helper.Added += DoOnPolicyInserted;
+                DoClickInsert(sender, e);
+                Helper.Added -= DoOnPolicyInserted;
+            };
+
+            btnUpdate.Click += (sender, e) =>
+            {
+                Helper.Updated += DoOnPolicyUpdated;
+                DoClickUpdate(sender, e);
+                Helper.Updated -= DoOnPolicyUpdated;
+            };
+
+            btnDelete.Click += (sender, e) =>
+            {
+                Helper.Deleted += DoOnPolicyDeleted;
+                DoClickDelete(sender, e);
+                Helper.Deleted -= DoOnPolicyDeleted;
+            };
+
+            btnNew.Click += DoClickNew;
+            dgvPolicy.SelectionChanged += DoClickRecord;
+            txtSearch.KeyDown += DoSearch;
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void LoadResidentIDs()
+        {
+            SqlCommand cmd = new SqlCommand("SP_LoadResidentIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    object resIDObj = dr["ID"];
+                    if (resIDObj != DBNull.Value)
+                    {
+                        string? resID = resIDObj.ToString();
+                        cbbResidentID.Items.Add(resID);
+                        cbbResidentID.DisplayMember = resID;
+                        cbbResidentID.ValueMember = resID;
+                    }
+                }
+            }
+        }
+
+        private void CbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbResidentID.SelectedItem != null)
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ResID", cbbResidentID.SelectedItem);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        txtResidentName.Text = dr[2].ToString();
+                    }
+                }
+            }
+            else
+            {
+                txtResidentName.Text = "";
+            }
+        }
+
+        private void DoSearch(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string searchValue = txtSearch.Text.Trim();
+                dgvPolicy.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+                if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
+                {
+                    lastHighlightedIndex = -1;
+                }
+
+                try
+                {
+                    bool found = false;
+                    int startIndex = (lastHighlightedIndex + 1) % dgvPolicy.Rows.Count;
+
+                    for (int i = startIndex; i < dgvPolicy.Rows.Count + startIndex; i++)
+                    {
+                        int currentIndex = i % dgvPolicy.Rows.Count;
+                        DataGridViewRow row = dgvPolicy.Rows[currentIndex];
+
+                        string? id = row.Cells["colPolicyID"].Value?.ToString();
+                        string? name = row.Cells["colName"].Value?.ToString();
+                        string? desc = row.Cells["colDesc"].Value?.ToString();
+
+                        if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                            (name != null && name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                            (desc != null && desc.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
+                        {
+                            dgvPolicy.ClearSelection();
+                            row.Selected = true;
+                            dgvPolicy.FirstDisplayedScrollingRowIndex = row.Index;
+                            lastHighlightedIndex = currentIndex;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        MessageBox.Show("No more matching policies found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lastHighlightedIndex = -1;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void DoClickRecord(object? sender, EventArgs e)
+        {
+            if (dgvPolicy.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
+                DataGridViewRow row = dgvPolicy.Rows[rowIndex];
+
+                object cellValue = row.Cells["colPolicyID"].Value;
+                int? policyID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
+
+                if (policyID.HasValue)
+                {
+                    var policy = Helper.GetEntityById<Model.Policy>(Program.Connection, policyID.Value, "SP_GetPolicyByID");
+                    if (policy != null)
+                    {
+                        PopulateFields(policy);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Policy not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Policy not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Policy ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+
+            ManageControl.EnableControl(btnInsert, false);
+            ManageControl.EnableControl(btnUpdate, true);
+            ManageControl.EnableControl(btnDelete, true);
+            ManageControl.EnableControl(txtID, false);
+        }
+
+        private void DoClickNew(object? sender, EventArgs e)
+        {
+            PopulateFields(null);
+            ManageControl.EnableControl(btnInsert, true);
+            ManageControl.EnableControl(btnUpdate, false);
+            ManageControl.EnableControl(btnDelete, false);
+            ManageControl.EnableControl(txtID, false);
+        }
+
+        private void DoOnPolicyDeleted(object? sender, EntityEventArgs e)
+        {
+            if (e.ByteId == 0) return;
+            Task.Run(() =>
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    UpdatePolicyView();
+                });
+            });
+        }
+
+        private void DoClickDelete(object? sender, EventArgs e)
+        {
+            if (dgvPolicy.SelectedCells.Count <= 0) return;
+            try
+            {
+                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
+                int id = Convert.ToInt32(dgvPolicy.Rows[rowIndex].Cells["colPolicyID"].Value);
+
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this policy?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    using var cmd = Program.Connection.CreateCommand();
+                    cmd.CommandText = "SP_DeletePolicy";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PolicyID", id);
+
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show($"Successfully Deleted Policy ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConfigView();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DoOnPolicyUpdated(object? sender, EntityEventArgs e)
+        {
+            if (dgvPolicy.CurrentCell == null) return;
+            int rowIndex = dgvPolicy.CurrentCell.RowIndex;
+
+            UpdatePolicyView();
+
+            // Restore selection to the updated row
+            if (rowIndex < dgvPolicy.Rows.Count)
+            {
+                dgvPolicy.Rows[rowIndex].Selected = true;
+                dgvPolicy.CurrentCell = dgvPolicy[0, rowIndex];
+            }
+        }
+
+        private void DoClickUpdate(object? sender, EventArgs e)
+        {
+            if (dgvPolicy.SelectedCells.Count > 0)
+            {
+                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
+                object cellValue = dgvPolicy.Rows[rowIndex].Cells["colPolicyID"].Value;
+
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
+                {
+                    var policy = GatherPolicyInput();
+                    policy.ID = id;
+
+                    if (ValidateInputs())
+                    {
+                        var entityService = new EntityService();
+                        entityService.InsertOrUpdateEntity(policy, "SP_UpdatePolicy", "Update");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a valid policy to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a policy to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void DoOnPolicyInserted(object? sender, EntityEventArgs e)
+        {
+            string SP_Name = "SP_GetPolicyByID";
+            if (e.ByteId == 0) return;
+            Task.Run(() =>
+            {
+                try
+                {
+                    var result = Helper.GetEntityById<Policy>(Program.Connection, e.ByteId, SP_Name);
+
+                    if (result != null)
+                    {
+                        dgvPolicy.Invoke((MethodInvoker)delegate
+                        {
+                            AddToView(result);
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            });
+
+            DoClickNew(sender, e);
+        }
+
+        private void DoClickInsert(object? sender, EventArgs e)
+        {
+            var policy = GatherPolicyInput();
+
+            if (ValidateInputs())
+            {
+                var entityService = new EntityService();
+                entityService.InsertOrUpdateEntity(policy, "SP_InsertPolicy", "Insert");
+            }
+        }
+
+        private Policy GatherPolicyInput()
+        {
+            int residentId;
+            if (cbbResidentID.SelectedItem != null && int.TryParse(cbbResidentID.SelectedItem.ToString(), out residentId))
+            {
+                return new Policy
+                {
+                    PolicyName = txtName.Text.Trim(),
+                    Description = txtDesc.Text.Trim(),
+                    ResidentID = residentId
+                };
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid Resident ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        private void UpdatePolicyView()
+        {
+            try
+            {
+                dgvPolicy.Rows.Clear();
+                string SP_Name = "SP_GetAllPolicies";
+
+                var result = Helper.GetAllEntities<Policy>(Program.Connection, SP_Name);
+
+                foreach (var policy in result)
+                {
+                    AddToView(policy);
+                }
+                dgvPolicy.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvPolicy.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Updating Policies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void PopulateFields(Policy? policy)
+        {
+            if (policy != null)
+            {
+                txtID.Text = policy.ID.ToString();
+                txtName.Text = policy.PolName;
+                txtDesc.Text = policy.Description;
+                dateCreate.Value = policy.Start;
+                dateUpdate.Value = policy.End ?? DateTime.Now;
+                cbbResidentID.Text = policy.ResID.ToString();
+                txtResidentName.Text = policy.ResName;
+            }
+            else
+            {
+                txtID.Text = string.Empty;
+                txtName.Text = string.Empty;
+                txtDesc.Text = string.Empty;
+                dateCreate.Value = DateTime.Now;
+                dateUpdate.Value = DateTime.Now;
+                cbbResidentID.SelectedIndex = -1;
+                txtResidentName.Text = string.Empty;
+            }
+        }
+
+        private bool ValidateInputs()
+        {
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Please enter policy name.", "Validation Error");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtDesc.Text))
+            {
+                MessageBox.Show("Please enter description.", "Validation Error");
+                return false;
+            }
+
+            if (cbbResidentID.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a Resident ID.", "Validation Error");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtResidentName.Text))
+            {
+                MessageBox.Show("Invalid Resident ID. Please select a valid Resident ID.", "Validation Error");
+                return false;
+            }
+
+            return true;
+        }
+        private void ConfigView()
+        {
+            dgvPolicy.Columns.Clear();
+            dgvPolicy.Columns.Add("colPolicyID", "Policy ID");
+            dgvPolicy.Columns.Add("colName", "Name");
+            dgvPolicy.Columns.Add("colDesc", "Description");
+            dgvPolicy.Columns.Add("colCreatedDate", "Created Date");
+            dgvPolicy.Columns.Add("colUpdatedDate", "Updated Date");
+            dgvPolicy.Columns.Add("colResidentID", "Resident ID");
+            dgvPolicy.Columns.Add("colResidentName", "Resident Name");
+
+            dgvPolicy.Columns[0].Width = 80;
+            dgvPolicy.Columns[1].Width = 100;
+            dgvPolicy.Columns[2].Width = 150;
+            dgvPolicy.Columns[3].Width = 100;
+            dgvPolicy.Columns[4].Width = 100;
+            dgvPolicy.Columns[5].Width = 80;
+            dgvPolicy.Columns[6].Width = 120;
+
+            dgvPolicy.DefaultCellStyle.BackColor = Color.White;
+            dgvPolicy.ScrollBars = ScrollBars.Both;
+
+            try
+            {
+                string SP_Name = "SP_GetAllPolicies";
+                var result = Helper.GetAllEntities<Policy>(Program.Connection, SP_Name);
+                dgvPolicy.Rows.Clear();
+
+                var entityViewAdder = new EntityViewAdder<Policy>(dgvPolicy, policy => new object[]
+                {
+                    policy.PolicyID,
+                    policy.PolicyName,
+                    policy.Description,
+                    policy.CreatedDate.ToString("yyyy-MM-dd"),
+                    policy.UpdatedDate?.ToString("yyyy-MM-dd") ?? "",
+                    policy.ResidentID,
+                    policy.ResidentName
+                });
+
+                foreach (var policy in result)
+                {
+                    entityViewAdder.AddToView(policy);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Retrieving policies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AddToView(Policy policy)
+        {
+            DataGridViewRow row = new DataGridViewRow();
+            row.CreateCells(dgvPolicy,
+                policy.PolicyID,
+                policy.PolicyName,
+                policy.Description,
+                policy.CreatedDate.ToString("yyyy-MM-dd"),
+                policy.UpdatedDate?.ToString("yyyy-MM-dd") ?? "",
+                policy.ResidentID,
+                policy.ResidentName
+            );
+            row.Tag = policy.PolicyID;
+            dgvPolicy.Rows.Add(row);
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
     }
 }
-
-//namespace RRMS
-//{
-//    public partial class Policy : Form
-//    {
-//        public Policy()
-//        {
-//            InitializeComponent();
-//            btnInsert.Click += BtnInsert_Click;
-//            btnUpdate.Click += BtnUpdate_Click;
-//            btnDelete.Click += BtnDelete_Click;
-//            txtResidentID.Leave += TxtResidentID_Leave;
-//            listView1.SelectedIndexChanged += ListView1_SelectedIndexChanged;
-
-//            // Make ID textbox read-only since it's auto-generated
-//            txtID.ReadOnly = true;
-//            txtResidentName.ReadOnly = true;
-//            dateCreate.Enabled = false;
-//            dateUpdate.Enabled = false;
-
-//            // Setup ListView
-//            SetupListView();
-//            // Load initial data
-//            LoadPolicyData();
-//        }
-
-//        private void SetupListView()
-//        {
-//            listView1.View = View.Details;
-//            listView1.FullRowSelect = true;
-//            listView1.GridLines = true;
-
-//            // Add columns
-//            listView1.Columns.Add("ID", 50);
-//            listView1.Columns.Add("Name", 100);
-//            listView1.Columns.Add("Description", 150);
-//            listView1.Columns.Add("Created Date", 100);
-//            listView1.Columns.Add("Updated Date", 100);
-//            listView1.Columns.Add("Resident ID", 80);
-//            listView1.Columns.Add("Resident Name", 120);
-//        }
-
-//        private void LoadPolicyData()
-//        {
-//            try
-//            {
-//                listView1.Items.Clear();
-//                using (SqlConnection conn = DbHelper.GetConnection())
-//                {
-//                    using (SqlCommand cmd = new SqlCommand("sp_ReadPolicy", conn))
-//                    {
-//                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                        conn.Open();
-//                        using (SqlDataReader reader = cmd.ExecuteReader())
-//                        {
-//                            while (reader.Read())
-//                            {
-//                                ListViewItem item = new ListViewItem(reader["PolicyID"].ToString());
-//                                item.SubItems.Add(reader["PolicyName"].ToString());
-//                                item.SubItems.Add(reader["Description"].ToString());
-//                                item.SubItems.Add(Convert.ToDateTime(reader["CreatedDate"]).ToString("yyyy-MM-dd"));
-//                                item.SubItems.Add(reader["UpdatedDate"] != DBNull.Value ? 
-//                                    Convert.ToDateTime(reader["UpdatedDate"]).ToString("yyyy-MM-dd") : "");
-//                                item.SubItems.Add(reader["ResidentID"].ToString());
-
-//                                using (SqlConnection conn2 = DbHelper.GetConnection())
-//                                using (SqlCommand cmd2 = new SqlCommand("sp_GetResidentName", conn2))
-//                                {
-//                                    cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-//                                    cmd2.Parameters.AddWithValue("@ResidentID", reader["ResidentID"]);
-//                                    conn2.Open();
-//                                    var residentName = cmd2.ExecuteScalar()?.ToString() ?? "";
-//                                    item.SubItems.Add(residentName);
-//                                }
-
-//                                listView1.Items.Add(item);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error loading policy data: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void TxtResidentID_Leave(object sender, EventArgs e)
-//        {
-//            if (!string.IsNullOrWhiteSpace(txtResidentID.Text) && int.TryParse(txtResidentID.Text, out int residentId))
-//            {
-//                FillResidentName(residentId);
-//            }
-//        }
-
-//        private void FillResidentName(int residentId)
-//        {
-//            try
-//            {
-//                using (SqlConnection conn = DbHelper.GetConnection())
-//                {
-//                    using (SqlCommand cmd = new SqlCommand("sp_GetResidentName", conn))
-//                    {
-//                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                        cmd.Parameters.AddWithValue("@ResidentID", residentId);
-//                        conn.Open();
-//                        var result = cmd.ExecuteScalar();
-
-//                        if (result != null)
-//                        {
-//                            txtResidentName.Text = result.ToString();
-//                        }
-//                        else
-//                        {
-//                            MessageBox.Show("Resident ID not found!", "Error", 
-//                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-//                            txtResidentName.Clear();
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void ListView1_SelectedIndexChanged(object sender, EventArgs e)
-//        {
-//            if (listView1.SelectedItems.Count > 0)
-//            {
-//                ListViewItem item = listView1.SelectedItems[0];
-
-//                txtID.Text = item.SubItems[0].Text;
-//                txtName.Text = item.SubItems[1].Text;
-//                txtDesc.Text = item.SubItems[2].Text;
-//                dateCreate.Value = DateTime.Parse(item.SubItems[3].Text);
-//                dateUpdate.Value = !string.IsNullOrEmpty(item.SubItems[4].Text) ? 
-//                    DateTime.Parse(item.SubItems[4].Text) : DateTime.Now;
-//                txtResidentID.Text = item.SubItems[5].Text;
-//                txtResidentName.Text = item.SubItems[6].Text;
-//            }
-//        }
-
-//        private void BtnInsert_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (ValidateInputs())
-//                {
-//                    var policy = new Model.Policy
-//                    {
-//                        PolicyName = txtName.Text,
-//                        Description = txtDesc.Text,
-//                        ResidentID = int.Parse(txtResidentID.Text)
-//                    };
-
-//                    int newPolicyId = InsertPolicy(policy);
-//                    txtID.Text = newPolicyId.ToString();
-//                    MessageBox.Show("Policy inserted successfully!", "Success", 
-//                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                    LoadPolicyData();
-//                    ClearForm();
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error inserting policy: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private bool ValidateInputs()
-//        {
-//            if (string.IsNullOrWhiteSpace(txtName.Text))
-//            {
-//                MessageBox.Show("Please enter policy name.", "Validation Error");
-//                return false;
-//            }
-
-//            if (string.IsNullOrWhiteSpace(txtDesc.Text))
-//            {
-//                MessageBox.Show("Please enter description.", "Validation Error");
-//                return false;
-//            }
-
-//            if (!int.TryParse(txtResidentID.Text, out _))
-//            {
-//                MessageBox.Show("Please enter a valid Resident ID.", "Validation Error");
-//                return false;
-//            }
-
-//            if (string.IsNullOrWhiteSpace(txtResidentName.Text))
-//            {
-//                MessageBox.Show("Invalid Resident ID. Please enter a valid Resident ID.", "Validation Error");
-//                return false;
-//            }
-
-//            return true;
-//        }
-
-//        private int InsertPolicy(Model.Policy policy)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_CreatePolicy", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-//                    cmd.Parameters.AddWithValue("@PolicyName", policy.PolicyName);
-//                    cmd.Parameters.AddWithValue("@Description", policy.Description);
-//                    cmd.Parameters.AddWithValue("@ResidentID", policy.ResidentID);
-
-//                    conn.Open();
-//                    var result = cmd.ExecuteScalar();
-//                    return Convert.ToInt32(result);
-//                }
-//            }
-//        }
-
-//        private void BtnUpdate_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (string.IsNullOrEmpty(txtID.Text))
-//                {
-//                    MessageBox.Show("Please select a policy to update.", "Validation Error");
-//                    return;
-//                }
-
-//                if (ValidateInputs())
-//                {
-//                    var policy = new Model.Policy
-//                    {
-//                        PolicyID = int.Parse(txtID.Text),
-//                        PolicyName = txtName.Text,
-//                        Description = txtDesc.Text,
-//                        ResidentID = int.Parse(txtResidentID.Text)
-//                    };
-
-//                    DialogResult result = MessageBox.Show(
-//                        "Are you sure you want to update this policy?",
-//                        "Confirm Update",
-//                        MessageBoxButtons.YesNo,
-//                        MessageBoxIcon.Question);
-
-//                    if (result == DialogResult.Yes)
-//                    {
-//                        UpdatePolicy(policy);
-//                        MessageBox.Show("Policy updated successfully!", "Success", 
-//                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                        LoadPolicyData();
-//                        ClearForm();
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error updating policy: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void UpdatePolicy(Model.Policy policy)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_UpdatePolicy", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-//                    cmd.Parameters.AddWithValue("@PolicyID", policy.PolicyID);
-//                    cmd.Parameters.AddWithValue("@PolicyName", policy.PolicyName);
-//                    cmd.Parameters.AddWithValue("@Description", policy.Description);
-//                    cmd.Parameters.AddWithValue("@ResidentID", policy.ResidentID);
-
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        private void BtnDelete_Click(object sender, EventArgs e)
-//        {
-//            try
-//            {
-//                if (string.IsNullOrEmpty(txtID.Text))
-//                {
-//                    MessageBox.Show("Please select a policy to delete.", "Validation Error");
-//                    return;
-//                }
-
-//                DialogResult result = MessageBox.Show(
-//                    "Are you sure you want to delete this policy?",
-//                    "Confirm Delete",
-//                    MessageBoxButtons.YesNo,
-//                    MessageBoxIcon.Warning);
-
-//                if (result == DialogResult.Yes)
-//                {
-//                    DeletePolicy(int.Parse(txtID.Text));
-//                    MessageBox.Show("Policy deleted successfully!", "Success", 
-//                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-//                    LoadPolicyData();
-//                    ClearForm();
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show($"Error deleting policy: {ex.Message}", "Error",
-//                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
-
-//        private void DeletePolicy(int policyId)
-//        {
-//            using (SqlConnection conn = DbHelper.GetConnection())
-//            {
-//                using (SqlCommand cmd = new SqlCommand("sp_DeletePolicy", conn))
-//                {
-//                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-//                    cmd.Parameters.AddWithValue("@PolicyID", policyId);
-
-//                    conn.Open();
-//                    cmd.ExecuteNonQuery();
-//                }
-//            }
-//        }
-
-//        private void ClearForm()
-//        {
-//            txtID.Clear();
-//            txtName.Clear();
-//            txtDesc.Clear();
-//            dateCreate.Value = DateTime.Now;
-//            dateUpdate.Value = DateTime.Now;
-//            txtResidentID.Clear();
-//            txtResidentName.Clear();
-//        }
-//    }
-//}

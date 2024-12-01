@@ -1,4 +1,4 @@
-﻿namespace RRMS
+﻿namespace RRMS.Forms
 {
     partial class Policy
     {
@@ -24,11 +24,9 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            listView1 = new ListView();
             txtID = new TextBox();
             txtName = new TextBox();
             txtDesc = new TextBox();
-            txtResidentID = new TextBox();
             txtResidentName = new TextBox();
             dateCreate = new DateTimePicker();
             dateUpdate = new DateTimePicker();
@@ -36,9 +34,15 @@
             btnUpdate = new Button();
             btnDelete = new Button();
             panel1 = new Panel();
+            btnNew = new Button();
+            cbbResidentID = new ComboBox();
             label10 = new Label();
             titleLabel = new Label();
+            dgvPolicy = new DataGridView();
+            label8 = new Label();
+            txtSearch = new TextBox();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPolicy).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -111,16 +115,6 @@
             label7.TabIndex = 6;
             label7.Text = "Resident Name:";
             // 
-            // listView1
-            // 
-            listView1.Location = new Point(373, 36);
-            listView1.Margin = new Padding(3, 2, 3, 2);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(358, 362);
-            listView1.TabIndex = 7;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
-            // 
             // txtID
             // 
             txtID.Location = new Point(131, 37);
@@ -146,14 +140,6 @@
             txtDesc.Name = "txtDesc";
             txtDesc.Size = new Size(219, 21);
             txtDesc.TabIndex = 10;
-            // 
-            // txtResidentID
-            // 
-            txtResidentID.Location = new Point(131, 224);
-            txtResidentID.Margin = new Padding(3, 2, 3, 2);
-            txtResidentID.Name = "txtResidentID";
-            txtResidentID.Size = new Size(219, 23);
-            txtResidentID.TabIndex = 13;
             // 
             // txtResidentName
             // 
@@ -185,7 +171,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(33, 315);
+            btnInsert.Location = new Point(100, 314);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -199,7 +185,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(138, 315);
+            btnUpdate.Location = new Point(189, 314);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -213,7 +199,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(242, 315);
+            btnDelete.Location = new Point(278, 314);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -223,11 +209,12 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnNew);
+            panel1.Controls.Add(cbbResidentID);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(txtResidentName);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnUpdate);
-            panel1.Controls.Add(txtResidentID);
             panel1.Controls.Add(btnInsert);
             panel1.Controls.Add(dateUpdate);
             panel1.Controls.Add(dateCreate);
@@ -245,6 +232,28 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(366, 363);
             panel1.TabIndex = 18;
+            // 
+            // btnNew
+            // 
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(11, 314);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 2;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
+            // 
+            // cbbResidentID
+            // 
+            cbbResidentID.FormattingEnabled = true;
+            cbbResidentID.Location = new Point(131, 222);
+            cbbResidentID.Name = "cbbResidentID";
+            cbbResidentID.Size = new Size(217, 23);
+            cbbResidentID.TabIndex = 49;
             // 
             // label10
             // 
@@ -272,20 +281,51 @@
             titleLabel.Text = "Policy Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // dgvPolicy
+            // 
+            dgvPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPolicy.Location = new Point(380, 73);
+            dgvPolicy.Name = "dgvPolicy";
+            dgvPolicy.Size = new Size(354, 320);
+            dgvPolicy.TabIndex = 44;
+            dgvPolicy.CellContentClick += dataGridView1_CellContentClick;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Times New Roman", 12F);
+            label8.Location = new Point(380, 39);
+            label8.Name = "label8";
+            label8.Size = new Size(69, 19);
+            label8.TabIndex = 51;
+            label8.Text = "Policy ID:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(455, 35);
+            txtSearch.Margin = new Padding(3, 2, 3, 2);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(279, 23);
+            txtSearch.TabIndex = 51;
+            // 
             // Policy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(743, 406);
+            Controls.Add(txtSearch);
+            Controls.Add(label8);
+            Controls.Add(dgvPolicy);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
-            Controls.Add(listView1);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Policy";
             Text = "Policy Management";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPolicy).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -297,13 +337,11 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private ListView listView1;
         private TextBox txtID;
         private TextBox txtName;
         private TextBox txtDesc;
         private DateTimePicker dateCreate;
         private DateTimePicker dateUpdate;
-        private TextBox txtResidentID;
         private TextBox txtResidentName;
         private Button btnInsert;
         private Button btnUpdate;
@@ -311,5 +349,10 @@
         private Panel panel1;
         private Label titleLabel;
         private Label label10;
+        private DataGridView dgvPolicy;
+        private ComboBox cbbResidentID;
+        private Button btnNew;
+        private Label label8;
+        private TextBox txtSearch;
     }
 }

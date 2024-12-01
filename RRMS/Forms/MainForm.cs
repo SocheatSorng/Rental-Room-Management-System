@@ -282,7 +282,7 @@ namespace RRMS.Forms
 
         private void btnRoom_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new User());
+            OpenChildForm(new FormRoom());
         }
 
         private void btnVendor_Click(object sender, EventArgs e)

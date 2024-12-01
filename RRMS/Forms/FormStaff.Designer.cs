@@ -211,6 +211,7 @@
             // 
             txtStaID.Location = new Point(118, 40);
             txtStaID.Name = "txtStaID";
+            txtStaID.ReadOnly = true;
             txtStaID.Size = new Size(200, 23);
             txtStaID.TabIndex = 16;
             // 

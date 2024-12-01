@@ -102,6 +102,7 @@ namespace RRMS
             txtID.Location = new Point(122, 42);
             txtID.Margin = new Padding(3, 2, 3, 2);
             txtID.Name = "txtID";
+            txtID.ReadOnly = true;
             txtID.Size = new Size(219, 23);
             txtID.TabIndex = 8;
             // 

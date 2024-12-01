@@ -9,9 +9,9 @@ namespace RRMS.Model
         public DateTime StaDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal RenAmount { get; set; }
-        public int ResiID { get; set; }
+        public int ResID { get; set; }
         public int RoomID { get; set; }
-        public string? ResiName { get; set; }
+        public string? ResName { get; set; }
         public string? RoomNum { get; set; }
 
         // Implementing applicable interface members
@@ -19,7 +19,7 @@ namespace RRMS.Model
         public DateTime Start { get => StaDate; set => StaDate = value; }
         public DateTime End { get => EndDate; set => EndDate = value; }
         public double RentPrice { get => (double)RenAmount; set => RenAmount = (decimal)value; }
-        public string FirstName { get => ResiName ?? string.Empty; set => ResiName = value; }
+        public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
         public string Type { get => RoomNum ?? string.Empty; set => RoomNum = value; }
 
         // Not applicable properties
@@ -45,9 +45,9 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@StaDate", StaDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RenAmount", RenAmount as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomNum", RoomNum as object ?? DBNull.Value);
         }
 
@@ -57,9 +57,9 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@StaDate", StaDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RenAmount", RenAmount as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomNum", RoomNum as object ?? DBNull.Value);
         }
 
@@ -68,4 +68,5 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@RenID", RenID);
         }
     }
+}
 }

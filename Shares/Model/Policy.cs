@@ -8,8 +8,8 @@ public class Policy : IEntity
     public string? Des { get; set; }
     public DateTime CreDate { get; set; }
     public DateTime? UpdDate { get; set; }
-    public int ResiID { get; set; }
-    public string? ResiName { get; set; }
+    public int ResID { get; set; }
+    public string? ResName { get; set; }
 
     // Implementing applicable interface members
     public int ID { get => PolID; set => PolID = value; }
@@ -43,8 +43,8 @@ public class Policy : IEntity
         cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
         cmd.Parameters.AddWithValue("@CreDate", CreDate as object ?? DBNull.Value);
         cmd.Parameters.AddWithValue("@UpdDate", UpdDate as object ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
     }
 
     public void AddParametersWithID(SqlCommand cmd)
@@ -54,8 +54,8 @@ public class Policy : IEntity
         cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
         cmd.Parameters.AddWithValue("@CreDate", CreDate as object ?? DBNull.Value);
         cmd.Parameters.AddWithValue("@UpdDate", UpdDate as object ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
-        cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
     }
 
     public void AddOnlyIDParameter(SqlCommand cmd)

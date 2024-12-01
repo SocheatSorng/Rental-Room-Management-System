@@ -9,9 +9,9 @@ namespace RRMS.model
         public DateTime ReqDate { get; set; }
         public string? Des { get; set; }
         public string? Stat { get; set; }
-        public int ResiID { get; set; }
+        public int ResID { get; set; }
         public int SerID { get; set; }
-        public string? ResiName { get; set; } //Firstname
+        public string? ResName { get; set; } //Firstname
         public string? SerName { get; set; } //Lastname
 
         // Implementing applicable interface members
@@ -19,7 +19,7 @@ namespace RRMS.model
         public DateTime Start { get => ReqDate; set => ReqDate = value; }
         public string Description { get => Des ?? string.Empty; set => Des = value; }
         public bool Status { get => Stat?.ToLower() == "true"; set => Stat = value.ToString(); }
-        public string FirstName { get => ResiName ?? string.Empty; set => ResiName = value; }
+        public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
         public string LastName { get => SerName ?? string.Empty; set => SerName = value; }
 
         // Not applicable properties
@@ -45,9 +45,9 @@ namespace RRMS.model
             cmd.Parameters.AddWithValue("@ReqDate", ReqDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Stat", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@SerID", SerID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@SerName", SerName as object ?? DBNull.Value);
         }
 
@@ -57,9 +57,9 @@ namespace RRMS.model
             cmd.Parameters.AddWithValue("@ReqDate", ReqDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Des", Des as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Stat", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@SerID", SerID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiName", ResiName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@SerName", SerName as object ?? DBNull.Value);
         }
 

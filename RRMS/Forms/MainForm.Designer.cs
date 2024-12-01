@@ -83,7 +83,7 @@
             panelmenu.Dock = DockStyle.Left;
             panelmenu.Location = new Point(0, 0);
             panelmenu.Name = "panelmenu";
-            panelmenu.Size = new Size(204, 561);
+            panelmenu.Size = new Size(204, 781);
             panelmenu.TabIndex = 13;
             // 
             // panelsubmenu4
@@ -507,7 +507,7 @@
             panelform.Location = new Point(204, 0);
             panelform.Margin = new Padding(2, 1, 2, 1);
             panelform.Name = "panelform";
-            panelform.Size = new Size(860, 561);
+            panelform.Size = new Size(1060, 781);
             panelform.TabIndex = 15;
             // 
             // MainForm
@@ -516,7 +516,7 @@
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.White;
             CausesValidation = false;
-            ClientSize = new Size(1064, 561);
+            ClientSize = new Size(1264, 781);
             Controls.Add(panelform);
             Controls.Add(panelmenu);
             HelpButton = true;

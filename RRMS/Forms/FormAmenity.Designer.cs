@@ -134,6 +134,7 @@
             // 
             txtAmeID.Location = new Point(134, 39);
             txtAmeID.Name = "txtAmeID";
+            txtAmeID.ReadOnly = true;
             txtAmeID.Size = new Size(200, 23);
             txtAmeID.TabIndex = 8;
             // 

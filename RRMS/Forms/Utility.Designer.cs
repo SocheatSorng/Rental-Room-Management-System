@@ -1,4 +1,4 @@
-namespace RRMS
+namespace RRMS.Forms
 {
     partial class Utility
     {
@@ -32,8 +32,11 @@ namespace RRMS
             btnUpdate = new Button();
             btnDelete = new Button();
             panel1 = new Panel();
+            btnClear = new Button();
             label10 = new Label();
             titleLabel = new Label();
+            label6 = new Label();
+            txtSearch = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -86,14 +89,13 @@ namespace RRMS
             label5.Size = new Size(69, 19);
             label5.TabIndex = 4;
             label5.Text = "Room ID:";
-            label5.Click += label5_Click;
             // 
             // listView1
             // 
-            listView1.Location = new Point(372, 38);
+            listView1.Location = new Point(391, 65);
             listView1.Margin = new Padding(3, 2, 3, 2);
             listView1.Name = "listView1";
-            listView1.Size = new Size(379, 290);
+            listView1.Size = new Size(434, 263);
             listView1.TabIndex = 7;
             listView1.UseCompatibleStateImageBehavior = false;
             // 
@@ -145,7 +147,7 @@ namespace RRMS
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(51, 253);
+            btnInsert.Location = new Point(14, 253);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -159,7 +161,7 @@ namespace RRMS
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(140, 253);
+            btnUpdate.Location = new Point(103, 253);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -173,7 +175,7 @@ namespace RRMS
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(229, 253);
+            btnDelete.Location = new Point(281, 253);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -183,6 +185,7 @@ namespace RRMS
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnClear);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnUpdate);
@@ -199,8 +202,17 @@ namespace RRMS
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 38);
             panel1.Name = "panel1";
-            panel1.Size = new Size(354, 290);
+            panel1.Size = new Size(373, 290);
             panel1.TabIndex = 16;
+            // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(192, 253);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(83, 26);
+            btnClear.TabIndex = 49;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -210,7 +222,7 @@ namespace RRMS
             label10.ForeColor = Color.White;
             label10.Location = new Point(0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(354, 29);
+            label10.Size = new Size(373, 29);
             label10.TabIndex = 48;
             label10.Text = "Utility Details";
             label10.TextAlign = ContentAlignment.MiddleCenter;
@@ -223,16 +235,36 @@ namespace RRMS
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(769, 30);
+            titleLabel.Size = new Size(837, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Utility Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(391, 38);
+            label6.Name = "label6";
+            label6.Size = new Size(67, 19);
+            label6.TabIndex = 50;
+            label6.Text = "Utility ID:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(464, 38);
+            txtSearch.Margin = new Padding(3, 2, 3, 2);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(361, 23);
+            txtSearch.TabIndex = 50;
             // 
             // Utility
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(769, 341);
+            ClientSize = new Size(837, 341);
+            Controls.Add(txtSearch);
+            Controls.Add(label6);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(listView1);
@@ -242,6 +274,7 @@ namespace RRMS
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -263,5 +296,8 @@ namespace RRMS
         private Panel panel1;
         private Label titleLabel;
         private Label label10;
+        private Button btnClear;
+        private Label label6;
+        private TextBox txtSearch;
     }
 } 

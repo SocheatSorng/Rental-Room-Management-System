@@ -54,6 +54,9 @@
             txtRoomNum = new TextBox();
             btnDelete = new Button();
             panel1 = new Panel();
+            label13 = new Label();
+            label12 = new Label();
+            label11 = new Label();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             label10 = new Label();
@@ -64,9 +67,6 @@
             titleLabel = new Label();
             label9 = new Label();
             txtSearch = new TextBox();
-            label11 = new Label();
-            label12 = new Label();
-            label13 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvReser).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -327,6 +327,36 @@
             panel1.Size = new Size(431, 459);
             panel1.TabIndex = 49;
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 12F);
+            label13.Location = new Point(17, 385);
+            label13.Name = "label13";
+            label13.Size = new Size(63, 21);
+            label13.TabIndex = 58;
+            label13.Text = "Remain";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F);
+            label12.Location = new Point(17, 350);
+            label12.Name = "label12";
+            label12.Size = new Size(99, 21);
+            label12.TabIndex = 57;
+            label12.Text = "Paid Amount";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F);
+            label11.Location = new Point(17, 315);
+            label11.Name = "label11";
+            label11.Size = new Size(114, 21);
+            label11.TabIndex = 56;
+            label11.Text = "Room Number";
+            // 
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 12F);
@@ -429,42 +459,12 @@
             txtSearch.TabIndex = 50;
             txtSearch.TextAlign = HorizontalAlignment.Center;
             // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 12F);
-            label11.Location = new Point(17, 315);
-            label11.Name = "label11";
-            label11.Size = new Size(114, 21);
-            label11.TabIndex = 56;
-            label11.Text = "Room Number";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 12F);
-            label12.Location = new Point(17, 350);
-            label12.Name = "label12";
-            label12.Size = new Size(99, 21);
-            label12.TabIndex = 57;
-            label12.Text = "Paid Amount";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F);
-            label13.Location = new Point(17, 385);
-            label13.Name = "label13";
-            label13.Size = new Size(63, 21);
-            label13.TabIndex = 58;
-            label13.Text = "Remain";
-            // 
             // FormReservation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(870, 516);
+            ClientSize = new Size(870, 508);
             Controls.Add(txtSearch);
             Controls.Add(label9);
             Controls.Add(titleLabel);

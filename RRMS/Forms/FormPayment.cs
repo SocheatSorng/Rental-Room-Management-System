@@ -16,5 +16,15 @@ namespace RRMS.Forms
         {
             InitializeComponent();
         }
+
+        private void FormPayment_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

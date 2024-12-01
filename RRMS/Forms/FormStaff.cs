@@ -413,7 +413,7 @@ namespace RRMS.Forms
         {
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(dgvSta, staff.StaID, staff.StaFName);
-            row.Tag = staff.StaID;
+            row.Tag = staff.ID;
             dgvSta.Rows.Add(row);
         }
     }

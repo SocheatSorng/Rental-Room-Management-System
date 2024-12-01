@@ -73,51 +73,66 @@ GO
 --End of Store Procedure Policy
 
 -- Feedback CRUD
-CREATE PROCEDURE SP_CreateFeedback
-    @Comments NVARCHAR(MAX),
-    @Rating INT,
-    @ResidentID INT
+CREATE PROCEDURE SP_GetAllFeedbacks
 AS
 BEGIN
-    INSERT INTO tblFeedback (Comments, Rating, ResidentID)
-    VALUES (@Comments, @Rating, @ResidentID)
-    SELECT SCOPE_IDENTITY() as FeedbackID
+    Select * FROM tblFeedback;
 END
 GO
 
-CREATE PROCEDURE SP_ReadFeedback
-    @FeedbackID INT = NULL
+CREATE PROCEDURE SP_GetFeedbackByID
+    @FeedID INT
 AS
 BEGIN
-    IF @FeedbackID IS NULL
-        SELECT * FROM tblFeedback
-    ELSE
-        SELECT * FROM tblFeedback WHERE FeedbackID = @FeedbackID
+    SELECT * FROM tblFeedback WHERE FeedbackID = @FeedID;
+END
+GO
+
+CREATE PROCEDURE SP_InsertFeedback
+	@FeedDate DATETIME,
+    @FeedCon NVARCHAR(50),
+    @FeedCom NVARCHAR(50),
+    @ResID INT,
+    @ResName VARCHAR(50)
+AS
+BEGIN
+    Insert INTO tblFeedback(
+        Date, Content, Comment, ResidentID, ResName
+    )
+    VALUES(
+        @FeedDate, @FeedCon, @FeedCom, @ResID, @ResName
+    );
 END
 GO
 
 CREATE PROCEDURE SP_UpdateFeedback
-    @FeedbackID INT,
-    @Comments NVARCHAR(MAX),
-    @Rating INT,
-    @ResidentID INT
+    @FeedID INT,
+	@FeedDate DATETIME,
+    @FeedCon NVARCHAR(50),
+    @FeedCom NVARCHAR(50),
+    @ResID INT,
+    @ResName NVARCHAR(50)
 AS
 BEGIN
-    UPDATE tblFeedback
-    SET Comments = @Comments,
-        Rating = @Rating,
-        ResidentID = @ResidentID
-    WHERE FeedbackID = @FeedbackID
+    Update tblFeedback
+    SET
+		DATE = @FeedDate,
+        Content = @FeedCon,
+        Comment = @FeedCom,
+        ResidentID = @ResID,
+        ResName = @ResName
+    WHERE FeedbackID = @FeedID;
 END
 GO
 
 CREATE PROCEDURE SP_DeleteFeedback
-    @FeedbackID INT
-AS
+    @FeedID INT
+AS 
 BEGIN
-    DELETE FROM tblFeedback WHERE FeedbackID = @FeedbackID
+    DELETE FROM tblFeedback WHERE FeedbackID = @FeedID;
 END
 GO
+
 --End of Store Procedure LeaseAgreement
 
 -- LeaseAgreement CRUD
@@ -480,6 +495,27 @@ Begin
 	Where ResidentID = @ResidentID
 End
 Go
+
+Create Procedure SP_GetResidentNameByID
+    @ResID INT
+AS
+BEGIN
+    Select Name
+    From tblResident
+    Where ID = @ResID
+END
+GO
+
+Create Procedure SP_LoadResidentIDs
+As
+Begin
+	Select Name,
+			ID
+	From tblResident
+END 
+GO
+
+    
 --End of Store Procedure Resident
 
 -- Staff CRUD
@@ -756,22 +792,6 @@ BEGIN
     INNER JOIN Room rm ON r.RoomID = rm.RoomID
     WHERE res.ResidentName LIKE @SearchTerm + '%'
     ORDER BY r.RentID DESC;
-END;
-GO
-
-CREATE PROCEDURE SP_GetResidentNameById
-    @ResidentID INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    SELECT ResidentName
-    FROM Resident
-    WHERE ResidentID = @ResidentID;
 END;
 GO
 

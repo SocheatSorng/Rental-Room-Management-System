@@ -98,11 +98,12 @@ CREATE TABLE tblPolicy (
 -- FEEDBACK table
 CREATE TABLE tblFeedback (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-    Date DATETIME2 DEFAULT GETDATE(),
-    Comments NVARCHAR(MAX),
-    Rating INT CHECK (Rating >= 1 AND Rating <= 5), 
+	Date DATETIME,
+	Content NVARCHAR(100),
+    Comment NVARCHAR(MAX),
     ResidentID INT,
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ResidentID)
+    ResName NVARCHAR(50),
+    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
 );
 
 -- LEASEAGREEMENT table

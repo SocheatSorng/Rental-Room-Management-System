@@ -105,7 +105,7 @@ namespace RRMS
         private const string FEEDBACK_ID_FIELD = "FeedbackID";
         private const string FEEDBACK_DATE_FIELD = "Date";
         private const string FEEDBACK_CONTENT_FIELD = "Content";
-        private const string FEEDBACK_COMMENTS_FIELD = "Comments";
+        private const string FEEDBACK_COMMENTS_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
         private const string FEEDBACK_RESIDENTNAME_FIELD = "ResName";
 

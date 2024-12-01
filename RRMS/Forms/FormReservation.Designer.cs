@@ -1,6 +1,6 @@
-﻿namespace RRMS
+﻿namespace RRMS.Forms
 {
-    partial class ReservationForm
+    partial class FormReservation
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dgvReser = new DataGridView();
             column7 = new DataGridViewTextBoxColumn();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
@@ -38,10 +38,10 @@
             Column6 = new DataGridViewTextBoxColumn();
             btnClear = new Button();
             btnUpdate = new Button();
-            reservationenddate = new DateTimePicker();
-            reservationstartdate = new DateTimePicker();
-            reservationdate = new DateTimePicker();
-            reservationid = new TextBox();
+            dtpReserED = new DateTimePicker();
+            dtpReserSD = new DateTimePicker();
+            dtpReserDate = new DateTimePicker();
+            txtReserID = new TextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
@@ -49,28 +49,36 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            reservationstatus = new ComboBox();
-            residentid = new TextBox();
-            roomid = new TextBox();
+            dtpStatus = new ComboBox();
             btnInsert = new Button();
-            residentname = new TextBox();
-            roomnum = new TextBox();
+            txtRoomNum = new TextBox();
             btnDelete = new Button();
             panel1 = new Panel();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            label10 = new Label();
+            txtResName = new TextBox();
+            cbbRoomID = new ComboBox();
+            cbbResID = new ComboBox();
             label8 = new Label();
             titleLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            label9 = new Label();
+            txtSearch = new TextBox();
+            label11 = new Label();
+            label12 = new Label();
+            label13 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvReser).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvReser
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { column7, Column1, Column2, Column3, Column4, Column5, Column6 });
-            dataGridView1.Location = new Point(445, 36);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(413, 387);
-            dataGridView1.TabIndex = 37;
+            dgvReser.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReser.Columns.AddRange(new DataGridViewColumn[] { column7, Column1, Column2, Column3, Column4, Column5, Column6 });
+            dgvReser.Location = new Point(445, 76);
+            dgvReser.Name = "dgvReser";
+            dgvReser.Size = new Size(413, 419);
+            dgvReser.TabIndex = 37;
             // 
             // column7
             // 
@@ -113,7 +121,7 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(230, 347);
+            btnClear.Location = new Point(220, 426);
             btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(83, 26);
@@ -127,7 +135,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(141, 347);
+            btnUpdate.Location = new Point(131, 426);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -135,38 +143,38 @@
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
-            // reservationenddate
+            // dtpReserED
             // 
-            reservationenddate.Font = new Font("Segoe UI", 12F);
-            reservationenddate.Location = new Point(154, 143);
-            reservationenddate.Name = "reservationenddate";
-            reservationenddate.Size = new Size(273, 29);
-            reservationenddate.TabIndex = 30;
+            dtpReserED.Font = new Font("Segoe UI", 12F);
+            dtpReserED.Location = new Point(154, 143);
+            dtpReserED.Name = "dtpReserED";
+            dtpReserED.Size = new Size(273, 29);
+            dtpReserED.TabIndex = 30;
             // 
-            // reservationstartdate
+            // dtpReserSD
             // 
-            reservationstartdate.Font = new Font("Segoe UI", 12F);
-            reservationstartdate.Location = new Point(154, 107);
-            reservationstartdate.Name = "reservationstartdate";
-            reservationstartdate.Size = new Size(273, 29);
-            reservationstartdate.TabIndex = 29;
+            dtpReserSD.Font = new Font("Segoe UI", 12F);
+            dtpReserSD.Location = new Point(154, 107);
+            dtpReserSD.Name = "dtpReserSD";
+            dtpReserSD.Size = new Size(273, 29);
+            dtpReserSD.TabIndex = 29;
             // 
-            // reservationdate
+            // dtpReserDate
             // 
-            reservationdate.Font = new Font("Segoe UI", 12F);
-            reservationdate.Location = new Point(154, 72);
-            reservationdate.Name = "reservationdate";
-            reservationdate.Size = new Size(273, 29);
-            reservationdate.TabIndex = 28;
+            dtpReserDate.Font = new Font("Segoe UI", 12F);
+            dtpReserDate.Location = new Point(154, 72);
+            dtpReserDate.Name = "dtpReserDate";
+            dtpReserDate.Size = new Size(273, 29);
+            dtpReserDate.TabIndex = 28;
             // 
-            // reservationid
+            // txtReserID
             // 
-            reservationid.Font = new Font("Segoe UI", 12F);
-            reservationid.Location = new Point(154, 40);
-            reservationid.Name = "reservationid";
-            reservationid.ReadOnly = true;
-            reservationid.Size = new Size(273, 29);
-            reservationid.TabIndex = 27;
+            txtReserID.Font = new Font("Segoe UI", 12F);
+            txtReserID.Location = new Point(154, 40);
+            txtReserID.Name = "txtReserID";
+            txtReserID.ReadOnly = true;
+            txtReserID.Size = new Size(273, 29);
+            txtReserID.TabIndex = 27;
             // 
             // label7
             // 
@@ -182,7 +190,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 12F);
-            label6.Location = new Point(17, 218);
+            label6.Location = new Point(17, 212);
             label6.Name = "label6";
             label6.Size = new Size(92, 21);
             label6.TabIndex = 25;
@@ -238,34 +246,14 @@
             label1.TabIndex = 20;
             label1.Text = "ReservationID :";
             // 
-            // reservationstatus
+            // dtpStatus
             // 
-            reservationstatus.Font = new Font("Segoe UI", 12F);
-            reservationstatus.FormattingEnabled = true;
-            reservationstatus.Location = new Point(154, 175);
-            reservationstatus.Name = "reservationstatus";
-            reservationstatus.Size = new Size(273, 29);
-            reservationstatus.TabIndex = 39;
-            // 
-            // residentid
-            // 
-            residentid.Font = new Font("Segoe UI", 12F);
-            residentid.Location = new Point(154, 210);
-            residentid.Name = "residentid";
-            residentid.PlaceholderText = "Input Resident ID To Display Name";
-            residentid.Size = new Size(273, 29);
-            residentid.TabIndex = 42;
-            residentid.TextAlign = HorizontalAlignment.Center;
-            // 
-            // roomid
-            // 
-            roomid.Font = new Font("Segoe UI", 12F);
-            roomid.Location = new Point(154, 277);
-            roomid.Name = "roomid";
-            roomid.ReadOnly = true;
-            roomid.Size = new Size(273, 29);
-            roomid.TabIndex = 43;
-            roomid.TextAlign = HorizontalAlignment.Center;
+            dtpStatus.Font = new Font("Segoe UI", 12F);
+            dtpStatus.FormattingEnabled = true;
+            dtpStatus.Location = new Point(154, 175);
+            dtpStatus.Name = "dtpStatus";
+            dtpStatus.Size = new Size(273, 29);
+            dtpStatus.TabIndex = 39;
             // 
             // btnInsert
             // 
@@ -273,7 +261,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(48, 347);
+            btnInsert.Location = new Point(38, 426);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -281,25 +269,15 @@
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
-            // residentname
+            // txtRoomNum
             // 
-            residentname.Font = new Font("Segoe UI", 12F);
-            residentname.Location = new Point(154, 242);
-            residentname.Name = "residentname";
-            residentname.ReadOnly = true;
-            residentname.Size = new Size(89, 29);
-            residentname.TabIndex = 45;
-            residentname.TextAlign = HorizontalAlignment.Center;
-            // 
-            // roomnum
-            // 
-            roomnum.Font = new Font("Segoe UI", 12F);
-            roomnum.Location = new Point(154, 312);
-            roomnum.Name = "roomnum";
-            roomnum.ReadOnly = true;
-            roomnum.Size = new Size(89, 29);
-            roomnum.TabIndex = 46;
-            roomnum.TextAlign = HorizontalAlignment.Center;
+            txtRoomNum.Font = new Font("Segoe UI", 12F);
+            txtRoomNum.Location = new Point(154, 312);
+            txtRoomNum.Name = "txtRoomNum";
+            txtRoomNum.ReadOnly = true;
+            txtRoomNum.Size = new Size(273, 29);
+            txtRoomNum.TabIndex = 46;
+            txtRoomNum.TextAlign = HorizontalAlignment.Center;
             // 
             // btnDelete
             // 
@@ -307,7 +285,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(319, 347);
+            btnDelete.Location = new Point(309, 426);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -317,20 +295,26 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(label13);
+            panel1.Controls.Add(label12);
+            panel1.Controls.Add(label11);
+            panel1.Controls.Add(textBox2);
+            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(label10);
+            panel1.Controls.Add(txtResName);
+            panel1.Controls.Add(cbbRoomID);
+            panel1.Controls.Add(cbbResID);
             panel1.Controls.Add(label8);
-            panel1.Controls.Add(roomnum);
-            panel1.Controls.Add(residentname);
+            panel1.Controls.Add(txtRoomNum);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnClear);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(roomid);
-            panel1.Controls.Add(residentid);
-            panel1.Controls.Add(reservationstatus);
+            panel1.Controls.Add(dtpStatus);
             panel1.Controls.Add(btnUpdate);
-            panel1.Controls.Add(reservationenddate);
-            panel1.Controls.Add(reservationstartdate);
-            panel1.Controls.Add(reservationdate);
-            panel1.Controls.Add(reservationid);
+            panel1.Controls.Add(dtpReserED);
+            panel1.Controls.Add(dtpReserSD);
+            panel1.Controls.Add(dtpReserDate);
+            panel1.Controls.Add(txtReserID);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
@@ -340,8 +324,64 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(8, 36);
             panel1.Name = "panel1";
-            panel1.Size = new Size(431, 387);
+            panel1.Size = new Size(431, 459);
             panel1.TabIndex = 49;
+            // 
+            // textBox2
+            // 
+            textBox2.Font = new Font("Segoe UI", 12F);
+            textBox2.Location = new Point(154, 382);
+            textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
+            textBox2.Size = new Size(273, 29);
+            textBox2.TabIndex = 55;
+            textBox2.TextAlign = HorizontalAlignment.Center;
+            // 
+            // textBox1
+            // 
+            textBox1.Font = new Font("Segoe UI", 12F);
+            textBox1.Location = new Point(154, 347);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(273, 29);
+            textBox1.TabIndex = 54;
+            textBox1.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI", 12F);
+            label10.Location = new Point(17, 242);
+            label10.Name = "label10";
+            label10.Size = new Size(116, 21);
+            label10.TabIndex = 53;
+            label10.Text = "Resident Name";
+            // 
+            // txtResName
+            // 
+            txtResName.Font = new Font("Segoe UI", 12F);
+            txtResName.Location = new Point(154, 239);
+            txtResName.Name = "txtResName";
+            txtResName.ReadOnly = true;
+            txtResName.Size = new Size(273, 29);
+            txtResName.TabIndex = 52;
+            txtResName.TextAlign = HorizontalAlignment.Center;
+            // 
+            // cbbRoomID
+            // 
+            cbbRoomID.FormattingEnabled = true;
+            cbbRoomID.Location = new Point(154, 283);
+            cbbRoomID.Name = "cbbRoomID";
+            cbbRoomID.Size = new Size(273, 23);
+            cbbRoomID.TabIndex = 51;
+            // 
+            // cbbResID
+            // 
+            cbbResID.FormattingEnabled = true;
+            cbbResID.Location = new Point(154, 210);
+            cbbResID.Name = "cbbResID";
+            cbbResID.Size = new Size(273, 23);
+            cbbResID.TabIndex = 50;
             // 
             // label8
             // 
@@ -369,31 +409,84 @@
             titleLabel.Text = "Reservation Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // ReservationForm
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Segoe UI", 12F);
+            label9.Location = new Point(445, 43);
+            label9.Name = "label9";
+            label9.Size = new Size(57, 21);
+            label9.TabIndex = 50;
+            label9.Text = "Search";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(508, 40);
+            txtSearch.Name = "txtSearch";
+            txtSearch.ReadOnly = true;
+            txtSearch.Size = new Size(350, 29);
+            txtSearch.TabIndex = 50;
+            txtSearch.TextAlign = HorizontalAlignment.Center;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 12F);
+            label11.Location = new Point(17, 315);
+            label11.Name = "label11";
+            label11.Size = new Size(114, 21);
+            label11.TabIndex = 56;
+            label11.Text = "Room Number";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Segoe UI", 12F);
+            label12.Location = new Point(17, 350);
+            label12.Name = "label12";
+            label12.Size = new Size(99, 21);
+            label12.TabIndex = 57;
+            label12.Text = "Paid Amount";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Segoe UI", 12F);
+            label13.Location = new Point(17, 385);
+            label13.Name = "label13";
+            label13.Size = new Size(63, 21);
+            label13.TabIndex = 58;
+            label13.Text = "Remain";
+            // 
+            // FormReservation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(870, 435);
+            ClientSize = new Size(870, 516);
+            Controls.Add(txtSearch);
+            Controls.Add(label9);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
-            Controls.Add(dataGridView1);
-            Name = "ReservationForm";
+            Controls.Add(dgvReser);
+            Name = "FormReservation";
             Text = "ReservationForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvReser).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private DataGridView dataGridView1;
+        private DataGridView dgvReser;
         private Button btnClear;
         private Button btnUpdate;
-        private DateTimePicker reservationenddate;
-        private DateTimePicker reservationstartdate;
-        private DateTimePicker reservationdate;
-        private TextBox reservationid;
+        private DateTimePicker dtpReserED;
+        private DateTimePicker dtpReserSD;
+        private DateTimePicker dtpReserDate;
+        private TextBox txtReserID;
         private Label label7;
         private Label label6;
         private Label label5;
@@ -401,7 +494,7 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private ComboBox reservationstatus;
+        private ComboBox dtpStatus;
         private DataGridViewTextBoxColumn column7;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
@@ -409,14 +502,25 @@
         private DataGridViewTextBoxColumn Column4;
         private DataGridViewTextBoxColumn Column5;
         private DataGridViewTextBoxColumn Column6;
-        private TextBox residentid;
+        private TextBox txt;
         private TextBox roomid;
         private Button btnInsert;
         private TextBox residentname;
-        private TextBox roomnum;
+        private TextBox txtRoomNum;
         private Button btnDelete;
         private Panel panel1;
         private Label label8;
         private Label titleLabel;
+        private Label label9;
+        private TextBox txtSearch;
+        private ComboBox cbbResID;
+        private ComboBox cbbRoomID;
+        private TextBox txtResName;
+        private Label label10;
+        private TextBox textBox2;
+        private TextBox textBox1;
+        private Label label13;
+        private Label label12;
+        private Label label11;
     }
 }

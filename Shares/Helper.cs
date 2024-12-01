@@ -417,6 +417,12 @@ namespace RRMS
                           typeof(T) == typeof(Amenity) ? "@AmeID" :
                           typeof(T) == typeof(Feedback) ? "@FeedID" :
                           typeof(T) == typeof(LeaseAgreement) ? "LeaseID" :
+                          typeof(T) == typeof(Policy) ? "PolID" :
+                          typeof(T) == typeof(Rent) ? "RentID" :
+                          typeof(T) == typeof(Request) ? "ReqID" :
+                          typeof(T) == typeof(Reservation) ? "ReserID" :
+                          typeof(T) == typeof(Service) ? "Ser" :
+                          typeof(T) == typeof(Utility) ? "UtiID" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
 

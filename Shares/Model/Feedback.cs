@@ -41,18 +41,16 @@ namespace RRMS.Model
         public void AddParameters(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Content", Content as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResidentID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@FeedID", FeedID);
-            cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
+            AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)

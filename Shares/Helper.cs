@@ -105,16 +105,19 @@ namespace RRMS
         private const string FEEDBACK_ID_FIELD = "FeedbackID";
         private const string FEEDBACK_DATE_FIELD = "Date";
         private const string FEEDBACK_CONTENT_FIELD = "Content";
-        private const string FEEDBACK_COMMENTS_FIELD = "Comment";
+        private const string FEEDBACK_COMMENT_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
         private const string FEEDBACK_RESIDENTNAME_FIELD = "ResName";
 
-        // Table User
-        private const string USER_TBL_NAME = "tblUser";
-        private const string USER_USERID_FIELD = "UserID";
-        private const string USER_NAME_FIELD = "Name";
-        private const string USER_PASS_FIELD = "Pass";
-        private const string USER_STAFFID_FIELD = "StaffID"; //FK
+        // Table leaseagreement
+        private const string leaseagreement_TBL_NAME = "tblleaseagreement";
+        private const string leaseagreement_LESAEAGREEMENTID_FIELD = "leaseagreementID";
+        private const string leaseagreement_STARTDATE_FIELD = "StartDate";
+        private const string leaseagreement_ENDDATE_FIELD = "EndDate";
+        private const string leaseagreement_MONTHLYRENT_FIELD = "MonthlyRent";
+        private const string leaseagreement_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
+        private const string leaseagreement_RESIDENTID_FIELD = "ResidentID"; //FK
+        private const string leaseagreement_RESIDENTNAME_FIELD = "ResName";
 
         // Table Policy
         private const string POLICY_TBL_NAME = "tblPolicy";
@@ -124,16 +127,16 @@ namespace RRMS
         private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
         private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
         private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
+        private const string POLICY_RESIDENTNAME_FIELD = "ResName";
+
+        // Table User
+        private const string USER_TBL_NAME = "tblUser";
+        private const string USER_USERID_FIELD = "UserID";
+        private const string USER_NAME_FIELD = "Name";
+        private const string USER_PASS_FIELD = "Pass";
+        private const string USER_STAFFID_FIELD = "StaffID"; //FK
 
 
-        // Table LeaseAgreement
-        private const string LEASEAGREEMENT_TBL_NAME = "tblLeaseAgreement";
-        private const string LEASEAGREEMENT_LESAEAGREEMENTID_FIELD = "LeaseAgreementID";
-        private const string LEASEAGREEMENT_STARTDATE_FIELD = "StartDate";
-        private const string LEASEAGREEMENT_ENDDATE_FIELD = "EndDate";
-        private const string LEASEAGREEMENT_MONTHLYRENT_FIELD = "MonthlyRent";
-        private const string LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
-        private const string LEASEAGREEMENT_RESIDNETID_FIELD = "ResidentID"; //FK
 
         // Table Utility
         private const string UTILITY_TBL_NAME = "tblUtility";
@@ -292,92 +295,79 @@ namespace RRMS
                                 feedback.ID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_ID_FIELD));
                                 feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
-                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                                 feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
-                                
                             }
-                            //else if (entity is Room room)
-                            //{
-                            //    room.RoomID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMID_FIELD));
-                            //    room.Number = reader.IsDBNull(reader.GetOrdinal(ROOM_NUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_NUMBER_FIELD));
-                            //    room.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD));
-                            //}
-                            //else if (entity is Service service)
-                            //{
-                            //    service.ServiceID = reader.IsDBNull(reader.GetOrdinal(SERVICE_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(SERVICE_SERVICEID_FIELD));
-                            //    service.Name = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
-                            //    service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
-                            //    service.Cost = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(SERVICE_COST_FIELD));
-                            //}
-                            //else if (entity is Reservation reservation)
-                            //{
-                            //    reservation.ReservationID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD));
-                            //    reservation.Date = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
-                            //    reservation.StartDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
-                            //    reservation.EndDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
-                            //    reservation.Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
-                            //    reservation.ResidentID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
-                            //    reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
-                            //    reservation.ResidentName = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD));
-                            //    reservation.RoomNumber = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD));
-                            //}
-                            //else if (entity is Request request)
-                            //{
-                            //    request.RequestID = reader.IsDBNull(reader.GetOrdinal(REQUEST_REQUESTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_REQUESTID_FIELD));
-                            //    request.Date = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
-                            //    request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
-                            //    request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_STATUS_FIELD));
-                            //    request.ResidentID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
-                            //    request.ServiceID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
-                            //    request.ResidentName = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD));
-                            //    request.ServiceName = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD));
-                            //}
-                            //else if (entity is Rent rent)
-                            //{
-                            //    rent.RentID = reader.IsDBNull(reader.GetOrdinal(RENT_RENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RENTID_FIELD));
-                            //    rent.StartDate = reader.IsDBNull(reader.GetOrdinal(RENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_STARTDATE_FIELD));
-                            //    rent.EndDate = reader.IsDBNull(reader.GetOrdinal(RENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_ENDDATE_FIELD));
-                            //    rent.Amount = reader.IsDBNull(reader.GetOrdinal(RENT_AMOUNT_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(RENT_AMOUNT_FIELD));
-                            //    rent.ResidentID = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RESIDENTID_FIELD));
-                            //    rent.RoomID = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_ROOMID_FIELD));
-                            //    rent.ResidentName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
-                            //    rent.RoomNumber = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
-                            //}
-                            //else if (entity is Utility utility)
-                            //{
-                            //    utility.UtilityID = reader.IsDBNull(reader.GetOrdinal(UTILITY_UTILITYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_UTILITYID_FIELD));
-                            //    utility.Type = reader.IsDBNull(reader.GetOrdinal(UTILITY_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(UTILITY_TYPE_FIELD));
-                            //    utility.Cost = reader.IsDBNull(reader.GetOrdinal(UTILITY_COST_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(UTILITY_COST_FIELD));
-                            //    utility.UsageDate = reader.IsDBNull(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD));
-                            //    utility.RoomID = reader.IsDBNull(reader.GetOrdinal(UTILITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_ROOMID_FIELD));
-                            //}
-                            //else if (entity is LeaseAgreement leaseAgreement)
-                            //{
-                            //    leaseAgreement.LeaseAgreementID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_LESAEAGREEMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_LESAEAGREEMENTID_FIELD));
-                            //    leaseAgreement.StartDate = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD));
-                            //    leaseAgreement.EndDate = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD));
-                            //    leaseAgreement.MonthlyRent = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_MONTHLYRENT_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(LEASEAGREEMENT_MONTHLYRENT_FIELD));
-                            //    leaseAgreement.TermsAndConditions = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
-                            //    leaseAgreement.ResidentID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDNETID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDNETID_FIELD));
-                            //}
-
-                            //else if (entity is Policy policy)
-                            //{
-                            //    policy.PolicyID = reader.IsDBNull(reader.GetOrdinal(POLICY_POLICYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_POLICYID_FIELD));
-                            //    policy.Name = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
-                            //    policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
-                            //    policy.CreatedDate = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
-                            //    policy.UpdatedDate = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
-                            //    policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
-                            //}
-                            //else if (entity is User user)
-                            //{
-                            //    user.UserID = reader.IsDBNull(reader.GetOrdinal(USER_USERID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(USER_USERID_FIELD));
-                            //    user.Name = reader.IsDBNull(reader.GetOrdinal(USER_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(USER_NAME_FIELD));
-                            //    user.Pass = reader.IsDBNull(reader.GetOrdinal(USER_PASS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(USER_PASS_FIELD));
-                            //    user.StaffID = reader.IsDBNull(reader.GetOrdinal(USER_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(USER_STAFFID_FIELD));
-                            //}
+                            else if (entity is LeaseAgreement leaseagreement)
+                            {
+                                leaseagreement.ID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_LESAEAGREEMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_LESAEAGREEMENTID_FIELD));
+                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD));
+                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD));
+                                leaseagreement.RentPrice = reader.IsDBNull(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD));
+                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD));
+                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD));
+                                leaseagreement.ResName = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD));
+                            }
+                            else if (entity is Service service)
+                            {
+                                service.ID = reader.GetInt32(reader.GetOrdinal(SERVICE_SERVICEID_FIELD));
+                                service.FirstName = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
+                                service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
+                                service.Cost = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(SERVICE_COST_FIELD));
+                            }
+                            else if (entity is Utility utility)
+                            {
+                                utility.ID = reader.IsDBNull(reader.GetOrdinal(UTILITY_UTILITYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_UTILITYID_FIELD));
+                                utility.Type = reader.IsDBNull(reader.GetOrdinal(UTILITY_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(UTILITY_TYPE_FIELD));
+                                utility.Cost = reader.IsDBNull(reader.GetOrdinal(UTILITY_COST_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(UTILITY_COST_FIELD));
+                                utility.Start = reader.IsDBNull(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD));
+                                utility.RoomID = reader.IsDBNull(reader.GetOrdinal(UTILITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_ROOMID_FIELD));
+                            }
+                            else if (entity is Reservation reservation)
+                            {
+                                reservation.ID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD));
+                                reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
+                                reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
+                                reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
+                                reservation.Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
+                                reservation.ResName = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD));
+                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
+                                reservation.RoomNum = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD));
+                            }
+                            else if (entity is Request request)
+                            {
+                                request.ID = reader.IsDBNull(reader.GetOrdinal(REQUEST_REQUESTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_REQUESTID_FIELD));
+                                request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
+                                request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
+                                request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
+                                request.ResID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
+                                request.SerID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
+                                request.ResName = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD));
+                                request.SerName = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD));
+                            }
+                            else if (entity is Rent rent)
+                            {
+                                rent.ID = reader.IsDBNull(reader.GetOrdinal(RENT_RENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RENTID_FIELD));
+                                rent.Start = reader.IsDBNull(reader.GetOrdinal(RENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_STARTDATE_FIELD));
+                                rent.End = reader.IsDBNull(reader.GetOrdinal(RENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_ENDDATE_FIELD));
+                                rent.RentPrice = reader.IsDBNull(reader.GetOrdinal(RENT_AMOUNT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(RENT_AMOUNT_FIELD));
+                                rent.ResID = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RESIDENTID_FIELD));
+                                rent.RoomID = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_ROOMID_FIELD));
+                                rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
+                                rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
+                            }
+                            else if (entity is Policy policy)
+                            {
+                                policy.ID = reader.IsDBNull(reader.GetOrdinal(POLICY_POLICYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_POLICYID_FIELD));
+                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
+                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
+                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
+                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
+                                policy.ResID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                                policy.ResName = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD));
+                            }
                             //else if (entity is RoomType roomType)
                             //{
                             //    roomType.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_ROOMTYPEID_FIELD));
@@ -426,9 +416,9 @@ namespace RRMS
                           typeof(T) == typeof(Staff) ? "@StaID" :
                           typeof(T) == typeof(Amenity) ? "@AmeID" :
                           typeof(T) == typeof(Feedback) ? "@FeedID" :
+                          typeof(T) == typeof(LeaseAgreement) ? "LeaseID" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
-
 
                 try
                 {
@@ -504,10 +494,78 @@ namespace RRMS
                                 feedback.ID = id;
                                 feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
-                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENTS_FIELD));
+                                feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                                 feedback.ResName = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_RESIDENTNAME_FIELD));
-
+                            }
+                            else if (result is LeaseAgreement leaseagreement)
+                            {
+                                leaseagreement.ID = id;
+                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD));
+                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD));
+                                leaseagreement.RentPrice = reader.IsDBNull(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD));
+                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD));
+                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD));
+                                leaseagreement.ResName = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD));
+                            }
+                            else if (result is Feedback service)
+                            {
+                                service.ID = id;
+                                service.FirstName = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
+                                service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
+                                service.CostPrice = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(SERVICE_COST_FIELD));
+                            }
+                            else if (result is Utility utility)
+                            {
+                                utility.ID = id;
+                                utility.Type = reader.IsDBNull(reader.GetOrdinal(UTILITY_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(UTILITY_TYPE_FIELD));
+                                utility.CostPrice = reader.IsDBNull(reader.GetOrdinal(UTILITY_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(UTILITY_COST_FIELD));
+                                utility.Start = reader.IsDBNull(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD));
+                                utility.RoomID = reader.IsDBNull(reader.GetOrdinal(UTILITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_ROOMID_FIELD));
+                            }
+                            else if (result is Reservation reservation)
+                            {
+                                reservation.ID = id;
+                                reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
+                                reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
+                                reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
+                                reservation.Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
+                                reservation.ResName = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD));
+                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
+                                reservation.RoomNum = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD));
+                            }
+                            else if (result is Request request)
+                            {
+                                request.ID = id;
+                                request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
+                                request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
+                                request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
+                                request.ResID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
+                                request.SerID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
+                                request.ResName = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD));
+                                request.SerName = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD));
+                            }
+                            else if (result is Rent rent)
+                            {
+                                rent.ID = id;
+                                rent.Start = reader.IsDBNull(reader.GetOrdinal(RENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_STARTDATE_FIELD));
+                                rent.End = reader.IsDBNull(reader.GetOrdinal(RENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_ENDDATE_FIELD));
+                                rent.RentPrice = reader.IsDBNull(reader.GetOrdinal(RENT_AMOUNT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(RENT_AMOUNT_FIELD));
+                                rent.ResID = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RESIDENTID_FIELD));
+                                rent.RoomID = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_ROOMID_FIELD));
+                                rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
+                                rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
+                            }
+                            else if (result is Policy policy)
+                            {
+                                policy.ID = id;
+                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
+                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
+                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
+                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
+                                policy.ResID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                                policy.ResName = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_RESIDENTNAME_FIELD));
                             }
                         }
                     }
@@ -605,6 +663,108 @@ namespace RRMS
                             entityId = feedback.ID.ToString();
                         }
                     }
+                    else if (entity is LeaseAgreement leaseagreement)
+                    {
+                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)leaseagreement.ID,
+                                Entity = EntityTypes.LeaseAgreements
+                            });
+                            entityId = leaseagreement.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"LeaseAgreement ID {leaseagreement.ID} is out of range for ByteId.");
+                        }
+                    }
+                    else if (entity is Service service)
+                    {
+                        if (service.ID >= 0 && service.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)service.ID,
+                                Entity = EntityTypes.Services
+                            });
+                            entityId = service.ID.ToString();
+                        }
+                    }
+                    else if (entity is Utility utility)
+                    {
+                        if (utility.ID >= 0 && utility.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)utility.ID,
+                                Entity = EntityTypes.Utilitys
+                            });
+                            entityId = utility.ID.ToString();
+                        }
+                    }
+                    else if (entity is Reservation reservation)
+                    {
+                        if (reservation.ID >= 0 && reservation.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)reservation.ID,
+                                Entity = EntityTypes.Reservations
+                            });
+                            entityId = reservation.ID.ToString();
+                        }
+                    }
+                    else if (entity is Request request)
+                    {
+                        if (request.ID >= 0 && request.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)request.ID,
+                                Entity = EntityTypes.Requests
+                            });
+                            entityId = request.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Request ID {request.ID} is out of range for ByteId.");
+                        }
+                    }
+                    else if (entity is Rent rent)
+                    {
+                        if (rent.ID >= 0 && rent.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)rent.ID,
+                                Entity = EntityTypes.Rents
+                            });
+                            entityId = rent.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Rent ID {rent.ID} is out of range for ByteId.");
+                        }
+                    }
+                    else if (entity is Policy policy)
+                    {
+                        if (policy.ID >= 0 && policy.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)policy.ID,
+                                Entity = EntityTypes.Policys
+                            });
+                            entityId = policy.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Policy ID {policy.ID} is out of range for ByteId.");
+                        }
+                    }
+
+
                     // Add other entity type handling here if needed
                     else
                     {
@@ -636,7 +796,6 @@ namespace RRMS
                 {
                     int affectedRows = cmd.ExecuteNonQuery();
 
-                    // Handle specific logic for Resident
                     if (entity is Resident resident)
                     {
                         if (resident.ResID >= 0 && resident.ResID <= 255)
@@ -648,7 +807,6 @@ namespace RRMS
                             throw new ArgumentOutOfRangeException(nameof(resident.ResID), "Resident ID must be between 0 and 255.");
                         }
                     }
-                    // Handle specific logic for Vendor
                     else if (entity is Vendor vendor)
                     {
                         if (vendor.VenID >= 0 && vendor.VenID <= 255)
@@ -693,11 +851,88 @@ namespace RRMS
                             throw new ArgumentOutOfRangeException(nameof(feedback.ID), "Feedback ID must be between 0 and 255.");
                         }
                     }
+                    else if (entity is LeaseAgreement leaseagreement)
+                    {
+                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseagreement.ID, Entity = EntityTypes.LeaseAgreements });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(leaseagreement.ID), "LeaseAgreement ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Service service)
+                    {
+                        if (service.ID >= 0 && service.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)service.ID, Entity = EntityTypes.Services });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(service.ID), "Service ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Utility utility)
+                    {
+                        if (utility.ID >= 0 && utility.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)utility.ID, Entity = EntityTypes.Utilitys });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(utility.ID), "Utility ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Reservation reservation)
+                    {
+                        if (reservation.ID >= 0 && reservation.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)reservation.ID, Entity = EntityTypes.Reservations });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(reservation.ID), "Reservation ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Request request)
+                    {
+                        if (request.ID >= 0 && request.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)request.ID, Entity = EntityTypes.Requests });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(request.ID), "Request ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Rent rent)
+                    {
+                        if (rent.ID >= 0 && rent.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)rent.ID, Entity = EntityTypes.Rents });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(rent.ID), "Rent ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Policy policy)
+                    {
+                        if (policy.ID >= 0 && policy.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)policy.ID, Entity = EntityTypes.Policys });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(policy.ID), "Policy ID must be between 0 and 255.");
+                        }
+                    }
+
                     else
                     {
                         throw new NotSupportedException($"Entity type {entity.GetType().Name} is not supported for updates.");
                     }
-
                     return affectedRows > 0; // Return true if at least one row was affected
                 }
                 catch (SqlException sqlEx)
@@ -724,7 +959,6 @@ namespace RRMS
                 {
                     int effected = cmd.ExecuteNonQuery();
 
-                    // Handle specific logic for Resident
                     if (entity is Resident resident)
                     {
                         if (resident.ResID >= 0 && resident.ResID <= 255)
@@ -736,8 +970,8 @@ namespace RRMS
                             throw new Exception($"ResidentID {resident.ResID} is out of range for ByteId. It must be between 0 and 255.");
                         }
                     }
-                    // Handle specific logic for Vendor (if needed)
                     else if (entity is Vendor vendor)
+                    {
                         if (vendor.VenID >= 0 && vendor.VenID <= 255)
                         {
                             Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)vendor.VenID, Entity = EntityTypes.Vendors });
@@ -746,7 +980,9 @@ namespace RRMS
                         {
                             throw new Exception($"Vendor ID {vendor.VenID} is out of range for ByteId. It must be between 0 and 255.");
                         }
+                    }
                     else if (entity is Staff staff)
+                    {
                         if (staff.ID >= 0 && staff.ID <= 255)
                         {
                             Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)staff.ID, Entity = EntityTypes.Staffs });
@@ -755,7 +991,9 @@ namespace RRMS
                         {
                             throw new Exception($"Vendor ID {staff.ID} is out of range for ByteId. It must be between 0 and 255.");
                         }
+                    }
                     else if (entity is Amenity amenity)
+                    {
                         if (amenity.ID >= 0 && amenity.ID <= 255)
                         {
                             Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)amenity.ID, Entity = EntityTypes.Amenitys });
@@ -764,8 +1002,10 @@ namespace RRMS
                         {
                             throw new Exception($"Amenity ID {amenity.ID} is out of range for ByteId. It must be between 0 and 255.");
                         }
+                    }
                     else if (entity is Feedback feedback)
-                        if(feedback.ID >= 0 && feedback.ID <= 255)
+                    {
+                        if (feedback.ID >= 0 && feedback.ID <= 255)
                         {
                             Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)feedback.ID, Entity = EntityTypes.Feedbacks });
                         }
@@ -773,7 +1013,84 @@ namespace RRMS
                         {
                             throw new Exception($"Feedback ID {feedback.ID} is out of range for ByteId. It must be between 0 and 255.");
                         }
-
+                    }
+                    else if (entity is LeaseAgreement leaseagreement)
+                    {
+                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseagreement.ID, Entity = EntityTypes.LeaseAgreements });
+                        }
+                        else
+                        {
+                            throw new Exception($"LeaseAgreement ID {leaseagreement.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Service service)
+                    {
+                        if (service.ID >= 0 && service.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)service.ID, Entity = EntityTypes.Services });
+                        }
+                        else
+                        {
+                            throw new Exception($"Service ID {service.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Utility utility)
+                    {
+                        if (utility.ID >= 0 && utility.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)utility.ID, Entity = EntityTypes.Utilitys });
+                        }
+                        else
+                        {
+                            throw new Exception($"Utility ID {utility.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Reservation reservation)
+                    {
+                        if (reservation.ID >= 0 && reservation.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)reservation.ID, Entity = EntityTypes.Reservations });
+                        }
+                        else
+                        {
+                            throw new Exception($"Reservation ID {reservation.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Request request)
+                    {
+                        if (request.ID >= 0 && request.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)request.ID, Entity = EntityTypes.Requests });
+                        }
+                        else
+                        {
+                            throw new Exception($"Request ID {request.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Rent rent)
+                    {
+                        if (rent.ID >= 0 && rent.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)rent.ID, Entity = EntityTypes.Rents });
+                        }
+                        else
+                        {
+                            throw new Exception($"Rent ID {rent.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Policy policy)
+                    {
+                        if (policy.ID >= 0 && policy.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)policy.ID, Entity = EntityTypes.Policys });
+                        }
+                        else
+                        {
+                            throw new Exception($"Policy ID {policy.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
 
                     return (effected > 0);
                 }

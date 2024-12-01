@@ -9,8 +9,10 @@ namespace RRMS {
         public DateTime StaDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? Stat { get; set; }
-        public int ResiID { get; set; }
+        public int ResID { get; set; }
+        public string? ResName { get; set; }
         public int RoomID { get; set; }
+        public string? RoomNum { get; set; }
 
         // Implementing applicable interface members
         public int ID { get => ReserID; set => ReserID = value; }
@@ -44,7 +46,7 @@ namespace RRMS {
             cmd.Parameters.AddWithValue("@StaDate", StaDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Stat", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResiID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
@@ -55,7 +57,7 @@ namespace RRMS {
             cmd.Parameters.AddWithValue("@StaDate", StaDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Stat", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResiID", ResiID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResiID", ResID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 

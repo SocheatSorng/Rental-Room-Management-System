@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace RRMS.model
+namespace RRMS.Model
 {
     public class Request : IEntity
     {

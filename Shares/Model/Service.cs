@@ -5,16 +5,18 @@ namespace RRMS.Model
     public class Service : IEntity
     {
         // Original properties
-        public int ServID { get; set; }
+        public int SerID { get; set; }
         public string? ServName { get; set; }
         public string? ServDescription { get; set; }
-        public decimal Cost { get; set; }
+        public double Cost { get; set; }
+        public int VenID { get; set; }
+        public int RoomID { get; set; }
 
         // Implementing applicable interface members
-        public int ID { get => ServID; set => ServID = value; }
+        public int ID { get => SerID; set => SerID = value; }
         public string FirstName { get => ServName ?? string.Empty; set => ServName = value; }
         public string Description { get => ServDescription ?? string.Empty; set => ServDescription = value; }
-        public double CostPrice { get => (double)Cost; set => Cost = (decimal)value; }
+        public double CostPrice { get => Cost; set => Cost = value; }
 
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -38,22 +40,22 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ServName", ServName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ServDescription", ServDescription as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Name", FirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Description", Description as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Cost", CostPrice as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@VendorID", VenID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ServID", ServID);
-            cmd.Parameters.AddWithValue("@ServName", ServName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ServDescription", ServDescription as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServiceID", ID);
+            AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ServID", ServID);
+            cmd.Parameters.AddWithValue("@ServiceID", SerID);
         }
     }
 }

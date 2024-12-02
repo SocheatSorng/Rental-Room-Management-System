@@ -5,7 +5,7 @@ namespace RRMS.Model
 {
     public class Resident : IEntity
     {
-        public int ResID { get; set; }
+        public int ResidentID { get; set; }
         public string? ResType { get; set; }
         public string? ResFirstName { get; set; }
         public string? ResLastName { get; set; }
@@ -22,7 +22,7 @@ namespace RRMS.Model
         public DateTime ResCheckOut { get; set; }
 
         // Implementing interface members
-        public int ID { get => ResID; set => ResID = value; }
+        public int ID { get => ResidentID; set => ResidentID = value; }
         public string FirstName { get => ResFirstName; set => ResFirstName = value; }
         public string LastName { get => ResLastName; set => ResLastName = value; }
         public string Sex { get => ResSex; set => ResSex = value; }
@@ -49,32 +49,31 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ResType", ResType as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResFirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResSex", ResSex as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResBOD", ResBD as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevStNo", ResPrevStNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevCommune", ResPrevCommune as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPrevProvince", ResPrevProvince as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResPerNum", ResPerNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResConNum", ResConNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResCheckIn", ResCheckIn as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResCheckOut", ResCheckOut as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Type", ResType as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Name", ResFirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Sex", ResSex as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@BD", ResBD as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PrevStNo", ResPrevStNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PrevCommune", ResPrevCommune as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PrevProvince", ResPrevProvince as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PerNum", ResPerNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ConNum", ResConNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@CheckIn", ResCheckIn as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@CheckOut", ResCheckOut as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
             // Assuming ResID is the identifier for the resident
-            cmd.Parameters.AddWithValue("@ResID", ResID);
-
+            cmd.Parameters.AddWithValue("@ResidentID", ID);
             AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ResID", ResID);
+            cmd.Parameters.AddWithValue("@ResidentID", ID);
         }
     }
 }

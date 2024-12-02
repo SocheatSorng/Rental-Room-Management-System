@@ -209,6 +209,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(cbbResID);
             panel1.Controls.Add(label10);
@@ -230,7 +231,7 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(1, 35);
             panel1.Name = "panel1";
-            panel1.Size = new Size(366, 363);
+            panel1.Size = new Size(366, 695);
             panel1.TabIndex = 18;
             // 
             // btnNew
@@ -276,7 +277,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(743, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Policy Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -286,7 +287,7 @@
             dgvPol.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvPol.Location = new Point(380, 73);
             dgvPol.Name = "dgvPol";
-            dgvPol.Size = new Size(354, 320);
+            dgvPol.Size = new Size(652, 657);
             dgvPol.TabIndex = 44;
             // 
             // label8
@@ -304,14 +305,14 @@
             txtSearch.Location = new Point(455, 35);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(279, 23);
+            txtSearch.Size = new Size(577, 23);
             txtSearch.TabIndex = 51;
             // 
             // FormPolicy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(743, 406);
+            ClientSize = new Size(1044, 742);
             Controls.Add(txtSearch);
             Controls.Add(label8);
             Controls.Add(dgvPol);

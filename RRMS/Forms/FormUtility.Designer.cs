@@ -171,6 +171,7 @@ namespace RRMS.Forms
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(label7);
             panel1.Controls.Add(txtRoomNum);
             panel1.Controls.Add(cbbRoomID);
@@ -190,7 +191,7 @@ namespace RRMS.Forms
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 38);
             panel1.Name = "panel1";
-            panel1.Size = new Size(373, 290);
+            panel1.Size = new Size(373, 692);
             panel1.TabIndex = 16;
             // 
             // label7
@@ -222,7 +223,7 @@ namespace RRMS.Forms
             // 
             // btnNew
             // 
-            btnNew.BackColor = Color.FromArgb(92, 184, 92);
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
@@ -254,7 +255,7 @@ namespace RRMS.Forms
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(837, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Utility Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -274,7 +275,7 @@ namespace RRMS.Forms
             txtSearch.Location = new Point(464, 38);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(361, 23);
+            txtSearch.Size = new Size(568, 23);
             txtSearch.TabIndex = 50;
             // 
             // dgvUti
@@ -282,14 +283,14 @@ namespace RRMS.Forms
             dgvUti.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUti.Location = new Point(391, 66);
             dgvUti.Name = "dgvUti";
-            dgvUti.Size = new Size(434, 263);
+            dgvUti.Size = new Size(641, 664);
             dgvUti.TabIndex = 51;
             // 
             // FormUtility
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(837, 341);
+            ClientSize = new Size(1044, 742);
             Controls.Add(dgvUti);
             Controls.Add(txtSearch);
             Controls.Add(label6);

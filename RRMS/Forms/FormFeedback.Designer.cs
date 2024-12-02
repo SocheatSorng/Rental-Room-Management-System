@@ -32,6 +32,7 @@ namespace RRMS.Forms
             btnNew = new Button();
             btnClose = new Button();
             panel1 = new Panel();
+            cbbResID = new ComboBox();
             txtFeedCon = new TextBox();
             label7 = new Label();
             label10 = new Label();
@@ -39,7 +40,6 @@ namespace RRMS.Forms
             label3 = new Label();
             txtSearch = new TextBox();
             dgvFeed = new DataGridView();
-            cbbResID = new ComboBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvFeed).BeginInit();
             SuspendLayout();
@@ -197,6 +197,7 @@ namespace RRMS.Forms
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(cbbResID);
             panel1.Controls.Add(txtFeedCon);
             panel1.Controls.Add(label7);
@@ -217,8 +218,16 @@ namespace RRMS.Forms
             panel1.Controls.Add(label4);
             panel1.Location = new Point(12, 46);
             panel1.Name = "panel1";
-            panel1.Size = new Size(393, 355);
+            panel1.Size = new Size(393, 684);
             panel1.TabIndex = 19;
+            // 
+            // cbbResID
+            // 
+            cbbResID.FormattingEnabled = true;
+            cbbResID.Location = new Point(131, 204);
+            cbbResID.Name = "cbbResID";
+            cbbResID.Size = new Size(248, 23);
+            cbbResID.TabIndex = 51;
             // 
             // txtFeedCon
             // 
@@ -259,7 +268,7 @@ namespace RRMS.Forms
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(769, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Feedback ";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -279,30 +288,22 @@ namespace RRMS.Forms
             txtSearch.Location = new Point(468, 52);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(289, 23);
+            txtSearch.Size = new Size(564, 23);
             txtSearch.TabIndex = 49;
             // 
             // dgvFeed
             // 
             dgvFeed.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvFeed.Location = new Point(411, 94);
+            dgvFeed.Location = new Point(411, 80);
             dgvFeed.Name = "dgvFeed";
-            dgvFeed.Size = new Size(346, 307);
+            dgvFeed.Size = new Size(621, 650);
             dgvFeed.TabIndex = 50;
-            // 
-            // cbbResID
-            // 
-            cbbResID.FormattingEnabled = true;
-            cbbResID.Location = new Point(131, 204);
-            cbbResID.Name = "cbbResID";
-            cbbResID.Size = new Size(248, 23);
-            cbbResID.TabIndex = 51;
             // 
             // FormFeedback
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(769, 426);
+            ClientSize = new Size(1044, 742);
             Controls.Add(dgvFeed);
             Controls.Add(txtSearch);
             Controls.Add(label3);

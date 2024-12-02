@@ -212,84 +212,84 @@
             txtStaID.Location = new Point(118, 40);
             txtStaID.Name = "txtStaID";
             txtStaID.ReadOnly = true;
-            txtStaID.Size = new Size(200, 23);
+            txtStaID.Size = new Size(224, 23);
             txtStaID.TabIndex = 16;
             // 
             // txtStaFN
             // 
             txtStaFN.Location = new Point(118, 69);
             txtStaFN.Name = "txtStaFN";
-            txtStaFN.Size = new Size(200, 23);
+            txtStaFN.Size = new Size(224, 23);
             txtStaFN.TabIndex = 17;
             // 
             // txtStaLN
             // 
             txtStaLN.Location = new Point(118, 103);
             txtStaLN.Name = "txtStaLN";
-            txtStaLN.Size = new Size(200, 23);
+            txtStaLN.Size = new Size(224, 23);
             txtStaLN.TabIndex = 18;
             // 
             // txtStaSex
             // 
             txtStaSex.Location = new Point(118, 132);
             txtStaSex.Name = "txtStaSex";
-            txtStaSex.Size = new Size(200, 23);
+            txtStaSex.Size = new Size(224, 23);
             txtStaSex.TabIndex = 19;
             // 
             // txtStaPos
             // 
             txtStaPos.Location = new Point(118, 191);
             txtStaPos.Name = "txtStaPos";
-            txtStaPos.Size = new Size(200, 23);
+            txtStaPos.Size = new Size(224, 23);
             txtStaPos.TabIndex = 21;
             // 
             // txtStaHNo
             // 
             txtStaHNo.Location = new Point(118, 220);
             txtStaHNo.Name = "txtStaHNo";
-            txtStaHNo.Size = new Size(200, 23);
+            txtStaHNo.Size = new Size(224, 23);
             txtStaHNo.TabIndex = 22;
             // 
             // txtStaSNo
             // 
             txtStaSNo.Location = new Point(118, 257);
             txtStaSNo.Name = "txtStaSNo";
-            txtStaSNo.Size = new Size(200, 23);
+            txtStaSNo.Size = new Size(224, 23);
             txtStaSNo.TabIndex = 23;
             // 
             // txtStaCom
             // 
             txtStaCom.Location = new Point(118, 286);
             txtStaCom.Name = "txtStaCom";
-            txtStaCom.Size = new Size(200, 23);
+            txtStaCom.Size = new Size(224, 23);
             txtStaCom.TabIndex = 24;
             // 
             // txtStaDis
             // 
             txtStaDis.Location = new Point(118, 315);
             txtStaDis.Name = "txtStaDis";
-            txtStaDis.Size = new Size(200, 23);
+            txtStaDis.Size = new Size(224, 23);
             txtStaDis.TabIndex = 25;
             // 
             // txtStaPro
             // 
             txtStaPro.Location = new Point(118, 344);
             txtStaPro.Name = "txtStaPro";
-            txtStaPro.Size = new Size(200, 23);
+            txtStaPro.Size = new Size(224, 23);
             txtStaPro.TabIndex = 26;
             // 
             // txtStaPN
             // 
             txtStaPN.Location = new Point(118, 373);
             txtStaPN.Name = "txtStaPN";
-            txtStaPN.Size = new Size(200, 23);
+            txtStaPN.Size = new Size(224, 23);
             txtStaPN.TabIndex = 27;
             // 
             // txtStaSal
             // 
             txtStaSal.Location = new Point(118, 402);
             txtStaSal.Name = "txtStaSal";
-            txtStaSal.Size = new Size(200, 23);
+            txtStaSal.Size = new Size(224, 23);
             txtStaSal.TabIndex = 28;
             // 
             // btnNew
@@ -351,27 +351,28 @@
             // dgvSta
             // 
             dgvSta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSta.Location = new Point(352, 64);
+            dgvSta.Location = new Point(363, 64);
             dgvSta.Name = "dgvSta";
-            dgvSta.Size = new Size(502, 519);
+            dgvSta.Size = new Size(669, 666);
             dgvSta.TabIndex = 35;
             // 
             // dtpStaBD
             // 
             dtpStaBD.Location = new Point(118, 164);
             dtpStaBD.Name = "dtpStaBD";
-            dtpStaBD.Size = new Size(200, 23);
+            dtpStaBD.Size = new Size(224, 23);
             dtpStaBD.TabIndex = 39;
             // 
             // dtpStaHD
             // 
             dtpStaHD.Location = new Point(118, 431);
             dtpStaHD.Name = "dtpStaHD";
-            dtpStaHD.Size = new Size(200, 23);
+            dtpStaHD.Size = new Size(224, 23);
             dtpStaHD.TabIndex = 40;
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(dtpStaStop);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(dtpStaHD);
@@ -409,14 +410,14 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 33);
             panel1.Name = "panel1";
-            panel1.Size = new Size(334, 550);
+            panel1.Size = new Size(345, 697);
             panel1.TabIndex = 42;
             // 
             // dtpStaStop
             // 
             dtpStaStop.Location = new Point(118, 463);
             dtpStaStop.Name = "dtpStaStop";
-            dtpStaStop.Size = new Size(200, 23);
+            dtpStaStop.Size = new Size(224, 23);
             dtpStaStop.TabIndex = 49;
             // 
             // label5
@@ -427,7 +428,7 @@
             label5.ForeColor = Color.White;
             label5.Location = new Point(0, 0);
             label5.Name = "label5";
-            label5.Size = new Size(334, 29);
+            label5.Size = new Size(345, 29);
             label5.TabIndex = 48;
             label5.Text = "Staff Details";
             label5.TextAlign = ContentAlignment.MiddleCenter;
@@ -440,7 +441,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(866, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Staff Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -448,7 +449,7 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(352, 42);
+            label17.Location = new Point(363, 42);
             label17.Name = "label17";
             label17.Size = new Size(48, 15);
             label17.TabIndex = 49;
@@ -456,16 +457,16 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(406, 34);
+            txtSearch.Location = new Point(417, 34);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(448, 23);
+            txtSearch.Size = new Size(615, 23);
             txtSearch.TabIndex = 49;
             // 
             // FormStaff
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(866, 598);
+            ClientSize = new Size(1044, 742);
             Controls.Add(txtSearch);
             Controls.Add(label17);
             Controls.Add(titleLabel);

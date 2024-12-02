@@ -123,7 +123,7 @@
             requestid.Location = new Point(145, 47);
             requestid.Name = "requestid";
             requestid.ReadOnly = true;
-            requestid.Size = new Size(276, 23);
+            requestid.Size = new Size(247, 23);
             requestid.TabIndex = 6;
             // 
             // description
@@ -131,7 +131,7 @@
             description.Location = new Point(145, 132);
             description.Name = "description";
             description.PlaceholderText = "Input Description";
-            description.Size = new Size(276, 23);
+            description.Size = new Size(247, 23);
             description.TabIndex = 8;
             description.TextAlign = HorizontalAlignment.Center;
             // 
@@ -141,7 +141,7 @@
             residentid.Location = new Point(145, 260);
             residentid.Name = "residentid";
             residentid.PlaceholderText = "Input ResidentID To Display Resident Name";
-            residentid.Size = new Size(276, 23);
+            residentid.Size = new Size(247, 23);
             residentid.TabIndex = 10;
             residentid.TextAlign = HorizontalAlignment.Center;
             // 
@@ -150,16 +150,16 @@
             serviceid.Location = new Point(145, 300);
             serviceid.Name = "serviceid";
             serviceid.PlaceholderText = "Input ServiceID To Display Service Name";
-            serviceid.Size = new Size(276, 23);
+            serviceid.Size = new Size(247, 23);
             serviceid.TabIndex = 11;
             serviceid.TextAlign = HorizontalAlignment.Center;
             // 
             // dgvReq
             // 
             dgvReq.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvReq.Location = new Point(447, 80);
+            dgvReq.Location = new Point(420, 72);
             dgvReq.Name = "dgvReq";
-            dgvReq.Size = new Size(414, 430);
+            dgvReq.Size = new Size(612, 658);
             dgvReq.TabIndex = 12;
             // 
             // btnClear
@@ -168,12 +168,12 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(123, 433);
+            btnClear.Location = new Point(14, 386);
             btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(83, 26);
             btnClear.TabIndex = 2;
-            btnClear.Text = "Clear";
+            btnClear.Text = "New";
             btnClear.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
@@ -182,7 +182,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(212, 433);
+            btnUpdate.Location = new Point(210, 386);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -194,7 +194,7 @@
             // 
             requestdate.Location = new Point(145, 91);
             requestdate.Name = "requestdate";
-            requestdate.Size = new Size(276, 23);
+            requestdate.Size = new Size(247, 23);
             requestdate.TabIndex = 39;
             // 
             // status
@@ -202,7 +202,7 @@
             status.FormattingEnabled = true;
             status.Location = new Point(145, 220);
             status.Name = "status";
-            status.Size = new Size(276, 23);
+            status.Size = new Size(247, 23);
             status.TabIndex = 41;
             // 
             // residentname
@@ -210,7 +210,7 @@
             residentname.Location = new Point(145, 178);
             residentname.Name = "residentname";
             residentname.ReadOnly = true;
-            residentname.Size = new Size(276, 23);
+            residentname.Size = new Size(247, 23);
             residentname.TabIndex = 42;
             residentname.TextAlign = HorizontalAlignment.Center;
             // 
@@ -229,7 +229,7 @@
             servicename.Location = new Point(145, 337);
             servicename.Name = "servicename";
             servicename.ReadOnly = true;
-            servicename.Size = new Size(276, 23);
+            servicename.Size = new Size(247, 23);
             servicename.TabIndex = 44;
             servicename.TextAlign = HorizontalAlignment.Center;
             // 
@@ -249,7 +249,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(27, 433);
+            btnInsert.Location = new Point(112, 386);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -259,10 +259,10 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(517, 43);
+            txtSearch.Location = new Point(490, 43);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Search by Status, Name, Service";
-            txtSearch.Size = new Size(344, 23);
+            txtSearch.Size = new Size(542, 23);
             txtSearch.TabIndex = 48;
             txtSearch.TextAlign = HorizontalAlignment.Center;
             // 
@@ -270,7 +270,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F);
-            label9.Location = new Point(447, 43);
+            label9.Location = new Point(420, 43);
             label9.Name = "label9";
             label9.Size = new Size(64, 21);
             label9.TabIndex = 47;
@@ -282,7 +282,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(301, 433);
+            btnDelete.Location = new Point(309, 386);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -292,6 +292,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(label10);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnInsert);
@@ -315,7 +316,7 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(5, 35);
             panel1.Name = "panel1";
-            panel1.Size = new Size(436, 475);
+            panel1.Size = new Size(407, 695);
             panel1.TabIndex = 50;
             // 
             // label10
@@ -326,7 +327,7 @@
             label10.ForeColor = Color.White;
             label10.Location = new Point(0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(436, 29);
+            label10.Size = new Size(407, 29);
             label10.TabIndex = 50;
             label10.Text = "Request Details";
             label10.TextAlign = ContentAlignment.MiddleCenter;
@@ -339,7 +340,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(873, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 51;
             titleLabel.Text = "Request Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -348,7 +349,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(873, 521);
+            ClientSize = new Size(1044, 742);
             Controls.Add(titleLabel);
             Controls.Add(txtSearch);
             Controls.Add(panel1);

@@ -140,7 +140,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(122, 450);
+            btnInsert.Location = new Point(128, 426);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -150,11 +150,11 @@
             // 
             // btnNew
             // 
-            btnNew.BackColor = Color.FromArgb(92, 184, 92);
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(21, 450);
+            btnNew.Location = new Point(21, 426);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -168,7 +168,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(226, 450);
+            btnUpdate.Location = new Point(232, 426);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -181,7 +181,7 @@
             dgvSer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSer.Location = new Point(470, 79);
             dgvSer.Name = "dgvSer";
-            dgvSer.Size = new Size(381, 448);
+            dgvSer.Size = new Size(562, 651);
             dgvSer.TabIndex = 51;
             // 
             // label1
@@ -200,7 +200,7 @@
             txtSearch.Location = new Point(540, 40);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Seach by Name, Description";
-            txtSearch.Size = new Size(311, 29);
+            txtSearch.Size = new Size(492, 29);
             txtSearch.TabIndex = 53;
             // 
             // btnDelete
@@ -209,7 +209,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(337, 450);
+            btnDelete.Location = new Point(335, 426);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -219,6 +219,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(label9);
             panel1.Controls.Add(txtRoomID);
             panel1.Controls.Add(label8);
@@ -242,7 +243,7 @@
             panel1.Controls.Add(label3);
             panel1.Location = new Point(12, 37);
             panel1.Name = "panel1";
-            panel1.Size = new Size(452, 490);
+            panel1.Size = new Size(452, 693);
             panel1.TabIndex = 55;
             // 
             // label9
@@ -338,7 +339,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(863, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 56;
             titleLabel.Text = "Sevice Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -347,7 +348,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(863, 539);
+            ClientSize = new Size(1044, 742);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(dgvSer);

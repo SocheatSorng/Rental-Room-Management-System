@@ -52,8 +52,8 @@
             btnInsert = new Button();
             btnDelete = new Button();
             inputGroup = new Panel();
-            titleLabel = new Label();
             label10 = new Label();
+            titleLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             inputGroup.SuspendLayout();
             SuspendLayout();
@@ -221,12 +221,12 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(283, 432);
+            btnClear.Location = new Point(18, 376);
             btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(83, 26);
             btnClear.TabIndex = 2;
-            btnClear.Text = "Clear";
+            btnClear.Text = "New";
             btnClear.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
@@ -235,7 +235,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(98, 432);
+            btnUpdate.Location = new Point(197, 376);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -246,16 +246,16 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(421, 45);
+            dataGridView1.Location = new Point(394, 70);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(352, 472);
+            dataGridView1.Size = new Size(638, 660);
             dataGridView1.TabIndex = 41;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F);
-            label8.Location = new Point(17, 376);
+            label8.Location = new Point(394, 46);
             label8.Name = "label8";
             label8.Size = new Size(64, 21);
             label8.TabIndex = 42;
@@ -263,9 +263,9 @@
             // 
             // searchbox
             // 
-            searchbox.Location = new Point(136, 376);
+            searchbox.Location = new Point(464, 44);
             searchbox.Name = "searchbox";
-            searchbox.Size = new Size(230, 25);
+            searchbox.Size = new Size(568, 23);
             searchbox.TabIndex = 43;
             // 
             // btnInsert
@@ -274,7 +274,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(9, 432);
+            btnInsert.Location = new Point(108, 376);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -288,7 +288,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(187, 432);
+            btnDelete.Location = new Point(286, 376);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -300,9 +300,7 @@
             // 
             inputGroup.BackColor = Color.White;
             inputGroup.Controls.Add(label10);
-            inputGroup.Controls.Add(searchbox);
             inputGroup.Controls.Add(btnDelete);
-            inputGroup.Controls.Add(label8);
             inputGroup.Controls.Add(btnInsert);
             inputGroup.Controls.Add(label3);
             inputGroup.Controls.Add(label2);
@@ -323,26 +321,13 @@
             inputGroup.Controls.Add(label5);
             inputGroup.Controls.Add(label6);
             inputGroup.Font = new Font("Segoe UI", 10F);
-            inputGroup.Location = new Point(18, 45);
+            inputGroup.Location = new Point(16, 39);
             inputGroup.Margin = new Padding(3, 2, 3, 2);
             inputGroup.Name = "inputGroup";
             inputGroup.Padding = new Padding(3, 2, 3, 2);
-            inputGroup.Size = new Size(372, 472);
+            inputGroup.Size = new Size(372, 691);
             inputGroup.TabIndex = 1;
             inputGroup.Text = "Lease Agreement Details";
-            // 
-            // titleLabel
-            // 
-            titleLabel.BackColor = Color.FromArgb(51, 122, 183);
-            titleLabel.Dock = DockStyle.Top;
-            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
-            titleLabel.ForeColor = Color.White;
-            titleLabel.Location = new Point(0, 0);
-            titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(800, 30);
-            titleLabel.TabIndex = 42;
-            titleLabel.Text = "Rent Management";
-            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // label10
             // 
@@ -357,20 +342,36 @@
             label10.Text = "Rent Management";
             label10.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // RentForm
+            // titleLabel
+            // 
+            titleLabel.BackColor = Color.FromArgb(51, 122, 183);
+            titleLabel.Dock = DockStyle.Top;
+            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.ForeColor = Color.White;
+            titleLabel.Location = new Point(0, 0);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(1044, 30);
+            titleLabel.TabIndex = 42;
+            titleLabel.Text = "Rent Management";
+            titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // FormRent
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 530);
+            ClientSize = new Size(1044, 742);
             Controls.Add(titleLabel);
+            Controls.Add(searchbox);
             Controls.Add(inputGroup);
+            Controls.Add(label8);
             Controls.Add(dataGridView1);
-            Name = "RentForm";
+            Name = "FormRent";
             Text = "RentForm";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             inputGroup.ResumeLayout(false);
             inputGroup.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

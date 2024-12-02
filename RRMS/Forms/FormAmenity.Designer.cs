@@ -234,7 +234,7 @@
             dgvAme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvAme.Location = new Point(371, 76);
             dgvAme.Name = "dgvAme";
-            dgvAme.Size = new Size(383, 316);
+            dgvAme.Size = new Size(661, 654);
             dgvAme.TabIndex = 20;
             // 
             // dtpAmeMD
@@ -246,6 +246,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(chkAmeAvail);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(txtAmeDesc);
@@ -269,7 +270,7 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 33);
             panel1.Name = "panel1";
-            panel1.Size = new Size(353, 359);
+            panel1.Size = new Size(353, 697);
             panel1.TabIndex = 25;
             // 
             // chkAmeAvail
@@ -302,7 +303,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(764, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Amenity Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -320,14 +321,14 @@
             // 
             txtSearch.Location = new Point(425, 42);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(327, 23);
+            txtSearch.Size = new Size(607, 23);
             txtSearch.TabIndex = 49;
             // 
             // FormAmenity
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(764, 403);
+            ClientSize = new Size(1044, 742);
             Controls.Add(txtSearch);
             Controls.Add(label9);
             Controls.Add(titleLabel);

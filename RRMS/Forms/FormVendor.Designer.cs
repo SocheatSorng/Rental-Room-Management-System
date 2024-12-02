@@ -244,7 +244,7 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(28, 455);
+            btnNew.Location = new Point(20, 455);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -272,7 +272,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(206, 455);
+            btnUpdate.Location = new Point(215, 455);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -286,7 +286,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(295, 455);
+            btnDelete.Location = new Point(313, 455);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -297,23 +297,23 @@
             // dgvVen
             // 
             dgvVen.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVen.Location = new Point(440, 90);
+            dgvVen.Location = new Point(429, 75);
             dgvVen.Name = "dgvVen";
-            dgvVen.Size = new Size(457, 451);
+            dgvVen.Size = new Size(603, 655);
             dgvVen.TabIndex = 28;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(515, 61);
+            txtSearch.Location = new Point(504, 46);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(382, 23);
+            txtSearch.Size = new Size(528, 23);
             txtSearch.TabIndex = 30;
             // 
             // label13
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Segoe UI", 12F);
-            label13.Location = new Point(440, 59);
+            label13.Location = new Point(429, 44);
             label13.Name = "label13";
             label13.Size = new Size(64, 21);
             label13.TabIndex = 31;
@@ -344,6 +344,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(label17);
             panel1.Controls.Add(chkVenStat);
             panel1.Controls.Add(dtpVenCE);
@@ -373,9 +374,9 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(12, 54);
+            panel1.Location = new Point(10, 36);
             panel1.Name = "panel1";
-            panel1.Size = new Size(413, 487);
+            panel1.Size = new Size(413, 694);
             panel1.TabIndex = 35;
             // 
             // label17
@@ -399,7 +400,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(909, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 44;
             titleLabel.Text = "Vendor Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -408,7 +409,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(909, 562);
+            ClientSize = new Size(1044, 742);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(label13);

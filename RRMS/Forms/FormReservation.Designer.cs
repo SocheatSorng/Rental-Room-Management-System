@@ -77,7 +77,7 @@
             dgvReser.Columns.AddRange(new DataGridViewColumn[] { column7, Column1, Column2, Column3, Column4, Column5, Column6 });
             dgvReser.Location = new Point(445, 76);
             dgvReser.Name = "dgvReser";
-            dgvReser.Size = new Size(413, 419);
+            dgvReser.Size = new Size(587, 654);
             dgvReser.TabIndex = 37;
             // 
             // column7
@@ -121,12 +121,12 @@
             btnClear.FlatStyle = FlatStyle.Flat;
             btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(220, 426);
+            btnClear.Location = new Point(18, 426);
             btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(83, 26);
             btnClear.TabIndex = 2;
-            btnClear.Text = "Clear";
+            btnClear.Text = "New";
             btnClear.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
@@ -135,7 +135,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(131, 426);
+            btnUpdate.Location = new Point(221, 426);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -145,35 +145,38 @@
             // 
             // dtpReserED
             // 
-            dtpReserED.Font = new Font("Segoe UI", 12F);
-            dtpReserED.Location = new Point(154, 143);
+            dtpReserED.CalendarFont = new Font("Microsoft Sans Serif", 9F);
+            dtpReserED.Font = new Font("Microsoft Sans Serif", 11.25F);
+            dtpReserED.Location = new Point(146, 143);
             dtpReserED.Name = "dtpReserED";
-            dtpReserED.Size = new Size(273, 29);
+            dtpReserED.Size = new Size(263, 24);
             dtpReserED.TabIndex = 30;
             // 
             // dtpReserSD
             // 
-            dtpReserSD.Font = new Font("Segoe UI", 12F);
-            dtpReserSD.Location = new Point(154, 107);
+            dtpReserSD.CalendarFont = new Font("Microsoft Sans Serif", 9F);
+            dtpReserSD.Font = new Font("Microsoft Sans Serif", 11.25F);
+            dtpReserSD.Location = new Point(146, 107);
             dtpReserSD.Name = "dtpReserSD";
-            dtpReserSD.Size = new Size(273, 29);
+            dtpReserSD.Size = new Size(263, 24);
             dtpReserSD.TabIndex = 29;
             // 
             // dtpReserDate
             // 
-            dtpReserDate.Font = new Font("Segoe UI", 12F);
-            dtpReserDate.Location = new Point(154, 72);
+            dtpReserDate.CalendarFont = new Font("Microsoft Sans Serif", 9F);
+            dtpReserDate.Font = new Font("Microsoft Sans Serif", 11.25F);
+            dtpReserDate.Location = new Point(146, 72);
             dtpReserDate.Name = "dtpReserDate";
-            dtpReserDate.Size = new Size(273, 29);
+            dtpReserDate.Size = new Size(263, 24);
             dtpReserDate.TabIndex = 28;
             // 
             // txtReserID
             // 
             txtReserID.Font = new Font("Segoe UI", 12F);
-            txtReserID.Location = new Point(154, 40);
+            txtReserID.Location = new Point(146, 40);
             txtReserID.Name = "txtReserID";
             txtReserID.ReadOnly = true;
-            txtReserID.Size = new Size(273, 29);
+            txtReserID.Size = new Size(263, 29);
             txtReserID.TabIndex = 27;
             // 
             // label7
@@ -250,9 +253,9 @@
             // 
             dtpStatus.Font = new Font("Segoe UI", 12F);
             dtpStatus.FormattingEnabled = true;
-            dtpStatus.Location = new Point(154, 175);
+            dtpStatus.Location = new Point(146, 175);
             dtpStatus.Name = "dtpStatus";
-            dtpStatus.Size = new Size(273, 29);
+            dtpStatus.Size = new Size(263, 29);
             dtpStatus.TabIndex = 39;
             // 
             // btnInsert
@@ -261,7 +264,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(38, 426);
+            btnInsert.Location = new Point(117, 426);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -272,10 +275,10 @@
             // txtRoomNum
             // 
             txtRoomNum.Font = new Font("Segoe UI", 12F);
-            txtRoomNum.Location = new Point(154, 312);
+            txtRoomNum.Location = new Point(146, 312);
             txtRoomNum.Name = "txtRoomNum";
             txtRoomNum.ReadOnly = true;
-            txtRoomNum.Size = new Size(273, 29);
+            txtRoomNum.Size = new Size(263, 29);
             txtRoomNum.TabIndex = 46;
             txtRoomNum.TextAlign = HorizontalAlignment.Center;
             // 
@@ -285,7 +288,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(309, 426);
+            btnDelete.Location = new Point(326, 426);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -295,6 +298,7 @@
             // 
             // panel1
             // 
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(label13);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(label11);
@@ -324,7 +328,7 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(8, 36);
             panel1.Name = "panel1";
-            panel1.Size = new Size(431, 459);
+            panel1.Size = new Size(431, 694);
             panel1.TabIndex = 49;
             // 
             // label13
@@ -360,20 +364,20 @@
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 12F);
-            textBox2.Location = new Point(154, 382);
+            textBox2.Location = new Point(146, 382);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
-            textBox2.Size = new Size(273, 29);
+            textBox2.Size = new Size(263, 29);
             textBox2.TabIndex = 55;
             textBox2.TextAlign = HorizontalAlignment.Center;
             // 
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(154, 347);
+            textBox1.Location = new Point(146, 347);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new Size(273, 29);
+            textBox1.Size = new Size(263, 29);
             textBox1.TabIndex = 54;
             textBox1.TextAlign = HorizontalAlignment.Center;
             // 
@@ -390,27 +394,27 @@
             // txtResName
             // 
             txtResName.Font = new Font("Segoe UI", 12F);
-            txtResName.Location = new Point(154, 239);
+            txtResName.Location = new Point(146, 239);
             txtResName.Name = "txtResName";
             txtResName.ReadOnly = true;
-            txtResName.Size = new Size(273, 29);
+            txtResName.Size = new Size(263, 29);
             txtResName.TabIndex = 52;
             txtResName.TextAlign = HorizontalAlignment.Center;
             // 
             // cbbRoomID
             // 
             cbbRoomID.FormattingEnabled = true;
-            cbbRoomID.Location = new Point(154, 283);
+            cbbRoomID.Location = new Point(146, 283);
             cbbRoomID.Name = "cbbRoomID";
-            cbbRoomID.Size = new Size(273, 23);
+            cbbRoomID.Size = new Size(263, 23);
             cbbRoomID.TabIndex = 51;
             // 
             // cbbResID
             // 
             cbbResID.FormattingEnabled = true;
-            cbbResID.Location = new Point(154, 210);
+            cbbResID.Location = new Point(146, 210);
             cbbResID.Name = "cbbResID";
-            cbbResID.Size = new Size(273, 23);
+            cbbResID.Size = new Size(263, 23);
             cbbResID.TabIndex = 50;
             // 
             // label8
@@ -434,7 +438,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(870, 30);
+            titleLabel.Size = new Size(1044, 30);
             titleLabel.TabIndex = 50;
             titleLabel.Text = "Reservation Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -455,7 +459,7 @@
             txtSearch.Location = new Point(508, 40);
             txtSearch.Name = "txtSearch";
             txtSearch.ReadOnly = true;
-            txtSearch.Size = new Size(350, 29);
+            txtSearch.Size = new Size(524, 29);
             txtSearch.TabIndex = 50;
             txtSearch.TextAlign = HorizontalAlignment.Center;
             // 
@@ -464,7 +468,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonFace;
-            ClientSize = new Size(870, 508);
+            ClientSize = new Size(1044, 742);
             Controls.Add(txtSearch);
             Controls.Add(label9);
             Controls.Add(titleLabel);

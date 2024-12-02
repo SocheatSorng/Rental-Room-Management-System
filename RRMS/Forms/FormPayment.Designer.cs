@@ -29,56 +29,56 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dTPaymentDate = new DateTimePicker();
-            txtPaymentAmount = new TextBox();
+            dtPaymentDate = new DateTimePicker();
+            txtRemainAmount = new TextBox();
             txtPaymentNo = new TextBox();
             labelMajorID = new Label();
             labelPaymentDate = new Label();
             LabelPaymentNo = new Label();
             txtSearchPayment = new TextBox();
             labelSearch = new Label();
-            cBPaymentStatusID = new ComboBox();
-            label2 = new Label();
-            checkBox1 = new CheckBox();
+            cbbReservationID = new ComboBox();
             label12 = new Label();
-            textBox1 = new TextBox();
-            checkBox2 = new CheckBox();
-            txtID = new TextBox();
+            txtPaidAmount = new TextBox();
+            cbUtilityID = new CheckBox();
             label5 = new Label();
             labelPaymentAmount = new Label();
             label4 = new Label();
-            textBox3 = new TextBox();
+            txtStaffName = new TextBox();
             label6 = new Label();
-            comboBox1 = new ComboBox();
+            cbbStaffID = new ComboBox();
             panel1 = new Panel();
             btnDelete = new Button();
             label17 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnUpdate = new Button();
+            btnInsert = new Button();
+            btnNew = new Button();
             label1 = new Label();
-            dataGridView1 = new DataGridView();
+            dgvPayment = new DataGridView();
+            label2 = new Label();
+            cbbUtilityID = new ComboBox();
+            txtUtilityName = new TextBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPayment).BeginInit();
             SuspendLayout();
             // 
-            // dTPaymentDate
+            // dtPaymentDate
             // 
-            dTPaymentDate.CustomFormat = "yyyy/MM/dd";
-            dTPaymentDate.Font = new Font("Microsoft Sans Serif", 11.25F);
-            dTPaymentDate.Location = new Point(140, 76);
-            dTPaymentDate.Name = "dTPaymentDate";
-            dTPaymentDate.Size = new Size(264, 24);
-            dTPaymentDate.TabIndex = 118;
+            dtPaymentDate.CustomFormat = "yyyy/MM/dd";
+            dtPaymentDate.Font = new Font("Microsoft Sans Serif", 11.25F);
+            dtPaymentDate.Location = new Point(140, 76);
+            dtPaymentDate.Name = "dtPaymentDate";
+            dtPaymentDate.Size = new Size(264, 24);
+            dtPaymentDate.TabIndex = 118;
             // 
-            // txtPaymentAmount
+            // txtRemainAmount
             // 
-            txtPaymentAmount.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtPaymentAmount.Location = new Point(140, 300);
-            txtPaymentAmount.Name = "txtPaymentAmount";
-            txtPaymentAmount.ReadOnly = true;
-            txtPaymentAmount.Size = new Size(261, 27);
-            txtPaymentAmount.TabIndex = 113;
+            txtRemainAmount.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            txtRemainAmount.Location = new Point(138, 375);
+            txtRemainAmount.Name = "txtRemainAmount";
+            txtRemainAmount.ReadOnly = true;
+            txtRemainAmount.Size = new Size(261, 27);
+            txtRemainAmount.TabIndex = 113;
             // 
             // txtPaymentNo
             // 
@@ -93,7 +93,7 @@
             // 
             labelMajorID.AutoSize = true;
             labelMajorID.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelMajorID.Location = new Point(9, 309);
+            labelMajorID.Location = new Point(12, 382);
             labelMajorID.Name = "labelMajorID";
             labelMajorID.Size = new Size(114, 18);
             labelMajorID.TabIndex = 107;
@@ -103,7 +103,7 @@
             // 
             labelPaymentDate.AutoSize = true;
             labelPaymentDate.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelPaymentDate.Location = new Point(8, 83);
+            labelPaymentDate.Location = new Point(12, 81);
             labelPaymentDate.Name = "labelPaymentDate";
             labelPaymentDate.Size = new Size(101, 18);
             labelPaymentDate.TabIndex = 104;
@@ -113,7 +113,7 @@
             // 
             LabelPaymentNo.AutoSize = true;
             LabelPaymentNo.Font = new Font("Microsoft Sans Serif", 11.25F);
-            LabelPaymentNo.Location = new Point(9, 41);
+            LabelPaymentNo.Location = new Point(12, 43);
             LabelPaymentNo.Name = "LabelPaymentNo";
             LabelPaymentNo.Size = new Size(90, 18);
             LabelPaymentNo.TabIndex = 103;
@@ -137,81 +137,51 @@
             labelSearch.TabIndex = 100;
             labelSearch.Text = "Search By";
             // 
-            // cBPaymentStatusID
+            // cbbReservationID
             // 
-            cBPaymentStatusID.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBPaymentStatusID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            cBPaymentStatusID.FormattingEnabled = true;
-            cBPaymentStatusID.Location = new Point(141, 118);
-            cBPaymentStatusID.Name = "cBPaymentStatusID";
-            cBPaymentStatusID.Size = new Size(261, 32);
-            cBPaymentStatusID.TabIndex = 114;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label2.Location = new Point(9, 354);
-            label2.Name = "label2";
-            label2.Size = new Size(216, 18);
-            label2.TabIndex = 165;
-            label2.Text = "Second Amount Has Been Paid";
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Microsoft Sans Serif", 11.25F);
-            checkBox1.Location = new Point(231, 358);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(15, 14);
-            checkBox1.TabIndex = 167;
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            cbbReservationID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbReservationID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbReservationID.FormattingEnabled = true;
+            cbbReservationID.Location = new Point(141, 118);
+            cbbReservationID.Name = "cbbReservationID";
+            cbbReservationID.Size = new Size(261, 32);
+            cbbReservationID.TabIndex = 114;
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label12.Location = new Point(9, 264);
+            label12.Location = new Point(12, 339);
             label12.Name = "label12";
             label12.Size = new Size(92, 18);
             label12.TabIndex = 169;
             label12.Text = "Paid Amount";
             // 
-            // textBox1
+            // txtPaidAmount
             // 
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(141, 253);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(261, 29);
-            textBox1.TabIndex = 168;
-            textBox1.TextAlign = HorizontalAlignment.Center;
+            txtPaidAmount.Font = new Font("Segoe UI", 12F);
+            txtPaidAmount.Location = new Point(139, 328);
+            txtPaidAmount.Name = "txtPaidAmount";
+            txtPaidAmount.ReadOnly = true;
+            txtPaidAmount.Size = new Size(261, 29);
+            txtPaidAmount.TabIndex = 168;
+            txtPaidAmount.TextAlign = HorizontalAlignment.Center;
             // 
-            // checkBox2
+            // cbUtilityID
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Font = new Font("Microsoft Sans Serif", 11.25F);
-            checkBox2.Location = new Point(121, 212);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(15, 14);
-            checkBox2.TabIndex = 172;
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // txtID
-            // 
-            txtID.Location = new Point(140, 210);
-            txtID.Margin = new Padding(3, 2, 3, 2);
-            txtID.Name = "txtID";
-            txtID.ReadOnly = true;
-            txtID.Size = new Size(261, 23);
-            txtID.TabIndex = 174;
+            cbUtilityID.AutoSize = true;
+            cbUtilityID.Font = new Font("Microsoft Sans Serif", 11.25F);
+            cbUtilityID.Location = new Point(117, 252);
+            cbUtilityID.Name = "cbUtilityID";
+            cbUtilityID.Size = new Size(15, 14);
+            cbUtilityID.TabIndex = 172;
+            cbUtilityID.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label5.Location = new Point(9, 209);
+            label5.Location = new Point(12, 248);
             label5.Name = "label5";
             label5.Size = new Size(65, 18);
             label5.TabIndex = 173;
@@ -221,7 +191,7 @@
             // 
             labelPaymentAmount.AutoSize = true;
             labelPaymentAmount.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelPaymentAmount.Location = new Point(8, 125);
+            labelPaymentAmount.Location = new Point(12, 132);
             labelPaymentAmount.Name = "labelPaymentAmount";
             labelPaymentAmount.Size = new Size(105, 18);
             labelPaymentAmount.TabIndex = 105;
@@ -231,63 +201,63 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label4.Location = new Point(9, 403);
+            label4.Location = new Point(12, 170);
             label4.Name = "label4";
             label4.Size = new Size(60, 18);
             label4.TabIndex = 175;
             label4.Text = "Staff ID:";
             // 
-            // textBox3
+            // txtStaffName
             // 
-            textBox3.Location = new Point(140, 165);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
-            textBox3.Name = "textBox3";
-            textBox3.ReadOnly = true;
-            textBox3.Size = new Size(261, 23);
-            textBox3.TabIndex = 178;
+            txtStaffName.Location = new Point(141, 208);
+            txtStaffName.Margin = new Padding(3, 2, 3, 2);
+            txtStaffName.Name = "txtStaffName";
+            txtStaffName.ReadOnly = true;
+            txtStaffName.Size = new Size(261, 23);
+            txtStaffName.TabIndex = 178;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label6.Location = new Point(9, 165);
+            label6.Location = new Point(12, 213);
             label6.Name = "label6";
             label6.Size = new Size(86, 18);
             label6.TabIndex = 177;
             label6.Text = "Staff Name:";
             // 
-            // comboBox1
+            // cbbStaffID
             // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(141, 396);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(264, 32);
-            comboBox1.TabIndex = 179;
+            cbbStaffID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbStaffID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbStaffID.FormattingEnabled = true;
+            cbbStaffID.Location = new Point(140, 163);
+            cbbStaffID.Name = "cbbStaffID";
+            cbbStaffID.Size = new Size(264, 32);
+            cbbStaffID.TabIndex = 179;
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtUtilityName);
+            panel1.Controls.Add(cbbUtilityID);
+            panel1.Controls.Add(label2);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(label17);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(comboBox1);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button3);
-            panel1.Controls.Add(textBox3);
+            panel1.Controls.Add(btnUpdate);
+            panel1.Controls.Add(cbbStaffID);
+            panel1.Controls.Add(btnInsert);
+            panel1.Controls.Add(btnNew);
+            panel1.Controls.Add(txtStaffName);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label4);
-            panel1.Controls.Add(txtID);
             panel1.Controls.Add(label5);
-            panel1.Controls.Add(checkBox2);
+            panel1.Controls.Add(cbUtilityID);
             panel1.Controls.Add(label12);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(checkBox1);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(dTPaymentDate);
-            panel1.Controls.Add(cBPaymentStatusID);
-            panel1.Controls.Add(txtPaymentAmount);
+            panel1.Controls.Add(txtPaidAmount);
+            panel1.Controls.Add(dtPaymentDate);
+            panel1.Controls.Add(cbbReservationID);
+            panel1.Controls.Add(txtRemainAmount);
             panel1.Controls.Add(txtPaymentNo);
             panel1.Controls.Add(labelMajorID);
             panel1.Controls.Add(labelPaymentAmount);
@@ -325,47 +295,47 @@
             label17.Text = "Payment Details";
             label17.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // btnUpdate
             // 
-            button1.BackColor = Color.FromArgb(240, 173, 78);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(212, 445);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(83, 26);
-            button1.TabIndex = 183;
-            button1.Text = "Update";
-            button1.UseVisualStyleBackColor = false;
+            btnUpdate.BackColor = Color.FromArgb(240, 173, 78);
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(212, 445);
+            btnUpdate.Margin = new Padding(3, 2, 3, 2);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(83, 26);
+            btnUpdate.TabIndex = 183;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnInsert
             // 
-            button2.BackColor = Color.FromArgb(92, 184, 92);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(111, 445);
-            button2.Margin = new Padding(3, 2, 3, 2);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 26);
-            button2.TabIndex = 182;
-            button2.Text = "Insert";
-            button2.UseVisualStyleBackColor = false;
+            btnInsert.BackColor = Color.FromArgb(92, 184, 92);
+            btnInsert.FlatStyle = FlatStyle.Flat;
+            btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnInsert.ForeColor = Color.White;
+            btnInsert.Location = new Point(111, 445);
+            btnInsert.Margin = new Padding(3, 2, 3, 2);
+            btnInsert.Name = "btnInsert";
+            btnInsert.Size = new Size(83, 26);
+            btnInsert.TabIndex = 182;
+            btnInsert.Text = "Insert";
+            btnInsert.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnNew
             // 
-            button3.BackColor = Color.FromArgb(217, 83, 79);
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(12, 445);
-            button3.Margin = new Padding(3, 2, 3, 2);
-            button3.Name = "button3";
-            button3.Size = new Size(83, 26);
-            button3.TabIndex = 185;
-            button3.Text = "New";
-            button3.UseVisualStyleBackColor = false;
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(12, 445);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 185;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -380,13 +350,43 @@
             label1.Text = "Payment Management";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dataGridView1
+            // dgvPayment
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(428, 79);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(612, 647);
-            dataGridView1.TabIndex = 182;
+            dgvPayment.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPayment.Location = new Point(428, 79);
+            dgvPayment.Name = "dgvPayment";
+            dgvPayment.Size = new Size(612, 647);
+            dgvPayment.TabIndex = 182;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 11.25F);
+            label2.Location = new Point(12, 295);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 18);
+            label2.TabIndex = 186;
+            label2.Text = "Utility Name:";
+            // 
+            // cbbUtilityID
+            // 
+            cbbUtilityID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbUtilityID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbUtilityID.FormattingEnabled = true;
+            cbbUtilityID.Location = new Point(138, 241);
+            cbbUtilityID.Name = "cbbUtilityID";
+            cbbUtilityID.Size = new Size(264, 32);
+            cbbUtilityID.TabIndex = 187;
+            // 
+            // txtUtilityName
+            // 
+            txtUtilityName.Font = new Font("Segoe UI", 12F);
+            txtUtilityName.Location = new Point(138, 284);
+            txtUtilityName.Name = "txtUtilityName";
+            txtUtilityName.ReadOnly = true;
+            txtUtilityName.Size = new Size(261, 29);
+            txtUtilityName.TabIndex = 188;
+            txtUtilityName.TextAlign = HorizontalAlignment.Center;
             // 
             // FormPayment
             // 
@@ -394,7 +394,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1040, 738);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvPayment);
             Controls.Add(label1);
             Controls.Add(panel1);
             Controls.Add(txtSearchPayment);
@@ -404,43 +404,42 @@
             Name = "FormPayment";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "PaymentForm";
-            Load += FormPayment_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPayment).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private DateTimePicker dTPaymentDate;
-        private TextBox txtPaymentAmount;
+        private DateTimePicker dtPaymentDate;
+        private TextBox txtRemainAmount;
         private TextBox txtPaymentNo;
         private Label labelMajorID;
         private Label labelPaymentDate;
         private Label LabelPaymentNo;
         private TextBox txtSearchPayment;
         private Label labelSearch;
-        private ComboBox cBPaymentStatusID;
-        private Label label2;
-        private CheckBox checkBox1;
+        private ComboBox cbbReservationID;
         private Label label12;
-        private TextBox textBox1;
-        private CheckBox checkBox2;
-        private TextBox txtID;
+        private TextBox txtPaidAmount;
+        private CheckBox cbUtilityID;
         private Label label5;
         private Label labelPaymentAmount;
         private Label label4;
-        private TextBox textBox3;
+        private TextBox txtStaffName;
         private Label label6;
-        private ComboBox comboBox1;
+        private ComboBox cbbStaffID;
         private Panel panel1;
         private Label label1;
         private Label label17;
         private Button btnDelete;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private DataGridView dataGridView1;
+        private Button btnUpdate;
+        private Button btnInsert;
+        private Button btnNew;
+        private DataGridView dgvPayment;
+        private TextBox txtUtilityName;
+        private ComboBox cbbUtilityID;
+        private Label label2;
     }
 }

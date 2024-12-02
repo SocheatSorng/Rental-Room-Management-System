@@ -610,6 +610,16 @@ GO
 --End of Store Precedure Staff
 
 -- Vendor CRUD
+
+Create Procedure SP_LoadVendorIDs
+As
+Begin
+	Select Name,
+			VendorID
+	From tblVendor
+END 
+GO
+
 Create Procedure SP_GetAllVendors
 As
 Begin
@@ -1536,9 +1546,9 @@ GO
 Create Procedure SP_LoadRoomIDs
 As
 Begin
-	Select Name,
-			ID
-	From tblResident
+	Select RoomNumber,
+			RoomID
+	From tblRoom
 END 
 GO
 

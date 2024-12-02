@@ -310,7 +310,7 @@ GO
 Create Procedure SP_GetAllResidents
 As
 Begin
-	Select ID,
+	Select ResidentID,
 		   Type,
 		   Name,
 		   Sex,
@@ -332,11 +332,11 @@ Create Procedure SP_GetResidentByID
 	@ResidentID INT
 As
 Begin
-    Select * From tblResident Where ID = @ResidentID;
+    Select * From tblResident Where ResidentID = @ResidentID;
 End
 Go
 
-Create Procedure SP_AddResident
+Create Procedure SP_InsertResident
 	@ResType NVARCHAR(10),
 	@ResName NVARCHAR(50),
 	@ResSex NVARCHAR(6),
@@ -377,6 +377,7 @@ Begin
 		@ResPrevStNo,
 		@ResPrevCommune,
 		@ResPrevDistrict,
+		@ResPrevProvince,
 		@ResPerNum,
 		@ResConNum,
 		@ResCheckIn,
@@ -386,7 +387,7 @@ End
 Go
 
 Create Procedure SP_UpdateResident
-	@ResID INT,
+	@ResidentID INT,
 	@ResType NVARCHAR(10),
 	@ResName NVARCHAR(50),
 	@ResSex NVARCHAR(6),
@@ -416,16 +417,16 @@ Begin
 		ConNum = @ResConNum,
 		CheckIn = @ResCheckIn,
 		CheckOut = @ResCheckOut
-	Where ID = @ResID
+	Where ResidentID = @ResidentID
 End
 Go
 
 Create Procedure SP_DeleteResident
-	@ResID INT
+	@ResidentID INT
 As
 Begin
 	Delete from tblResident
-	Where ID = @ResID;
+	Where ResidentID = @ResidentID;
 End
 Go
 
@@ -440,12 +441,12 @@ End
 Go
 
 Create Procedure SP_GetResidentNameByID
-    @ResID INT
+    @ResidentID INT
 AS
 BEGIN
     Select Name
     From tblResident
-    Where ID = @ResID
+    Where ResidentID = @ResidentID
 END
 GO
 
@@ -453,7 +454,7 @@ Create Procedure SP_LoadResidentIDs
 As
 Begin
 	Select Name,
-			ID
+			ResidentID
 	From tblResident
 END 
 GO

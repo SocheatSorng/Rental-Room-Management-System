@@ -1,6 +1,6 @@
 namespace RRMS.Forms
 {
-    partial class LeaseAgreement
+    partial class FormLeaseAgreement
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -17,32 +17,30 @@ namespace RRMS.Forms
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label4 = new Label();
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            txtID = new TextBox();
-            txtMonthlyRent = new TextBox();
-            txtTerms = new TextBox();
-            txtResidentName = new TextBox();
-            dateStart = new DateTimePicker();
-            dateEnd = new DateTimePicker();
+            txtLeaseID = new TextBox();
+            dtpLeaseSD = new DateTimePicker();
+            dtpLeaseED = new DateTimePicker();
             btnInsert = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
             titleLabel = new Label();
             inputGroup = new GroupBox();
             btnNew = new Button();
-            cbbResidentID = new ComboBox();
+            cbbResID = new ComboBox();
             label8 = new Label();
             txtSearch = new TextBox();
             dgvLease = new DataGridView();
+            txtLeaseTAC = new TextBox();
+            txtResName = new TextBox();
             inputGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvLease).BeginInit();
             SuspendLayout();
@@ -77,21 +75,11 @@ namespace RRMS.Forms
             label3.TabIndex = 2;
             label3.Text = "End Date:";
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10F);
-            label4.Location = new Point(18, 120);
-            label4.Name = "label4";
-            label4.Size = new Size(96, 19);
-            label4.TabIndex = 3;
-            label4.Text = "Monthly Rent:";
-            // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 10F);
-            label5.Location = new Point(18, 150);
+            label5.Location = new Point(18, 144);
             label5.Name = "label5";
             label5.Size = new Size(48, 19);
             label5.TabIndex = 4;
@@ -101,7 +89,7 @@ namespace RRMS.Forms
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 10F);
-            label6.Location = new Point(18, 210);
+            label6.Location = new Point(18, 195);
             label6.Name = "label6";
             label6.Size = new Size(82, 19);
             label6.TabIndex = 5;
@@ -111,66 +99,39 @@ namespace RRMS.Forms
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 10F);
-            label7.Location = new Point(18, 240);
+            label7.Location = new Point(18, 237);
             label7.Name = "label7";
             label7.Size = new Size(104, 19);
             label7.TabIndex = 6;
             label7.Text = "Resident Name:";
             // 
-            // txtID
+            // txtLeaseID
             // 
-            txtID.BackColor = Color.FromArgb(240, 240, 240);
-            txtID.Location = new Point(122, 28);
-            txtID.Margin = new Padding(3, 2, 3, 2);
-            txtID.Name = "txtID";
-            txtID.ReadOnly = true;
-            txtID.Size = new Size(252, 25);
-            txtID.TabIndex = 7;
+            txtLeaseID.BackColor = Color.FromArgb(240, 240, 240);
+            txtLeaseID.Location = new Point(122, 28);
+            txtLeaseID.Margin = new Padding(3, 2, 3, 2);
+            txtLeaseID.Name = "txtLeaseID";
+            txtLeaseID.ReadOnly = true;
+            txtLeaseID.Size = new Size(252, 25);
+            txtLeaseID.TabIndex = 7;
             // 
-            // txtMonthlyRent
+            // dtpLeaseSD
             // 
-            txtMonthlyRent.Location = new Point(122, 118);
-            txtMonthlyRent.Margin = new Padding(3, 2, 3, 2);
-            txtMonthlyRent.Name = "txtMonthlyRent";
-            txtMonthlyRent.Size = new Size(252, 25);
-            txtMonthlyRent.TabIndex = 10;
+            dtpLeaseSD.Format = DateTimePickerFormat.Short;
+            dtpLeaseSD.Location = new Point(122, 58);
+            dtpLeaseSD.Margin = new Padding(3, 2, 3, 2);
+            dtpLeaseSD.Name = "dtpLeaseSD";
+            dtpLeaseSD.Size = new Size(252, 25);
+            dtpLeaseSD.TabIndex = 8;
             // 
-            // txtTerms
+            // dtpLeaseED
             // 
-            txtTerms.Location = new Point(122, 148);
-            txtTerms.Margin = new Padding(3, 2, 3, 2);
-            txtTerms.Multiline = true;
-            txtTerms.Name = "txtTerms";
-            txtTerms.Size = new Size(252, 54);
-            txtTerms.TabIndex = 11;
-            // 
-            // txtResidentName
-            // 
-            txtResidentName.BackColor = Color.FromArgb(240, 240, 240);
-            txtResidentName.Location = new Point(122, 238);
-            txtResidentName.Margin = new Padding(3, 2, 3, 2);
-            txtResidentName.Name = "txtResidentName";
-            txtResidentName.ReadOnly = true;
-            txtResidentName.Size = new Size(252, 25);
-            txtResidentName.TabIndex = 13;
-            // 
-            // dateStart
-            // 
-            dateStart.Format = DateTimePickerFormat.Short;
-            dateStart.Location = new Point(122, 58);
-            dateStart.Margin = new Padding(3, 2, 3, 2);
-            dateStart.Name = "dateStart";
-            dateStart.Size = new Size(252, 25);
-            dateStart.TabIndex = 8;
-            // 
-            // dateEnd
-            // 
-            dateEnd.Format = DateTimePickerFormat.Short;
-            dateEnd.Location = new Point(122, 88);
-            dateEnd.Margin = new Padding(3, 2, 3, 2);
-            dateEnd.Name = "dateEnd";
-            dateEnd.Size = new Size(252, 25);
-            dateEnd.TabIndex = 9;
+            dtpLeaseED.Format = DateTimePickerFormat.Short;
+            dtpLeaseED.Location = new Point(122, 88);
+            dtpLeaseED.Margin = new Padding(3, 2, 3, 2);
+            dtpLeaseED.Name = "dtpLeaseED";
+            dtpLeaseED.Size = new Size(252, 25);
+            dtpLeaseED.TabIndex = 9;
             // 
             // btnInsert
             // 
@@ -230,24 +191,22 @@ namespace RRMS.Forms
             // inputGroup
             // 
             inputGroup.BackColor = Color.White;
+            inputGroup.Controls.Add(txtResName);
+            inputGroup.Controls.Add(txtLeaseTAC);
             inputGroup.Controls.Add(btnDelete);
             inputGroup.Controls.Add(btnUpdate);
             inputGroup.Controls.Add(btnInsert);
             inputGroup.Controls.Add(btnNew);
-            inputGroup.Controls.Add(cbbResidentID);
+            inputGroup.Controls.Add(cbbResID);
             inputGroup.Controls.Add(label1);
             inputGroup.Controls.Add(label2);
             inputGroup.Controls.Add(label3);
-            inputGroup.Controls.Add(label4);
             inputGroup.Controls.Add(label5);
             inputGroup.Controls.Add(label6);
             inputGroup.Controls.Add(label7);
-            inputGroup.Controls.Add(txtID);
-            inputGroup.Controls.Add(dateStart);
-            inputGroup.Controls.Add(dateEnd);
-            inputGroup.Controls.Add(txtMonthlyRent);
-            inputGroup.Controls.Add(txtTerms);
-            inputGroup.Controls.Add(txtResidentName);
+            inputGroup.Controls.Add(txtLeaseID);
+            inputGroup.Controls.Add(dtpLeaseSD);
+            inputGroup.Controls.Add(dtpLeaseED);
             inputGroup.Font = new Font("Segoe UI", 10F);
             inputGroup.Location = new Point(18, 45);
             inputGroup.Margin = new Padding(3, 2, 3, 2);
@@ -260,7 +219,6 @@ namespace RRMS.Forms
             // 
             // btnNew
             // 
-            btnNew.UseVisualStyleBackColor = true;
             btnNew.BackColor = Color.FromArgb(217, 83, 79);
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -273,13 +231,13 @@ namespace RRMS.Forms
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
-            // cbbResidentID
+            // cbbResID
             // 
-            cbbResidentID.FormattingEnabled = true;
-            cbbResidentID.Location = new Point(122, 207);
-            cbbResidentID.Name = "cbbResidentID";
-            cbbResidentID.Size = new Size(252, 25);
-            cbbResidentID.TabIndex = 15;
+            cbbResID.FormattingEnabled = true;
+            cbbResID.Location = new Point(122, 189);
+            cbbResID.Name = "cbbResID";
+            cbbResID.Size = new Size(252, 25);
+            cbbResID.TabIndex = 15;
             // 
             // label8
             // 
@@ -301,37 +259,53 @@ namespace RRMS.Forms
             // 
             // dgvLease
             // 
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Control;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            dgvLease.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvLease.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvLease.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Window;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            dgvLease.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvLease.DefaultCellStyle = dataGridViewCellStyle2;
             dgvLease.Location = new Point(410, 73);
             dgvLease.Name = "dgvLease";
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Control;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            dgvLease.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvLease.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvLease.Size = new Size(386, 301);
             dgvLease.TabIndex = 17;
             // 
-            // LeaseAgreement
+            // txtLeaseTAC
+            // 
+            txtLeaseTAC.Location = new Point(122, 144);
+            txtLeaseTAC.Margin = new Padding(3, 2, 3, 2);
+            txtLeaseTAC.Name = "txtLeaseTAC";
+            txtLeaseTAC.Size = new Size(252, 25);
+            txtLeaseTAC.TabIndex = 18;
+            // 
+            // txtResName
+            // 
+            txtResName.Location = new Point(122, 234);
+            txtResName.Margin = new Padding(3, 2, 3, 2);
+            txtResName.Name = "txtResName";
+            txtResName.Size = new Size(252, 25);
+            txtResName.TabIndex = 19;
+            // 
+            // FormLeaseAgreement
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -345,7 +319,7 @@ namespace RRMS.Forms
             Font = new Font("Segoe UI", 9F);
             Margin = new Padding(3, 2, 3, 2);
             MinimumSize = new Size(702, 400);
-            Name = "LeaseAgreement";
+            Name = "FormLeaseAgreement";
             Padding = new Padding(9, 8, 9, 8);
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Lease Agreement Management";
@@ -365,9 +339,9 @@ namespace RRMS.Forms
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox txtID;
-        private DateTimePicker dateStart;
-        private DateTimePicker dateEnd;
+        private TextBox txtLeaseID;
+        private DateTimePicker dtpLeaseSD;
+        private DateTimePicker dtpLeaseED;
         private TextBox txtMonthlyRent;
         private TextBox txtTerms;
         private TextBox txtResidentName;
@@ -376,10 +350,12 @@ namespace RRMS.Forms
         private Button btnDelete;
         private Label titleLabel;
         private GroupBox inputGroup;
-        private ComboBox cbbResidentID;
+        private ComboBox cbbResID;
         private Button btnNew;
         private Label label8;
         private TextBox txtSearch;
         private DataGridView dgvLease;
+        private TextBox txtLeaseTAC;
+        private TextBox txtResName;
     }
 } 

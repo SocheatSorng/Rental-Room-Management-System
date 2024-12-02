@@ -9,12 +9,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RRMS.Forms
 {
-    public partial class LeaseAgreement : Form
+    public partial class FormLeaseAgreement : Form
     {
         BindingSource _bs = new();
         private int lastHighlightedIndex = -1;
 
-        public LeaseAgreement()
+        public FormLeaseAgreement()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -23,12 +23,8 @@ namespace RRMS.Forms
             _bs.DataSource = dgvLease;
             LoadResidentIDs();
 
-            // Make ID textbox and resident name read-only
-            txtID.ReadOnly = true;
-            txtResidentName.ReadOnly = true;
-
             // Event handlers
-            cbbResidentID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
+            cbbResID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -68,9 +64,9 @@ namespace RRMS.Forms
                     if (resIDObj != DBNull.Value)
                     {
                         string? resID = resIDObj.ToString();
-                        cbbResidentID.Items.Add(resID);
-                        cbbResidentID.DisplayMember = resID;
-                        cbbResidentID.ValueMember = resID;
+                        cbbResID.Items.Add(resID);
+                        cbbResID.DisplayMember = resID;
+                        cbbResID.ValueMember = resID;
                     }
                 }
             }
@@ -78,16 +74,16 @@ namespace RRMS.Forms
 
         private void CbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if (cbbResidentID.SelectedItem != null)
+            if (cbbResID.SelectedItem != null)
             {
                 SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", cbbResidentID.SelectedItem);
+                cmd.Parameters.AddWithValue("@ResidentID", cbbResID.SelectedItem);
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        txtResidentName.Text = dr[2].ToString();
+                        txtResidentName.Text = dr[3].ToString();
                     }
                 }
             }
@@ -180,7 +176,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, false);
             ManageControl.EnableControl(btnUpdate, true);
             ManageControl.EnableControl(btnDelete, true);
-            ManageControl.EnableControl(txtID, false);
+            ManageControl.EnableControl(txtLeaseID, false);
         }
 
         private void DoClickNew(object? sender, EventArgs e)
@@ -190,7 +186,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, true);
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
-            ManageControl.EnableControl(txtID, false);
+            ManageControl.EnableControl(txtLeaseID, false);
         }
 
         private void DoOnLeaseDeleted(object? sender, EntityEventArgs e)
@@ -313,12 +309,12 @@ namespace RRMS.Forms
         private Model.LeaseAgreement GatherLeaseInput()
         {
             int residentId;
-            if (cbbResidentID.SelectedItem != null && int.TryParse(cbbResidentID.SelectedItem.ToString(), out residentId))
+            if (cbbResID.SelectedItem != null && int.TryParse(cbbResID.SelectedItem.ToString(), out residentId))
             {
                 return new Model.LeaseAgreement
                 {
-                    StartDate = dateStart.Value,
-                    EndDate = dateEnd.Value,
+                    StartDate = dtpLeaseSD.Value,
+                    EndDate = dtpLeaseED.Value,
                     CostPrice = Double.Parse(txtMonthlyRent.Text),
                     Description = txtTerms.Text.Trim(),
                     ResID = residentId
@@ -357,29 +353,29 @@ namespace RRMS.Forms
         {
             if (lease != null)
             {
-                txtID.Text = lease.ID.ToString();
-                dateStart.Value = lease.StartDate;
-                dateEnd.Value = lease.EndDate;
+                txtLeaseID.Text = lease.ID.ToString();
+                dtpLeaseSD.Value = lease.StartDate;
+                dtpLeaseED.Value = lease.EndDate;
                 txtMonthlyRent.Text = lease.CostPrice.ToString();
                 txtTerms.Text = lease.Description;
-                cbbResidentID.Text = lease.ResID.ToString();
+                cbbResID.Text = lease.ResID.ToString();
                 txtResidentName.Text = lease.ResName;
             }
             else
             {
-                txtID.Text = string.Empty;
-                dateStart.Value = DateTime.Now;
-                dateEnd.Value = DateTime.Now;
+                txtLeaseID.Text = string.Empty;
+                dtpLeaseSD.Value = DateTime.Now;
+                dtpLeaseED.Value = DateTime.Now;
                 txtMonthlyRent.Text = string.Empty;
                 txtTerms.Text = string.Empty;
-                cbbResidentID.SelectedIndex = -1;
+                cbbResID.SelectedIndex = -1;
                 txtResidentName.Text = string.Empty;
             }
         }
 
         private bool ValidateInputs()
         {
-            if (dateEnd.Value < dateStart.Value)
+            if (dtpLeaseED.Value < dtpLeaseSD.Value)
             {
                 MessageBox.Show("End date must be after start date.", "Validation Error");
                 return false;
@@ -397,7 +393,7 @@ namespace RRMS.Forms
                 return false;
             }
 
-            if (cbbResidentID.SelectedItem == null)
+            if (cbbResID.SelectedItem == null)
             {
                 MessageBox.Show("Please select a Resident ID.", "Validation Error");
                 return false;

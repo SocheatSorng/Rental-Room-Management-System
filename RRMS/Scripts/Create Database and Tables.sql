@@ -6,7 +6,9 @@ GO
 -- Table Room
 CREATE TABLE tblRoom (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
-    RoomNumber NVARCHAR(20)
+    RoomType NVARCHAR(50),
+    RoomNumber NVARCHAR(20),
+    ResidentID INT,
 );
 GO
 
@@ -109,21 +111,19 @@ CREATE TABLE tblFeedback (
 -- LEASEAGREEMENT table
 CREATE TABLE tblLeaseAgreement (
     LeaseAgreementID INT PRIMARY KEY IDENTITY(1,1),
-    StartDate DATE NOT NULL,
-    EndDate DATE NOT NULL,
-    MonthlyRent DECIMAL(10,2) NOT NULL,
+    StartDate DATETIME2,
+    EndDate DATETIME2,
     TermsAndConditions NVARCHAR(MAX),
     ResidentID INT,
-    CONSTRAINT CHK_DateRange CHECK (EndDate >= StartDate),
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ResidentID)
+    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
 );
 
 -- UTILITY table
 CREATE TABLE tblUtility (
     UtilityID INT PRIMARY KEY IDENTITY(1,1),
-    Type NVARCHAR(50) NOT NULL,
-    Cost DECIMAL(10,2) NOT NULL,
-    UsageDate DATE NOT NULL,
+    Type NVARCHAR(50),
+    Cost float,
+    UsageDate DATETIME2,
     RoomID INT,
     FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
 );

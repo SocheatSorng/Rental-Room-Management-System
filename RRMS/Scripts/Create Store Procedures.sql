@@ -88,36 +88,38 @@ GO
 --End of Store Procedure LeaseAgreement
 
 -- LeaseAgreement CRUD
+Create Procedure SP_GetAllLeaseAgreements
+as
+Begin
+    Select * from tblLeaseAgreement
+end
+GO
+
+Create Procedure SP_GetLeaseAgreementByID
+    @LeaseAgreementID INT
+AS
+BEGIN
+    Select * from tblLeaseAgreement
+    Where LeaseAgreementID = @LeaseID
+end
+Go
+
 CREATE PROCEDURE SP_InsertLeaseAgreement
-    @StartDate DATE,
-    @EndDate DATE,
-    @MonthlyRent DECIMAL(10,2),
+    @StartDate DATETIME2,
+    @EndDate DATETIME2,
     @TermsAndConditions NVARCHAR(MAX),
     @ResidentID INT
 AS
 BEGIN
-    INSERT INTO tblLeaseAgreement (StartDate, EndDate, MonthlyRent, TermsAndConditions, ResidentID)
-    VALUES (@StartDate, @EndDate, @MonthlyRent, @TermsAndConditions, @ResidentID)
-    SELECT SCOPE_IDENTITY() as LeaseAgreementID
-END
-GO
-
-CREATE PROCEDURE SP_ReadLeaseAgreement
-    @LeaseAgreementID INT = NULL
-AS
-BEGIN
-    IF @LeaseAgreementID IS NULL
-        SELECT * FROM tblLeaseAgreement
-    ELSE
-        SELECT * FROM tblLeaseAgreement WHERE LeaseAgreementID = @LeaseAgreementID
+    INSERT INTO tblLeaseAgreement (StartDate, EndDate, TermsAndConditions, ResidentID)
+    VALUES (@StartDate, @EndDate, @TermsAndConditions, @ResidentID)
 END
 GO
 
 CREATE PROCEDURE SP_UpdateLeaseAgreement
     @LeaseAgreementID INT,
-    @StartDate DATE,
-    @EndDate DATE,
-    @MonthlyRent DECIMAL(10,2),
+    @StartDate DATETIME2,
+    @EndDate DATETIME2,
     @TermsAndConditions NVARCHAR(MAX),
     @ResidentID INT
 AS
@@ -125,7 +127,6 @@ BEGIN
     UPDATE tblLeaseAgreement
     SET StartDate = @StartDate,
         EndDate = @EndDate,
-        MonthlyRent = @MonthlyRent,
         TermsAndConditions = @TermsAndConditions,
         ResidentID = @ResidentID
     WHERE LeaseAgreementID = @LeaseAgreementID
@@ -142,40 +143,45 @@ GO
 --End of Store Procedure LeaseAgreement
 
 -- Utility CRUD
+CREATE PROCEDURE SP_GetAllUtilitys
+AS
+BEGIN
+    select * from tblUtility
+END
+GO
+
+CREATE PROCEDURE SP_GetUtilityByID
+	@UtilityID INT
+AS
+BEGIN
+    SELECT * FROM tblUtility WHERE UtilityID = @UtilityID;
+END
+GO
+    
+
 CREATE PROCEDURE SP_InsertUtility
-    @UtilityType NVARCHAR(50),
-    @Cost DECIMAL(10,2),
-    @UsageDate DATE,
+    @Type NVARCHAR(50),
+    @Cost float,
+    @UsageDate DATETIME2,
     @RoomID INT
 AS
 BEGIN
-    INSERT INTO tblUtility (UtilityType, Cost, UsageDate, RoomID)
-    VALUES (@UtilityType, @Cost, @UsageDate, @RoomID)
-    SELECT SCOPE_IDENTITY() as UtilityID
+    INSERT INTO tblUtility (Type, Cost, UsageDate, RoomID)
+    VALUES (@Type, @Cost, @UsageDate, @RoomID)
 END
 GO
 
-CREATE PROCEDURE SP_ReadUtility
-    @UtilityID INT = NULL
-AS
-BEGIN
-    IF @UtilityID IS NULL
-        SELECT * FROM tblUtility
-    ELSE
-        SELECT * FROM tblUtility WHERE UtilityID = @UtilityID
-END
-GO
 
 CREATE PROCEDURE SP_UpdateUtility
     @UtilityID INT,
-    @UtilityType NVARCHAR(50),
+    @Type NVARCHAR(50),
     @Cost DECIMAL(10,2),
     @UsageDate DATE,
     @RoomID INT
 AS
 BEGIN
     UPDATE tblUtility
-    SET UtilityType = @UtilityType,
+    SET Type = @Type,
         Cost = @Cost,
         UsageDate = @UsageDate,
         RoomID = @RoomID
@@ -322,26 +328,11 @@ Begin
 End
 Go
 
-Create Procedure SP_GetResidentById
-	@ResID INT
+Create Procedure SP_GetResidentByID
+	@ResidentID INT
 As
 Begin
-	Select Top 1 ID,
-				 Type,
-				 Name,
-				 Sex,
-				 BOD,
-				 PrevHouseNo,
-				 PrevStNo,
-				 PrevCommune,
-				 PrevDistrict,
-                 PrevProvince,
-				 PerNum,
-				 ConNum,
-				 CheckIn,
-				 CheckOut
-	From tblResident
-	Where ID = @ResID;
+    Select * From tblResident Where ID = @ResidentID;
 End
 Go
 
@@ -1383,44 +1374,6 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE SP_GetResidentById
-    @ResidentID INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    SELECT 
-        r.ResidentName,
-        ISNULL((
-            SELECT TOP 1 RoomID 
-            FROM Rent 
-            WHERE ResidentID = @ResidentID 
-            ORDER BY StartDate DESC
-        ), '') as RoomID
-    FROM Resident r
-    WHERE r.ResidentID = @ResidentID;
-END;
-GO
-
-CREATE PROCEDURE sp_GetRoomById
-    @RoomID INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Room WHERE RoomID = @RoomID)
-    BEGIN
-        THROW 50002, 'Room not found', 1;
-        RETURN;
-    END
-
-    SELECT RoomNumber
-    FROM Room
-    WHERE RoomID = @RoomID;
-END;
-GO
 --End of Store Precedure Resident
 
 
@@ -1588,3 +1541,55 @@ Begin
 	From tblResident
 END 
 GO
+
+Create Procedure SP_GetAllRooms
+as
+BEGIN
+    Select * from tblRoom
+end
+Go
+
+Create Procedure SP_GetRoomByID
+    @RoomID INT
+AS
+Begin
+    Select * from tblRoom Where RoomID = @RoomID
+END
+Go
+
+Create Procedure SP_InsertRoom
+    @RoomType NVARCHAR(30),
+    @RoomNumber NVARCHAR(10),
+    @ResidentID INT
+as
+BEGIN
+    Insert into tblRoom (RoomType, RoomNumber, ResidentID)
+    values (@RoomType, @RoomNumber, @ResidentID)
+End
+Go
+
+Create Procedure SP_UpdateRoom
+    @RoomID INT,
+    @RoomType NVARCHAR(30),
+    @RoomNumber NVARCHAR(10),
+    @ResidentID INT
+As
+Begin
+    Update tblRoom 
+    SET
+        RoomType = @RoomType,
+        RoomNumber = @RoomNumber,
+        ResidentID = @ResidentID
+    WHERE RoomID = @RoomID;
+end
+GO
+
+Create Procedure SP_DeleteRoom
+    @RoomID INT
+As
+Begin
+    Delete from tblRoom
+    Where RoomID = @RoomID
+end
+GO
+-- End of Room CRUD

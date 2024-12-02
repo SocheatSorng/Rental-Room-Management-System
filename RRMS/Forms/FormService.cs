@@ -19,9 +19,15 @@ namespace RRMS.Forms
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             DataGridView.CheckForIllegalCrossThreadCalls = false;
+            ConfigView();
+            _bs.DataSource = dgvSer;
+            LoadVendorIDs();
+            cbbVenID.SelectedIndexChanged += cbbVenID_SelectedIndexChanged;
+            LoadRoomIDs();
+            cbbRoomID.SelectedIndexChanged += cbbRoomID_SelectedIndexChanged;
 
             ConfigView();
-            _bs.DataSource = servicegrid;
+            _bs.DataSource = dgvSer;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -44,19 +50,97 @@ namespace RRMS.Forms
                 Helper.Deleted -= DoOnServiceDeleted;
             };
 
-            btnClear.Click += DoClickNew;
-            servicegrid.SelectionChanged += DoClickRecord;
-            searchbox.KeyDown += DoSearch;
+            btnNew.Click += DoClickNew;
+            dgvSer.SelectionChanged += DoClickRecord;
+            txtSearch.KeyDown += DoSearch;
+        }
+        private void LoadRoomIDs()
+        {
+            SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    object roomIDObj = dr["RoomID"];
+                    if (roomIDObj != DBNull.Value)
+                    {
+                        string? roomID = roomIDObj.ToString();
+                        cbbRoomID.Items.Add(roomID);
+                        cbbRoomID.DisplayMember = roomID;
+                        cbbRoomID.ValueMember = roomID;
+                    }
+                }
+            }
+        }
+        private void cbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if(cbbRoomID.SelectedItem != null)
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetRoomByID", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
+                using(SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        txtRoomID.Text = dr[1].ToString();
+                    }
+                }
+            }
+            else
+            {
+                txtRoomID.Text = "";
+            }
+        }
+        private void LoadVendorIDs()
+        {
+            SqlCommand cmd = new SqlCommand("SP_LoadVendorIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    object venIDObj = dr["VendorID"];
+                    if (venIDObj != DBNull.Value)
+                    {
+                        string? venID = venIDObj.ToString();
+                        cbbVenID.Items.Add(venID);
+                        cbbVenID.DisplayMember = venID;
+                        cbbVenID.ValueMember = venID;
+                    }
+                }
+            }
+        }
+        private void cbbVenID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if(cbbVenID.SelectedItem != null)
+            {
+                SqlCommand cmd = new SqlCommand("SP_GetVendorByID", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@VendorID", cbbVenID.SelectedItem);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        txtVenName.Text = dr[1].ToString();
+                    }
+                }
+            }
+            else
+            {
+                txtVenName.Text = "";
+            }
         }
 
         private void DoSearch(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string searchValue = searchbox.Text.Trim();
-                servicegrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                string searchValue = txtSearch.Text.Trim();
+                dgvSer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-                if (lastHighlightedIndex == -1 || searchbox.Text != searchValue)
+                if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
                 {
                     lastHighlightedIndex = -1;
                 }
@@ -64,24 +148,24 @@ namespace RRMS.Forms
                 try
                 {
                     bool found = false;
-                    int startIndex = (lastHighlightedIndex + 1) % servicegrid.Rows.Count;
+                    int startIndex = (lastHighlightedIndex + 1) % dgvSer.Rows.Count;
 
-                    for (int i = startIndex; i < servicegrid.Rows.Count + startIndex; i++)
+                    for (int i = startIndex; i < dgvSer.Rows.Count + startIndex; i++)
                     {
-                        int currentIndex = i % servicegrid.Rows.Count;
-                        DataGridViewRow row = servicegrid.Rows[currentIndex];
+                        int currentIndex = i % dgvSer.Rows.Count;
+                        DataGridViewRow row = dgvSer.Rows[currentIndex];
 
-                        string? id = row.Cells["colServiceID"].Value?.ToString();
-                        string? serviceName = row.Cells["colServiceName"].Value?.ToString();
-                        string? description = row.Cells["colServiceDesc"].Value?.ToString();
+                        string? id = row.Cells["colSerID"].Value?.ToString();
+                        string? serviceName = row.Cells["colSerName"].Value?.ToString();
+                        string? description = row.Cells["colSerDesc"].Value?.ToString();
 
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (serviceName != null && serviceName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (description != null && description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
-                            servicegrid.ClearSelection();
+                            dgvSer.ClearSelection();
                             row.Selected = true;
-                            servicegrid.FirstDisplayedScrollingRowIndex = row.Index;
+                            dgvSer.FirstDisplayedScrollingRowIndex = row.Index;
                             lastHighlightedIndex = currentIndex;
                             found = true;
                             break;
@@ -103,12 +187,12 @@ namespace RRMS.Forms
 
         private void DoClickRecord(object? sender, EventArgs e)
         {
-            if (servicegrid.SelectedCells.Count > 0)
+            if (dgvSer.SelectedCells.Count > 0)
             {
-                int rowIndex = servicegrid.SelectedCells[0].RowIndex;
-                DataGridViewRow row = servicegrid.Rows[rowIndex];
+                int rowIndex = dgvSer.SelectedCells[0].RowIndex;
+                DataGridViewRow row = dgvSer.Rows[rowIndex];
 
-                object cellValue = row.Cells["colServiceID"].Value;
+                object cellValue = row.Cells["colSerID"].Value;
                 int? serviceID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
 
                 if (serviceID.HasValue)
@@ -132,7 +216,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, false);
             ManageControl.EnableControl(btnUpdate, true);
             ManageControl.EnableControl(btnDelete, true);
-            ManageControl.EnableControl(serviceid, false);
+            ManageControl.EnableControl(txtSerID, false);
         }
 
         private void DoClickNew(object? sender, EventArgs e)
@@ -142,7 +226,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, true);
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
-            ManageControl.EnableControl(serviceid, false);
+            ManageControl.EnableControl(txtSerID, false);
         }
 
         private void DoOnServiceDeleted(object? sender, EntityEventArgs e)
@@ -159,11 +243,11 @@ namespace RRMS.Forms
 
         private void DoClickDelete(object? sender, EventArgs e)
         {
-            if (servicegrid.SelectedCells.Count <= 0) return;
+            if (dgvSer.SelectedCells.Count <= 0) return;
             try
             {
-                int rowIndex = servicegrid.SelectedCells[0].RowIndex;
-                int id = Convert.ToInt32(servicegrid.Rows[rowIndex].Cells["colServiceID"].Value);
+                int rowIndex = dgvSer.SelectedCells[0].RowIndex;
+                int id = Convert.ToInt32(dgvSer.Rows[rowIndex].Cells["colSerID"].Value);
 
                 DialogResult result = MessageBox.Show(
                     "Are you sure you want to delete this service?",
@@ -192,24 +276,24 @@ namespace RRMS.Forms
 
         private void DoOnServiceUpdated(object? sender, EntityEventArgs e)
         {
-            if (servicegrid.CurrentCell == null) return;
-            int rowIndex = servicegrid.CurrentCell.RowIndex;
+            if (dgvSer.CurrentCell == null) return;
+            int rowIndex = dgvSer.CurrentCell.RowIndex;
 
             UpdateServiceView();
 
-            if (rowIndex < servicegrid.Rows.Count)
+            if (rowIndex < dgvSer.Rows.Count)
             {
-                servicegrid.Rows[rowIndex].Selected = true;
-                servicegrid.CurrentCell = servicegrid[0, rowIndex];
+                dgvSer.Rows[rowIndex].Selected = true;
+                dgvSer.CurrentCell = dgvSer[0, rowIndex];
             }
         }
 
         private void DoClickUpdate(object? sender, EventArgs e)
         {
-            if (servicegrid.SelectedCells.Count > 0)
+            if (dgvSer.SelectedCells.Count > 0)
             {
-                int rowIndex = servicegrid.SelectedCells[0].RowIndex;
-                object cellValue = servicegrid.Rows[rowIndex].Cells["colServiceID"].Value;
+                int rowIndex = dgvSer.SelectedCells[0].RowIndex;
+                object cellValue = dgvSer.Rows[rowIndex].Cells["colServiceID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
@@ -240,7 +324,7 @@ namespace RRMS.Forms
 
                     if (result != null)
                     {
-                        servicegrid.Invoke((MethodInvoker)delegate
+                        dgvSer.Invoke((MethodInvoker)delegate
                         {
                             AddToView(result);
                         });
@@ -268,13 +352,13 @@ namespace RRMS.Forms
 
         private bool ValidateInputs()
         {
-            if (string.IsNullOrWhiteSpace(servicename.Text))
+            if (string.IsNullOrWhiteSpace(txtSerName.Text))
             {
                 MessageBox.Show("Service name must not be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            if (!decimal.TryParse(servicecost.Text, out decimal cost) || cost < 0)
+            if (!decimal.TryParse(txtSerCost.Text, out decimal cost) || cost < 0)
             {
                 MessageBox.Show("Please enter a valid cost.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -287,7 +371,7 @@ namespace RRMS.Forms
         {
             try
             {
-                servicegrid.Rows.Clear();
+                dgvSer.Rows.Clear();
                 string SP_Name = "SP_GetAllServices";
 
                 var result = Helper.GetAllEntities<Service>(Program.Connection, SP_Name);
@@ -296,8 +380,8 @@ namespace RRMS.Forms
                 {
                     AddToView(service);
                 }
-                servicegrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                servicegrid.ClearSelection();
+                dgvSer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvSer.ClearSelection();
             }
             catch (Exception ex)
             {
@@ -309,9 +393,9 @@ namespace RRMS.Forms
         {
             return new Service()
             {
-                FirstName = servicename.Text.Trim(),
-                Description = servicedescription.Text.Trim(),
-                Cost = decimal.Parse(servicecost.Text)
+                FirstName = txtSerName.Text.Trim(),
+                Description = txtSerDesc.Text.Trim(),
+                Cost = decimal.Parse(txtSerCost.Text)
             };
         }
 
@@ -319,43 +403,43 @@ namespace RRMS.Forms
         {
             if (service != null)
             {
-                serviceid.Text = service.ID.ToString();
-                servicename.Text = service.FirstName;
-                servicedescription.Text = service.Description;
-                servicecost.Text = service.Cost.ToString();
+                txtSerID.Text = service.ID.ToString();
+                txtSerName.Text = service.FirstName;
+                txtSerDesc.Text = service.Description;
+                txtSerCost.Text = service.Cost.ToString();
             }
             else
             {
-                serviceid.Text = string.Empty;
-                servicename.Text = string.Empty;
-                servicedescription.Text = string.Empty;
-                servicecost.Text = string.Empty;
+                txtSerID.Text = string.Empty;
+                txtSerName.Text = string.Empty;
+                txtSerDesc.Text = string.Empty;
+                txtSerCost.Text = string.Empty;
             }
         }
 
         private void ConfigView()
         {
-            servicegrid.Columns.Clear();
-            servicegrid.Columns.Add("colServiceID", "Service ID");
-            servicegrid.Columns.Add("colServiceName", "Service Name");
-            servicegrid.Columns.Add("colServiceDesc", "Description");
-            servicegrid.Columns.Add("colServiceCost", "Cost");
+            dgvSer.Columns.Clear();
+            dgvSer.Columns.Add("colServiceID", "Service ID");
+            dgvSer.Columns.Add("colServiceName", "Service Name");
+            dgvSer.Columns.Add("colServiceDesc", "Description");
+            dgvSer.Columns.Add("colServiceCost", "Cost");
 
-            servicegrid.Columns[0].Width = 100;
-            servicegrid.Columns[1].Width = 200;
-            servicegrid.Columns[2].Width = 300;
-            servicegrid.Columns[3].Width = 100;
+            dgvSer.Columns[0].Width = 100;
+            dgvSer.Columns[1].Width = 200;
+            dgvSer.Columns[2].Width = 300;
+            dgvSer.Columns[3].Width = 100;
 
-            servicegrid.DefaultCellStyle.BackColor = Color.White;
-            servicegrid.ScrollBars = ScrollBars.Both;
+            dgvSer.DefaultCellStyle.BackColor = Color.White;
+            dgvSer.ScrollBars = ScrollBars.Both;
 
             try
             {
                 string SP_Name = "SP_GetAllServices";
                 var result = Helper.GetAllEntities<Service>(Program.Connection, SP_Name);
-                servicegrid.Rows.Clear();
+                dgvSer.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Service>(servicegrid,
+                var entityViewAdder = new EntityViewAdder<Service>(dgvSer,
                     service => new object[] { service.ID, service.FirstName, service.Description, service.Cost });
                 foreach (var service in result)
                 {
@@ -371,9 +455,9 @@ namespace RRMS.Forms
         private void AddToView(Service service)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(servicegrid, service.ID, service.FirstName, service.Description, service.Cost);
+            row.CreateCells(dgvSer, service.ID, service.FirstName, service.Description, service.Cost);
             row.Tag = service.ID;
-            servicegrid.Rows.Add(row);
+            dgvSer.Rows.Add(row);
         }
     }
 }

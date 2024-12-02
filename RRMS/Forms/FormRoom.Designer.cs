@@ -68,7 +68,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(17, 124);
+            label2.Location = new Point(17, 83);
             label2.Name = "label2";
             label2.Size = new Size(82, 18);
             label2.TabIndex = 1;
@@ -79,7 +79,7 @@
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(16, 74);
+            label3.Location = new Point(17, 221);
             label3.Name = "label3";
             label3.Size = new Size(110, 18);
             label3.TabIndex = 2;
@@ -90,7 +90,7 @@
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(17, 170);
+            label4.Location = new Point(17, 175);
             label4.Name = "label4";
             label4.Size = new Size(80, 18);
             label4.TabIndex = 3;
@@ -99,9 +99,9 @@
             // dgvRoom
             // 
             dgvRoom.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRoom.Location = new Point(537, 71);
+            dgvRoom.Location = new Point(346, 71);
             dgvRoom.Name = "dgvRoom";
-            dgvRoom.Size = new Size(481, 620);
+            dgvRoom.Size = new Size(309, 280);
             dgvRoom.TabIndex = 11;
             // 
             // btnNew
@@ -171,7 +171,7 @@
             // txtRoomType
             // 
             txtRoomType.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtRoomType.Location = new Point(167, 121);
+            txtRoomType.Location = new Point(161, 221);
             txtRoomType.Name = "txtRoomType";
             txtRoomType.Size = new Size(100, 24);
             txtRoomType.TabIndex = 17;
@@ -190,7 +190,7 @@
             label16.AutoSize = true;
             label16.BackColor = Color.Transparent;
             label16.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(537, 43);
+            label16.Location = new Point(346, 43);
             label16.Name = "label16";
             label16.Size = new Size(55, 18);
             label16.TabIndex = 30;
@@ -198,9 +198,9 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(607, 43);
+            txtSearch.Location = new Point(407, 38);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(411, 23);
+            txtSearch.Size = new Size(248, 23);
             txtSearch.TabIndex = 31;
             // 
             // panel1
@@ -222,23 +222,24 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 43);
             panel1.Name = "panel1";
-            panel1.Size = new Size(508, 648);
+            panel1.Size = new Size(328, 321);
             panel1.TabIndex = 36;
             // 
             // txtRoomNum
             // 
             txtRoomNum.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtRoomNum.Location = new Point(144, 211);
+            txtRoomNum.Location = new Point(159, 126);
             txtRoomNum.Name = "txtRoomNum";
             txtRoomNum.Size = new Size(100, 24);
             txtRoomNum.TabIndex = 51;
+            txtRoomNum.TextChanged += txtRoomNum_TextChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(17, 211);
+            label5.Location = new Point(15, 126);
             label5.Name = "label5";
             label5.Size = new Size(107, 18);
             label5.TabIndex = 50;
@@ -247,7 +248,7 @@
             // cbbResID
             // 
             cbbResID.FormattingEnabled = true;
-            cbbResID.Location = new Point(152, 170);
+            cbbResID.Location = new Point(159, 175);
             cbbResID.Name = "cbbResID";
             cbbResID.Size = new Size(127, 23);
             cbbResID.TabIndex = 49;
@@ -260,9 +261,9 @@
             label17.ForeColor = Color.White;
             label17.Location = new Point(0, 0);
             label17.Name = "label17";
-            label17.Size = new Size(508, 29);
+            label17.Size = new Size(328, 29);
             label17.TabIndex = 48;
-            label17.Text = "Resident Details";
+            label17.Text = "Room Details";
             label17.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // titleLabel
@@ -273,16 +274,16 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(1030, 30);
+            titleLabel.Size = new Size(678, 30);
             titleLabel.TabIndex = 43;
-            titleLabel.Text = "Resident Management";
+            titleLabel.Text = "Room Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FormRoom
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1030, 705);
+            ClientSize = new Size(678, 412);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(txtSearch);

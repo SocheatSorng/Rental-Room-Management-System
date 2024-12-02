@@ -24,25 +24,25 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            txtID = new TextBox();
-            txtName = new TextBox();
-            txtDesc = new TextBox();
-            txtResidentName = new TextBox();
-            dateCreate = new DateTimePicker();
-            dateUpdate = new DateTimePicker();
+            txtPolID = new TextBox();
+            txtPolName = new TextBox();
+            txtPolDesc = new TextBox();
+            txtResName = new TextBox();
+            dtpPolCD = new DateTimePicker();
+            dtpPolUD = new DateTimePicker();
             btnInsert = new Button();
             btnUpdate = new Button();
             btnDelete = new Button();
             panel1 = new Panel();
             btnNew = new Button();
-            cbbResidentID = new ComboBox();
+            cbbResID = new ComboBox();
             label10 = new Label();
             titleLabel = new Label();
-            dgvPolicy = new DataGridView();
+            dgvPol = new DataGridView();
             label8 = new Label();
             txtSearch = new TextBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvPolicy).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPol).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -115,55 +115,55 @@
             label7.TabIndex = 6;
             label7.Text = "Resident Name:";
             // 
-            // txtID
+            // txtPolID
             // 
-            txtID.Location = new Point(131, 37);
-            txtID.Margin = new Padding(3, 2, 3, 2);
-            txtID.Name = "txtID";
-            txtID.ReadOnly = true;
-            txtID.Size = new Size(219, 23);
-            txtID.TabIndex = 8;
+            txtPolID.Location = new Point(131, 37);
+            txtPolID.Margin = new Padding(3, 2, 3, 2);
+            txtPolID.Name = "txtPolID";
+            txtPolID.ReadOnly = true;
+            txtPolID.Size = new Size(219, 23);
+            txtPolID.TabIndex = 8;
             // 
-            // txtName
+            // txtPolName
             // 
-            txtName.Location = new Point(131, 73);
-            txtName.Margin = new Padding(3, 2, 3, 2);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(219, 23);
-            txtName.TabIndex = 9;
+            txtPolName.Location = new Point(131, 73);
+            txtPolName.Margin = new Padding(3, 2, 3, 2);
+            txtPolName.Name = "txtPolName";
+            txtPolName.Size = new Size(219, 23);
+            txtPolName.TabIndex = 9;
             // 
-            // txtDesc
+            // txtPolDesc
             // 
-            txtDesc.Location = new Point(131, 111);
-            txtDesc.Margin = new Padding(3, 2, 3, 2);
-            txtDesc.Multiline = true;
-            txtDesc.Name = "txtDesc";
-            txtDesc.Size = new Size(219, 21);
-            txtDesc.TabIndex = 10;
+            txtPolDesc.Location = new Point(131, 111);
+            txtPolDesc.Margin = new Padding(3, 2, 3, 2);
+            txtPolDesc.Multiline = true;
+            txtPolDesc.Name = "txtPolDesc";
+            txtPolDesc.Size = new Size(219, 21);
+            txtPolDesc.TabIndex = 10;
             // 
-            // txtResidentName
+            // txtResName
             // 
-            txtResidentName.Location = new Point(131, 264);
-            txtResidentName.Margin = new Padding(3, 2, 3, 2);
-            txtResidentName.Name = "txtResidentName";
-            txtResidentName.Size = new Size(219, 23);
-            txtResidentName.TabIndex = 14;
+            txtResName.Location = new Point(131, 264);
+            txtResName.Margin = new Padding(3, 2, 3, 2);
+            txtResName.Name = "txtResName";
+            txtResName.Size = new Size(219, 23);
+            txtResName.TabIndex = 14;
             // 
-            // dateCreate
+            // dtpPolCD
             // 
-            dateCreate.Location = new Point(131, 147);
-            dateCreate.Margin = new Padding(3, 2, 3, 2);
-            dateCreate.Name = "dateCreate";
-            dateCreate.Size = new Size(219, 23);
-            dateCreate.TabIndex = 11;
+            dtpPolCD.Location = new Point(131, 147);
+            dtpPolCD.Margin = new Padding(3, 2, 3, 2);
+            dtpPolCD.Name = "dtpPolCD";
+            dtpPolCD.Size = new Size(219, 23);
+            dtpPolCD.TabIndex = 11;
             // 
-            // dateUpdate
+            // dtpPolUD
             // 
-            dateUpdate.Location = new Point(131, 187);
-            dateUpdate.Margin = new Padding(3, 2, 3, 2);
-            dateUpdate.Name = "dateUpdate";
-            dateUpdate.Size = new Size(219, 23);
-            dateUpdate.TabIndex = 12;
+            dtpPolUD.Location = new Point(131, 187);
+            dtpPolUD.Margin = new Padding(3, 2, 3, 2);
+            dtpPolUD.Name = "dtpPolUD";
+            dtpPolUD.Size = new Size(219, 23);
+            dtpPolUD.TabIndex = 12;
             // 
             // btnInsert
             // 
@@ -210,17 +210,17 @@
             // panel1
             // 
             panel1.Controls.Add(btnNew);
-            panel1.Controls.Add(cbbResidentID);
+            panel1.Controls.Add(cbbResID);
             panel1.Controls.Add(label10);
-            panel1.Controls.Add(txtResidentName);
+            panel1.Controls.Add(txtResName);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(dateUpdate);
-            panel1.Controls.Add(dateCreate);
-            panel1.Controls.Add(txtDesc);
-            panel1.Controls.Add(txtName);
-            panel1.Controls.Add(txtID);
+            panel1.Controls.Add(dtpPolUD);
+            panel1.Controls.Add(dtpPolCD);
+            panel1.Controls.Add(txtPolDesc);
+            panel1.Controls.Add(txtPolName);
+            panel1.Controls.Add(txtPolID);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
@@ -247,13 +247,13 @@
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
-            // cbbResidentID
+            // cbbResID
             // 
-            cbbResidentID.FormattingEnabled = true;
-            cbbResidentID.Location = new Point(131, 222);
-            cbbResidentID.Name = "cbbResidentID";
-            cbbResidentID.Size = new Size(217, 23);
-            cbbResidentID.TabIndex = 49;
+            cbbResID.FormattingEnabled = true;
+            cbbResID.Location = new Point(131, 222);
+            cbbResID.Name = "cbbResID";
+            cbbResID.Size = new Size(217, 23);
+            cbbResID.TabIndex = 49;
             // 
             // label10
             // 
@@ -281,13 +281,13 @@
             titleLabel.Text = "Policy Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dgvPolicy
+            // dgvPol
             // 
-            dgvPolicy.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPolicy.Location = new Point(380, 73);
-            dgvPolicy.Name = "dgvPolicy";
-            dgvPolicy.Size = new Size(354, 320);
-            dgvPolicy.TabIndex = 44;
+            dgvPol.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvPol.Location = new Point(380, 73);
+            dgvPol.Name = "dgvPol";
+            dgvPol.Size = new Size(354, 320);
+            dgvPol.TabIndex = 44;
             // 
             // label8
             // 
@@ -314,7 +314,7 @@
             ClientSize = new Size(743, 406);
             Controls.Add(txtSearch);
             Controls.Add(label8);
-            Controls.Add(dgvPolicy);
+            Controls.Add(dgvPol);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Margin = new Padding(3, 2, 3, 2);
@@ -322,7 +322,7 @@
             Text = "Policy Management";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvPolicy).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvPol).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -336,20 +336,20 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox txtID;
-        private TextBox txtName;
-        private TextBox txtDesc;
-        private DateTimePicker dateCreate;
-        private DateTimePicker dateUpdate;
-        private TextBox txtResidentName;
+        private TextBox txtPolID;
+        private TextBox txtPolName;
+        private TextBox txtPolDesc;
+        private DateTimePicker dtpPolCD;
+        private DateTimePicker dtpPolUD;
+        private TextBox txtResName;
         private Button btnInsert;
         private Button btnUpdate;
         private Button btnDelete;
         private Panel panel1;
         private Label titleLabel;
         private Label label10;
-        private DataGridView dgvPolicy;
-        private ComboBox cbbResidentID;
+        private DataGridView dgvPol;
+        private ComboBox cbbResID;
         private Button btnNew;
         private Label label8;
         private TextBox txtSearch;

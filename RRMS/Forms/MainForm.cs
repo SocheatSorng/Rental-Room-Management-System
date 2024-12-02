@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WinFormsApp1;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
@@ -292,7 +291,7 @@ namespace RRMS.Forms
 
         private void btnUtility_Click_1(object sender, EventArgs e)
         {
-            OpenChildForm(new Utility());
+            OpenChildForm(new FormUtility());
         }
 
         private void btnAmenity_Click(object sender, EventArgs e)
@@ -307,17 +306,17 @@ namespace RRMS.Forms
 
         private void btnRent_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new RentForm());
+            OpenChildForm(new FormRoom());
         }
 
         private void btnReservation_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new ReservationForm());
+            OpenChildForm(new FormReservation());
         }
 
         private void btnRequest_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new RequestForm());
+            OpenChildForm(new FormRequest());
         }
 
         private void btnService_Click(object sender, EventArgs e)
@@ -337,12 +336,12 @@ namespace RRMS.Forms
 
         private void btnLeaseAgreement_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new LeaseAgreement());
+            OpenChildForm(new FormLeaseAgreement());
         }
 
         private void btnPolicy_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new Policy());
+            OpenChildForm(new FormPolicy());
         }
 
         private void btnFeedback_Click(object sender, EventArgs e)

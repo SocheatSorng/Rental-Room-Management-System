@@ -22,15 +22,9 @@ namespace RRMS.Forms
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             DataGridView.CheckForIllegalCrossThreadCalls = false;
             ConfigView();
-            _bs.DataSource = dgvPolicy;
+            _bs.DataSource = dgvPol;
             LoadResidentIDs();
-
-            // Make fields read-only
-            txtID.ReadOnly = true;
-            txtResidentName.ReadOnly = true;
-
-            // Event handlers
-            cbbResidentID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
+            cbbResID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -54,7 +48,7 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            dgvPolicy.SelectionChanged += DoClickRecord;
+            dgvPol.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }
 
@@ -70,32 +64,31 @@ namespace RRMS.Forms
                     if (resIDObj != DBNull.Value)
                     {
                         string? resID = resIDObj.ToString();
-                        cbbResidentID.Items.Add(resID);
-                        cbbResidentID.DisplayMember = resID;
-                        cbbResidentID.ValueMember = resID;
+                        cbbResID.Items.Add(resID);
+                        cbbResID.DisplayMember = resID;
+                        cbbResID.ValueMember = resID;
                     }
                 }
             }
         }
-
         private void CbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if (cbbResidentID.SelectedItem != null)
+            if (cbbResID.SelectedItem != null)
             {
                 SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", cbbResidentID.SelectedItem);
+                cmd.Parameters.AddWithValue("@ResID", cbbResID.SelectedItem);
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        txtResidentName.Text = dr[2].ToString();
+                        txtResName.Text = dr[2].ToString();
                     }
                 }
             }
             else
             {
-                txtResidentName.Text = "";
+                txtResName.Text = "";
             }
         }
 
@@ -104,7 +97,7 @@ namespace RRMS.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 string searchValue = txtSearch.Text.Trim();
-                dgvPolicy.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvPol.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
                 if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
                 {
@@ -114,12 +107,12 @@ namespace RRMS.Forms
                 try
                 {
                     bool found = false;
-                    int startIndex = (lastHighlightedIndex + 1) % dgvPolicy.Rows.Count;
+                    int startIndex = (lastHighlightedIndex + 1) % dgvPol.Rows.Count;
 
-                    for (int i = startIndex; i < dgvPolicy.Rows.Count + startIndex; i++)
+                    for (int i = startIndex; i < dgvPol.Rows.Count + startIndex; i++)
                     {
-                        int currentIndex = i % dgvPolicy.Rows.Count;
-                        DataGridViewRow row = dgvPolicy.Rows[currentIndex];
+                        int currentIndex = i % dgvPol.Rows.Count;
+                        DataGridViewRow row = dgvPol.Rows[currentIndex];
 
                         string? id = row.Cells["colPolID"].Value?.ToString();
                         string? name = row.Cells["colPolName"].Value?.ToString();
@@ -129,9 +122,9 @@ namespace RRMS.Forms
                             (name != null && name.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (desc != null && desc.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
-                            dgvPolicy.ClearSelection();
+                            dgvPol.ClearSelection();
                             row.Selected = true;
-                            dgvPolicy.FirstDisplayedScrollingRowIndex = row.Index;
+                            dgvPol.FirstDisplayedScrollingRowIndex = row.Index;
                             lastHighlightedIndex = currentIndex;
                             found = true;
                             break;
@@ -154,10 +147,10 @@ namespace RRMS.Forms
 
         private void DoClickRecord(object? sender, EventArgs e)
         {
-            if (dgvPolicy.SelectedCells.Count > 0)
+            if (dgvPol.SelectedCells.Count > 0)
             {
-                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
-                DataGridViewRow row = dgvPolicy.Rows[rowIndex];
+                int rowIndex = dgvPol.SelectedCells[0].RowIndex;
+                DataGridViewRow row = dgvPol.Rows[rowIndex];
 
                 object cellValue = row.Cells["colPolID"].Value;
                 int? policyID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
@@ -183,7 +176,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, false);
             ManageControl.EnableControl(btnUpdate, true);
             ManageControl.EnableControl(btnDelete, true);
-            ManageControl.EnableControl(txtID, false);
+            ManageControl.EnableControl(txtPolID, false);
         }
 
         private void DoClickNew(object? sender, EventArgs e)
@@ -193,7 +186,7 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnInsert, true);
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
-            ManageControl.EnableControl(txtID, false);
+            ManageControl.EnableControl(txtPolID, false);
         }
 
         private void DoOnPolicyDeleted(object? sender, EntityEventArgs e)
@@ -210,11 +203,11 @@ namespace RRMS.Forms
 
         private void DoClickDelete(object? sender, EventArgs e)
         {
-            if (dgvPolicy.SelectedCells.Count <= 0) return;
+            if (dgvPol.SelectedCells.Count <= 0) return;
             try
             {
-                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
-                int id = Convert.ToInt32(dgvPolicy.Rows[rowIndex].Cells["colPolID"].Value);
+                int rowIndex = dgvPol.SelectedCells[0].RowIndex;
+                int id = Convert.ToInt32(dgvPol.Rows[rowIndex].Cells["colPolID"].Value);
 
                 using var cmd = Program.Connection.CreateCommand();
                 cmd.CommandText = "SP_DeletePolicy";
@@ -234,24 +227,24 @@ namespace RRMS.Forms
 
         private void DoOnPolicyUpdated(object? sender, EntityEventArgs e)
         {
-            if (dgvPolicy.CurrentCell == null) return;
-            int rowIndex = dgvPolicy.CurrentCell.RowIndex;
+            if (dgvPol.CurrentCell == null) return;
+            int rowIndex = dgvPol.CurrentCell.RowIndex;
 
             UpdatePolicyView();
 
-            if (rowIndex < dgvPolicy.Rows.Count)
+            if (rowIndex < dgvPol.Rows.Count)
             {
-                dgvPolicy.Rows[rowIndex].Selected = true;
-                dgvPolicy.CurrentCell = dgvPolicy[0, rowIndex];
+                dgvPol.Rows[rowIndex].Selected = true;
+                dgvPol.CurrentCell = dgvPol[0, rowIndex];
             }
         }
 
         private void DoClickUpdate(object? sender, EventArgs e)
         {
-            if (dgvPolicy.SelectedCells.Count > 0)
+            if (dgvPol.SelectedCells.Count > 0)
             {
-                int rowIndex = dgvPolicy.SelectedCells[0].RowIndex;
-                object cellValue = dgvPolicy.Rows[rowIndex].Cells["colPolID"].Value;
+                int rowIndex = dgvPol.SelectedCells[0].RowIndex;
+                object cellValue = dgvPol.Rows[rowIndex].Cells["colPolID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
@@ -294,7 +287,7 @@ namespace RRMS.Forms
 
                     if (result != null)
                     {
-                        dgvPolicy.Invoke((MethodInvoker)delegate
+                        dgvPol.Invoke((MethodInvoker)delegate
                         {
                             AddToView(result);
                         });
@@ -352,7 +345,7 @@ namespace RRMS.Forms
         {
             try
             {
-                dgvPolicy.Rows.Clear();
+                dgvPol.Rows.Clear();
                 string SP_Name = "SP_GetAllPolicys";
 
                 var result = Helper.GetAllEntities<Model.Policy>(Program.Connection, SP_Name);
@@ -361,8 +354,8 @@ namespace RRMS.Forms
                 {
                     AddToView(policy);
                 }
-                dgvPolicy.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvPolicy.ClearSelection();
+                dgvPol.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvPol.ClearSelection();
             }
             catch (Exception ex)
             {
@@ -373,16 +366,16 @@ namespace RRMS.Forms
         private Model.Policy GatherPolicyInput()
         {
             int resID;
-            if (cbbResidentID.SelectedItem != null && int.TryParse(cbbResidentID.SelectedItem.ToString(), out resID))
+            if (cbbResID.SelectedItem != null && int.TryParse(cbbResID.SelectedItem.ToString(), out resID))
             {
                 return new Model.Policy()
                 {
-                    PolName = txtName.Text.Trim(),
-                    Des = txtDesc.Text.Trim(),
-                    CreDate = dateCreate.Value,
-                    UpdDate = dateUpdate.Value,
+                    PolName = txtPolName.Text.Trim(),
+                    Des = txtPolDesc.Text.Trim(),
+                    CreDate = dtpPolCD.Value,
+                    UpdDate = dtpPolUD.Value,
                     ResID = resID,
-                    ResName = txtResidentName.Text.Trim(),
+                    ResName = txtResName.Text.Trim(),
                 };
             }
             else
@@ -397,48 +390,64 @@ namespace RRMS.Forms
         {
             if (policy != null)
             {
-                txtID.Text = policy.PolID.ToString();
-                txtName.Text = policy.PolName;
-                txtDesc.Text = policy.Des;
-                dateCreate.Value = policy.CreDate;
-                dateUpdate.Value = policy.UpdDate ?? DateTime.Now;
-                cbbResidentID.Text = policy.ResID.ToString();
-                txtResidentName.Text = policy.ResName;
+                txtPolID.Text = policy.PolID.ToString();
+                txtPolName.Text = policy.PolName;
+                txtPolDesc.Text = policy.Des;
+                dtpPolCD.Value = policy.CreDate;
+                dtpPolUD.Value = policy.UpdDate ?? DateTime.Now;
+
+                // Set Resident ID in ComboBox
+                cbbResID.SelectedItem = policy.ResID.ToString();
+
+                // Fetch and set Resident Name
+                if (cbbResID.SelectedItem != null)
+                {
+                    SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ResID", policy.ResID);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            txtResName.Text = dr[2].ToString(); // Assuming the resident name is in the 3rd column
+                        }
+                    }
+                }
             }
             else
             {
-                txtID.Text = string.Empty;
-                txtName.Text = string.Empty;
-                txtDesc.Text = string.Empty;
-                dateCreate.Value = DateTime.Now;
-                dateUpdate.Value = DateTime.Now;
-                cbbResidentID.SelectedIndex = -1;
-                txtResidentName.Text = string.Empty;
+                txtPolID.Text = string.Empty;
+                txtPolName.Text = string.Empty;
+                txtPolDesc.Text = string.Empty;
+                dtpPolCD.Value = DateTime.Now;
+                dtpPolUD.Value = DateTime.Now;
+                cbbResID.SelectedIndex = -1;
+                txtResName.Text = string.Empty;
             }
         }
         private void ConfigView()
         {
-            dgvPolicy.Columns.Clear();
-            dgvPolicy.Columns.Add("colPolID", "Policy ID");
-            dgvPolicy.Columns.Add("colPolName", "Policy Name");
-            dgvPolicy.Columns.Add("colDesc", "Description");
-            dgvPolicy.Columns[0].Width = 80;
-            dgvPolicy.Columns[1].Width = 150;
-            dgvPolicy.Columns[2].Width = 200;
-            dgvPolicy.DefaultCellStyle.BackColor = Color.White;
-            dgvPolicy.ScrollBars = ScrollBars.Both;
+            dgvPol.Columns.Clear();
+            dgvPol.Columns.Add("colPolID", "Policy ID");
+            dgvPol.Columns.Add("colPolName", "Policy Name");
+            dgvPol.Columns.Add("colDesc", "Description");
+            dgvPol.Columns[0].Width = 80;
+            dgvPol.Columns[1].Width = 150;
+            dgvPol.Columns[2].Width = 200;
+            dgvPol.DefaultCellStyle.BackColor = Color.White;
+            dgvPol.ScrollBars = ScrollBars.Both;
 
             try
             {
                 string SP_Name = "SP_GetAllPolicys";
                 var result = Helper.GetAllEntities<Model.Policy>(Program.Connection, SP_Name);
-                dgvPolicy.Rows.Clear();
+                dgvPol.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Model.Policy>(dgvPolicy, policy => new object[]
+                var entityViewAdder = new EntityViewAdder<Model.Policy>(dgvPol, policy => new object[]
                 {
-            policy.PolID,
-            policy.PolName,
-            policy.Des
+                    policy.PolID,
+                    policy.PolName,
+                    policy.Des
                 });
 
                 foreach (var policy in result)
@@ -456,13 +465,13 @@ namespace RRMS.Forms
         private void AddToView(Model.Policy policy)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvPolicy,
+            row.CreateCells(dgvPol,
                 policy.PolID,
                 policy.PolName,
                 policy.Des
             );
             row.Tag = policy.PolID;
-            dgvPolicy.Rows.Add(row);
+            dgvPol.Rows.Add(row);
         }
 
     }

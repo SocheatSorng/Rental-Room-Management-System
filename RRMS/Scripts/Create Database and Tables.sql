@@ -15,19 +15,20 @@ GO
 -- Table RESIDENT
 CREATE TABLE tblResident (
     ResidentID INT PRIMARY KEY IDENTITY(1,1),
-    Type NVARCHAR(10),
-	Name NVARCHAR(50),
-	Sex NVARCHAR(6),
-	BOD DATETIME,
-	PrevHouseNo NVARCHAR(30),
-	PrevStNo NVARCHAR(30),
-	PrevCommune NVARCHAR(30),
-	PrevDistrict NVARCHAR(30),
+    Type NVARCHAR(20) NOT NULL,  -- Increased length for future types
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Sex NVARCHAR(10) NOT NULL,    -- Adjusted length for more options
+    BD DATETIME2 NOT NULL,        -- Assuming birth date is required
+    PrevHouseNo NVARCHAR(30),
+    PrevStNo NVARCHAR(30),
+    PrevCommune NVARCHAR(30),
+    PrevDistrict NVARCHAR(30),
     PrevProvince NVARCHAR(30),
-	PerNum NVARCHAR(20),
-	ConNum NVARCHAR(20),
-	CheckIn DATETIME,
-	CheckOut DATETIME
+    PerNum NVARCHAR(20) NOT NULL, -- Assuming personal number is required
+    ConNum NVARCHAR(20) NOT NULL, -- Assuming contact number is required
+    CheckIn DATETIME2 NOT NULL,    -- Assuming check-in is required
+    CheckOut DATETIME2 NULL        -- Allow NULL for residents who haven't checked out
 );
 
 -- Table VENDOR
@@ -163,14 +164,12 @@ GO
 -- Table Reservation
 CREATE TABLE tblReservation (
     ReservationID INT PRIMARY KEY IDENTITY(1,1),
-    Date DATE,
-    StartDate DATE,
-    EndDate DATE,
-    Status NVARCHAR(50),
+    ReserDate DATETIME2,
+    StartDate DATETIME2,
+    EndDate DATETIME2,
+    ReserStatus NVARCHAR(50),
     ResidentID INT,
     RoomID INT,
-    ResidentName NVARCHAR(100),
-    RoomNumber NVARCHAR(20),
     FOREIGN KEY (ResidentID) REFERENCES Resident(ResidentID),
     FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
 );
@@ -206,6 +205,22 @@ CREATE TABLE tblRent (
 );
 GO
 
+-- Table Payment
+CREATE TABLE tblPayment (
+    PaymentID INT PRIMARY KEY IDENTITY(1,1),
+    PaymentDate DATETIME NOT NULL,
+    ReservationID INT NULL,
+    StaffID INT NOT NULL,
+    UtilityID INT NULL,
+    PaidAmount DECIMAL(10,2) NOT NULL,
+    RemainingAmount DECIMAL(10,2) NOT NULL,
+    IsSecondPaymentDone BIT DEFAULT 0,
+    IsUtilityOnly BIT DEFAULT 0,
+    FOREIGN KEY (ReservationID) REFERENCES tblReservation(ReservationID),
+    FOREIGN KEY (StaffID) REFERENCES tblStaff(StaffID),
+    FOREIGN KEY (UtilityID) REFERENCES tblUtility(UtilityID)
+)
+GO
 
 -- Create triggers (each in its own batch)
 CREATE TRIGGER trg_UpdateReservationDenormalizedData

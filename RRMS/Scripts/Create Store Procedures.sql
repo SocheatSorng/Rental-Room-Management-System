@@ -143,6 +143,15 @@ GO
 --End of Store Procedure LeaseAgreement
 
 -- Utility CRUD
+Create Procedure SP_LoadUtilityIDs
+As
+Begin
+	Select Type,
+			UtilityID
+	From tblUtility
+END 
+GO
+
 CREATE PROCEDURE SP_GetAllUtilitys
 AS
 BEGIN
@@ -307,155 +316,169 @@ GO
 --End of Store Procedure Amenity
 
 -- Resident CRUD
-Create Procedure SP_GetAllResidents
-As
-Begin
-	Select ResidentID,
-		   Type,
-		   Name,
-		   Sex,
-		   BOD,
-		   PrevHouseNo,
-		   PrevStNo,
-		   PrevCommune,
-		   PrevDistrict,
-           PrevProvince,
-		   PerNum,
-		   ConNum,
-		   CheckIn,
-		   CheckOut
-	From tblResident;
-End
-Go
+-- Resident CRUD
 
-Create Procedure SP_GetResidentByID
-	@ResidentID INT
-As
-Begin
-    Select * From tblResident Where ResidentID = @ResidentID;
-End
-Go
-
-Create Procedure SP_InsertResident
-	@ResType NVARCHAR(10),
-	@ResName NVARCHAR(50),
-	@ResSex NVARCHAR(6),
-	@ResBOD DATETIME,
-	@ResPrevHouseNo NVARCHAR(30),
-	@ResPrevStNo NVARCHAR(30),
-	@ResPrevCommune NVARCHAR(30),
-	@ResPrevDistrict NVARCHAR(30),
-    @ResPrevProvince NVARCHAR(30),
-	@ResPerNum NVARCHAR(20),
-	@ResConNum NVARCHAR(20),
-	@ResCheckIn DATETIME,
-	@ResCheckOut DATETIME
-As
-Begin
-	Insert into tblResident
-	(	Type,
-		Name,
-		Sex,
-		BOD,
-		PrevHouseNo,
-		PrevStNo,
-		PrevCommune,
-		PrevDistrict,
-        PrevProvince,
-		PerNum,
-		ConNum,
-		CheckIn,
-		CheckOut
-	)
-	Values
-	(
-		@ResType,
-		@ResName,
-		@ResSex,
-		@ResBOD,
-		@ResPrevHouseNo,
-		@ResPrevStNo,
-		@ResPrevCommune,
-		@ResPrevDistrict,
-		@ResPrevProvince,
-		@ResPerNum,
-		@ResConNum,
-		@ResCheckIn,
-		@ResCheckOut
-	)
-End
-Go
-
-Create Procedure SP_UpdateResident
-	@ResidentID INT,
-	@ResType NVARCHAR(10),
-	@ResName NVARCHAR(50),
-	@ResSex NVARCHAR(6),
-	@ResBOD DATETIME,
-	@ResPrevHouseNo NVARCHAR(30),
-	@ResPrevStNo NVARCHAR(30),
-	@ResPrevCommune NVARCHAR(30),
-	@ResPrevDistrict NVARCHAR(30),
-    @ResPrevProvince NVARCHAR(30),
-	@ResPerNum NVARCHAR(20),
-	@ResConNum NVARCHAR(20),
-	@ResCheckIn DATETIME,
-	@ResCheckOut DATETIME
-As
-Begin
-	Update tblResident
-	Set Type = @ResType,
-		Name = @ResName,
-		Sex = @ResSex,
-		BOD = @ResBOD,
-		PrevHouseNo = @ResPrevHouseNo,
-		PrevStNo = @ResPrevStNo,
-		PrevCommune = @ResPrevCommune,
-		PrevDistrict = @ResPrevDistrict,
-        PrevProvince = @ResPrevProvince,
-		PerNum = @ResPerNum,
-		ConNum = @ResConNum,
-		CheckIn = @ResCheckIn,
-		CheckOut = @ResCheckOut
-	Where ResidentID = @ResidentID
-End
-Go
-
-Create Procedure SP_DeleteResident
-	@ResidentID INT
-As
-Begin
-	Delete from tblResident
-	Where ResidentID = @ResidentID;
-End
-Go
-
-Create Procedure SP_ValidateResidentID
-	@ResidentID INT
-As
-Begin
-	Select Count(*) 
-	from tblResident 
-	Where ResidentID = @ResidentID
-End
-Go
-
-Create Procedure SP_GetResidentNameByID
-    @ResidentID INT
+-- Get all residents
+CREATE PROCEDURE SP_GetAllResidents
 AS
 BEGIN
-    Select Name
-    From tblResident
-    Where ResidentID = @ResidentID
+    SELECT ResidentID,
+           Type,
+           FirstName,  -- Changed from Name to FirstName
+           LastName,   -- Added LastName for completeness
+           Sex,
+           BD AS BOD,  -- Assuming BD is the birth date
+           PrevHouseNo,
+           PrevStNo,
+           PrevCommune,
+           PrevDistrict,
+           PrevProvince,
+           PerNum,
+           ConNum,
+           CheckIn,
+           CheckOut
+    FROM tblResident;
 END
 GO
 
-Create Procedure SP_LoadResidentIDs
-As
-Begin
-	Select Name,
-			ResidentID
-	From tblResident
+-- Get resident by ID
+CREATE PROCEDURE SP_GetResidentByID
+    @ResidentID INT
+AS
+BEGIN
+    SELECT * 
+    FROM tblResident 
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Insert a new resident
+CREATE PROCEDURE SP_InsertResident
+    @ResType NVARCHAR(20),  -- Increased length for Type
+    @ResFirstName NVARCHAR(50),
+    @ResLastName NVARCHAR(50),  -- Added LastName
+    @ResSex NVARCHAR(6),
+    @ResBD DATETIME2,  -- Changed to DATETIME2 for consistency
+    @ResPrevHouseNo NVARCHAR(30),
+    @ResPrevStNo NVARCHAR(30),
+    @ResPrevCommune NVARCHAR(30),
+    @ResPrevDistrict NVARCHAR(30),
+    @ResPrevProvince NVARCHAR(30),
+    @ResPerNum NVARCHAR(20),
+    @ResConNum NVARCHAR(20),
+    @ResCheckIn DATETIME2,  -- Changed to DATETIME2 for consistency
+    @ResCheckOut DATETIME2   -- Changed to DATETIME2 for consistency
+AS
+BEGIN
+    INSERT INTO tblResident
+    (Type,
+     FirstName,
+     LastName,  -- Added LastName
+     Sex,
+     BD,
+     PrevHouseNo,
+     PrevStNo,
+     PrevCommune,
+     PrevDistrict,
+     PrevProvince,
+     PerNum,
+     ConNum,
+     CheckIn,
+     CheckOut)
+    VALUES
+    (@ResType,
+     @ResFirstName,
+     @ResLastName,  -- Added LastName
+     @ResSex,
+     @ResBD,
+     @ResPrevHouseNo,
+     @ResPrevStNo,
+     @ResPrevCommune,
+     @ResPrevDistrict,
+     @ResPrevProvince,
+     @ResPerNum,
+     @ResConNum,
+     @ResCheckIn,
+     @ResCheckOut);
+END
+GO
+
+-- Update an existing resident
+CREATE PROCEDURE SP_UpdateResident
+    @ResidentID INT,
+    @ResType NVARCHAR(20),  -- Increased length for Type
+    @ResFirstName NVARCHAR(50),
+    @ResLastName NVARCHAR(50),  -- Added LastName
+    @ResSex NVARCHAR(6),
+    @ResBD DATETIME2,  -- Changed to DATETIME2 for consistency
+    @ResPrevHouseNo NVARCHAR(30),
+    @ResPrevStNo NVARCHAR(30),
+    @ResPrevCommune NVARCHAR(30),
+    @ResPrevDistrict NVARCHAR(30),
+    @ResPrevProvince NVARCHAR(30),
+    @ResPerNum NVARCHAR(20),
+    @ResConNum NVARCHAR(20),
+    @ResCheckIn DATETIME2,  -- Changed to DATETIME2 for consistency
+    @ResCheckOut DATETIME2   -- Changed to DATETIME2 for consistency
+AS
+BEGIN
+    UPDATE tblResident
+    SET Type = @ResType,
+        FirstName = @ResFirstName,
+        LastName = @ResLastName,  -- Added LastName
+        Sex = @ResSex,
+        BD = @ResBD,
+        PrevHouseNo = @ResPrevHouseNo,
+        PrevStNo = @ResPrevStNo,
+        PrevCommune = @ResPrevCommune,
+        PrevDistrict = @ResPrevDistrict,
+        PrevProvince = @ResPrevProvince,
+        PerNum = @ResPerNum,
+        ConNum = @ResConNum,
+        CheckIn = @ResCheckIn,
+        CheckOut = @ResCheckOut
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Delete a resident
+CREATE PROCEDURE SP_DeleteResident
+    @ResidentID INT
+AS
+BEGIN
+    DELETE FROM tblResident
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Validate resident ID
+CREATE PROCEDURE SP_ValidateResidentID
+    @ResidentID INT
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM tblResident 
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Get resident name by ID
+CREATE PROCEDURE SP_GetResidentNameByID
+    @ResidentID INT
+AS
+BEGIN
+    SELECT FirstName, LastName  -- Changed to include LastName
+    FROM tblResident
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Load resident IDs
+CREATE PROCEDURE SP_LoadResidentIDs
+AS
+BEGIN
+    SELECT FirstName, LastName, ResidentID  -- Changed to include LastName
+    FROM tblResident;
 END 
 GO
 
@@ -510,6 +533,15 @@ GO
 --End of Store Procedure Policy
 
 -- Staff CRUD
+
+Create Procedure SP_LoadStaffIDs
+As
+Begin
+	Select FName + '' + LName,
+			StaffID
+	From tblStaff
+END 
+GO
 
 CREATE PROCEDURE SP_GetAllStaffs
 AS
@@ -1174,6 +1206,15 @@ GO
 --End of Store Precedure Request
 
 -- Reservation CRUD
+Create Procedure SP_LoadReservationIDs
+As
+Begin
+	Select ReserStatus,
+			ReservationID
+	From tblReservation
+END 
+GO
+
 CREATE PROCEDURE SP_GetAllReservations
 AS
 BEGIN
@@ -1604,3 +1645,109 @@ Begin
 end
 GO
 -- End of Room CRUD
+
+-- Start of Payment CRUD
+CREATE PROCEDURE SP_GetAllPayments
+AS
+BEGIN
+    SELECT 
+        p.*,
+        u.Type,
+        s.FName + ' ' + s.LName AS StaffName,
+        r.ResidentID
+    FROM tblPayment p
+    LEFT JOIN tblUtility u ON p.UtilityID = u.UtilityID 
+    LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
+    LEFT JOIN tblReservation r ON p.ReservationID = r.ReservationID
+END
+GO
+
+CREATE PROCEDURE SP_GetPaymentByID
+    @PaymentID INT
+AS
+BEGIN
+    SELECT 
+        p.*,
+        u.Type,
+        s.FName + ' ' + s.LName AS StaffName,
+        r.ResidentID
+    FROM tblPayment p
+    LEFT JOIN tblUtility u ON p.UtilityID = u.UtilityID
+    LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
+    LEFT JOIN tblReservation r ON p.ReservationID = r.ReservationID
+    WHERE p.PaymentID = @PaymentID
+END
+GO
+
+CREATE PROCEDURE SP_InsertPayment
+    @PaymentDate DATETIME,
+    @ReservationID INT = NULL,
+    @StaffID INT,
+    @UtilityID INT = NULL,
+    @PaidAmount DECIMAL(10,2),
+    @RemainingAmount DECIMAL(10,2),
+    @IsSecondPaymentDone BIT = 0,
+    @IsUtilityOnly BIT = 0
+AS
+BEGIN
+    INSERT INTO tblPayment (
+        PaymentDate, ReservationID, StaffID, UtilityID,
+        PaidAmount, RemainingAmount, IsSecondPaymentDone, IsUtilityOnly
+    )
+    VALUES (
+        @PaymentDate, @ReservationID, @StaffID, @UtilityID,
+        @PaidAmount, @RemainingAmount, @IsSecondPaymentDone, @IsUtilityOnly
+    );
+    SELECT SCOPE_IDENTITY() AS PaymentID;
+END
+GO
+
+CREATE PROCEDURE SP_UpdatePayment
+    @PaymentID INT,
+    @PaymentDate DATETIME,
+    @ReservationID INT = NULL,
+    @StaffID INT,
+    @UtilityID INT = NULL,
+    @PaidAmount DECIMAL(10,2),
+    @RemainingAmount DECIMAL(10,2),
+    @IsSecondPaymentDone BIT,
+    @IsUtilityOnly BIT
+AS
+BEGIN
+    UPDATE tblPayment
+    SET
+        PaymentDate = @PaymentDate,
+        ReservationID = @ReservationID,
+        StaffID = @StaffID,
+        UtilityID = @UtilityID,
+        PaidAmount = @PaidAmount,
+        RemainingAmount = @RemainingAmount,
+        IsSecondPaymentDone = @IsSecondPaymentDone,
+        IsUtilityOnly = @IsUtilityOnly
+    WHERE PaymentID = @PaymentID
+END
+GO
+
+CREATE PROCEDURE SP_GetUtilityPayments
+    @UtilityID INT = NULL
+AS
+BEGIN
+    SELECT 
+        p.*,
+        u.Type,
+        s.FName + ' ' + s.LName AS StaffName
+    FROM tblPayment p
+    LEFT JOIN tblUtility u ON p.UtilityID = u.UtilityID
+    LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
+    WHERE p.IsUtilityOnly = 1
+    AND (@UtilityID IS NULL OR p.UtilityID = @UtilityID)
+END
+GO
+
+Create Procedure SP_DeletePayment
+    @PaymentID
+AS
+BEGIN
+    Delete from tblPayment where PaymentID = @PaymentID
+End
+GO

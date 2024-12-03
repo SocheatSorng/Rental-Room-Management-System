@@ -393,8 +393,8 @@ namespace RRMS.Forms
                 txtPolID.Text = policy.PolID.ToString();
                 txtPolName.Text = policy.FirstName;
                 txtPolDesc.Text = policy.Description;
-                dtpPolCD.Value = policy.Start;
-                dtpPolUD.Value = policy.End;
+                dtpPolCD.Value = policy.Start ?? DateTime.Now;
+                dtpPolUD.Value = policy.End ?? DateTime.Now;
 
                 // Set Resident ID in ComboBox
                 cbbResID.SelectedItem = policy.ID.ToString();

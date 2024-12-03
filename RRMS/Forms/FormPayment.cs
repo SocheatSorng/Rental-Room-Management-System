@@ -281,8 +281,8 @@ namespace RRMS.Forms
             DataGridViewRow row = new();
             row.CreateCells(dgvPayment,
                 payment.ID,
-                payment.PaymentDate.ToString("yyyy-MM-dd"),
-                payment.PaidAmount.ToString("C"),
+                payment.PaymentDate.HasValue ? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : string.Empty,
+                payment.PaidAmount,
                 paymentType
             );
             row.Tag = payment.ID;
@@ -491,7 +491,7 @@ namespace RRMS.Forms
             if (payment != null)
             {
                 txtPaymentNo.Text = payment.ID.ToString();
-                dtPaymentDate.Value = payment.PaymentDate;
+                dtPaymentDate.Value = payment.PaymentDate ?? DateTime.Now;
                 txtPaidAmount.Text = payment.PaidAmount.ToString();
                 txtRemainAmount.Text = payment.RemainingAmount.ToString();
 

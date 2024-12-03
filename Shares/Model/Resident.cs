@@ -6,8 +6,8 @@ namespace RRMS.Model
     {
         public int ResidentID { get; set; }
         public string? ResType { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string? ResFirstName { get; set; }
+        public string? ResLastName { get; set; }
         public string? ResSex { get; set; }
         public DateTime? ResBD { get; set; }  // Changed to nullable DateTime
         public string? ResPrevHouseNo { get; set; }
@@ -22,8 +22,8 @@ namespace RRMS.Model
 
         // Implementing interface members
         public int ID { get => ResidentID; set => ResidentID = value; }
-        public string First { get => FirstName; set => FirstName = value; }
-        public string Last { get => LastName; set => LastName = value; }
+        public string FirstName { get => ResFirstName; set => ResFirstName = value; }
+        public string LastName { get => ResLastName; set => ResLastName = value; }
         public string Sex { get => ResSex; set => ResSex = value; }
         public DateTime? BirthDate { get => ResBD; set => ResBD = value; }  // Changed to nullable
         public string Type { get => ResType; set => ResType = value; }
@@ -49,8 +49,8 @@ namespace RRMS.Model
         public void AddParameters(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@ResType", ResType as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResFirstName", FirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResLastName", LastName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResFirstName", ResFirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResLastName", ResLastName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResSex", ResSex as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResBD", ResBD.HasValue ? (object)ResBD.Value : DBNull.Value);
             cmd.Parameters.AddWithValue("@ResPrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);

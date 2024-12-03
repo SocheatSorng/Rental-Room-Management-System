@@ -350,7 +350,7 @@ namespace RRMS.Forms
                 txtStaFN.Text = staff.StaFName;
                 txtStaLN.Text = staff.StaLName;
                 txtStaSex.Text = staff.StaSex;
-                dtpStaBD.Value = staff.StaBD;
+                dtpStaBD.Value = staff.StaBD ?? DateTime.Now;
                 txtStaPos.Text = staff.StaPosition;
                 txtStaHNo.Text = staff.StaHNo;
                 txtStaSNo.Text = staff.StaSNo;
@@ -359,8 +359,8 @@ namespace RRMS.Forms
                 txtStaPro.Text = staff.StaProvince;
                 txtStaPN.Text = staff.StaPerNum;
                 txtStaSal.Text = staff.StaSalary.ToString("F2");
-                dtpStaHD.Value = staff.StaHiredDate;
-                dtpStaStop.Value = staff.StaStopped;
+                dtpStaHD.Value = staff.StaHiredDate ?? DateTime.Now;
+                dtpStaStop.Value = staff.StaStopped ?? DateTime.Now;
             }
             else
             {

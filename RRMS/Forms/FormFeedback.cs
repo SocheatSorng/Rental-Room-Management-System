@@ -373,7 +373,7 @@ namespace RRMS.Forms
             if(feedback != null)
             {
                 txtFeedID.Text = feedback.ID.ToString();
-                dtpFeedDate.Value = feedback.Start;
+                dtpFeedDate.Value = feedback.Start ?? DateTime.Now;
                 txtFeedCon.Text = feedback.Type;
                 txtFeedCom.Text = feedback.Description;
                 cbbResID.Text = feedback.ResID.ToString();

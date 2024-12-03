@@ -354,8 +354,8 @@ namespace RRMS.Forms
             if (lease != null)
             {
                 txtLeaseID.Text = lease.ID.ToString();
-                dtpLeaseSD.Value = lease.StartDate;
-                dtpLeaseED.Value = lease.EndDate;
+                dtpLeaseSD.Value = lease.StartDate ?? DateTime.Now;
+                dtpLeaseED.Value = lease.EndDate ?? DateTime.Now;
                 txtMonthlyRent.Text = lease.CostPrice.ToString();
                 txtTerms.Text = lease.Description;
                 cbbResID.Text = lease.ResID.ToString();
@@ -438,8 +438,8 @@ namespace RRMS.Forms
                 var entityViewAdder = new EntityViewAdder<Model.LeaseAgreement>(dgvLease, lease => new object[]
                 {
                     lease.ID,
-                    lease.StartDate.ToString("yyyy-MM-dd"),
-                    lease.EndDate.ToString("yyyy-MM-dd"),
+                    lease.StartDate.HasValue ? lease.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty,
+                    lease.EndDate.HasValue ? lease.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty,
                     lease.CostPrice,
                     lease.Description,
                     lease.ResID,
@@ -462,8 +462,8 @@ namespace RRMS.Forms
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(dgvLease,
                 lease.ID,
-                lease.StartDate.ToString("yyyy-MM-dd"),
-                lease.EndDate.ToString("yyyy-MM-dd"),
+                lease.StartDate.HasValue ? lease.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty,
+                lease.EndDate.HasValue ? lease.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty,
                 lease.CostPrice,
                 lease.Description,
                 lease.ResID,

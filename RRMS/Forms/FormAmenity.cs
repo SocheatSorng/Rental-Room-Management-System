@@ -338,7 +338,7 @@ namespace RRMS.Forms
                 txtAmeLoc.Text = amenity.Province;
                 txtAmeBP.Text = amenity.CostPrice.ToString("F2");
                 txtAmeCPR.Text = amenity.RentPrice.ToString("F2");
-                dtpAmeMD.Value = amenity.Start;
+                dtpAmeMD.Value = amenity.Start ?? DateTime.Now;
                 txtAmeDesc.Text = amenity.Description;
             }
             else

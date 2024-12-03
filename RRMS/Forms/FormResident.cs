@@ -203,7 +203,7 @@ namespace RRMS.Forms
             if (dgvRes.SelectedCells.Count > 0)
             {
                 int rowIndex = dgvRes.SelectedCells[0].RowIndex;
-                object cellValue = dgvRes.Rows[rowIndex].Cells["colResidentID"].Value;
+                object cellValue = dgvRes.Rows[rowIndex].Cells["colResID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
@@ -268,6 +268,7 @@ namespace RRMS.Forms
 
                 // Call InsertOrUpdateEntity method
                 entityService.InsertOrUpdateEntity(resident, "SP_InsertResident", "Insert");
+                UpdateResidentView();
             }
             else
             {
@@ -330,6 +331,7 @@ namespace RRMS.Forms
             {
                 ResType = cbbResType?.SelectedItem?.ToString(),
                 ResFirstName = txtResFirst.Text.Trim(),
+                ResLastName = txtResLast.Text.Trim(),
                 ResSex = txtResSex.Text.Trim(),
                 ResBD = dtpResBOD.Value,
                 ResPrevHouseNo = txtResHNo.Text.Trim(),
@@ -351,8 +353,9 @@ namespace RRMS.Forms
                 txtResID.Text = resident.ID.ToString();
                 cbbResType.SelectedItem = resident.ResType; // Set the selected value of the ComboBox
                 txtResFirst.Text = resident.ResFirstName;
+                txtResLast.Text = resident.ResLastName;
                 txtResSex.Text = resident.ResSex;
-                dtpResBOD.Value = resident.ResBD;
+                dtpResBOD.Value = resident.ResBD ?? DateTime.Now;
                 txtResHNo.Text = resident.ResPrevHouseNo;
                 txtResStNo.Text = resident.ResPrevStNo;
                 txtResCom.Text = resident.ResPrevCommune;
@@ -360,8 +363,8 @@ namespace RRMS.Forms
                 txtResPro.Text = resident.ResPrevProvince;
                 txtResPN.Text = resident.ResPerNum;
                 txtResCN.Text = resident.ResConNum;
-                dtpResCID.Value = resident.ResCheckIn;
-                dtpResCOD.Value = resident.ResCheckOut;
+                dtpResCID.Value = resident.ResCheckIn ?? DateTime.Now;
+                dtpResCOD.Value = resident.ResCheckOut ?? DateTime.Now;
             }
             else
             {
@@ -369,6 +372,7 @@ namespace RRMS.Forms
                 txtResID.Text = string.Empty;
                 cbbResType.SelectedIndex = 0; // Reset to default selection
                 txtResFirst.Text = string.Empty;
+                txtResLast.Text = string.Empty;
                 txtResSex.Text = string.Empty;
                 dtpResBOD.Value = DateTime.Now;
                 txtResHNo.Text = string.Empty;
@@ -401,7 +405,7 @@ namespace RRMS.Forms
                 // Create an instance of EntityViewAdder
                 var entityViewAdder = new EntityViewAdder<Resident>(
                     dgvRes,
-                    resident => new object[] { resident.ID, resident.FirstName }
+                    resident => new object[] { resident.ID, $"{resident.FirstName} {resident.LastName}".Trim() }
                 );
 
                 // Use the AddToView method to add each resident to the DataGridView
@@ -419,7 +423,8 @@ namespace RRMS.Forms
         private void AddToView(Resident resident)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvRes, resident.ID, resident.FirstName + " " + resident.LastName);
+            string fullName = $"{resident} {resident}".Trim();
+            row.CreateCells(dgvRes, resident.ID, fullName);
             row.Tag = resident.ID;
             dgvRes.Rows.Add(row);
         }

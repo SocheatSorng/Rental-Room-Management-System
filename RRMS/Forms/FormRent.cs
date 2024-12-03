@@ -378,8 +378,8 @@ namespace RRMS.Forms
             if (rent != null)
             {
                 rentid.Text = rent.ID.ToString();
-                startdate.Value = rent.Start;
-                enddate.Value = rent.End;
+                startdate.Value = rent.Start ?? DateTime.Now;
+                enddate.Value = rent.End ?? DateTime.Now;
                 rentamount.Text = rent.RentPrice.ToString();
                 roomid.Text = rent.RoomID.ToString();
                 roomnum.Text = rent.RoomNum;

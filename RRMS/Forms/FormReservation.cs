@@ -407,8 +407,8 @@ namespace RRMS.Forms
             {
                 txtReserID.Text = reservation.ID.ToString();
                 dtpReserDate.Value = reservation.Booking;
-                dtpReserSD.Value = reservation.Start;
-                dtpReserED.Value = reservation.End;
+                dtpReserSD.Value = reservation.Start ?? DateTime.Now;
+                dtpReserED.Value = reservation.End ?? DateTime.Now;
                 txtReserStat.Text = reservation.Description;
                 cbbResID.Text = reservation.ResID.ToString();
                 txtResName.Text = 

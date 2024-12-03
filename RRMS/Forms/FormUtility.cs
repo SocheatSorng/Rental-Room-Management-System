@@ -367,7 +367,7 @@ namespace RRMS.Forms
             {
                 txtUtiID.Text = utility.ID.ToString();
                 txtUtiCost.Text = utility.CostPrice.ToString();
-                dtpUtiUD.Value = utility.Start;
+                dtpUtiUD.Value = utility.Start ?? DateTime.Now;
                 cbbRoomID.Text = utility.RoomID.ToString();
             }
             else

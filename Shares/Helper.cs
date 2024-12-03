@@ -637,7 +637,7 @@ namespace RRMS
                                 ByteId = (byte)resident.ID,
                                 Entity = EntityTypes.Residents
                             });
-                            entityId = resident.ID.ToString();
+                            return resident.ID.ToString();
                         }
                         else
                         {

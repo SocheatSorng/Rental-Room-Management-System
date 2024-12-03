@@ -302,8 +302,8 @@ namespace RRMS.Forms
                 txtVenCom.Text = vendor.VenCommune;
                 txtVenDis.Text = vendor.VenDistrict;
                 txtVenPro.Text = vendor.VenProvince;
-                dtpVenCS.Value = vendor.VenConStart;
-                dtpVenCE.Value = vendor.VenConEnd;
+                dtpVenCS.Value = vendor.VenConStart ?? DateTime.Now;
+                dtpVenCE.Value = vendor.VenConEnd ?? DateTime.Now;
                 chkVenStat.Checked = vendor.VenStatus;
                 txtVenDesc.Text = vendor.VenDesc;
             }

@@ -8,8 +8,8 @@ namespace RRMS.Model
     {
         // Original properties
         public int LeaseAgreeID { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public decimal MonthRent { get; set; }
         public string? TermsAndCondi { get; set; }
         public int ResID { get; set; }
@@ -17,8 +17,8 @@ namespace RRMS.Model
 
         // Implementing applicable interface members
         public int ID { get => LeaseAgreeID; set => LeaseAgreeID = value; }
-        public DateTime Start { get => StartDate; set => StartDate = value; }
-        public DateTime End { get => EndDate; set => EndDate = value; }
+        public DateTime? Start { get => StartDate; set => StartDate = value; }
+        public DateTime? End { get => EndDate; set => EndDate = value; }
         public double RentPrice { get => (double)MonthRent; set => MonthRent = (decimal)value; }
         public string Description { get => TermsAndCondi ?? string.Empty; set => TermsAndCondi = value; }
         public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
@@ -26,7 +26,7 @@ namespace RRMS.Model
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string Type { get => string.Empty; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }

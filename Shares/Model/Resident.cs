@@ -1,16 +1,15 @@
 using Microsoft.Data.SqlClient;
 
-
 namespace RRMS.Model
 {
     public class Resident : IEntity
     {
         public int ResidentID { get; set; }
         public string? ResType { get; set; }
-        public string? ResFirstName { get; set; }
-        public string? ResLastName { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
         public string? ResSex { get; set; }
-        public DateTime ResBD { get; set; }
+        public DateTime? ResBD { get; set; }  // Changed to nullable DateTime
         public string? ResPrevHouseNo { get; set; }
         public string? ResPrevStNo { get; set; }
         public string? ResPrevCommune { get; set; }
@@ -18,15 +17,15 @@ namespace RRMS.Model
         public string? ResPrevProvince { get; set; }
         public string? ResPerNum { get; set; }
         public string? ResConNum { get; set; }
-        public DateTime ResCheckIn { get; set; }
-        public DateTime ResCheckOut { get; set; }
+        public DateTime? ResCheckIn { get; set; }  // Changed to nullable DateTime
+        public DateTime? ResCheckOut { get; set; }  // Changed to nullable DateTime
 
         // Implementing interface members
         public int ID { get => ResidentID; set => ResidentID = value; }
-        public string FirstName { get => ResFirstName; set => ResFirstName = value; }
-        public string LastName { get => ResLastName; set => ResLastName = value; }
+        public string First { get => FirstName; set => FirstName = value; }
+        public string Last { get => LastName; set => LastName = value; }
         public string Sex { get => ResSex; set => ResSex = value; }
-        public DateTime BirthDate { get => ResBD; set => ResBD = value; }
+        public DateTime? BirthDate { get => ResBD; set => ResBD = value; }  // Changed to nullable
         public string Type { get => ResType; set => ResType = value; }
         public string HouseNo { get => ResPrevHouseNo; set => ResPrevHouseNo = value; }
         public string StreetNo { get => ResPrevStNo; set => ResPrevStNo = value; }
@@ -35,38 +34,38 @@ namespace RRMS.Model
         public string Province { get => ResPrevProvince; set => ResPrevProvince = value; }
         public string PersonalNumber { get => ResPerNum; set => ResPerNum = value; }
         public string ContactNumber { get => ResConNum; set => ResConNum = value; }
-        public DateTime Start { get => ResCheckIn; set => ResCheckIn = value; }
-        public DateTime End { get => ResCheckOut; set => ResCheckOut = value; }
+        public DateTime? Start { get => ResCheckIn; set => ResCheckIn = value; }  // Changed to nullable
+        public DateTime? End { get => ResCheckOut; set => ResCheckOut = value; }  // Changed to nullable
 
         // Not applicable for Resident
-        public double Salary { get => 0; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public bool Status { get => false; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public string Description { get => string.Empty; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public double CostPrice { get => 0; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public double RentPrice { get => 0; set => throw new NotSupportedException(); } // Not applicable for Resident
-        public string Password { get => string.Empty; set => throw new NotSupportedException(); } // Not applicable for Resident
+        public double Salary { get => 0; set => throw new NotSupportedException(); }
+        public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public bool Status { get => false; set => throw new NotSupportedException(); }
+        public string Description { get => string.Empty; set => throw new NotSupportedException(); }
+        public double CostPrice { get => 0; set => throw new NotSupportedException(); }
+        public double RentPrice { get => 0; set => throw new NotSupportedException(); }
+        public string Password { get => string.Empty; set => throw new NotSupportedException(); }
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@Type", ResType as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Name", ResFirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Sex", ResSex as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@BD", ResBD as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PrevStNo", ResPrevStNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PrevCommune", ResPrevCommune as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PrevProvince", ResPrevProvince as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@PerNum", ResPerNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ConNum", ResConNum as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CheckIn", ResCheckIn as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CheckOut", ResCheckOut as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResType", ResType as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResFirstName", FirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResLastName", LastName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResSex", ResSex as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResBD", ResBD.HasValue ? (object)ResBD.Value : DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPrevHouseNo", ResPrevHouseNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPrevStNo", ResPrevStNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPrevCommune", ResPrevCommune as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPrevDistrict", ResPrevDistrict as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPrevProvince", ResPrevProvince as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResPerNum", ResPerNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResConNum", ResConNum as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResCheckIn", ResCheckIn.HasValue ? (object)ResCheckIn.Value : DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResCheckOut", ResCheckOut.HasValue ? (object)ResCheckOut.Value : DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            // Assuming ResID is the identifier for the resident
             cmd.Parameters.AddWithValue("@ResidentID", ID);
             AddParameters(cmd);
         }

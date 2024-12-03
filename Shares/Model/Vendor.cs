@@ -17,8 +17,8 @@ namespace RRMS.Model
         public string? VenCommune { get; set; }
         public string? VenDistrict { get; set; }
         public string? VenProvince { get; set; }
-        public DateTime VenConStart { get; set; }
-        public DateTime VenConEnd { get; set; }
+        public DateTime? VenConStart { get; set; }
+        public DateTime? VenConEnd { get; set; }
         public bool VenStatus { get; set; }
         public string? VenDesc { get; set; }
 
@@ -32,14 +32,14 @@ namespace RRMS.Model
         public string Province { get => VenProvince; set => VenProvince = value; }
         public string ContactNumber { get => VenContact; set => VenContact = value; }
         public bool Status { get => VenStatus; set => VenStatus = value; }
-        public DateTime Start { get => VenConStart; set => VenConStart = value; }
-        public DateTime End { get => VenConEnd; set => VenConEnd = value; }
+        public DateTime? Start { get => VenConStart; set => VenConStart = value; }
+        public DateTime? End { get => VenConEnd; set => VenConEnd = value; }
         public string Description { get => VenDesc ?? string.Empty; set => VenDesc = value; }
 
         // IEntity interface implementation - Not applicable for Vendor
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string Type { get => string.Empty; set => throw new NotSupportedException(); }
         public string PersonalNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public double Salary { get => 0; set => throw new NotSupportedException(); }

@@ -6,7 +6,7 @@ namespace RRMS.Model
     {
         // Core properties
         public int PaymentID { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
         public int? ReservationID { get; set; }
         public int StaffID { get; set; }
         public int? UtilityID { get; set; }
@@ -17,7 +17,7 @@ namespace RRMS.Model
 
         // IEntity implementation
         public int ID { get => PaymentID; set => PaymentID = value; }
-        public DateTime Start { get => PaymentDate; set => PaymentDate = value; }
+        public DateTime? Start { get => PaymentDate; set => PaymentDate = value; }
         public string Type { get => IsUtilityOnly ? "Utility" : "Reservation"; set { } }
         public string Description { get => $"Payment of {PaidAmount:C}"; set { } }
 
@@ -25,7 +25,7 @@ namespace RRMS.Model
         public string FirstName { get => string.Empty; set { } }
         public string LastName { get => string.Empty; set { } }
         public string Sex { get => string.Empty; set { } }
-        public DateTime BirthDate { get => DateTime.MinValue; set { } }
+        public DateTime? BirthDate { get => DateTime.MinValue; set { } }
         public string HouseNo { get => string.Empty; set { } }
         public string StreetNo { get => string.Empty; set { } }
         public string Commune { get => string.Empty; set { } }
@@ -35,7 +35,7 @@ namespace RRMS.Model
         public string ContactNumber { get => string.Empty; set { } }
         public double Salary { get => 0; set { } }
         public DateTime Booking { get => DateTime.MinValue; set { } }
-        public DateTime End { get => DateTime.MinValue; set { } }
+        public DateTime? End { get => DateTime.MinValue; set { } }
         public bool Status { get => false; set { } }
         public double CostPrice { get => 0; set { } }
         public double RentPrice { get => 0; set { } }

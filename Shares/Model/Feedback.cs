@@ -6,7 +6,7 @@ namespace RRMS.Model
     {
         // Original properties
         public int FeedID { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public string? Content { get; set; }
         public string? Comment { get; set; }
         public int ResID { get; set; }
@@ -14,7 +14,7 @@ namespace RRMS.Model
 
         // Implementing applicable interface members
         public int ID { get => FeedID; set => FeedID = value; }
-        public DateTime Start { get => Date; set => Date = value; }
+        public DateTime? Start { get => Date; set => Date = value; }
         public string Type { get => Content ?? string.Empty; set => Content = value; }
         public string Description { get => Comment ?? string.Empty; set => Comment = value; }
         public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
@@ -22,7 +22,7 @@ namespace RRMS.Model
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string Commune { get => string.Empty; set => throw new NotSupportedException(); }
@@ -32,7 +32,7 @@ namespace RRMS.Model
         public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public double Salary { get => 0; set => throw new NotSupportedException(); }
         public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
-        public DateTime End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public bool Status { get => false; set => throw new NotSupportedException(); }
         public double CostPrice { get => 0; set => throw new NotSupportedException(); }
         public double RentPrice { get => 0; set => throw new NotSupportedException(); }

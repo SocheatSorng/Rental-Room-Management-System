@@ -8,21 +8,21 @@ namespace RRMS.Model
         public int PolID { get; set; }
         public string? Name { get; set; }
         public string? Desc { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         public int ResidentID { get; set; }
 
         // Implementing applicable interface members
         public int ID { get => PolID; set => PolID = value; }
         public string FirstName { get => Name ?? string.Empty; set => Name = value; }
         public string Description { get => Desc ?? string.Empty; set => Desc = value; }
-        public DateTime Start { get => CreatedDate; set => CreatedDate = value; }
-        public DateTime End { get => UpdatedDate; set => UpdatedDate = value; }
+        public DateTime? Start { get => CreatedDate; set => CreatedDate = value; }
+        public DateTime? End { get => UpdatedDate; set => UpdatedDate = value; }
 
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string Type { get => string.Empty; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }

@@ -6,8 +6,8 @@ namespace RRMS.Model
     {
         // Original properties
         public int RenID { get; set; }
-        public DateTime StaDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? StaDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public decimal RenAmount { get; set; }
         public int ResID { get; set; }
         public int RoomID { get; set; }
@@ -16,8 +16,8 @@ namespace RRMS.Model
 
         // Implementing applicable interface members
         public int ID { get => RenID; set => RenID = value; }
-        public DateTime Start { get => StaDate; set => StaDate = value; }
-        public DateTime End { get => EndDate; set => EndDate = value; }
+        public DateTime? Start { get => StaDate; set => StaDate = value; }
+        public DateTime? End { get => EndDate; set => EndDate = value; }
         public double RentPrice { get => (double)RenAmount; set => RenAmount = (decimal)value; }
         public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
         public string Type { get => RoomNum ?? string.Empty; set => RoomNum = value; }
@@ -25,7 +25,7 @@ namespace RRMS.Model
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string Commune { get => string.Empty; set => throw new NotSupportedException(); }

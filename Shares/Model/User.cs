@@ -24,7 +24,7 @@ namespace RRMS.Model
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string Commune { get => string.Empty; set => throw new NotSupportedException(); }
@@ -34,8 +34,8 @@ namespace RRMS.Model
         public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public double Salary { get => 0; set => throw new NotSupportedException(); }
         public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
-        public DateTime Start { get => DateTime.MinValue; set => throw new NotSupportedException(); }
-        public DateTime End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? Start { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public bool Status { get => false; set => throw new NotSupportedException(); }
         public string Description { get => string.Empty; set => throw new NotSupportedException(); }
         public double CostPrice { get => 0; set => throw new NotSupportedException(); }

@@ -6,7 +6,7 @@ namespace RRMS.Model
     {
         // Original properties
         public int ReqID { get; set; }
-        public DateTime ReqDate { get; set; }
+        public DateTime? ReqDate { get; set; }
         public string? Des { get; set; }
         public string? Stat { get; set; }
         public int ResID { get; set; }
@@ -16,7 +16,7 @@ namespace RRMS.Model
 
         // Implementing applicable interface members
         public int ID { get => ReqID; set => ReqID = value; }
-        public DateTime Start { get => ReqDate; set => ReqDate = value; }
+        public DateTime? Start { get => ReqDate; set => ReqDate = value; }
         public string Description { get => Des ?? string.Empty; set => Des = value; }
         public bool Status { get => Stat?.ToLower() == "true"; set => Stat = value.ToString(); }
         public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
@@ -24,7 +24,7 @@ namespace RRMS.Model
 
         // Not applicable properties
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
-        public DateTime BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public string Type { get => string.Empty; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
@@ -35,7 +35,7 @@ namespace RRMS.Model
         public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public double Salary { get => 0; set => throw new NotSupportedException(); }
         public DateTime Booking { get => DateTime.MinValue; set => throw new NotSupportedException(); }
-        public DateTime End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
+        public DateTime? End { get => DateTime.MinValue; set => throw new NotSupportedException(); }
         public double CostPrice { get => 0; set => throw new NotSupportedException(); }
         public double RentPrice { get => 0; set => throw new NotSupportedException(); }
         public string Password { get => string.Empty; set => throw new NotSupportedException(); }

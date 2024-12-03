@@ -28,40 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dTInvoiceDate = new DateTimePicker();
+            dtInvoiceDate = new DateTimePicker();
             txtInvoiceNo = new TextBox();
             labelStaffID = new Label();
             labelInvoiceDate = new Label();
             LabelInvoiceNo = new Label();
             txtSearchInvoice = new TextBox();
             labelSearch = new Label();
-            txtStaffID = new TextBox();
-            cBPaymentStatusID = new ComboBox();
+            txtResName = new TextBox();
+            cbbPaymentID = new ComboBox();
             labelPaymentStatusID = new Label();
             labelMajorCost = new Label();
-            txtMajorCost = new TextBox();
-            textBox1 = new TextBox();
+            txtAmount = new TextBox();
+            txtStaName = new TextBox();
             label2 = new Label();
             panel1 = new Panel();
             btnDelete = new Button();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnUpdate = new Button();
+            btnInsert = new Button();
+            btnNew = new Button();
             label17 = new Label();
             titleLabel = new Label();
-            dataGridView1 = new DataGridView();
+            dgvInvoice = new DataGridView();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvInvoice).BeginInit();
             SuspendLayout();
             // 
-            // dTInvoiceDate
+            // dtInvoiceDate
             // 
-            dTInvoiceDate.CustomFormat = "yyyy/MM/dd";
-            dTInvoiceDate.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dTInvoiceDate.Location = new Point(143, 112);
-            dTInvoiceDate.Name = "dTInvoiceDate";
-            dTInvoiceDate.Size = new Size(257, 24);
-            dTInvoiceDate.TabIndex = 146;
+            dtInvoiceDate.CustomFormat = "yyyy/MM/dd";
+            dtInvoiceDate.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtInvoiceDate.Location = new Point(143, 112);
+            dtInvoiceDate.Name = "dtInvoiceDate";
+            dtInvoiceDate.Size = new Size(257, 24);
+            dtInvoiceDate.TabIndex = 146;
             // 
             // txtInvoiceNo
             // 
@@ -120,24 +120,24 @@
             labelSearch.TabIndex = 130;
             labelSearch.Text = "Search By";
             // 
-            // txtStaffID
+            // txtResName
             // 
-            txtStaffID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtStaffID.Location = new Point(143, 189);
-            txtStaffID.Name = "txtStaffID";
-            txtStaffID.ReadOnly = true;
-            txtStaffID.Size = new Size(257, 27);
-            txtStaffID.TabIndex = 161;
+            txtResName.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            txtResName.Location = new Point(143, 189);
+            txtResName.Name = "txtResName";
+            txtResName.ReadOnly = true;
+            txtResName.Size = new Size(257, 27);
+            txtResName.TabIndex = 161;
             // 
-            // cBPaymentStatusID
+            // cbbPaymentID
             // 
-            cBPaymentStatusID.DropDownStyle = ComboBoxStyle.DropDownList;
-            cBPaymentStatusID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            cBPaymentStatusID.FormattingEnabled = true;
-            cBPaymentStatusID.Location = new Point(143, 142);
-            cBPaymentStatusID.Name = "cBPaymentStatusID";
-            cBPaymentStatusID.Size = new Size(257, 32);
-            cBPaymentStatusID.TabIndex = 143;
+            cbbPaymentID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbPaymentID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbPaymentID.FormattingEnabled = true;
+            cbbPaymentID.Location = new Point(143, 142);
+            cbbPaymentID.Name = "cbbPaymentID";
+            cbbPaymentID.Size = new Size(257, 32);
+            cbbPaymentID.TabIndex = 143;
             // 
             // labelPaymentStatusID
             // 
@@ -159,29 +159,29 @@
             labelMajorCost.TabIndex = 153;
             labelMajorCost.Text = "Amount";
             // 
-            // txtMajorCost
+            // txtAmount
             // 
-            txtMajorCost.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtMajorCost.Location = new Point(143, 267);
-            txtMajorCost.Name = "txtMajorCost";
-            txtMajorCost.ReadOnly = true;
-            txtMajorCost.Size = new Size(257, 27);
-            txtMajorCost.TabIndex = 154;
+            txtAmount.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            txtAmount.Location = new Point(143, 267);
+            txtAmount.Name = "txtAmount";
+            txtAmount.ReadOnly = true;
+            txtAmount.Size = new Size(257, 27);
+            txtAmount.TabIndex = 154;
             // 
-            // textBox1
+            // txtStaName
             // 
-            textBox1.Location = new Point(143, 230);
-            textBox1.Margin = new Padding(3, 2, 3, 2);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(257, 23);
-            textBox1.TabIndex = 181;
+            txtStaName.Location = new Point(143, 230);
+            txtStaName.Margin = new Padding(3, 2, 3, 2);
+            txtStaName.Name = "txtStaName";
+            txtStaName.ReadOnly = true;
+            txtStaName.Size = new Size(257, 23);
+            txtStaName.TabIndex = 181;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label2.Location = new Point(12, 228);
+            label2.Location = new Point(12, 230);
             label2.Name = "label2";
             label2.Size = new Size(86, 18);
             label2.TabIndex = 180;
@@ -191,17 +191,17 @@
             // 
             panel1.BackColor = Color.White;
             panel1.Controls.Add(btnDelete);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button3);
+            panel1.Controls.Add(btnUpdate);
+            panel1.Controls.Add(btnInsert);
+            panel1.Controls.Add(btnNew);
             panel1.Controls.Add(label17);
-            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(txtStaName);
             panel1.Controls.Add(label2);
-            panel1.Controls.Add(txtStaffID);
-            panel1.Controls.Add(txtMajorCost);
+            panel1.Controls.Add(txtResName);
+            panel1.Controls.Add(txtAmount);
             panel1.Controls.Add(labelMajorCost);
-            panel1.Controls.Add(dTInvoiceDate);
-            panel1.Controls.Add(cBPaymentStatusID);
+            panel1.Controls.Add(dtInvoiceDate);
+            panel1.Controls.Add(cbbPaymentID);
             panel1.Controls.Add(txtInvoiceNo);
             panel1.Controls.Add(labelStaffID);
             panel1.Controls.Add(labelPaymentStatusID);
@@ -226,47 +226,47 @@
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btnUpdate
             // 
-            button1.BackColor = Color.FromArgb(240, 173, 78);
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(213, 305);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(83, 26);
-            button1.TabIndex = 184;
-            button1.Text = "Update";
-            button1.UseVisualStyleBackColor = false;
+            btnUpdate.BackColor = Color.FromArgb(240, 173, 78);
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(213, 305);
+            btnUpdate.Margin = new Padding(3, 2, 3, 2);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(83, 26);
+            btnUpdate.TabIndex = 184;
+            btnUpdate.Text = "Update";
+            btnUpdate.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btnInsert
             // 
-            button2.BackColor = Color.FromArgb(92, 184, 92);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(115, 305);
-            button2.Margin = new Padding(3, 2, 3, 2);
-            button2.Name = "button2";
-            button2.Size = new Size(83, 26);
-            button2.TabIndex = 183;
-            button2.Text = "Insert";
-            button2.UseVisualStyleBackColor = false;
+            btnInsert.BackColor = Color.FromArgb(92, 184, 92);
+            btnInsert.FlatStyle = FlatStyle.Flat;
+            btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnInsert.ForeColor = Color.White;
+            btnInsert.Location = new Point(115, 305);
+            btnInsert.Margin = new Padding(3, 2, 3, 2);
+            btnInsert.Name = "btnInsert";
+            btnInsert.Size = new Size(83, 26);
+            btnInsert.TabIndex = 183;
+            btnInsert.Text = "Insert";
+            btnInsert.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // btnNew
             // 
-            button3.BackColor = Color.FromArgb(217, 83, 79);
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(18, 305);
-            button3.Margin = new Padding(3, 2, 3, 2);
-            button3.Name = "button3";
-            button3.Size = new Size(83, 26);
-            button3.TabIndex = 186;
-            button3.Text = "New";
-            button3.UseVisualStyleBackColor = false;
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(18, 305);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 186;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // label17
             // 
@@ -294,13 +294,13 @@
             titleLabel.Text = "Invoice Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // dataGridView1
+            // dgvInvoice
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(445, 76);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(595, 650);
-            dataGridView1.TabIndex = 184;
+            dgvInvoice.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvInvoice.Location = new Point(445, 76);
+            dgvInvoice.Name = "dgvInvoice";
+            dgvInvoice.Size = new Size(595, 650);
+            dgvInvoice.TabIndex = 184;
             // 
             // FormInvoice
             // 
@@ -308,7 +308,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1040, 738);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvInvoice);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(labelSearch);
@@ -320,33 +320,33 @@
             Text = "InvoiceForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvInvoice).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private DateTimePicker dTInvoiceDate;
+        private DateTimePicker dtInvoiceDate;
         private TextBox txtInvoiceNo;
         private Label labelStaffID;
         private Label labelInvoiceDate;
         private Label LabelInvoiceNo;
         private TextBox txtSearchInvoice;
         private Label labelSearch;
-        private TextBox txtStaffID;
-        private ComboBox cBPaymentStatusID;
+        private TextBox txtResName;
+        private ComboBox cbbPaymentID;
         private Label labelPaymentStatusID;
         private Label labelMajorCost;
-        private TextBox txtMajorCost;
-        private TextBox textBox1;
+        private TextBox txtAmount;
+        private TextBox txtStaName;
         private Label label2;
         private Panel panel1;
         private Label titleLabel;
         private Label label17;
         private Button btnDelete;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private DataGridView dataGridView1;
+        private Button btnUpdate;
+        private Button btnInsert;
+        private Button btnNew;
+        private DataGridView dgvInvoice;
     }
 }

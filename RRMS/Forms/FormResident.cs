@@ -155,6 +155,9 @@ namespace RRMS.Forms
                 Invoke((MethodInvoker)delegate
                 {
                     UpdateResidentView();
+                    // Show success message after deletion
+                    MessageBox.Show("Resident deleted successfully!", "Delete Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             });
         }
@@ -168,18 +171,32 @@ namespace RRMS.Forms
                 int rowIndex = dgvRes.SelectedCells[0].RowIndex;
                 int id = Convert.ToInt32(dgvRes.Rows[rowIndex].Cells["colResID"].Value);
 
-                using var cmd = Program.Connection.CreateCommand();
-                cmd.CommandText = "SP_DeleteResident";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResidentID", id);
+                // Show confirmation dialog before deletion
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this resident?\nThis action cannot be undone.",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ConfigView();
+                if (result == DialogResult.Yes)
+                {
+                    using var cmd = Program.Connection.CreateCommand();
+                    cmd.CommandText = "SP_DeleteResident";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ResidentID", id);
+
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConfigView();
+                }
+                // If No, do nothing and return to form
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Deleting",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -196,6 +213,9 @@ namespace RRMS.Forms
                 dgvRes.Rows[rowIndex].Selected = true;
                 dgvRes.CurrentCell = dgvRes[0, rowIndex];
             }
+
+            // Show success message
+            MessageBox.Show("Resident updated successfully!", "Update Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DoClickUpdate(object? sender, EventArgs e)
@@ -212,22 +232,37 @@ namespace RRMS.Forms
 
                     if (TryParseInputs(resident.Type, resident.FirstName, resident.Sex, resident.PersonalNumber, resident.ContactNumber))
                     {
-                        var entityService = new EntityService();
-                        entityService.InsertOrUpdateEntity(resident, "SP_UpdateResident", "Update");
+                        // Show confirmation dialog
+                        DialogResult result = MessageBox.Show(
+                            "Are you sure you want to update this resident?",
+                            "Confirm Update",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question
+                        );
+
+                        if (result == DialogResult.Yes)
+                        {
+                            var entityService = new EntityService();
+                            entityService.InsertOrUpdateEntity(resident, "SP_UpdateResident", "Update");
+                        }
+                        // If No, do nothing and return to form
                     }
                     else
                     {
-                        MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Invalid input. Please check your entries.", "Input Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select a valid resident to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please select a valid resident to update.", "Selection Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Please select a resident to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a resident to update.", "Selection Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void DoOnResidentInserted(object? sender, EntityEventArgs e)
@@ -392,7 +427,7 @@ namespace RRMS.Forms
             dgvRes.Columns.Add("colResID", "Resident ID");
             dgvRes.Columns.Add("colResName", "Resident Name");
             dgvRes.Columns[0].Width = 100;
-            dgvRes.Columns[1].Width = 200;
+            dgvRes.Columns[1].Width = 400;
             dgvRes.DefaultCellStyle.BackColor = Color.White;
             dgvRes.ScrollBars = ScrollBars.Both;
 
@@ -423,7 +458,7 @@ namespace RRMS.Forms
         private void AddToView(Resident resident)
         {
             DataGridViewRow row = new DataGridViewRow();
-            string fullName = $"{resident} {resident}".Trim();
+            string fullName = $"{resident.FirstName} {resident.LastName}".Trim();
             row.CreateCells(dgvRes, resident.ID, fullName);
             row.Tag = resident.ID;
             dgvRes.Rows.Add(row);

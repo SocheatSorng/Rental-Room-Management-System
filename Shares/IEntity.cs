@@ -6,7 +6,7 @@ public interface IEntity
     string FirstName { get; set; }
     string LastName { get; set; }
     string Sex { get; set; }
-    DateTime BirthDate { get; set; }
+    DateTime? BirthDate { get; set; }
     string Type { get; set; }
     string HouseNo { get; set; }
     string StreetNo { get; set; }
@@ -18,8 +18,8 @@ public interface IEntity
     double Salary { get; set; }
     DateTime Booking { get; set; }
     bool Status { get; set; }
-    DateTime Start { get; set; }
-    DateTime End { get; set; }
+    DateTime? Start { get; set; }
+    DateTime? End { get; set; }
     string Description { get; set; }
     double CostPrice { get; set; }
     double RentPrice { get; set; }

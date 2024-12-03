@@ -43,9 +43,10 @@ namespace RRMS
         private const string RESIDENT_TBL_NAME = "tblResident";
         private const string RESIDENT_ID_FIELD = "ResidentID";
         private const string RESIDENT_TYPE_FIELD = "Type";
-        private const string RESIDENT_NAME_FIELD = "Name";
+        private const string RESIDENT_FIRSTNAME_FIELD = "FirstName";
+        private const string RESIDENT_LASTNAME_FIELD = "LastName";
         private const string RESIDENT_SEX_FIELD = "Sex";
-        private const string RESIDENT_BOD_FIELD = "BOD";
+        private const string RESIDENT_BOD_FIELD = "BD";
         private const string RESIDENT_PREV_HOUSE_NO_FIELD = "PrevHouseNo";
         private const string RESIDENT_PREV_ST_NO_FIELD = "PrevStNo";
         private const string RESIDENT_PREV_COMMUNE_FIELD = "PrevCommune";
@@ -203,11 +204,21 @@ namespace RRMS
         private const string ROOMTYPE_FEATURE_FIELD = "Feature";
         private const string ROOMTYPE_PRICEPERNIGHT_FIELD = "PricePerNight";
         private const string ROOMTYPE_STATUSS_FIELD = "Status";
+
+        // Table Payment
+
+        private const string PAYMENT_TBL_NAME = "tblPayment";
+        private const string PAYMENT_ID_FIELD = "PaymentID";
+        private const string PAYMENT_DATE_FIELD = "PaymentDate";
+        private const string PAYMENT_RESERVATIONID_FIELD = "ReservationID";
+        private const string PAYMENT_STAFFID_FIELD = "StaffID";
+        private const string PAYMENT_UTILITYID_FIELD = "UtilityID";
+        private const string PAYMENT_PAID_AMOUNT_FIELD = "PaidAmount";
+        private const string PAYMENT_REMAINING_AMOUNT_FIELD = "RemainingAmount";
+        private const string PAYMENT_IS_SECOND_PAYMENT_FIELD = "IsSecondPaymentDone";
+        private const string PAYMENT_IS_UTILITY_ONLY_FIELD = "IsUtilityOnly";
         #endregion
 
-
-        #region crud(users)
-        #endregion
 
         public static IEnumerable<T> GetAllEntities<T>(SqlConnection conn, string storedProcedureName) where T : IEntity, new()
         {
@@ -230,7 +241,8 @@ namespace RRMS
                             {
                                 resident.ID = reader.GetInt32(reader.GetOrdinal(RESIDENT_ID_FIELD));
                                 resident.Type = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
-                                resident.FirstName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
+                                resident.FirstName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_FIRSTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_FIRSTNAME_FIELD));
+                                resident.LastName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_LASTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_LASTNAME_FIELD));
                                 resident.Sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
                                 resident.BirthDate = reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
                                 resident.HouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
@@ -328,11 +340,9 @@ namespace RRMS
                                 reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
                                 reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
                                 reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
-                                reservation.Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.Description = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
                                 reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
-                                reservation.ResName = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD));
                                 reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
-                                reservation.RoomNum = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD));
                             }
                             else if (entity is Request request)
                             {
@@ -363,8 +373,21 @@ namespace RRMS
                                 policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
-                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
-                                
+                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));   
+                            }
+                            else if (entity is Payment payment)
+                            {
+                                payment.ID = reader.GetInt32(reader.GetOrdinal(PAYMENT_ID_FIELD));
+                                payment.PaymentDate = reader.GetDateTime(reader.GetOrdinal(PAYMENT_DATE_FIELD));
+                                payment.ReservationID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_RESERVATIONID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_RESERVATIONID_FIELD));
+                                payment.StaffID = reader.GetInt32(reader.GetOrdinal(PAYMENT_STAFFID_FIELD));
+                                payment.UtilityID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD));
+                                payment.PaidAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_PAID_AMOUNT_FIELD));
+                                payment.RemainingAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_REMAINING_AMOUNT_FIELD));
+                                payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
+                                payment.IsUtilityOnly = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_UTILITY_ONLY_FIELD));
                             }
                             //else if (entity is RoomType roomType)
                             //{
@@ -381,13 +404,6 @@ namespace RRMS
                             //    invoice.CustomerName = reader.IsDBNull(reader.GetOrdinal(INVOICE_CUSTOMERNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_CUSTOMERNAME_FIELD));
                             //    invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_INVOICEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_INVOICEDATE_FIELD));
                             //    invoice.TotalAmount = reader.IsDBNull(reader.GetOrdinal(INVOICE_TOTALAMOUNT_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(INVOICE_TOTALAMOUNT_FIELD));
-                            //}
-                            //else if (entity is Payment payment)
-                            //{
-                            //    payment.PaymentID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_PAYMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(PAYMENT_PAYMENTID_FIELD));
-                            //    payment.PaymentDate = reader.IsDBNull(reader.GetOrdinal(PAYMENT_PAYMENTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(PAYMENT_PAYMENTDATE_FIELD));
-                            //    payment.PaymentMethod = reader.IsDBNull(reader.GetOrdinal(PAYMENT_PAYMENTMETHOD_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(PAYMENT_PAYMENTMETHOD_FIELD));
-                            //    payment.PaymentStatus = reader.IsDBNull(reader.GetOrdinal(PAYMENT_PAYMENTSTATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(PAYMENT_PAYMENTSTATUS_FIELD));
                             //}
                             entities.Add(entity);
                         }
@@ -409,7 +425,7 @@ namespace RRMS
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 // Set the parameter name based on the type of T
-                string parameterName = typeof(T) == typeof(Resident) ? "@ResID" :
+                string parameterName = typeof(T) == typeof(Resident) ? "@ResidentID" :
                           typeof(T) == typeof(Vendor) ? "@VenID" :
                           typeof(T) == typeof(Staff) ? "@StaID" :
                           typeof(T) == typeof(Amenity) ? "@AmeID" :
@@ -422,6 +438,7 @@ namespace RRMS
                           typeof(T) == typeof(Service) ? "SerID" :
                           typeof(T) == typeof(Utility) ? "UtiID" :
                           typeof(T) == typeof(Room) ? "RoomID" :
+                          typeof(T) == typeof(Payment) ? "PaymentID" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
 
@@ -438,7 +455,8 @@ namespace RRMS
                             {
                                 resident.ID = id;
                                 resident.Type = reader.IsDBNull(reader.GetOrdinal(RESIDENT_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_TYPE_FIELD));
-                                resident.FirstName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_NAME_FIELD));
+                                resident.FirstName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_FIRSTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_FIRSTNAME_FIELD));
+                                resident.LastName = reader.IsDBNull(reader.GetOrdinal(RESIDENT_LASTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_LASTNAME_FIELD));
                                 resident.Sex = reader.IsDBNull(reader.GetOrdinal(RESIDENT_SEX_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_SEX_FIELD));
                                 resident.BirthDate = reader.IsDBNull(reader.GetOrdinal(RESIDENT_BOD_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESIDENT_BOD_FIELD));
                                 resident.HouseNo = reader.IsDBNull(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESIDENT_PREV_HOUSE_NO_FIELD));
@@ -533,11 +551,9 @@ namespace RRMS
                                 reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
                                 reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
                                 reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
-                                reservation.Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.Description = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
                                 reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
-                                reservation.ResName = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_RESIDENTNAME_FIELD));
                                 reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
-                                reservation.RoomNum = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_ROOMNUMBER_FIELD));
                             }
                             else if (result is Request request)
                             {
@@ -569,6 +585,20 @@ namespace RRMS
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
                                 policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                            }
+                            else if (result is Payment payment)
+                            {
+                                payment.ID = id;
+                                payment.PaymentDate = reader.GetDateTime(reader.GetOrdinal(PAYMENT_DATE_FIELD));
+                                payment.ReservationID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_RESERVATIONID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_RESERVATIONID_FIELD));
+                                payment.StaffID = reader.GetInt32(reader.GetOrdinal(PAYMENT_STAFFID_FIELD));
+                                payment.UtilityID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD));
+                                payment.PaidAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_PAID_AMOUNT_FIELD));
+                                payment.RemainingAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_REMAINING_AMOUNT_FIELD));
+                                payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
+                                payment.IsUtilityOnly = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_UTILITY_ONLY_FIELD));
                             }
                         }
                     }
@@ -766,6 +796,22 @@ namespace RRMS
                             throw new Exception($"Policy ID {policy.ID} is out of range for ByteId.");
                         }
                     }
+                    else if (entity is Payment payment)
+                    {
+                        if (payment.ID >= 0 && payment.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)payment.ID,
+                                Entity = EntityTypes.Payments
+                            });
+                            entityId = payment.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
+                        }
+                    }
 
 
                     // Add other entity type handling here if needed
@@ -931,6 +977,21 @@ namespace RRMS
                             throw new ArgumentOutOfRangeException(nameof(policy.ID), "Policy ID must be between 0 and 255.");
                         }
                     }
+                    else if (entity is Payment payment)
+                    {
+                        if (payment.ID >= 0 && payment.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)payment.ID,
+                                Entity = EntityTypes.Payments
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
+                        }
+                    }
 
                     else
                     {
@@ -1092,6 +1153,21 @@ namespace RRMS
                         else
                         {
                             throw new Exception($"Policy ID {policy.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Payment payment)
+                    {
+                        if (payment.ID >= 0 && payment.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)payment.ID,
+                                Entity = EntityTypes.Payments
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
                         }
                     }
 

@@ -300,10 +300,14 @@ namespace RRMS.Forms
                     var service = GatherServiceInput();
                     service.ID = id;
 
-                    if (ValidateInputs())
+                    if (TryParseInputs(service.FirstName, service.CostPrice))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(service, "SP_UpdateService", "Update");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid input. Please check your entities.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
@@ -315,12 +319,13 @@ namespace RRMS.Forms
 
         private void DoOnServiceInserted(object? sender, EntityEventArgs e)
         {
+            string SP_Name = "SP_GetServiceByID";
             if (e.ByteId == 0) return;
             Task.Run(() =>
             {
                 try
                 {
-                    var result = Helper.GetEntityById<Service>(Program.Connection, e.ByteId, "SP_GetServiceByID");
+                    var result = Helper.GetEntityById<Service>(Program.Connection, e.ByteId, SP_Name);
 
                     if (result != null)
                     {
@@ -343,27 +348,25 @@ namespace RRMS.Forms
         {
             var service = GatherServiceInput();
 
-            if (ValidateInputs())
+            if (TryParseInputs(service.FirstName, service.CostPrice))
             {
                 var entityService = new EntityService();
                 entityService.InsertOrUpdateEntity(service, "SP_InsertService", "Insert");
             }
         }
 
-        private bool ValidateInputs()
+        private bool TryParseInputs(string name,double cost)
         {
-            if (string.IsNullOrWhiteSpace(txtSerName.Text))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Service name must not be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Service name must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
-            if (!decimal.TryParse(txtSerCost.Text, out decimal cost) || cost < 0)
+            if (cost < 0)
             {
-                MessageBox.Show("Please enter a valid cost.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter a valid cost.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
             return true;
         }
 
@@ -391,11 +394,19 @@ namespace RRMS.Forms
 
         private Service GatherServiceInput()
         {
+            int venID;
+            int roomID;
+            double cost;
+            double.TryParse(txtSerCost.Text.Trim(), out cost);
+            if (cbbVenID.SelectedItem != null && int.TryParse(cbbVenID.SelectedItem.ToString(), out venID));
+            if (cbbRoomID.SelectedItem != null && int.TryParse(cbbRoomID.SelectedItem.ToString(), out roomID));
             return new Service()
             {
                 FirstName = txtSerName.Text.Trim(),
                 Description = txtSerDesc.Text.Trim(),
-                Cost = decimal.Parse(txtSerCost.Text)
+                CostPrice = cost,
+                //VenID = venID,
+                //RoomID = roomID
             };
         }
 

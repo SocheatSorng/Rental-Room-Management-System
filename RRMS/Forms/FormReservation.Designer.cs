@@ -36,7 +36,7 @@
             Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewTextBoxColumn();
             Column6 = new DataGridViewTextBoxColumn();
-            btnClear = new Button();
+            btnNew = new Button();
             btnUpdate = new Button();
             dtpReserED = new DateTimePicker();
             dtpReserSD = new DateTimePicker();
@@ -49,7 +49,6 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            dtpStatus = new ComboBox();
             btnInsert = new Button();
             txtRoomNum = new TextBox();
             btnDelete = new Button();
@@ -57,8 +56,8 @@
             label13 = new Label();
             label12 = new Label();
             label11 = new Label();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
+            txtReserRem = new TextBox();
+            txtReserPA = new TextBox();
             label10 = new Label();
             txtResName = new TextBox();
             cbbRoomID = new ComboBox();
@@ -67,6 +66,7 @@
             titleLabel = new Label();
             label9 = new Label();
             txtSearch = new TextBox();
+            txtReserStat = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvReser).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -115,19 +115,19 @@
             Column6.HeaderText = "RoomID";
             Column6.Name = "Column6";
             // 
-            // btnClear
+            // btnNew
             // 
-            btnClear.BackColor = Color.FromArgb(217, 83, 79);
-            btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(18, 426);
-            btnClear.Margin = new Padding(3, 2, 3, 2);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(83, 26);
-            btnClear.TabIndex = 2;
-            btnClear.Text = "New";
-            btnClear.UseVisualStyleBackColor = false;
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(18, 426);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 2;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
             // 
@@ -249,15 +249,6 @@
             label1.TabIndex = 20;
             label1.Text = "ReservationID :";
             // 
-            // dtpStatus
-            // 
-            dtpStatus.Font = new Font("Segoe UI", 12F);
-            dtpStatus.FormattingEnabled = true;
-            dtpStatus.Location = new Point(146, 175);
-            dtpStatus.Name = "dtpStatus";
-            dtpStatus.Size = new Size(263, 29);
-            dtpStatus.TabIndex = 39;
-            // 
             // btnInsert
             // 
             btnInsert.BackColor = Color.FromArgb(92, 184, 92);
@@ -299,11 +290,12 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtReserStat);
             panel1.Controls.Add(label13);
             panel1.Controls.Add(label12);
             panel1.Controls.Add(label11);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(txtReserRem);
+            panel1.Controls.Add(txtReserPA);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(txtResName);
             panel1.Controls.Add(cbbRoomID);
@@ -311,9 +303,8 @@
             panel1.Controls.Add(label8);
             panel1.Controls.Add(txtRoomNum);
             panel1.Controls.Add(btnDelete);
-            panel1.Controls.Add(btnClear);
+            panel1.Controls.Add(btnNew);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(dtpStatus);
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(dtpReserED);
             panel1.Controls.Add(dtpReserSD);
@@ -361,25 +352,25 @@
             label11.TabIndex = 56;
             label11.Text = "Room Number";
             // 
-            // textBox2
+            // txtReserRem
             // 
-            textBox2.Font = new Font("Segoe UI", 12F);
-            textBox2.Location = new Point(146, 382);
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(263, 29);
-            textBox2.TabIndex = 55;
-            textBox2.TextAlign = HorizontalAlignment.Center;
+            txtReserRem.Font = new Font("Segoe UI", 12F);
+            txtReserRem.Location = new Point(146, 382);
+            txtReserRem.Name = "txtReserRem";
+            txtReserRem.ReadOnly = true;
+            txtReserRem.Size = new Size(263, 29);
+            txtReserRem.TabIndex = 55;
+            txtReserRem.TextAlign = HorizontalAlignment.Center;
             // 
-            // textBox1
+            // txtReserPA
             // 
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(146, 347);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(263, 29);
-            textBox1.TabIndex = 54;
-            textBox1.TextAlign = HorizontalAlignment.Center;
+            txtReserPA.Font = new Font("Segoe UI", 12F);
+            txtReserPA.Location = new Point(146, 347);
+            txtReserPA.Name = "txtReserPA";
+            txtReserPA.ReadOnly = true;
+            txtReserPA.Size = new Size(263, 29);
+            txtReserPA.TabIndex = 54;
+            txtReserPA.TextAlign = HorizontalAlignment.Center;
             // 
             // label10
             // 
@@ -463,6 +454,16 @@
             txtSearch.TabIndex = 50;
             txtSearch.TextAlign = HorizontalAlignment.Center;
             // 
+            // txtReserStat
+            // 
+            txtReserStat.Font = new Font("Segoe UI", 12F);
+            txtReserStat.Location = new Point(146, 173);
+            txtReserStat.Name = "txtReserStat";
+            txtReserStat.ReadOnly = true;
+            txtReserStat.Size = new Size(263, 29);
+            txtReserStat.TabIndex = 59;
+            txtReserStat.TextAlign = HorizontalAlignment.Center;
+            // 
             // FormReservation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -485,7 +486,7 @@
 
         #endregion
         private DataGridView dgvReser;
-        private Button btnClear;
+        private Button btnNew;
         private Button btnUpdate;
         private DateTimePicker dtpReserED;
         private DateTimePicker dtpReserSD;
@@ -498,7 +499,6 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private ComboBox dtpStatus;
         private DataGridViewTextBoxColumn column7;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
@@ -521,10 +521,11 @@
         private ComboBox cbbRoomID;
         private TextBox txtResName;
         private Label label10;
-        private TextBox textBox2;
-        private TextBox textBox1;
+        private TextBox txtReserRem;
+        private TextBox txtReserPA;
         private Label label13;
         private Label label12;
         private Label label11;
+        private TextBox txtReserStat;
     }
 }

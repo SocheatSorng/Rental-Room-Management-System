@@ -260,6 +260,7 @@ namespace RRMS.Forms
 
                 // Call InsertOrUpdateEntity method
                 entityService.InsertOrUpdateEntity(staff, "SP_InsertStaff", "Insert");
+                UpdateStaffView();
             }
             else
             {
@@ -412,7 +413,7 @@ namespace RRMS.Forms
         private void AddToView(Staff staff)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvSta, staff.StaID, staff.StaFName);
+            row.CreateCells(dgvSta, staff.ID, staff.FirstName + " " + staff.LastName);
             row.Tag = staff.ID;
             dgvSta.Rows.Add(row);
         }

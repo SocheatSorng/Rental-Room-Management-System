@@ -20,6 +20,11 @@ namespace RRMS.Forms
             ConfigView();
             _bs.DataSource = dgvRes;
 
+            // Populate the ComboBox with options
+            cbbResType.Items.Add("Guest");
+            cbbResType.Items.Add("Resident");
+            cbbResType.SelectedIndex = 1; // Set default selection
+
             btnInsert.Click += (sender, e) =>
             {
                 Helper.Added += DoOnResidentInserted;
@@ -42,7 +47,6 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            //btnClose.Click += (sender, e) => { this.Close(); };
             dgvRes.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }
@@ -75,7 +79,7 @@ namespace RRMS.Forms
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (residentName != null && residentName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
-                            
+
                             dgvRes.ClearSelection();
 
                             row.Selected = true;
@@ -112,7 +116,7 @@ namespace RRMS.Forms
                 if (residentID.HasValue)
                 {
                     // Use the generic GetEntityById method to retrieve the Resident
-                    var resident = Helper.GetEntityById<Resident>(Program.Connection, residentID.Value, "SP_GetResidentById");
+                    var resident = Helper.GetEntityById<Resident>(Program.Connection, residentID.Value, "SP_GetResidentByID");
                     if (resident != null)
                     {
                         PopulateFields(resident);
@@ -167,7 +171,7 @@ namespace RRMS.Forms
                 using var cmd = Program.Connection.CreateCommand();
                 cmd.CommandText = "SP_DeleteResident";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", id);
+                cmd.Parameters.AddWithValue("@ResidentID", id);
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show($"Successfully Deleted Resident ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -199,14 +203,14 @@ namespace RRMS.Forms
             if (dgvRes.SelectedCells.Count > 0)
             {
                 int rowIndex = dgvRes.SelectedCells[0].RowIndex;
-                object cellValue = dgvRes.Rows[rowIndex].Cells["colResID"].Value;
+                object cellValue = dgvRes.Rows[rowIndex].Cells["colResidentID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
                     var resident = GatherResidentInput();
-                    resident.ResID = id;
+                    resident.ID = id;
 
-                    if (TryParseInputs(resident.ResType, resident.ResFirstName, resident.ResSex, resident.ResPerNum, resident.ResConNum))
+                    if (TryParseInputs(resident.Type, resident.FirstName, resident.Sex, resident.PersonalNumber, resident.ContactNumber))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(resident, "SP_UpdateResident", "Update");
@@ -228,7 +232,7 @@ namespace RRMS.Forms
         }
         private void DoOnResidentInserted(object? sender, EntityEventArgs e)
         {
-            string SP_Name = "SP_GetResidentById";
+            string SP_Name = "SP_GetResidentByID";
             if (e.ByteId == 0) return;
             Task.Run(() =>
             {
@@ -257,20 +261,19 @@ namespace RRMS.Forms
         {
             var resident = GatherResidentInput();
 
-            if (TryParseInputs(resident.ResType, resident.ResFirstName, resident.ResSex, resident.ResPerNum, resident.ResConNum))
+            if (TryParseInputs(resident.Type, resident.FirstName, resident.Sex, resident.PersonalNumber, resident.ContactNumber))
             {
                 // Create an instance of EntityService
                 var entityService = new EntityService();
 
                 // Call InsertOrUpdateEntity method
-                entityService.InsertOrUpdateEntity(resident, "SP_AddResident", "Insert");
+                entityService.InsertOrUpdateEntity(resident, "SP_InsertResident", "Insert");
             }
             else
             {
                 MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
         private bool TryParseInputs(string residentType, string residentName, string sex, string resPN, string resCN)
         {
             if (string.IsNullOrEmpty(residentType))
@@ -325,8 +328,8 @@ namespace RRMS.Forms
         {
             return new Resident()
             {
-                ResType = txtResType.Text.Trim(),
-                ResFirstName = txtResName.Text.Trim(),
+                ResType = cbbResType?.SelectedItem?.ToString(),
+                ResFirstName = txtResFirst.Text.Trim(),
                 ResSex = txtResSex.Text.Trim(),
                 ResBD = dtpResBOD.Value,
                 ResPrevHouseNo = txtResHNo.Text.Trim(),
@@ -345,9 +348,9 @@ namespace RRMS.Forms
             if (resident != null)
             {
                 // Populate the form fields with the resident's data
-                txtResID.Text = resident.ResID.ToString();
-                txtResType.Text = resident.ResType;
-                txtResName.Text = resident.ResFirstName;
+                txtResID.Text = resident.ID.ToString();
+                cbbResType.SelectedItem = resident.ResType; // Set the selected value of the ComboBox
+                txtResFirst.Text = resident.ResFirstName;
                 txtResSex.Text = resident.ResSex;
                 dtpResBOD.Value = resident.ResBD;
                 txtResHNo.Text = resident.ResPrevHouseNo;
@@ -364,8 +367,8 @@ namespace RRMS.Forms
             {
                 // Clear the fields for a new resident
                 txtResID.Text = string.Empty;
-                txtResType.Text = string.Empty;
-                txtResName.Text = string.Empty;
+                cbbResType.SelectedIndex = 0; // Reset to default selection
+                txtResFirst.Text = string.Empty;
                 txtResSex.Text = string.Empty;
                 dtpResBOD.Value = DateTime.Now;
                 txtResHNo.Text = string.Empty;
@@ -398,7 +401,7 @@ namespace RRMS.Forms
                 // Create an instance of EntityViewAdder
                 var entityViewAdder = new EntityViewAdder<Resident>(
                     dgvRes,
-                    resident => new object[] { resident.ResID, resident.ResFirstName }
+                    resident => new object[] { resident.ID, resident.FirstName }
                 );
 
                 // Use the AddToView method to add each resident to the DataGridView
@@ -416,8 +419,8 @@ namespace RRMS.Forms
         private void AddToView(Resident resident)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvRes, resident.ResID, resident.ResFirstName);
-            row.Tag = resident.ResID;
+            row.CreateCells(dgvRes, resident.ID, resident.FirstName + " " + resident.LastName);
+            row.Tag = resident.ID;
             dgvRes.Rows.Add(row);
         }
     }

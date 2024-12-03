@@ -499,7 +499,7 @@ namespace RRMS.Forms
                 if (payment.IsUtilityOnly)
                 {
                     cbbUtilityID.Text = payment.UtilityID.ToString();
-                    txtUtilityName.Text = payment.UtilityTypeName;
+                    txtUtilityName.Text = payment.Type;
                 }
                 else
                 {

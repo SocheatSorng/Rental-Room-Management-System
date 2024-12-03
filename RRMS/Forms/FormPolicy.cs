@@ -251,7 +251,7 @@ namespace RRMS.Forms
                     var policy = GatherPolicyInput();
                     policy.ID = id;
 
-                    if (TryParseInputs(policy.FirstName, policy.Description, policy.ResID))
+                    if (TryParseInputs(policy.FirstName, policy.Description, policy.ID))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(policy, "SP_UpdatePolicy", "Update");
@@ -306,7 +306,7 @@ namespace RRMS.Forms
         {
             var policy = GatherPolicyInput();
 
-            if (TryParseInputs(policy.FirstName, policy.Description, policy.ResID))
+            if (TryParseInputs(policy.FirstName, policy.Description, policy.ID))
             {
                 var entityService = new EntityService();
                 entityService.InsertOrUpdateEntity(policy, "SP_InsertPolicy", "Insert");
@@ -370,12 +370,12 @@ namespace RRMS.Forms
             {
                 return new Model.Policy()
                 {
-                    PolName = txtPolName.Text.Trim(),
-                    Des = txtPolDesc.Text.Trim(),
-                    CreDate = dtpPolCD.Value,
-                    UpdDate = dtpPolUD.Value,
-                    ResID = resID,
-                    ResName = txtResName.Text.Trim(),
+                    FirstName = txtPolName.Text.Trim(),
+                    Description = txtPolDesc.Text.Trim(),
+                    Start = dtpPolCD.Value,
+                    End = dtpPolUD.Value,
+                    ResidentID = resID,
+                    //Re = txtResName.Text.Trim(),
                 };
             }
             else
@@ -391,25 +391,25 @@ namespace RRMS.Forms
             if (policy != null)
             {
                 txtPolID.Text = policy.PolID.ToString();
-                txtPolName.Text = policy.PolName;
-                txtPolDesc.Text = policy.Des;
-                dtpPolCD.Value = policy.CreDate;
-                dtpPolUD.Value = policy.UpdDate ?? DateTime.Now;
+                txtPolName.Text = policy.FirstName;
+                txtPolDesc.Text = policy.Description;
+                dtpPolCD.Value = policy.Start;
+                dtpPolUD.Value = policy.End;
 
                 // Set Resident ID in ComboBox
-                cbbResID.SelectedItem = policy.ResID.ToString();
+                cbbResID.SelectedItem = policy.ID.ToString();
 
                 // Fetch and set Resident Name
                 if (cbbResID.SelectedItem != null)
                 {
                     SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ResID", policy.ResID);
+                    cmd.Parameters.AddWithValue("@ResidentID", policy.ID);
                     using (SqlDataReader dr = cmd.ExecuteReader())
                     {
                         if (dr.Read())
                         {
-                            txtResName.Text = dr[2].ToString(); // Assuming the resident name is in the 3rd column
+                            txtResName.Text = dr["Name"].ToString(); // Assuming the resident name is in the 3rd column
                         }
                     }
                 }
@@ -446,8 +446,8 @@ namespace RRMS.Forms
                 var entityViewAdder = new EntityViewAdder<Model.Policy>(dgvPol, policy => new object[]
                 {
                     policy.PolID,
-                    policy.PolName,
-                    policy.Des
+                    policy.FirstName,
+                    policy.Description
                 });
 
                 foreach (var policy in result)
@@ -467,8 +467,8 @@ namespace RRMS.Forms
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(dgvPol,
                 policy.PolID,
-                policy.PolName,
-                policy.Des
+                policy.FirstName,
+                policy.Description
             );
             row.Tag = policy.PolID;
             dgvPol.Rows.Add(row);

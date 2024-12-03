@@ -326,7 +326,7 @@ namespace RRMS.Forms
 
         private void btnPayment_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormService());
+            OpenChildForm(new FormPayment());
         }
 
         private void btnInvoice_Click(object sender, EventArgs e)

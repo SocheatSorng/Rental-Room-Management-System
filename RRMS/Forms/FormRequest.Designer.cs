@@ -34,26 +34,26 @@
             label4 = new Label();
             label5 = new Label();
             label6 = new Label();
-            requestid = new TextBox();
-            description = new TextBox();
-            residentid = new TextBox();
-            serviceid = new TextBox();
+            txtReqID = new TextBox();
+            txtReqDesc = new TextBox();
+            txtResName = new TextBox();
             dgvReq = new DataGridView();
-            btnClear = new Button();
+            btnNew = new Button();
             btnUpdate = new Button();
-            requestdate = new DateTimePicker();
-            status = new ComboBox();
-            residentname = new TextBox();
+            dtpReqDate = new DateTimePicker();
+            cbbResID = new ComboBox();
             label7 = new Label();
-            servicename = new TextBox();
+            txtSerName = new TextBox();
             label8 = new Label();
             btnInsert = new Button();
             txtSearch = new TextBox();
             label9 = new Label();
             btnDelete = new Button();
             panel1 = new Panel();
+            cbbSerID = new ComboBox();
             label10 = new Label();
             titleLabel = new Label();
+            cbbSerStatus = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvReq).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -92,7 +92,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 12F);
-            label4.Location = new Point(14, 262);
+            label4.Location = new Point(18, 222);
             label4.Name = "label4";
             label4.Size = new Size(92, 21);
             label4.TabIndex = 3;
@@ -102,7 +102,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F);
-            label5.Location = new Point(14, 222);
+            label5.Location = new Point(14, 176);
             label5.Name = "label5";
             label5.Size = new Size(59, 21);
             label5.TabIndex = 4;
@@ -118,41 +118,32 @@
             label6.TabIndex = 5;
             label6.Text = "ServiceID :";
             // 
-            // requestid
+            // txtReqID
             // 
-            requestid.Location = new Point(145, 47);
-            requestid.Name = "requestid";
-            requestid.ReadOnly = true;
-            requestid.Size = new Size(247, 23);
-            requestid.TabIndex = 6;
+            txtReqID.Location = new Point(145, 47);
+            txtReqID.Name = "txtReqID";
+            txtReqID.ReadOnly = true;
+            txtReqID.Size = new Size(247, 23);
+            txtReqID.TabIndex = 6;
             // 
-            // description
+            // txtReqDesc
             // 
-            description.Location = new Point(145, 132);
-            description.Name = "description";
-            description.PlaceholderText = "Input Description";
-            description.Size = new Size(247, 23);
-            description.TabIndex = 8;
-            description.TextAlign = HorizontalAlignment.Center;
+            txtReqDesc.Location = new Point(145, 132);
+            txtReqDesc.Name = "txtReqDesc";
+            txtReqDesc.PlaceholderText = "Input Description";
+            txtReqDesc.Size = new Size(247, 23);
+            txtReqDesc.TabIndex = 8;
+            txtReqDesc.TextAlign = HorizontalAlignment.Center;
             // 
-            // residentid
+            // txtResName
             // 
-            residentid.AccessibleDescription = "";
-            residentid.Location = new Point(145, 260);
-            residentid.Name = "residentid";
-            residentid.PlaceholderText = "Input ResidentID To Display Resident Name";
-            residentid.Size = new Size(247, 23);
-            residentid.TabIndex = 10;
-            residentid.TextAlign = HorizontalAlignment.Center;
-            // 
-            // serviceid
-            // 
-            serviceid.Location = new Point(145, 300);
-            serviceid.Name = "serviceid";
-            serviceid.PlaceholderText = "Input ServiceID To Display Service Name";
-            serviceid.Size = new Size(247, 23);
-            serviceid.TabIndex = 11;
-            serviceid.TextAlign = HorizontalAlignment.Center;
+            txtResName.AccessibleDescription = "";
+            txtResName.Location = new Point(145, 260);
+            txtResName.Name = "txtResName";
+            txtResName.PlaceholderText = "Input ResidentID To Display Resident Name";
+            txtResName.Size = new Size(247, 23);
+            txtResName.TabIndex = 10;
+            txtResName.TextAlign = HorizontalAlignment.Center;
             // 
             // dgvReq
             // 
@@ -162,19 +153,19 @@
             dgvReq.Size = new Size(612, 658);
             dgvReq.TabIndex = 12;
             // 
-            // btnClear
+            // btnNew
             // 
-            btnClear.BackColor = Color.FromArgb(217, 83, 79);
-            btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(14, 386);
-            btnClear.Margin = new Padding(3, 2, 3, 2);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(83, 26);
-            btnClear.TabIndex = 2;
-            btnClear.Text = "New";
-            btnClear.UseVisualStyleBackColor = false;
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(14, 386);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 2;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
             // 
@@ -190,48 +181,39 @@
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
-            // requestdate
+            // dtpReqDate
             // 
-            requestdate.Location = new Point(145, 91);
-            requestdate.Name = "requestdate";
-            requestdate.Size = new Size(247, 23);
-            requestdate.TabIndex = 39;
+            dtpReqDate.Location = new Point(145, 91);
+            dtpReqDate.Name = "dtpReqDate";
+            dtpReqDate.Size = new Size(247, 23);
+            dtpReqDate.TabIndex = 39;
             // 
-            // status
+            // cbbResID
             // 
-            status.FormattingEnabled = true;
-            status.Location = new Point(145, 220);
-            status.Name = "status";
-            status.Size = new Size(247, 23);
-            status.TabIndex = 41;
-            // 
-            // residentname
-            // 
-            residentname.Location = new Point(145, 178);
-            residentname.Name = "residentname";
-            residentname.ReadOnly = true;
-            residentname.Size = new Size(247, 23);
-            residentname.TabIndex = 42;
-            residentname.TextAlign = HorizontalAlignment.Center;
+            cbbResID.FormattingEnabled = true;
+            cbbResID.Location = new Point(145, 220);
+            cbbResID.Name = "cbbResID";
+            cbbResID.Size = new Size(247, 23);
+            cbbResID.TabIndex = 41;
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F);
-            label7.Location = new Point(14, 176);
+            label7.Location = new Point(16, 258);
             label7.Name = "label7";
             label7.Size = new Size(123, 21);
             label7.TabIndex = 43;
             label7.Text = "Resident Name :";
             // 
-            // servicename
+            // txtSerName
             // 
-            servicename.Location = new Point(145, 337);
-            servicename.Name = "servicename";
-            servicename.ReadOnly = true;
-            servicename.Size = new Size(247, 23);
-            servicename.TabIndex = 44;
-            servicename.TextAlign = HorizontalAlignment.Center;
+            txtSerName.Location = new Point(145, 337);
+            txtSerName.Name = "txtSerName";
+            txtSerName.ReadOnly = true;
+            txtSerName.Size = new Size(247, 23);
+            txtSerName.TabIndex = 44;
+            txtSerName.TextAlign = HorizontalAlignment.Center;
             // 
             // label8
             // 
@@ -293,21 +275,21 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(cbbSerStatus);
+            panel1.Controls.Add(cbbSerID);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(btnClear);
+            panel1.Controls.Add(btnNew);
             panel1.Controls.Add(label8);
             panel1.Controls.Add(btnUpdate);
-            panel1.Controls.Add(servicename);
+            panel1.Controls.Add(txtSerName);
             panel1.Controls.Add(label7);
-            panel1.Controls.Add(residentname);
-            panel1.Controls.Add(status);
-            panel1.Controls.Add(requestdate);
-            panel1.Controls.Add(serviceid);
-            panel1.Controls.Add(residentid);
-            panel1.Controls.Add(description);
-            panel1.Controls.Add(requestid);
+            panel1.Controls.Add(cbbResID);
+            panel1.Controls.Add(dtpReqDate);
+            panel1.Controls.Add(txtResName);
+            panel1.Controls.Add(txtReqDesc);
+            panel1.Controls.Add(txtReqID);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
@@ -318,6 +300,14 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(407, 695);
             panel1.TabIndex = 50;
+            // 
+            // cbbSerID
+            // 
+            cbbSerID.FormattingEnabled = true;
+            cbbSerID.Location = new Point(145, 300);
+            cbbSerID.Name = "cbbSerID";
+            cbbSerID.Size = new Size(247, 23);
+            cbbSerID.TabIndex = 51;
             // 
             // label10
             // 
@@ -344,6 +334,14 @@
             titleLabel.TabIndex = 51;
             titleLabel.Text = "Request Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // cbbSerStatus
+            // 
+            cbbSerStatus.FormattingEnabled = true;
+            cbbSerStatus.Location = new Point(145, 174);
+            cbbSerStatus.Name = "cbbSerStatus";
+            cbbSerStatus.Size = new Size(247, 23);
+            cbbSerStatus.TabIndex = 52;
             // 
             // FormRequest
             // 
@@ -372,18 +370,16 @@
         private Label label4;
         private Label label5;
         private Label label6;
-        private TextBox requestid;
-        private TextBox description;
-        private TextBox residentid;
-        private TextBox serviceid;
+        private TextBox txtReqID;
+        private TextBox txtReqDesc;
+        private TextBox txtResName;
         private DataGridView dgvReq;
-        private Button btnClear;
+        private Button btnNew;
         private Button btnUpdate;
-        private DateTimePicker requestdate;
-        private ComboBox status;
-        private TextBox residentname;
+        private DateTimePicker dtpReqDate;
+        private ComboBox cbbResID;
         private Label label7;
-        private TextBox servicename;
+        private TextBox txtSerName;
         private Label label8;
         private Button btnInsert;
         private TextBox txtSearch;
@@ -392,5 +388,7 @@
         private Panel panel1;
         private Label titleLabel;
         private Label label10;
+        private ComboBox cbbSerID;
+        private ComboBox cbbSerStatus;
     }
 }

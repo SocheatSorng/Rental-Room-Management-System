@@ -56,8 +56,7 @@
             btnUpdate = new Button();
             btnDelete = new Button();
             txtResID = new TextBox();
-            txtResType = new TextBox();
-            txtResName = new TextBox();
+            txtResFirst = new TextBox();
             txtResSex = new TextBox();
             txtResCN = new TextBox();
             label16 = new Label();
@@ -66,6 +65,9 @@
             dtpResCID = new DateTimePicker();
             dtpResCOD = new DateTimePicker();
             panel1 = new Panel();
+            cbbResType = new ComboBox();
+            txtResLast = new TextBox();
+            label18 = new Label();
             label17 = new Label();
             titleLabel = new Label();
             groupBox1.SuspendLayout();
@@ -80,20 +82,20 @@
             label1.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Location = new Point(17, 39);
             label1.Name = "label1";
-            label1.Size = new Size(80, 18);
+            label1.Size = new Size(84, 18);
             label1.TabIndex = 0;
-            label1.Text = "ResidentID";
+            label1.Text = "Resident ID";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(16, 159);
+            label2.Location = new Point(16, 197);
             label2.Name = "label2";
-            label2.Size = new Size(102, 18);
+            label2.Size = new Size(40, 18);
             label2.TabIndex = 1;
-            label2.Text = "Resident Type";
+            label2.Text = "Type";
             // 
             // label3
             // 
@@ -102,16 +104,16 @@
             label3.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(16, 80);
             label3.Name = "label3";
-            label3.Size = new Size(110, 18);
+            label3.Size = new Size(81, 18);
             label3.TabIndex = 2;
-            label3.Text = "Resident Name";
+            label3.Text = "First Name";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(17, 202);
+            label4.Location = new Point(17, 240);
             label4.Name = "label4";
             label4.Size = new Size(33, 18);
             label4.TabIndex = 3;
@@ -133,7 +135,7 @@
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(17, 117);
+            label6.Location = new Point(17, 155);
             label6.Name = "label6";
             label6.Size = new Size(73, 18);
             label6.TabIndex = 5;
@@ -152,7 +154,7 @@
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label5);
-            groupBox1.Location = new Point(16, 235);
+            groupBox1.Location = new Point(16, 278);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(439, 176);
             groupBox1.TabIndex = 6;
@@ -165,7 +167,7 @@
             txtResPro.Location = new Point(116, 121);
             txtResPro.Name = "txtResPro";
             txtResPro.Size = new Size(100, 24);
-            txtResPro.TabIndex = 26;
+            txtResPro.TabIndex = 12;
             // 
             // label10
             // 
@@ -184,7 +186,7 @@
             txtResDis.Location = new Point(304, 76);
             txtResDis.Name = "txtResDis";
             txtResDis.Size = new Size(123, 24);
-            txtResDis.TabIndex = 24;
+            txtResDis.TabIndex = 11;
             // 
             // txtResCom
             // 
@@ -192,7 +194,7 @@
             txtResCom.Location = new Point(116, 76);
             txtResCom.Name = "txtResCom";
             txtResCom.Size = new Size(100, 24);
-            txtResCom.TabIndex = 23;
+            txtResCom.TabIndex = 10;
             // 
             // txtResStNo
             // 
@@ -200,7 +202,7 @@
             txtResStNo.Location = new Point(304, 21);
             txtResStNo.Name = "txtResStNo";
             txtResStNo.Size = new Size(123, 24);
-            txtResStNo.TabIndex = 22;
+            txtResStNo.TabIndex = 9;
             // 
             // txtResHNo
             // 
@@ -208,7 +210,7 @@
             txtResHNo.Location = new Point(115, 21);
             txtResHNo.Name = "txtResHNo";
             txtResHNo.Size = new Size(100, 24);
-            txtResHNo.TabIndex = 21;
+            txtResHNo.TabIndex = 8;
             // 
             // label11
             // 
@@ -256,17 +258,17 @@
             // txtResPN
             // 
             txtResPN.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResPN.Location = new Point(166, 417);
+            txtResPN.Location = new Point(172, 471);
             txtResPN.Name = "txtResPN";
             txtResPN.Size = new Size(100, 24);
-            txtResPN.TabIndex = 26;
+            txtResPN.TabIndex = 13;
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(17, 420);
+            label12.Location = new Point(23, 474);
             label12.Name = "label12";
             label12.Size = new Size(124, 18);
             label12.TabIndex = 7;
@@ -277,7 +279,7 @@
             label13.AutoSize = true;
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(17, 462);
+            label13.Location = new Point(23, 516);
             label13.Name = "label13";
             label13.Size = new Size(117, 18);
             label13.TabIndex = 8;
@@ -288,7 +290,7 @@
             label14.AutoSize = true;
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(17, 503);
+            label14.Location = new Point(23, 557);
             label14.Name = "label14";
             label14.Size = new Size(102, 18);
             label14.TabIndex = 9;
@@ -299,7 +301,7 @@
             label15.AutoSize = true;
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(19, 543);
+            label15.Location = new Point(25, 597);
             label15.Name = "label15";
             label15.Size = new Size(115, 18);
             label15.TabIndex = 10;
@@ -311,7 +313,7 @@
             dgvRes.Location = new Point(481, 72);
             dgvRes.Name = "dgvRes";
             dgvRes.Size = new Size(551, 658);
-            dgvRes.TabIndex = 11;
+            dgvRes.TabIndex = 21;
             // 
             // btnNew
             // 
@@ -319,11 +321,11 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(24, 591);
+            btnNew.Location = new Point(21, 643);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
-            btnNew.TabIndex = 2;
+            btnNew.TabIndex = 17;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -333,11 +335,11 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(132, 591);
+            btnInsert.Location = new Point(129, 643);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 18;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -347,11 +349,11 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(239, 591);
+            btnUpdate.Location = new Point(236, 643);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 19;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -361,11 +363,11 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(349, 591);
+            btnDelete.Location = new Point(346, 643);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 20;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -374,40 +376,33 @@
             txtResID.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtResID.Location = new Point(132, 33);
             txtResID.Name = "txtResID";
+            txtResID.ReadOnly = true;
             txtResID.Size = new Size(100, 24);
-            txtResID.TabIndex = 3;
+            txtResID.TabIndex = 2;
             // 
-            // txtResType
+            // txtResFirst
             // 
-            txtResType.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResType.Location = new Point(132, 159);
-            txtResType.Name = "txtResType";
-            txtResType.Size = new Size(100, 24);
-            txtResType.TabIndex = 17;
-            // 
-            // txtResName
-            // 
-            txtResName.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResName.Location = new Point(132, 77);
-            txtResName.Name = "txtResName";
-            txtResName.Size = new Size(100, 24);
-            txtResName.TabIndex = 18;
+            txtResFirst.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtResFirst.Location = new Point(132, 77);
+            txtResFirst.Name = "txtResFirst";
+            txtResFirst.Size = new Size(100, 24);
+            txtResFirst.TabIndex = 3;
             // 
             // txtResSex
             // 
             txtResSex.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResSex.Location = new Point(132, 196);
+            txtResSex.Location = new Point(132, 234);
             txtResSex.Name = "txtResSex";
             txtResSex.Size = new Size(100, 24);
-            txtResSex.TabIndex = 19;
+            txtResSex.TabIndex = 7;
             // 
             // txtResCN
             // 
             txtResCN.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtResCN.Location = new Point(166, 456);
+            txtResCN.Location = new Point(172, 510);
             txtResCN.Name = "txtResCN";
             txtResCN.Size = new Size(100, 24);
-            txtResCN.TabIndex = 27;
+            txtResCN.TabIndex = 14;
             // 
             // label16
             // 
@@ -425,32 +420,35 @@
             txtSearch.Location = new Point(542, 43);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(490, 23);
-            txtSearch.TabIndex = 31;
+            txtSearch.TabIndex = 1;
             // 
             // dtpResBOD
             // 
-            dtpResBOD.Location = new Point(132, 117);
+            dtpResBOD.Location = new Point(132, 155);
             dtpResBOD.Name = "dtpResBOD";
             dtpResBOD.Size = new Size(200, 23);
-            dtpResBOD.TabIndex = 33;
+            dtpResBOD.TabIndex = 5;
             // 
             // dtpResCID
             // 
-            dtpResCID.Location = new Point(166, 498);
+            dtpResCID.Location = new Point(172, 552);
             dtpResCID.Name = "dtpResCID";
             dtpResCID.Size = new Size(200, 23);
-            dtpResCID.TabIndex = 34;
+            dtpResCID.TabIndex = 15;
             // 
             // dtpResCOD
             // 
-            dtpResCOD.Location = new Point(166, 543);
+            dtpResCOD.Location = new Point(172, 597);
             dtpResCOD.Name = "dtpResCOD";
             dtpResCOD.Size = new Size(200, 23);
-            dtpResCOD.TabIndex = 35;
+            dtpResCOD.TabIndex = 16;
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(cbbResType);
+            panel1.Controls.Add(txtResLast);
+            panel1.Controls.Add(label18);
             panel1.Controls.Add(label17);
             panel1.Controls.Add(txtResPN);
             panel1.Controls.Add(dtpResCOD);
@@ -463,8 +461,7 @@
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(txtResSex);
             panel1.Controls.Add(label12);
-            panel1.Controls.Add(txtResName);
-            panel1.Controls.Add(txtResType);
+            panel1.Controls.Add(txtResFirst);
             panel1.Controls.Add(txtResID);
             panel1.Controls.Add(label15);
             panel1.Controls.Add(label14);
@@ -479,6 +476,33 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(463, 687);
             panel1.TabIndex = 36;
+            // 
+            // cbbResType
+            // 
+            cbbResType.FormattingEnabled = true;
+            cbbResType.Location = new Point(131, 192);
+            cbbResType.Name = "cbbResType";
+            cbbResType.Size = new Size(121, 23);
+            cbbResType.TabIndex = 6;
+            // 
+            // txtResLast
+            // 
+            txtResLast.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtResLast.Location = new Point(132, 116);
+            txtResLast.Name = "txtResLast";
+            txtResLast.Size = new Size(100, 24);
+            txtResLast.TabIndex = 4;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.BackColor = Color.Transparent;
+            label18.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label18.Location = new Point(16, 119);
+            label18.Name = "label18";
+            label18.Size = new Size(80, 18);
+            label18.TabIndex = 49;
+            label18.Text = "Last Name";
             // 
             // label17
             // 
@@ -555,8 +579,7 @@
         private Button btnUpdate;
         private Button btnDelete;
         private TextBox txtResID; // Resident ID
-        private TextBox txtResType; // Resident Type
-        private TextBox txtResName; // Resident Name
+        private TextBox txtResFirst; // Resident Name
         private TextBox txtResSex; // Resident Sex
         private TextBox txtResCN; // Resident Contact Number
         private Label label16;
@@ -569,5 +592,8 @@
         private Panel panel1;
         private Label label17;
         private Label titleLabel;
+        private TextBox txtResLast;
+        private Label label18;
+        private ComboBox cbbResType;
     }
 }

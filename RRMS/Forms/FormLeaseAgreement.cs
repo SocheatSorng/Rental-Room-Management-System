@@ -83,7 +83,7 @@ namespace RRMS.Forms
                 {
                     while (dr.Read())
                     {
-                        txtResidentName.Text = dr[3].ToString();
+                        txtResidentName.Text = dr[2].ToString();
                     }
                 }
             }

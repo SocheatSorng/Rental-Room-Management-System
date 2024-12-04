@@ -198,17 +198,14 @@ GO
 -- Table Request
 CREATE TABLE tblRequest (
     RequestID INT PRIMARY KEY IDENTITY(1,1),
-    Date DATE,
-    Description NVARCHAR(MAX),
-    Status NVARCHAR(50),
+    RequestDate DATETIME NOT NULL,
+    RequestDescription NVARCHAR(MAX),
+    RequestStatus NVARCHAR(50),
     ResidentID INT,
     ServiceID INT,
-    ResidentName NVARCHAR(100),
-    ServiceName NVARCHAR(100),
-    FOREIGN KEY (ResidentID) REFERENCES Resident(ResidentID),
-    FOREIGN KEY (ServiceID) REFERENCES Service(ServiceID)
+    CONSTRAINT FK_Request_Resident FOREIGN KEY (ResidentID) REFERENCES tblResident(ResidentID),
+    CONSTRAINT FK_Request_Service FOREIGN KEY (ServiceID) REFERENCES tblService(ServiceID)
 );
-GO
 
 -- Table Rent
 CREATE TABLE tblRent (

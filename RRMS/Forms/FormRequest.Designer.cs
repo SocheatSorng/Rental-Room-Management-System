@@ -50,10 +50,10 @@
             label9 = new Label();
             btnDelete = new Button();
             panel1 = new Panel();
+            cbbSerStatus = new ComboBox();
             cbbSerID = new ComboBox();
             label10 = new Label();
             titleLabel = new Label();
-            cbbSerStatus = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvReq).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -102,7 +102,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 12F);
-            label5.Location = new Point(14, 176);
+            label5.Location = new Point(18, 176);
             label5.Name = "label5";
             label5.Size = new Size(59, 21);
             label5.TabIndex = 4;
@@ -301,6 +301,14 @@
             panel1.Size = new Size(407, 695);
             panel1.TabIndex = 50;
             // 
+            // cbbSerStatus
+            // 
+            cbbSerStatus.FormattingEnabled = true;
+            cbbSerStatus.Location = new Point(145, 174);
+            cbbSerStatus.Name = "cbbSerStatus";
+            cbbSerStatus.Size = new Size(247, 23);
+            cbbSerStatus.TabIndex = 52;
+            // 
             // cbbSerID
             // 
             cbbSerID.FormattingEnabled = true;
@@ -334,14 +342,6 @@
             titleLabel.TabIndex = 51;
             titleLabel.Text = "Request Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // cbbSerStatus
-            // 
-            cbbSerStatus.FormattingEnabled = true;
-            cbbSerStatus.Location = new Point(145, 174);
-            cbbSerStatus.Name = "cbbSerStatus";
-            cbbSerStatus.Size = new Size(247, 23);
-            cbbSerStatus.TabIndex = 52;
             // 
             // FormRequest
             // 

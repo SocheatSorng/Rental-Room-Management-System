@@ -16,14 +16,14 @@ namespace RRMS.Model
         public int ID { get => RequestID; set => RequestID = value; }
         public DateTime? Start { get => RequestDate; set => RequestDate = value; }
         public string Description { get => RequestDescription ?? string.Empty; set => RequestDescription = value; }
-        public bool Status { get => RequestStatus?.ToLower() == "true"; set => RequestStatus = value.ToString(); }
+        public string Type { get => RequestStatus ?? string.Empty; set => RequestStatus = value; }
 
         // Not applicable properties
         public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
         public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
-        public string Type { get => string.Empty; set => throw new NotSupportedException(); }
+        public bool Status { get => false; set => throw new NotSupportedException(); }
         public string HouseNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string Commune { get => string.Empty; set => throw new NotSupportedException(); }
@@ -42,16 +42,17 @@ namespace RRMS.Model
         {
             cmd.Parameters.AddWithValue("@RequestDate", Start as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RequestDescription", RequestDescription as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Status", RequestStatus as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@RequestStatus", RequestStatus as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ServiceID", ServiceID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
+            cmd.Parameters.AddWithValue("@RequestID", RequestID);
             cmd.Parameters.AddWithValue("@RequestDate", Start as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RequestDescription", Description as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Status", Status as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@RequestStatus", Status as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ServiceID", ServiceID as object ?? DBNull.Value);
         }

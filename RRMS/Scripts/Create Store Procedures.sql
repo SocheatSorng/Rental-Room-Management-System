@@ -1004,202 +1004,101 @@ GO
 --End of Store Precedure Rent
 
 -- Request CRUD
+CREATE PROCEDURE SP_LoadRequestIDs
+AS
+BEGIN
+    SELECT r.RequestDescription,
+           r.RequestID,
+           res.FirstName + ' ' + res.LastName AS ResidentName,
+           s.ServiceName
+    FROM tblRequest r
+    INNER JOIN tblResident res ON r.ResidentID = res.ResidentID
+    INNER JOIN tblService s ON r.ServiceID = s.ServiceID
+    ORDER BY r.RequestID DESC;
+END
+GO
+
 CREATE PROCEDURE SP_GetAllRequests
 AS
 BEGIN
-    SELECT 
-        r.RequestID,
-        r.RequestDate,
-        r.Description,
-        r.Status,
-        r.ResidentID,
-        r.ServiceID,
-        res.ResidentName,
-        s.ServiceName
-    FROM Request r
-    INNER JOIN Resident res ON r.ResidentID = res.ResidentID
-    INNER JOIN Service s ON r.ServiceID = s.ServiceID
+    SELECT r.*, 
+           res.FirstName + ' ' + res.LastName AS ResidentName,
+           s.ServiceName
+    FROM tblRequest r
+    INNER JOIN tblResident res ON r.ResidentID = res.ResidentID
+    INNER JOIN tblService s ON r.ServiceID = s.ServiceID
     ORDER BY r.RequestID DESC;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_GetRequestById
     @RequestID INT
 AS
 BEGIN
-    SELECT 
-        r.RequestID,
-        r.RequestDate,
-        r.Description,
-        r.Status,
-        r.ResidentID,
-        r.ServiceID,
-        res.ResidentName,
-        s.ServiceName
-    FROM Request r
-    INNER JOIN Resident res ON r.ResidentID = res.ResidentID
-    INNER JOIN Service s ON r.ServiceID = s.ServiceID
+    SELECT r.*,
+           res.FirstName + ' ' + res.LastName AS ResidentName,
+           s.ServiceName
+    FROM tblRequest r
+    INNER JOIN tblResident res ON r.ResidentID = res.ResidentID
+    INNER JOIN tblService s ON r.ServiceID = s.ServiceID
     WHERE r.RequestID = @RequestID;
-END;
-GO
-
-CREATE PROCEDURE SP_SearchRequests
-    @SearchTerm NVARCHAR(100)
-AS
-BEGIN
-    SELECT 
-        r.RequestID,
-        r.RequestDate,
-        r.Description,
-        r.Status,
-        r.ResidentID,
-        r.ServiceID,
-        res.ResidentName,
-        s.ServiceName
-    FROM Request r
-    INNER JOIN Resident res ON r.ResidentID = res.ResidentID
-    INNER JOIN Service s ON r.ServiceID = s.ServiceID
-    WHERE res.ResidentName LIKE @SearchTerm + '%'
-    OR r.Description LIKE @SearchTerm + '%'
-    OR r.Status LIKE @SearchTerm + '%'
-    OR s.ServiceName LIKE @SearchTerm + '%'
-    ORDER BY r.RequestID DESC;
-END;
-GO
-
-CREATE PROCEDURE SP_GetServiceNameById
-    @ServiceID INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Service WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50002, 'Service not found', 1;
-        RETURN;
-    END
-
-    SELECT ServiceName
-    FROM Service
-    WHERE ServiceID = @ServiceID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_InsertRequest
-    @RequestDate DATE,
-    @Description NVARCHAR(MAX),
-    @Status NVARCHAR(50),
+    @RequestDate DATETIME,
+    @RequestDescription NVARCHAR(MAX),
+    @RequestStatus NVARCHAR(50),
     @ResidentID INT,
     @ServiceID INT
 AS
 BEGIN
-    -- Validate inputs
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    IF NOT EXISTS (SELECT 1 FROM Service WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50002, 'Service not found', 1;
-        RETURN;
-    END
-
-    IF @Status NOT IN ('Pending', 'Confirmed', 'Completed', 'Cancelled')
-    BEGIN
-        THROW 50003, 'Invalid status value', 1;
-        RETURN;
-    END
-
-    -- Insert the request
-    INSERT INTO Request (
+    INSERT INTO tblRequest (
         RequestDate,
-        Description,
-        Status,
+        RequestDescription,
+        RequestStatus,
         ResidentID,
         ServiceID
     )
     VALUES (
         @RequestDate,
-        @Description,
-        @Status,
+        @RequestDescription,
+        @RequestStatus,
         @ResidentID,
         @ServiceID
     );
-
-    SELECT SCOPE_IDENTITY() AS RequestID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_UpdateRequest
     @RequestID INT,
-    @RequestDate DATE,
-    @Description NVARCHAR(MAX),
-    @Status NVARCHAR(50),
+    @RequestDate DATETIME,
+    @RequestDescription NVARCHAR(MAX),
+    @RequestStatus NVARCHAR(50),
     @ResidentID INT,
     @ServiceID INT
 AS
 BEGIN
-    -- Validate request exists
-    IF NOT EXISTS (SELECT 1 FROM Request WHERE RequestID = @RequestID)
-    BEGIN
-        THROW 50004, 'Request not found', 1;
-        RETURN;
-    END
-
-    -- Validate inputs
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    IF NOT EXISTS (SELECT 1 FROM Service WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50002, 'Service not found', 1;
-        RETURN;
-    END
-
-    IF @Status NOT IN ('Pending', 'Confirmed', 'Completed', 'Cancelled')
-    BEGIN
-        THROW 50003, 'Invalid status value', 1;
-        RETURN;
-    END
-
-    -- Update the request
-    UPDATE Request
+    UPDATE tblRequest
     SET 
         RequestDate = @RequestDate,
-        Description = @Description,
-        Status = @Status,
+        RequestDescription = @RequestDescription,
+        RequestStatus = @RequestStatus,
         ResidentID = @ResidentID,
         ServiceID = @ServiceID
     WHERE RequestID = @RequestID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_DeleteRequest
     @RequestID INT
 AS
 BEGIN
-    -- Validate request exists
-    IF NOT EXISTS (SELECT 1 FROM Request WHERE RequestID = @RequestID)
-    BEGIN
-        THROW 50004, 'Request not found', 1;
-        RETURN;
-    END
-
-    -- Check if request can be deleted (example: don't delete completed requests)
-    IF EXISTS (SELECT 1 FROM Request WHERE RequestID = @RequestID AND Status = 'Completed')
-    BEGIN
-        THROW 50005, 'Cannot delete completed requests', 1;
-        RETURN;
-    END
-
-    -- Delete the request
-    DELETE FROM Request
+    DELETE FROM tblRequest 
     WHERE RequestID = @RequestID;
-END;
+END
 GO
+
 --End of Store Precedure Request
 
 -- Reservation CRUD

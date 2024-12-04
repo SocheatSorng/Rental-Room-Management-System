@@ -113,12 +113,17 @@ Create Table tblUser(
 CREATE TABLE tblPolicy (
     PolicyID INT PRIMARY KEY IDENTITY(1,1),
     Name NVARCHAR(100) NOT NULL,
-    Description NVARCHAR(MAX),
+    PolicyDescription NVARCHAR(MAX),
     CreatedDate DATETIME,
     UpdatedDate DATETIME,
     ResidentID INT,
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
+    StaffID INT,
+    CONSTRAINT FK_Policy_Resident FOREIGN KEY (ResidentID) 
+        REFERENCES tblResident(ResidentID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_Policy_Staff FOREIGN KEY (StaffID)
+        REFERENCES tblStaff(StaffID) ON DELETE CASCADE ON UPDATE CASCADE
 );
+GO
 
 -- FEEDBACK table
 CREATE TABLE tblFeedback (

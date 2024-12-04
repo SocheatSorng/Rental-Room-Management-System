@@ -42,7 +42,7 @@ namespace RRMS.Model
         public void AddParameters(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Name", FirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Description", PolicyDescription as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PolicyDescription", Description as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@CreatedDate", Start as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@UpdatedDate", End as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);

@@ -41,6 +41,10 @@
             dgvPol = new DataGridView();
             label8 = new Label();
             txtSearch = new TextBox();
+            txtStaffID = new ComboBox();
+            txtStaffName = new TextBox();
+            label9 = new Label();
+            label11 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPol).BeginInit();
             SuspendLayout();
@@ -146,6 +150,7 @@
             txtResName.Location = new Point(131, 264);
             txtResName.Margin = new Padding(3, 2, 3, 2);
             txtResName.Name = "txtResName";
+            txtResName.ReadOnly = true;
             txtResName.Size = new Size(219, 23);
             txtResName.TabIndex = 14;
             // 
@@ -171,7 +176,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(100, 314);
+            btnInsert.Location = new Point(100, 389);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -185,7 +190,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(189, 314);
+            btnUpdate.Location = new Point(189, 389);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -199,7 +204,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(278, 314);
+            btnDelete.Location = new Point(278, 389);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -210,6 +215,10 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtStaffID);
+            panel1.Controls.Add(txtStaffName);
+            panel1.Controls.Add(label9);
+            panel1.Controls.Add(label11);
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(cbbResID);
             panel1.Controls.Add(label10);
@@ -240,7 +249,7 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(11, 314);
+            btnNew.Location = new Point(11, 389);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -308,6 +317,43 @@
             txtSearch.Size = new Size(577, 23);
             txtSearch.TabIndex = 51;
             // 
+            // txtStaffID
+            // 
+            txtStaffID.FormattingEnabled = true;
+            txtStaffID.Location = new Point(131, 309);
+            txtStaffID.Name = "txtStaffID";
+            txtStaffID.Size = new Size(217, 23);
+            txtStaffID.TabIndex = 53;
+            // 
+            // txtStaffName
+            // 
+            txtStaffName.Location = new Point(131, 351);
+            txtStaffName.Margin = new Padding(3, 2, 3, 2);
+            txtStaffName.Name = "txtStaffName";
+            txtStaffName.ReadOnly = true;
+            txtStaffName.Size = new Size(219, 23);
+            txtStaffName.TabIndex = 52;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Times New Roman", 12F);
+            label9.Location = new Point(11, 353);
+            label9.Name = "label9";
+            label9.Size = new Size(81, 19);
+            label9.TabIndex = 51;
+            label9.Text = "Staff Name:";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Times New Roman", 12F);
+            label11.Location = new Point(11, 313);
+            label11.Name = "label11";
+            label11.Size = new Size(60, 19);
+            label11.TabIndex = 50;
+            label11.Text = "Staff ID:";
+            // 
             // FormPolicy
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -354,5 +400,9 @@
         private Button btnNew;
         private Label label8;
         private TextBox txtSearch;
+        private ComboBox txtStaffID;
+        private TextBox txtStaffName;
+        private Label label9;
+        private Label label11;
     }
 }

@@ -5,17 +5,17 @@ namespace RRMS.Model
     public class Service : IEntity
     {
         // Original properties
-        public int SerID { get; set; }
-        public string? ServName { get; set; }
-        public string? ServDescription { get; set; }
+        public int ServiceID { get; set; }
+        public string? ServiceName { get; set; }
+        public string? ServiceDescription { get; set; }
         public double Cost { get; set; }
-        public int VenID { get; set; }
+        public int VendorID { get; set; }
         public int RoomID { get; set; }
 
         // Implementing applicable interface members
-        public int ID { get => SerID; set => SerID = value; }
-        public string FirstName { get => ServName ?? string.Empty; set => ServName = value; }
-        public string Description { get => ServDescription ?? string.Empty; set => ServDescription = value; }
+        public int ID { get => ServiceID; set => ServiceID = value; }
+        public string FirstName { get => ServiceName ?? string.Empty; set => ServiceName = value; }
+        public string Description { get => ServiceDescription ?? string.Empty; set => ServiceDescription = value; }
         public double CostPrice { get => Cost; set => Cost = value; }
 
         // Not applicable properties
@@ -40,10 +40,10 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@Name", FirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Description", Description as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServiceName", FirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServiceDescription", Description as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Cost", CostPrice as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@VendorID", VenID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@VendorID", VendorID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
@@ -55,7 +55,7 @@ namespace RRMS.Model
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ServiceID", SerID);
+            cmd.Parameters.AddWithValue("@ServiceID", ServiceID);
         }
     }
 }

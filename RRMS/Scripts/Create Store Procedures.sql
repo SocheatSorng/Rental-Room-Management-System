@@ -93,6 +93,7 @@ BEGIN
     DELETE FROM tblResident WHERE ResidentID = @ResidentID;
 END
 GO
+GO
 
 -- Get resident name by ID
 CREATE PROCEDURE SP_GetResidentNameByID
@@ -675,49 +676,117 @@ t
 
 -- Policy CRUD
 
-CREATE PROCEDURE SP_GetAllPolicys
+CREATE PROCEDURE SP_GetAllPolicies
 AS
 BEGIN
-    SELECT * FROM tblPolicy;
+    SELECT p.*, 
+           r.FirstName + ' ' + r.LastName AS ResidentName,
+           s.FirstName + ' ' + s.LastName AS StaffName
+    FROM tblPolicy p
+    LEFT JOIN tblResident r ON p.ResidentID = r.ResidentID
+    LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
+    ORDER BY p.PolicyID;
 END
 GO
 
+-- Get Policy by ID
+CREATE PROCEDURE SP_GetPolicyByID
+    @PolicyID INT
+AS
+BEGIN
+    SELECT p.*, 
+           r.FirstName + ' ' + r.LastName AS ResidentName,
+           s.FirstName + ' ' + s.LastName AS StaffName
+    FROM tblPolicy p
+    LEFT JOIN tblResident r ON p.ResidentID = r.ResidentID
+    LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
+    WHERE p.PolicyID = @PolicyID;
+END
+GO
+
+-- Insert Policy
 CREATE PROCEDURE SP_InsertPolicy
     @Name NVARCHAR(100),
-    @Description NVARCHAR(MAX),
+    @PolicyDescription NVARCHAR(MAX),
     @CreatedDate DATETIME,
     @UpdatedDate DATETIME,
-    @ResidentID INT
+    @ResidentID INT,
+    @StaffID INT
 AS
 BEGIN
-    INSERT INTO tblPolicy (Name, Description, CreatedDate, UpdatedDate, ResidentID)
-    VALUES (@Name, @Description, @CreatedDate, @UpdatedDate, @ResidentID)
+    INSERT INTO tblPolicy (
+        Name,
+        PolicyDescription,
+        CreatedDate,
+        UpdatedDate,
+        ResidentID,
+        StaffID
+    )
+    VALUES (
+        @Name,
+        @PolicyDescription,
+        @CreatedDate,
+        @UpdatedDate,
+        @ResidentID,
+        @StaffID
+    );
+    
+    SELECT SCOPE_IDENTITY() AS PolicyID;
 END
 GO
 
+-- Update Policy
 CREATE PROCEDURE SP_UpdatePolicy
     @PolicyID INT,
     @Name NVARCHAR(100),
+    @PolicyDescription NVARCHAR(MAX),
     @CreatedDate DATETIME,
     @UpdatedDate DATETIME,
-    @Description NVARCHAR(MAX),
-    @ResidentID INT
+    @ResidentID INT,
+    @StaffID INT
 AS
 BEGIN
     UPDATE tblPolicy
-    SET Name = @Name, Description = @Description, CreatedDate = @CreatedDate, UpdatedDate = @UpdatedDate,
-				ResidentID = @ResidentID
-    WHERE PolicyID = @PolicyID
+    SET Name = @Name,
+        PolicyDescription = @PolicyDescription,
+        CreatedDate = @CreatedDate,
+        UpdatedDate = @UpdatedDate,
+        ResidentID = @ResidentID,
+        StaffID = @StaffID
+    WHERE PolicyID = @PolicyID;
 END
 GO
 
+-- Delete Policy
 CREATE PROCEDURE SP_DeletePolicy
     @PolicyID INT
 AS
 BEGIN
-    DELETE FROM tblPolicy WHERE PolicyID = @PolicyID
+    DELETE FROM tblPolicy 
+    WHERE PolicyID = @PolicyID;
 END
 GO
+
+-- Load Policy IDs
+CREATE PROCEDURE SP_LoadPolicyIDs
+AS
+BEGIN
+    SELECT PolicyID, Name
+    FROM tblPolicy;
+END
+GO
+
+-- Validate Policy ID
+CREATE PROCEDURE SP_ValidatePolicyID
+    @PolicyID INT
+AS
+BEGIN
+    SELECT COUNT(*) 
+    FROM tblPolicy 
+    WHERE PolicyID = @PolicyID;
+END
+GO
+
 --End of Store Procedure Policy
 
 

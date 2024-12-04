@@ -9,6 +9,7 @@ CREATE TABLE tblRoom (
     RoomType NVARCHAR(50),
     RoomNumber NVARCHAR(20),
     ResidentID INT,
+    RoomTypeID INT
 );
 GO
 
@@ -150,9 +151,12 @@ CREATE TABLE tblUtility (
 
 CREATE TABLE tblRoom (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
-    Number NVARCHAR(10),
+    RoomType NVARCHAR(50),
+    RoomNumber NVARCHAR(20),
+    ResidentID INT,
     RoomTypeID INT,
-    FOREIGN KEY (RoomTypeID) REFERENCES tblRoomType(RoomTypeID),
+	Constraint FKRoomResidentID Foreign Key(ResidentID) References tblResident(ResidentID),
+	Constraint FKRoomRoomTypeID Foreign Key(RoomTypeID) References tblRoomType(RoomTypeID)
 );
 GO
 

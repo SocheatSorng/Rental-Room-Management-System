@@ -114,6 +114,15 @@ GO
 --End of Resident CRUD
 
 --Staff CRUD
+CREATE PROCEDURE SP_LoadStaffIDs
+AS
+BEGIN
+    SELECT 
+        FirstName + ' ' + LastName AS StaffName,
+        StaffID
+    FROM tblStaff;
+END
+GO
 
 CREATE PROCEDURE SP_GetAllStaffs
 AS
@@ -157,15 +166,6 @@ BEGIN
     VALUES (@StaFirstName, @StaLastName, @StaSex, @StaBD, @StaPosition, @StaHouseNo, @StaStreetNo, @StaCommune,
 		@StaDistrict, @StaProvince, @StaPerNum, @StaSalary, @StaHiredDate, @StaStopped);
     SELECT SCOPE_IDENTITY() AS StaffID;
-END
-GO
-CREATE PROCEDURE SP_LoadStaffIDs
-AS
-BEGIN
-    SELECT 
-        FirstName + ' ' + LastName AS StaffName,
-        StaffID
-    FROM tblStaff;
 END
 GO
 
@@ -681,9 +681,14 @@ END
 GO
 --End of Store Procedure Amenity
 
-t
-
 -- Policy CRUD
+
+CREATE PROCEDURE SP_LoadPolicyIDs
+AS
+BEGIN
+    SELECT PolicyID, Name FROM tblPolicy;
+END
+GO
 
 CREATE PROCEDURE SP_GetAllPolicies
 AS
@@ -698,7 +703,7 @@ BEGIN
 END
 GO
 
--- Get Policy by ID
+
 CREATE PROCEDURE SP_GetPolicyByID
     @PolicyID INT
 AS
@@ -713,7 +718,7 @@ BEGIN
 END
 GO
 
--- Insert Policy
+
 CREATE PROCEDURE SP_InsertPolicy
     @Name NVARCHAR(100),
     @PolicyDescription NVARCHAR(MAX),
@@ -723,28 +728,14 @@ CREATE PROCEDURE SP_InsertPolicy
     @StaffID INT
 AS
 BEGIN
-    INSERT INTO tblPolicy (
-        Name,
-        PolicyDescription,
-        CreatedDate,
-        UpdatedDate,
-        ResidentID,
-        StaffID
-    )
-    VALUES (
-        @Name,
-        @PolicyDescription,
-        @CreatedDate,
-        @UpdatedDate,
-        @ResidentID,
-        @StaffID
-    );
+    INSERT INTO tblPolicy (Name, PolicyDescription, CreatedDate, UpdatedDate, ResidentID, StaffID)
+    VALUES (@Name, @PolicyDescription, @CreatedDate, @UpdatedDate, @ResidentID, @StaffID);
     
     SELECT SCOPE_IDENTITY() AS PolicyID;
 END
 GO
 
--- Update Policy
+
 CREATE PROCEDURE SP_UpdatePolicy
     @PolicyID INT,
     @Name NVARCHAR(100),
@@ -766,24 +757,16 @@ BEGIN
 END
 GO
 
--- Delete Policy
+
 CREATE PROCEDURE SP_DeletePolicy
     @PolicyID INT
 AS
 BEGIN
-    DELETE FROM tblPolicy 
-    WHERE PolicyID = @PolicyID;
+    DELETE FROM tblPolicy WHERE PolicyID = @PolicyID;
 END
 GO
+--End of Policy CRUD
 
--- Load Policy IDs
-CREATE PROCEDURE SP_LoadPolicyIDs
-AS
-BEGIN
-    SELECT PolicyID, Name
-    FROM tblPolicy;
-END
-GO
 
 -- Validate Policy ID
 CREATE PROCEDURE SP_ValidatePolicyID
@@ -1599,64 +1582,86 @@ GO
 --End of Store Precedure Request
 
 --Start of Room CRUD
-Create Procedure SP_LoadRoomIDs
-As
-Begin
-	Select RoomNumber,
-			RoomID
-	From tblRoom
+CREATE PROCEDURE SP_LoadRoomIDs
+AS
+BEGIN
+   SELECT 
+       RoomNumber,
+       RoomID,
+       rt.TypeName
+   FROM tblRoom r
+   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID;
 END 
 GO
 
-Create Procedure SP_GetAllRooms
-as
-BEGIN
-    Select * from tblRoom
-end
-Go
-
-Create Procedure SP_GetRoomByID
-    @RoomID INT
+CREATE PROCEDURE SP_GetAllRooms
 AS
-Begin
-    Select * from tblRoom Where RoomID = @RoomID
-END
-Go
-
-Create Procedure SP_InsertRoom
-    @RoomType NVARCHAR(30),
-    @RoomNumber NVARCHAR(10),
-    @ResidentID INT
-as
 BEGIN
-    Insert into tblRoom (RoomType, RoomNumber, ResidentID)
-    values (@RoomType, @RoomNumber, @ResidentID)
-End
-Go
-
-Create Procedure SP_UpdateRoom
-    @RoomID INT,
-    @RoomType NVARCHAR(30),
-    @RoomNumber NVARCHAR(10),
-    @ResidentID INT
-As
-Begin
-    Update tblRoom 
-    SET
-        RoomType = @RoomType,
-        RoomNumber = @RoomNumber,
-        ResidentID = @ResidentID
-    WHERE RoomID = @RoomID;
-end
+   SELECT 
+       r.RoomID,
+       r.RoomNumber,
+       r.ResidentID,
+       r.RoomTypeID,
+       res.FirstName + ' ' + res.LastName AS ResidentName,
+       rt.TypeName
+   FROM tblRoom r
+   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID;
+END
 GO
 
-Create Procedure SP_DeleteRoom
-    @RoomID INT
-As
-Begin
-    Delete from tblRoom
-    Where RoomID = @RoomID
-end
+CREATE PROCEDURE SP_GetRoomByID
+   @RoomID INT
+AS
+BEGIN
+   SELECT 
+       r.RoomID,
+       r.RoomNumber, 
+       r.ResidentID,
+       r.RoomTypeID,
+       res.FirstName + ' ' + res.LastName AS ResidentName,
+       rt.TypeName
+   FROM tblRoom r
+   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+   WHERE r.RoomID = @RoomID;
+END
+GO
+
+CREATE PROCEDURE SP_InsertRoom
+   @RoomNumber NVARCHAR(20),
+   @ResidentID INT = NULL,
+   @RoomTypeID INT = NULL
+AS
+BEGIN
+   INSERT INTO tblRoom (RoomNumber, ResidentID, RoomTypeID)
+   VALUES (@RoomNumber, @ResidentID, @RoomTypeID);
+   SELECT SCOPE_IDENTITY() AS RoomID;
+END
+GO
+
+CREATE PROCEDURE SP_UpdateRoom
+   @RoomID INT,
+   @RoomNumber NVARCHAR(20),
+   @ResidentID INT = NULL,
+   @RoomTypeID INT = NULL
+AS
+BEGIN
+   UPDATE tblRoom
+   SET 
+       RoomNumber = @RoomNumber,
+       ResidentID = @ResidentID,
+       RoomTypeID = @RoomTypeID
+   WHERE RoomID = @RoomID;
+END
+GO
+
+CREATE PROCEDURE SP_DeleteRoom
+   @RoomID INT
+AS
+BEGIN
+   DELETE FROM tblRoom WHERE RoomID = @RoomID;
+END
 GO
 -- End of Room CRUD
 

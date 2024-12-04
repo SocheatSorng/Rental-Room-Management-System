@@ -140,7 +140,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(128, 426);
+            btnInsert.Location = new Point(128, 439);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -154,7 +154,7 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(21, 426);
+            btnNew.Location = new Point(21, 439);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -168,7 +168,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(232, 426);
+            btnUpdate.Location = new Point(232, 439);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -209,7 +209,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(335, 426);
+            btnDelete.Location = new Point(335, 439);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -250,7 +250,7 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI", 12F);
-            label9.Location = new Point(18, 386);
+            label9.Location = new Point(18, 394);
             label9.Name = "label9";
             label9.Size = new Size(114, 21);
             label9.TabIndex = 63;
@@ -259,8 +259,9 @@
             // txtRoomID
             // 
             txtRoomID.Font = new Font("Segoe UI", 12F);
-            txtRoomID.Location = new Point(171, 383);
+            txtRoomID.Location = new Point(171, 391);
             txtRoomID.Name = "txtRoomID";
+            txtRoomID.ReadOnly = true;
             txtRoomID.Size = new Size(270, 29);
             txtRoomID.TabIndex = 62;
             // 
@@ -268,7 +269,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 12F);
-            label8.Location = new Point(18, 345);
+            label8.Location = new Point(18, 353);
             label8.Name = "label8";
             label8.Size = new Size(78, 21);
             label8.TabIndex = 61;
@@ -277,7 +278,7 @@
             // cbbRoomID
             // 
             cbbRoomID.FormattingEnabled = true;
-            cbbRoomID.Location = new Point(170, 345);
+            cbbRoomID.Location = new Point(170, 353);
             cbbRoomID.Name = "cbbRoomID";
             cbbRoomID.Size = new Size(271, 23);
             cbbRoomID.TabIndex = 60;
@@ -286,7 +287,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F);
-            label7.Location = new Point(18, 302);
+            label7.Location = new Point(18, 310);
             label7.Name = "label7";
             label7.Size = new Size(109, 21);
             label7.TabIndex = 59;
@@ -295,8 +296,9 @@
             // txtVenName
             // 
             txtVenName.Font = new Font("Segoe UI", 12F);
-            txtVenName.Location = new Point(171, 299);
+            txtVenName.Location = new Point(171, 307);
             txtVenName.Name = "txtVenName";
+            txtVenName.ReadOnly = true;
             txtVenName.Size = new Size(270, 29);
             txtVenName.TabIndex = 58;
             // 

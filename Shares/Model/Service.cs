@@ -8,7 +8,7 @@ namespace RRMS.Model
         public int ServiceID { get; set; }
         public string? ServiceName { get; set; }
         public string? ServiceDescription { get; set; }
-        public double Cost { get; set; }
+        public double ServiceCost { get; set; }
         public int VendorID { get; set; }
         public int RoomID { get; set; }
 
@@ -16,7 +16,7 @@ namespace RRMS.Model
         public int ID { get => ServiceID; set => ServiceID = value; }
         public string FirstName { get => ServiceName ?? string.Empty; set => ServiceName = value; }
         public string Description { get => ServiceDescription ?? string.Empty; set => ServiceDescription = value; }
-        public double CostPrice { get => Cost; set => Cost = value; }
+        public double CostPrice { get => ServiceCost; set => ServiceCost = value; }
 
         // Not applicable properties
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -42,14 +42,14 @@ namespace RRMS.Model
         {
             cmd.Parameters.AddWithValue("@ServiceName", FirstName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ServiceDescription", Description as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cost", CostPrice as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServiceCost", CostPrice as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@VendorID", VendorID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ServiceID", ID);
+            cmd.Parameters.AddWithValue("@ServiceID", ServiceID);
             AddParameters(cmd);
         }
 

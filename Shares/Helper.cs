@@ -160,9 +160,11 @@ namespace RRMS
         // Table Service
         private const string SERVICE_TBL_NAME = "tblService";
         private const string SERVICE_SERVICEID_FIELD = "ServiceID";
-        private const string SERVICE_NAME_FIELD = "Name";
-        private const string SERVICE_DESCRIPTION_FIELD = "Description";
-        private const string SERVICE_COST_FIELD = "Cost";
+        private const string SERVICE_NAME_FIELD = "ServiceName";
+        private const string SERVICE_DESCRIPTION_FIELD = "ServiceDescription";
+        private const string SERVICE_COST_FIELD = "ServiceCost";
+        private const string SERVICE_VENDORID_FIELD = "VendorID";
+        private const string SERVICE_ROOMID_FIELD = "RoomID";
 
         // Table Reservation
 
@@ -181,13 +183,11 @@ namespace RRMS
 
         private const string REQUEST_TBL_NAME = "tblRequest";
         private const string REQUEST_REQUESTID_FIELD = "RequestID";
-        private const string REQUEST_DATE_FIELD = "Date";
-        private const string REQUEST_DESCRIPTION_FIELD = "Description";
-        private const string REQUEST_STATUS_FIELD = "Status";
+        private const string REQUEST_DATE_FIELD = "RequestDate";
+        private const string REQUEST_DESCRIPTION_FIELD = "RequestDescription";
+        private const string REQUEST_STATUS_FIELD = "RequestStatus";
         private const string REQUEST_RESIDENTID_FIELD = "ResidentID";
         private const string REQUEST_SERVICEID_FIELD = "ServiceID";
-        private const string REQUEST_RESIDENTNAME_FIELD = "ResidentName";
-        private const string REQUEST_SERVICENAME_FIELD = "ServiceName";
 
         // Table Rent
 
@@ -342,9 +342,9 @@ namespace RRMS
                                 service.ID = reader.GetInt32(reader.GetOrdinal(SERVICE_SERVICEID_FIELD));
                                 service.FirstName = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
                                 service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
-                                service.Cost = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(SERVICE_COST_FIELD));
-                                service.VendorID = reader.IsDBNull(reader.GetOrdinal(VENDOR_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
-                                service.RoomID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
+                                service.CostPrice = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(SERVICE_COST_FIELD));
+                                service.VendorID = reader.IsDBNull(reader.GetOrdinal(SERVICE_VENDORID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(SERVICE_VENDORID_FIELD));
+                                service.RoomID = reader.IsDBNull(reader.GetOrdinal(SERVICE_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(SERVICE_ROOMID_FIELD));
                             }
                             else if (entity is Utility utility)
                             {
@@ -370,10 +370,8 @@ namespace RRMS
                                 request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
                                 request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
                                 request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
-                                request.ResID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
-                                request.SerID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
-                                request.ResName = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD));
-                                request.SerName = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD));
+                                request.ResidentID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
+                                request.ServiceID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
                             }
                             else if (entity is Rent rent)
                             {
@@ -558,12 +556,14 @@ namespace RRMS
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                             }
 
-                            else if (result is Feedback service)
+                            else if (result is Service service)
                             {
                                 service.ID = id;
                                 service.FirstName = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
                                 service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
                                 service.CostPrice = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(SERVICE_COST_FIELD));
+                                service.VendorID = reader.IsDBNull(reader.GetOrdinal(SERVICE_VENDORID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(SERVICE_VENDORID_FIELD));
+                                service.RoomID = reader.IsDBNull(reader.GetOrdinal(SERVICE_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(SERVICE_ROOMID_FIELD));
                             }
                             else if (result is Utility utility)
                             {
@@ -589,10 +589,8 @@ namespace RRMS
                                 request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
                                 request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
                                 request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
-                                request.ResID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
-                                request.SerID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
-                                request.ResName = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_RESIDENTNAME_FIELD));
-                                request.SerName = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_SERVICENAME_FIELD));
+                                request.ResidentID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
+                                request.ServiceID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
                             }
                             else if (result is Rent rent)
                             {

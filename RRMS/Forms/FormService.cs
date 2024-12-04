@@ -22,12 +22,11 @@ namespace RRMS.Forms
             ConfigView();
             _bs.DataSource = dgvSer;
             LoadVendorIDs();
-            cbbVenID.SelectedIndexChanged += cbbVenID_SelectedIndexChanged;
             LoadRoomIDs();
-            cbbRoomID.SelectedIndexChanged += cbbRoomID_SelectedIndexChanged;
 
-            ConfigView();
-            _bs.DataSource = dgvSer;
+            // Event handlers
+            cbbVenID.SelectedIndexChanged += CbbVendorID_SelectedIndexChanged;
+            cbbRoomID.SelectedIndexChanged += CbbRoomID_SelectedIndexChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -54,45 +53,7 @@ namespace RRMS.Forms
             dgvSer.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }
-        private void LoadRoomIDs()
-        {
-            SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            using (SqlDataReader dr = cmd.ExecuteReader())
-            {
-                while (dr.Read())
-                {
-                    object roomIDObj = dr["RoomID"];
-                    if (roomIDObj != DBNull.Value)
-                    {
-                        string? roomID = roomIDObj.ToString();
-                        cbbRoomID.Items.Add(roomID);
-                        cbbRoomID.DisplayMember = roomID;
-                        cbbRoomID.ValueMember = roomID;
-                    }
-                }
-            }
-        }
-        private void cbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            if(cbbRoomID.SelectedItem != null)
-            {
-                SqlCommand cmd = new SqlCommand("SP_GetRoomByID", Program.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
-                using(SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        txtRoomID.Text = dr[1].ToString();
-                    }
-                }
-            }
-            else
-            {
-                txtRoomID.Text = "";
-            }
-        }
+
         private void LoadVendorIDs()
         {
             SqlCommand cmd = new SqlCommand("SP_LoadVendorIDs", Program.Connection);
@@ -106,30 +67,84 @@ namespace RRMS.Forms
                     {
                         string? venID = venIDObj.ToString();
                         cbbVenID.Items.Add(venID);
-                        cbbVenID.DisplayMember = venID;
-                        cbbVenID.ValueMember = venID;
                     }
                 }
             }
         }
-        private void cbbVenID_SelectedIndexChanged(object? sender, EventArgs e)
+
+        private void LoadRoomIDs()
         {
-            if(cbbVenID.SelectedItem != null)
+            SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
             {
-                SqlCommand cmd = new SqlCommand("SP_GetVendorByID", Program.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@VendorID", cbbVenID.SelectedItem);
-                using (SqlDataReader dr = cmd.ExecuteReader())
+                while (dr.Read())
                 {
-                    while (dr.Read())
+                    object roomIDObj = dr["RoomID"];
+                    if (roomIDObj != DBNull.Value)
                     {
-                        txtVenName.Text = dr[1].ToString();
+                        string? roomID = roomIDObj.ToString();
+                        cbbRoomID.Items.Add(roomID);
                     }
+                }
+            }
+        }
+
+        private void CbbVendorID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbVenID.SelectedItem != null)
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_GetVendorByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@VendorID", cbbVenID.SelectedItem);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            txtVenName.Text = dr["Name"].ToString() ?? string.Empty;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving vendor name: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtVenName.Text = string.Empty;
                 }
             }
             else
             {
-                txtVenName.Text = "";
+                txtVenName.Text = string.Empty;
+            }
+        }
+
+        private void CbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbRoomID.SelectedItem != null)
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_GetRoomByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            txtRoomID.Text = dr["RoomNumber"].ToString() ?? string.Empty;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving room number: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtRoomID.Text = string.Empty;
+                }
+            }
+            else
+            {
+                txtRoomID.Text = string.Empty;
             }
         }
 
@@ -155,13 +170,11 @@ namespace RRMS.Forms
                         int currentIndex = i % dgvSer.Rows.Count;
                         DataGridViewRow row = dgvSer.Rows[currentIndex];
 
-                        string? id = row.Cells["colSerID"].Value?.ToString();
-                        string? serviceName = row.Cells["colSerName"].Value?.ToString();
-                        string? description = row.Cells["colSerDesc"].Value?.ToString();
+                        string? id = row.Cells["colServiceID"].Value?.ToString();
+                        string? serviceName = row.Cells["colServiceName"].Value?.ToString();
 
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                            (serviceName != null && serviceName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                            (description != null && description.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
+                            (serviceName != null && serviceName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
                             dgvSer.ClearSelection();
                             row.Selected = true;
@@ -192,7 +205,7 @@ namespace RRMS.Forms
                 int rowIndex = dgvSer.SelectedCells[0].RowIndex;
                 DataGridViewRow row = dgvSer.Rows[rowIndex];
 
-                object cellValue = row.Cells["colSerID"].Value;
+                object cellValue = row.Cells["colServiceID"].Value;
                 int? serviceID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
 
                 if (serviceID.HasValue)
@@ -237,6 +250,8 @@ namespace RRMS.Forms
                 Invoke((MethodInvoker)delegate
                 {
                     UpdateServiceView();
+                    MessageBox.Show("Service deleted successfully!", "Delete Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             });
         }
@@ -244,16 +259,18 @@ namespace RRMS.Forms
         private void DoClickDelete(object? sender, EventArgs e)
         {
             if (dgvSer.SelectedCells.Count <= 0) return;
+
             try
             {
                 int rowIndex = dgvSer.SelectedCells[0].RowIndex;
-                int id = Convert.ToInt32(dgvSer.Rows[rowIndex].Cells["colSerID"].Value);
+                int id = Convert.ToInt32(dgvSer.Rows[rowIndex].Cells["colServiceID"].Value);
 
                 DialogResult result = MessageBox.Show(
                     "Are you sure you want to delete this service?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
+                    MessageBoxIcon.Warning
+                );
 
                 if (result == DialogResult.Yes)
                 {
@@ -263,9 +280,7 @@ namespace RRMS.Forms
                     cmd.Parameters.AddWithValue("@ServiceID", id);
 
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show($"Successfully Deleted Service ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     UpdateServiceView();
-                    PopulateFields(null);
                 }
             }
             catch (Exception ex)
@@ -286,6 +301,8 @@ namespace RRMS.Forms
                 dgvSer.Rows[rowIndex].Selected = true;
                 dgvSer.CurrentCell = dgvSer[0, rowIndex];
             }
+
+            MessageBox.Show("Service updated successfully!", "Update Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void DoClickUpdate(object? sender, EventArgs e)
@@ -300,19 +317,26 @@ namespace RRMS.Forms
                     var service = GatherServiceInput();
                     service.ID = id;
 
-                    if (TryParseInputs(service.FirstName, service.CostPrice))
+                    if (service != null && TryParseInputs(service))
                     {
-                        var entityService = new EntityService();
-                        entityService.InsertOrUpdateEntity(service, "SP_UpdateService", "Update");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid input. Please check your entities.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        DialogResult result = MessageBox.Show(
+                            "Are you sure you want to update this service?",
+                            "Confirm Update",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question
+                        );
+
+                        if (result == DialogResult.Yes)
+                        {
+                            var entityService = new EntityService();
+                            entityService.InsertOrUpdateEntity(service, "SP_UpdateService", "Update");
+                        }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select a valid service to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please select a valid service to update.", "Selection Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -348,25 +372,89 @@ namespace RRMS.Forms
         {
             var service = GatherServiceInput();
 
-            if (TryParseInputs(service.FirstName, service.CostPrice))
+            if (service != null && TryParseInputs(service))
             {
                 var entityService = new EntityService();
                 entityService.InsertOrUpdateEntity(service, "SP_InsertService", "Insert");
+                UpdateServiceView();
             }
         }
 
-        private bool TryParseInputs(string name,double cost)
+        private Service GatherServiceInput()
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (!int.TryParse(cbbVenID.SelectedItem?.ToString(), out int vendorId) ||
+                !int.TryParse(cbbRoomID.SelectedItem?.ToString(), out int roomId))
             {
-                MessageBox.Show("Service name must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select valid Vendor and Room IDs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            if (!double.TryParse(txtSerCost.Text, out double cost))
+            {
+                MessageBox.Show("Please enter a valid cost.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+
+            return new Service
+            {
+                ServiceName = txtSerName.Text.Trim(),
+                ServiceDescription = txtSerDesc.Text.Trim(),
+                ServiceCost = cost,
+                VendorID = vendorId,
+                RoomID = roomId
+            };
+        }
+
+        private void PopulateFields(Service? service)
+        {
+            if (service != null)
+            {
+                txtSerID.Text = service.ServiceID.ToString();
+                txtSerName.Text = service.ServiceName;
+                txtSerDesc.Text = service.ServiceDescription;
+                txtSerCost.Text = service.ServiceCost.ToString();
+                cbbVenID.Text = service.VendorID.ToString();
+                cbbRoomID.Text = service.RoomID.ToString();
+            }
+            else
+            {
+                txtSerID.Text = string.Empty;
+                txtSerName.Text = string.Empty;
+                txtSerDesc.Text = string.Empty;
+                txtSerCost.Text = string.Empty;
+                cbbVenID.SelectedIndex = -1;
+                cbbRoomID.SelectedIndex = -1;
+                txtVenName.Text = string.Empty;
+                txtRoomID.Text = string.Empty;
+            }
+        }
+
+        private bool TryParseInputs(Service service)
+        {
+            if (string.IsNullOrEmpty(service.ServiceName))
+            {
+                MessageBox.Show("Service name must not be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (cost < 0)
+
+            if (service.ServiceCost <= 0)
             {
-                MessageBox.Show("Please enter a valid cost.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Service cost must be greater than zero.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+
+            if (service.VendorID <= 0)
+            {
+                MessageBox.Show("Please select a valid vendor.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            if (service.RoomID <= 0)
+            {
+                MessageBox.Show("Please select a valid room.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             return true;
         }
 
@@ -392,54 +480,20 @@ namespace RRMS.Forms
             }
         }
 
-        private Service GatherServiceInput()
-        {
-            int venID;
-            int roomID;
-            double cost;
-            double.TryParse(txtSerCost.Text.Trim(), out cost);
-            if (cbbVenID.SelectedItem != null && int.TryParse(cbbVenID.SelectedItem.ToString(), out venID));
-            if (cbbRoomID.SelectedItem != null && int.TryParse(cbbRoomID.SelectedItem.ToString(), out roomID));
-            return new Service()
-            {
-                FirstName = txtSerName.Text.Trim(),
-                Description = txtSerDesc.Text.Trim(),
-                CostPrice = cost,
-                //VenID = venID,
-                //RoomID = roomID
-            };
-        }
-
-        private void PopulateFields(Service? service)
-        {
-            if (service != null)
-            {
-                txtSerID.Text = service.ID.ToString();
-                txtSerName.Text = service.FirstName;
-                txtSerDesc.Text = service.Description;
-                txtSerCost.Text = service.Cost.ToString();
-            }
-            else
-            {
-                txtSerID.Text = string.Empty;
-                txtSerName.Text = string.Empty;
-                txtSerDesc.Text = string.Empty;
-                txtSerCost.Text = string.Empty;
-            }
-        }
-
         private void ConfigView()
         {
             dgvSer.Columns.Clear();
             dgvSer.Columns.Add("colServiceID", "Service ID");
             dgvSer.Columns.Add("colServiceName", "Service Name");
-            dgvSer.Columns.Add("colServiceDesc", "Description");
             dgvSer.Columns.Add("colServiceCost", "Cost");
+            dgvSer.Columns.Add("colVendorName", "Vendor");
+            dgvSer.Columns.Add("colRoomNumber", "Room");
 
-            dgvSer.Columns[0].Width = 100;
+            dgvSer.Columns[0].Width = 80;
             dgvSer.Columns[1].Width = 200;
-            dgvSer.Columns[2].Width = 300;
-            dgvSer.Columns[3].Width = 100;
+            dgvSer.Columns[2].Width = 100;
+            dgvSer.Columns[3].Width = 150;
+            dgvSer.Columns[4].Width = 100;
 
             dgvSer.DefaultCellStyle.BackColor = Color.White;
             dgvSer.ScrollBars = ScrollBars.Both;
@@ -450,8 +504,18 @@ namespace RRMS.Forms
                 var result = Helper.GetAllEntities<Service>(Program.Connection, SP_Name);
                 dgvSer.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Service>(dgvSer,
-                    service => new object[] { service.ID, service.FirstName, service.Description, service.Cost });
+                var entityViewAdder = new EntityViewAdder<Service>(
+                    dgvSer,
+                    service => new object[]
+                    {
+                        service.ServiceID,
+                        service.ServiceName,
+                        service.ServiceCost.ToString("C"),
+                        txtVenName.Text,
+                        txtRoomID.Text
+                    }
+                );
+
                 foreach (var service in result)
                 {
                     entityViewAdder.AddToView(service);
@@ -459,15 +523,21 @@ namespace RRMS.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Retrieving services", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Retrieving Services", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void AddToView(Service service)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvSer, service.ID, service.FirstName, service.Description, service.Cost);
-            row.Tag = service.ID;
+            row.CreateCells(dgvSer,
+                service.ServiceID,
+                service.ServiceName,
+                service.ServiceCost.ToString("C"),
+                txtVenName.Text,
+                txtRoomID.Text
+            );
+            row.Tag = service.ServiceID;
             dgvSer.Rows.Add(row);
         }
     }

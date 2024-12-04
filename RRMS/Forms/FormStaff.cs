@@ -20,6 +20,12 @@ namespace RRMS.Forms
             ConfigView();
             _bs.DataSource = dgvSta;
 
+            cbbStaPos.Items.Add("Manager");
+            cbbStaPos.Items.Add("Staff");
+            cbbStaPos.Items.Add("Security");
+            cbbStaPos.Items.Add("Cleaner");
+            cbbStaPos.SelectedIndex = 1;
+
             btnInsert.Click += (sender, e) =>
             {
                 Helper.Added += DoOnStaffInserted;
@@ -150,6 +156,8 @@ namespace RRMS.Forms
                 Invoke((MethodInvoker)delegate
                 {
                     UpdateStaffView();
+                    MessageBox.Show("Staff deleted successfully!", "Delete Success",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             });
         }
@@ -157,23 +165,32 @@ namespace RRMS.Forms
         private void DoClickDelete(object? sender, EventArgs e)
         {
             if (dgvSta.SelectedCells.Count <= 0) return;
-            try
+            DialogResult result = MessageBox.Show(
+            "Are you sure you want to delete this staff?\nThis action cannot be undone.",
+            "Confirm Delete",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning
+            );
+            if (result == DialogResult.Yes)
             {
-                int rowIndex = dgvSta.SelectedCells[0].RowIndex;
-                int id = Convert.ToInt32(dgvSta.Rows[rowIndex].Cells["colStaID"].Value);
+                try
+                {
+                    int rowIndex = dgvSta.SelectedCells[0].RowIndex;
+                    int id = Convert.ToInt32(dgvSta.Rows[rowIndex].Cells["colStaID"].Value);
 
-                using var cmd = Program.Connection.CreateCommand();
-                cmd.CommandText = "SP_DeleteStaff";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@StaID", id);
+                    using var cmd = Program.Connection.CreateCommand();
+                    cmd.CommandText = "SP_DeleteStaff";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@StaffID", id);
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show($"Successfully Deleted Staff ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ConfigView();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show($"Successfully Deleted Staff ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConfigView();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -190,37 +207,48 @@ namespace RRMS.Forms
                 dgvSta.Rows[rowIndex].Selected = true;
                 dgvSta.CurrentCell = dgvSta[0, rowIndex];
             }
+            MessageBox.Show("Staff updated successfully!", "Update Success",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void DoClickUpdate(object? sender, EventArgs e)
         {
-            if (dgvSta.SelectedCells.Count > 0)
+            DialogResult result = MessageBox.Show(
+            "Are you sure you want to update this staff?",
+            "Confirm Update",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+            );
+            if (result == DialogResult.Yes)
             {
-                int rowIndex = dgvSta.SelectedCells[0].RowIndex;
-                object cellValue = dgvSta.Rows[rowIndex].Cells["colStaID"].Value;
-
-                if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
+                if (dgvSta.SelectedCells.Count > 0)
                 {
-                    var staff = GatherStaffInput();
-                    staff.StaID = id;
+                    int rowIndex = dgvSta.SelectedCells[0].RowIndex;
+                    object cellValue = dgvSta.Rows[rowIndex].Cells["colStaID"].Value;
 
-                    if (TryParseInputs(staff.StaFName, staff.StaLName, staff.StaSex, staff.StaPosition, staff.StaPerNum, staff.StaSalary))
+                    if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                     {
-                        var entityService = new EntityService();
-                        entityService.InsertOrUpdateEntity(staff, "SP_UpdateStaff", "Update");
+                        var staff = GatherStaffInput();
+                        staff.ID = id;
+
+                        if (TryParseInputs(staff.StaFName, staff.StaLName, staff.StaSex, staff.StaPosition, staff.StaPerNum, staff.StaSalary))
+                        {
+                            var entityService = new EntityService();
+                            entityService.InsertOrUpdateEntity(staff, "SP_UpdateStaff", "Update");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Please select a valid staff to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select a valid staff to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please select a staff to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-            }
-            else
-            {
-                MessageBox.Show("Please select a staff to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         private void DoOnStaffInserted(object? sender, EntityEventArgs e)
@@ -253,7 +281,7 @@ namespace RRMS.Forms
         {
             var staff = GatherStaffInput();
 
-            if (TryParseInputs(staff.StaFName, staff.StaLName, staff.StaSex, staff.StaPosition, staff.StaPerNum, staff.StaSalary))
+            if (TryParseInputs(staff.FirstName, staff.LastName, staff.Sex, staff.Type, staff.PersonalNumber, staff.Salary))
             {
                 // Create an instance of EntityService
                 var entityService = new EntityService();
@@ -325,20 +353,20 @@ namespace RRMS.Forms
             double.TryParse(txtStaSal.Text.Trim(), out salary);
             return new Staff()
             {
-                StaFName = txtStaFN.Text.Trim(),
-                StaLName = txtStaLN.Text.Trim(),
-                StaSex = txtStaSex.Text.Trim(),
-                StaBD = dtpStaBD.Value,
-                StaPosition = txtStaPos.Text.Trim(),
-                StaHNo = txtStaHNo.Text.Trim(),
-                StaSNo = txtStaSNo.Text.Trim(),
-                StaCommune = txtStaCom.Text.Trim(),
-                StaDistrict = txtStaDis.Text.Trim(),
-                StaProvince = txtStaPro.Text.Trim(),
-                StaPerNum = txtStaPN.Text.Trim(),
-                StaSalary = salary,
-                StaHiredDate = dtpStaHD.Value,
-                StaStopped = dtpStaStop.Value,
+                FirstName = txtStaFN.Text.Trim(),
+                LastName = txtStaLN.Text.Trim(),
+                Sex = txtStaSex.Text.Trim(),
+                BirthDate = dtpStaBD.Value,
+                Type = cbbStaPos.SelectedItem.ToString(),
+                HouseNo = txtStaHNo.Text.Trim(),
+                StreetNo = txtStaSNo.Text.Trim(),
+                Commune = txtStaCom.Text.Trim(),
+                District = txtStaDis.Text.Trim(),
+                Province = txtStaPro.Text.Trim(),
+                PersonalNumber = txtStaPN.Text.Trim(),
+                Salary = salary,
+                Start = dtpStaHD.Value,
+                End = dtpStaStop.Value,
             };
         }
         private void PopulateFields(Staff? staff)
@@ -346,21 +374,21 @@ namespace RRMS.Forms
             if (staff != null)
             {
                 // Populate the form fields with the staff's data
-                txtStaID.Text = staff.StaID.ToString();
-                txtStaFN.Text = staff.StaFName;
-                txtStaLN.Text = staff.StaLName;
-                txtStaSex.Text = staff.StaSex;
-                dtpStaBD.Value = staff.StaBD ?? DateTime.Now;
-                txtStaPos.Text = staff.StaPosition;
-                txtStaHNo.Text = staff.StaHNo;
-                txtStaSNo.Text = staff.StaSNo;
-                txtStaCom.Text = staff.StaCommune;
-                txtStaDis.Text = staff.StaDistrict;
-                txtStaPro.Text = staff.StaProvince;
-                txtStaPN.Text = staff.StaPerNum;
-                txtStaSal.Text = staff.StaSalary.ToString("F2");
-                dtpStaHD.Value = staff.StaHiredDate ?? DateTime.Now;
-                dtpStaStop.Value = staff.StaStopped ?? DateTime.Now;
+                txtStaID.Text = staff.ID.ToString();
+                txtStaFN.Text = staff.FirstName;
+                txtStaLN.Text = staff.LastName;
+                txtStaSex.Text = staff.Sex;
+                dtpStaBD.Value = staff.BirthDate ?? DateTime.Now;
+                cbbStaPos.SelectedItem = staff.Type;
+                txtStaHNo.Text = staff.HouseNo;
+                txtStaSNo.Text = staff.StreetNo;
+                txtStaCom.Text = staff.Commune;
+                txtStaDis.Text = staff.District;
+                txtStaPro.Text = staff.Province;
+                txtStaPN.Text = staff.PersonalNumber;
+                txtStaSal.Text = staff.Salary.ToString("F2");
+                dtpStaHD.Value = staff.Start ?? DateTime.Now;
+                dtpStaStop.Value = staff.End ?? DateTime.Now;
             }
             else
             {
@@ -370,7 +398,7 @@ namespace RRMS.Forms
                 txtStaLN.Text = string.Empty;
                 txtStaSex.Text = string.Empty;
                 dtpStaBD.Value = DateTime.Now;
-                txtStaPos.Text = string.Empty;
+                cbbStaPos.SelectedIndex = 0;
                 txtStaHNo.Text = string.Empty;
                 txtStaSNo.Text = string.Empty;
                 txtStaCom.Text = string.Empty;
@@ -398,7 +426,7 @@ namespace RRMS.Forms
                 var result = Helper.GetAllEntities<Staff>(Program.Connection, SP_Name);
                 dgvSta.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Staff>(dgvSta, staff => new object[] { staff.StaID, staff.StaFName + " " + staff.StaLName });
+                var entityViewAdder = new EntityViewAdder<Staff>(dgvSta, staff => new object[] { staff.ID, staff.FirstName + " " + staff.LastName });
                 foreach (var staff in result)
                 {
                     entityViewAdder.AddToView(staff);

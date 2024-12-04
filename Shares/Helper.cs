@@ -62,44 +62,61 @@ namespace RRMS
         private const string VENDOR_ID_FIELD = "VendorID";
         private const string VENDOR_NAME_FIELD = "Name";
         private const string VENDER_CONTACT_FIELD = "Contact";
-        private const string VENDOR_HNO_FIELD = "HNo";
-        private const string VENDOR_SNO_FIELD = "SNo";
+        private const string VENDOR_HNO_FIELD = "HouseNo";
+        private const string VENDOR_SNO_FIELD = "StreetNo";
         private const string VENDOR_COMMUNE_FIELD = "Commune";
         private const string VENDOR_DISTRICT_FIELD = "District";
         private const string VENDOR_PROVINCE_FIELD = "Province";
-        private const string VENDOR_CONSTART_FIELD = "ConStart";
-        private const string VENDOR_CONEND_FIELD = "ConEnd";
+        private const string VENDOR_CONSTART_FIELD = "ContractStart";
+        private const string VENDOR_CONEND_FIELD = "ContractEnd";
         private const string VENDOR_STATUS_FIELD = "Status";
         private const string VENDOR_DESC_FIELD = "Description";
 
         // Table STAFF
         private const string STAFF_TBL_NAME = "tblStaff";
         private const string STAFF_ID_FIELD = "StaffID";
-        private const string STAFF_FNAME_FIELD = "FName";
-        private const string STAFF_LNAME_FIELD = "LName";
+        private const string STAFF_FNAME_FIELD = "FirstName";
+        private const string STAFF_LNAME_FIELD = "LastName";
         private const string STAFF_SEX_FIELD = "Sex";
-        private const string STAFF_BD_FIELD = "BD";
+        private const string STAFF_BD_FIELD = "BirthDate";
         private const string STAFF_POSITION_FIELD = "Position";
-        private const string STAFF_HNO_FIELD = "HNo";
-        private const string STAFF_SNO_FIELD = "SNo";
+        private const string STAFF_HNO_FIELD = "HouseNo";
+        private const string STAFF_SNO_FIELD = "StreetNo";
         private const string STAFF_COMMUNE_FIELD = "Commune";
         private const string STAFF_DISTRICT_FIELD = "District";
         private const string STAFF_PROVINCE_FIELD = "Province";
-        private const string STAFF_PERNUM_FIELD = "PerNum";
+        private const string STAFF_PERNUM_FIELD = "PersonalNumber";
         private const string STAFF_SALARY_FIELD = "Salary";
-        private const string STAFF_HIREDDATE_FIELD = "HiredDate";
-        private const string STAFF_STOPPED_FIELD = "Stopped";
+        private const string STAFF_HIREDDATE_FIELD = "StartDate";
+        private const string STAFF_STOPPED_FIELD = "StoppedDate";
+
+        // Table RoomType
+        private const string ROOMTYPE_TBL_NAME = "tblRoomType";
+        private const string ROOMTYPE_ID_FIELD = "RoomTypeID";
+        private const string ROOMTYPE_NAME_FIELD = "TypeName";
+        private const string ROOMTYPE_BASEPRICE_FIELD = "BasePrice";
+        private const string ROOMTYPE_DESCRIPTION_FIELD = "Description";
+        private const string ROOMTYPE_CAPACITY_FIELD = "Capacity";
+
+        // Table leaseagreement
+        private const string leaseagreement_TBL_NAME = "tblLeaseAgreement";
+        private const string LEASEAGREEMENT_LESAEAGREEMENTID_FIELD = "LeaseAgreementID";
+        private const string LEASEAGREEMENT_STARTDATE_FIELD = "StartDate";
+        private const string LEASEAGREEMENT_ENDDATE_FIELD = "EndDate";
+        private const string LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
+        private const string LEASEAGREEMENT_RESIDENTID_FIELD = "ResidentID"; //FK
 
         // Table Amenity
         private const string AMENITY_TBL_NAME = "tblAmenity";
         private const string AMENITY_ID_FIELD = "AmenityID";
         private const string AMENITY_NAME_FIELD = "Name";
-        private const string AMENITY_AVAIL_FIELD = "Availability";
+        private const string AMENITY_AVAILABLE_FIELD = "Availability";
         private const string AMENITY_LOCATION_FIELD = "Location";
-        private const string AMENITY_BOUPRI_FIELD = "BoughtPrice";
-        private const string AMENITY_CPR_FIELD = "CPR";
-        private const string AMENITY_MAINDATE_FIELD = "MainDate";
-        private const string AMENITY_DESC_FIELD = "Description";
+        private const string AMENITY_BOUGHTPRICE_FIELD = "BoughtPrice";
+        private const string AMENITY_COSTPERRENT_FIELD = "CPR";
+        private const string AMENITY_MAINTENANCEDATE_FIELD = "MainDate";
+        private const string AMENITY_DESCRIPTION_FIELD = "Description";
+        private const string AMENITY_ROOMID_FIELD = "RoomID";
 
         // Table Feedback
         private const string FEEDBACK_TBL_NAME = "tblFeedback";
@@ -108,16 +125,6 @@ namespace RRMS
         private const string FEEDBACK_CONTENT_FIELD = "Content";
         private const string FEEDBACK_COMMENT_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
-
-        // Table leaseagreement
-        private const string leaseagreement_TBL_NAME = "tblleaseagreement";
-        private const string leaseagreement_LESAEAGREEMENTID_FIELD = "leaseagreementID";
-        private const string leaseagreement_STARTDATE_FIELD = "StartDate";
-        private const string leaseagreement_ENDDATE_FIELD = "EndDate";
-        private const string leaseagreement_MONTHLYRENT_FIELD = "MonthlyRent";
-        private const string leaseagreement_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
-        private const string leaseagreement_RESIDENTID_FIELD = "ResidentID"; //FK
-        private const string leaseagreement_RESIDENTNAME_FIELD = "ResName";
 
         // Table Policy
         private const string POLICY_TBL_NAME = "tblPolicy";
@@ -195,16 +202,6 @@ namespace RRMS
         private const string RENT_RESIDENTNAME_FIELD = "ResidentName";
         private const string RENT_ROOMNUMBER_FIELD = "RoomNumber";
 
-        // Table RoomType
-
-        private const string ROOMTYPE_TBL_NAME = "tblRoomType";
-        private const string ROOMTYPE_ROOMTYPEID_FIELD = "RoomTypeID";
-        private const string ROOMTYPE_ROOMTYPENAME_FIELD = "RoomTypeName";
-        private const string ROOMTYPE_CAPACITY_FIELD = "Capacity";
-        private const string ROOMTYPE_FEATURE_FIELD = "Feature";
-        private const string ROOMTYPE_PRICEPERNIGHT_FIELD = "PricePerNight";
-        private const string ROOMTYPE_STATUSS_FIELD = "Status";
-
         // Table Payment
 
         private const string PAYMENT_TBL_NAME = "tblPayment";
@@ -257,18 +254,18 @@ namespace RRMS
                             }
                             else if (entity is Vendor vendor)
                             {
-                                vendor.VenID = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
-                                vendor.VenName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-                                vendor.VenContact = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
-                                vendor.VenHNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
-                                vendor.VenSNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
-                                vendor.VenCommune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
-                                vendor.VenDistrict = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
-                                vendor.VenProvince = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
-                                vendor.VenConStart = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
-                                vendor.VenConEnd = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
-                                vendor.VenStatus = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
-                                vendor.VenDesc = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
+                                vendor.ID = reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
+                                vendor.FirstName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
+                                vendor.ContactNumber = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
+                                vendor.HouseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
+                                vendor.StreetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
+                                vendor.Commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
+                                vendor.District = reader.IsDBNull(reader.GetOrdinal(VENDOR_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DISTRICT_FIELD));
+                                vendor.Province = reader.IsDBNull(reader.GetOrdinal(VENDOR_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_PROVINCE_FIELD));
+                                vendor.Start = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONSTART_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONSTART_FIELD));
+                                vendor.End = reader.IsDBNull(reader.GetOrdinal(VENDOR_CONEND_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(VENDOR_CONEND_FIELD));
+                                vendor.Status = reader.IsDBNull(reader.GetOrdinal(VENDOR_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(VENDOR_STATUS_FIELD));
+                                vendor.Description = reader.IsDBNull(reader.GetOrdinal(VENDOR_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_DESC_FIELD));
                             }
                             else if (entity is Staff staff)
                             {
@@ -288,16 +285,31 @@ namespace RRMS
                                 staff.Start = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
                                 staff.End = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
                             }
+                            else if(entity is RoomType roomType)
+                            {
+                                roomType.ID = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_ID_FIELD));
+                                roomType.Type = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_NAME_FIELD));
+                                roomType.Description = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD));
+                                roomType.CostPrice = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD));
+                                roomType.RoomTypeCapacity = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD)) ? 0: reader.GetInt32(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD));
+                            }
+                            else if (entity is LeaseAgreement leaseagreement)
+                            {
+                                leaseagreement.ID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_LESAEAGREEMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_LESAEAGREEMENTID_FIELD));
+                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD));
+                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD));
+                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
+                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD));
+                            }
                             else if (entity is Amenity amenity)
                             {
                                 amenity.ID = reader.IsDBNull(reader.GetOrdinal(AMENITY_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_ID_FIELD));
                                 amenity.FirstName = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
-                                amenity.Status = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
-                                amenity.Province = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
-                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
-                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
+                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUGHTPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUGHTPRICE_FIELD));
+                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_COSTPERRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_COSTPERRENT_FIELD));
+                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINTENANCEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINTENANCEDATE_FIELD));
+                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESCRIPTION_FIELD));
+                                amenity.RoomID = reader.IsDBNull(reader.GetOrdinal(AMENITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_ROOMID_FIELD));
                             }
                             else if (entity is Feedback feedback)
                             {
@@ -306,16 +318,6 @@ namespace RRMS
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
-                            }
-                            else if (entity is LeaseAgreement leaseagreement)
-                            {
-                                leaseagreement.ID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_LESAEAGREEMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_LESAEAGREEMENTID_FIELD));
-                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD));
-                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD));
-                                leaseagreement.RentPrice = reader.IsDBNull(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD));
-                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD));
-                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD));
-                                leaseagreement.ResName = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD));
                             }
                             else if (entity is Service service)
                             {
@@ -426,19 +428,20 @@ namespace RRMS
 
                 // Set the parameter name based on the type of T
                 string parameterName = typeof(T) == typeof(Resident) ? "@ResidentID" :
-                          typeof(T) == typeof(Vendor) ? "@VenID" :
-                          typeof(T) == typeof(Staff) ? "@StaID" :
-                          typeof(T) == typeof(Amenity) ? "@AmeID" :
-                          typeof(T) == typeof(Feedback) ? "@FeedID" :
-                          typeof(T) == typeof(LeaseAgreement) ? "LeaseID" :
-                          typeof(T) == typeof(Policy) ? "PolID" :
+                          typeof(T) == typeof(Vendor) ? "@VendorID" :
+                          typeof(T) == typeof(Staff) ? "@StaffID" :
+                          typeof(T) == typeof(Amenity) ? "@AmenityID" :
+                          typeof(T) == typeof(Feedback) ? "@FeedbackID" :
+                          typeof(T) == typeof(LeaseAgreement) ? "LeaseAgreementID" :
+                          typeof(T) == typeof(Policy) ? "PolicyID" :
                           typeof(T) == typeof(Rent) ? "RentID" :
-                          typeof(T) == typeof(Request) ? "ReqID" :
-                          typeof(T) == typeof(Reservation) ? "ReserID" :
-                          typeof(T) == typeof(Service) ? "SerID" :
-                          typeof(T) == typeof(Utility) ? "UtiID" :
+                          typeof(T) == typeof(Request) ? "RequestID" :
+                          typeof(T) == typeof(Reservation) ? "ReservationID" :
+                          typeof(T) == typeof(Service) ? "ServiceID" :
+                          typeof(T) == typeof(Utility) ? "UtilityID" :
                           typeof(T) == typeof(Room) ? "RoomID" :
                           typeof(T) == typeof(Payment) ? "PaymentID" :
+                          typeof(T) == typeof(RoomType) ? "RoomTypeID" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
 
@@ -473,7 +476,7 @@ namespace RRMS
                             {
                                 vendor.ID = id;
                                 vendor.FirstName = reader.IsDBNull(reader.GetOrdinal(VENDOR_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_NAME_FIELD));
-                                vendor.PersonalNumber = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
+                                vendor.ContactNumber = reader.IsDBNull(reader.GetOrdinal(VENDER_CONTACT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDER_CONTACT_FIELD));
                                 vendor.HouseNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_HNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_HNO_FIELD));
                                 vendor.StreetNo = reader.IsDBNull(reader.GetOrdinal(VENDOR_SNO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_SNO_FIELD));
                                 vendor.Commune = reader.IsDBNull(reader.GetOrdinal(VENDOR_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(VENDOR_COMMUNE_FIELD));
@@ -497,20 +500,28 @@ namespace RRMS
                                 staff.Commune = reader.IsDBNull(reader.GetOrdinal(STAFF_COMMUNE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_COMMUNE_FIELD));
                                 staff.District = reader.IsDBNull(reader.GetOrdinal(STAFF_DISTRICT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_DISTRICT_FIELD));
                                 staff.Province = reader.IsDBNull(reader.GetOrdinal(STAFF_PROVINCE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PROVINCE_FIELD));
+                                staff.PersonalNumber = reader.IsDBNull(reader.GetOrdinal(STAFF_PERNUM_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(STAFF_PERNUM_FIELD));
                                 staff.Salary = reader.IsDBNull(reader.GetOrdinal(STAFF_SALARY_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(STAFF_SALARY_FIELD));
                                 staff.Start = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
                                 staff.End = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
+                            }
+                            else if (result is RoomType roomType)
+                            {
+                                roomType.ID = id;
+                                roomType.Type = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_NAME_FIELD));
+                                roomType.Description = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD));
+                                roomType.CostPrice = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD));
+                                roomType.RoomTypeCapacity = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD));
                             }
                             else if (result is Amenity amenity)
                             {
                                 amenity.ID = id;
                                 amenity.FirstName = reader.IsDBNull(reader.GetOrdinal(AMENITY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_NAME_FIELD));
-                                amenity.Status = reader.IsDBNull(reader.GetOrdinal(AMENITY_AVAIL_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(AMENITY_AVAIL_FIELD));
-                                amenity.Province = reader.IsDBNull(reader.GetOrdinal(AMENITY_LOCATION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_LOCATION_FIELD));
-                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUPRI_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUPRI_FIELD));
-                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_CPR_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_CPR_FIELD));
-                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINDATE_FIELD));
-                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESC_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESC_FIELD));
+                                amenity.CostPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_BOUGHTPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_BOUGHTPRICE_FIELD));
+                                amenity.RentPrice = reader.IsDBNull(reader.GetOrdinal(AMENITY_COSTPERRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(AMENITY_COSTPERRENT_FIELD));
+                                amenity.Start = reader.IsDBNull(reader.GetOrdinal(AMENITY_MAINTENANCEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(AMENITY_MAINTENANCEDATE_FIELD));
+                                amenity.Description = reader.IsDBNull(reader.GetOrdinal(AMENITY_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(AMENITY_DESCRIPTION_FIELD));
+                                amenity.RoomID = reader.IsDBNull(reader.GetOrdinal(AMENITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_ROOMID_FIELD));
                             }
                             else if (result is Feedback feedback)
                             {
@@ -523,12 +534,10 @@ namespace RRMS
                             else if (result is LeaseAgreement leaseagreement)
                             {
                                 leaseagreement.ID = id;
-                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_STARTDATE_FIELD));
-                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(leaseagreement_ENDDATE_FIELD));
-                                leaseagreement.RentPrice = reader.IsDBNull(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(leaseagreement_MONTHLYRENT_FIELD));
-                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_TERMSANDCONDITIONS_FIELD));
-                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(leaseagreement_RESIDENTID_FIELD));
-                                leaseagreement.ResName = reader.IsDBNull(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(leaseagreement_RESIDENTNAME_FIELD));
+                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD));
+                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD));
+                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
+                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD));
                             }
                             else if (result is Feedback service)
                             {
@@ -637,7 +646,7 @@ namespace RRMS
                                 ByteId = (byte)resident.ID,
                                 Entity = EntityTypes.Residents
                             });
-                            return resident.ID.ToString();
+                            entityId = resident.ID.ToString();
                         }
                         else
                         {
@@ -672,6 +681,33 @@ namespace RRMS
                             entityId = staff.ID.ToString();
                         }
                     }
+                    else if (entity is RoomType roomType)
+                    {
+                        if(roomType.ID >= 0 &&  roomType.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)roomType.ID,
+                                Entity = EntityTypes.RoomTypes
+                            });
+                        }
+                    }
+                    else if (entity is LeaseAgreement leaseAgreement)
+                    {
+                        if (leaseAgreement.ID >= 0 && leaseAgreement.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)leaseAgreement.ID,
+                                Entity = EntityTypes.LeaseAgreements
+                            });
+                            entityId = leaseAgreement.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"LeaseAgreement ID {leaseAgreement.ID} is out of range for ByteId.");
+                        }
+                    }
                     else if(entity is Amenity amenity)
                     {
                         if (amenity.ID >= 0 && amenity.ID <= 255)
@@ -694,22 +730,6 @@ namespace RRMS
                                 Entity = EntityTypes.Feedbacks
                             });
                             entityId = feedback.ID.ToString();
-                        }
-                    }
-                    else if (entity is LeaseAgreement leaseagreement)
-                    {
-                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
-                        {
-                            Added?.Invoke(null, new EntityEventArgs()
-                            {
-                                ByteId = (byte)leaseagreement.ID,
-                                Entity = EntityTypes.LeaseAgreements
-                            });
-                            entityId = leaseagreement.ID.ToString();
-                        }
-                        else
-                        {
-                            throw new Exception($"LeaseAgreement ID {leaseagreement.ID} is out of range for ByteId.");
                         }
                     }
                     else if (entity is Service service)
@@ -878,6 +898,28 @@ namespace RRMS
                             throw new ArgumentOutOfRangeException(nameof(staff.ID), "Staff ID must be between 0 and 255.");
                         }
                     }
+                    else if (entity is RoomType roomType)
+                    {
+                        if (roomType.ID >= 0 && roomType.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)roomType.ID, Entity = EntityTypes.RoomTypes });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(roomType.ID), "RoomType ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is LeaseAgreement leaseAgreement)
+                    {
+                        if (leaseAgreement.ID >= 0 && leaseAgreement.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseAgreement.ID, Entity = EntityTypes.LeaseAgreements });
+                        }
+                        else
+                        {
+                            throw new ArgumentOutOfRangeException(nameof(leaseAgreement.ID), "LeaseAgreement ID must be between 0 and 255.");
+                        }
+                    }
                     else if (entity is Amenity amenity)
                     {
                         if(amenity.ID >= 0 && amenity.ID <= 255)
@@ -898,17 +940,6 @@ namespace RRMS
                         else
                         {
                             throw new ArgumentOutOfRangeException(nameof(feedback.ID), "Feedback ID must be between 0 and 255.");
-                        }
-                    }
-                    else if (entity is LeaseAgreement leaseagreement)
-                    {
-                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
-                        {
-                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseagreement.ID, Entity = EntityTypes.LeaseAgreements });
-                        }
-                        else
-                        {
-                            throw new ArgumentOutOfRangeException(nameof(leaseagreement.ID), "LeaseAgreement ID must be between 0 and 255.");
                         }
                     }
                     else if (entity is Service service)
@@ -1056,6 +1087,28 @@ namespace RRMS
                             throw new Exception($"Vendor ID {staff.ID} is out of range for ByteId. It must be between 0 and 255.");
                         }
                     }
+                    else if (entity is RoomType roomType)
+                    {
+                        if (roomType.ID >= 0 && roomType.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)roomType.ID, Entity = EntityTypes.RoomTypes });
+                        }
+                        else
+                        {
+                            throw new Exception($"Room ID {roomType.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is LeaseAgreement leaseAgreement)
+                    {
+                        if (leaseAgreement.ID >= 0 && leaseAgreement.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseAgreement.ID, Entity = EntityTypes.LeaseAgreements });
+                        }
+                        else
+                        {
+                            throw new Exception($"LeaseAgreement ID {leaseAgreement.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
                     else if (entity is Amenity amenity)
                     {
                         if (amenity.ID >= 0 && amenity.ID <= 255)
@@ -1076,17 +1129,6 @@ namespace RRMS
                         else
                         {
                             throw new Exception($"Feedback ID {feedback.ID} is out of range for ByteId. It must be between 0 and 255.");
-                        }
-                    }
-                    else if (entity is LeaseAgreement leaseagreement)
-                    {
-                        if (leaseagreement.ID >= 0 && leaseagreement.ID <= 255)
-                        {
-                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)leaseagreement.ID, Entity = EntityTypes.LeaseAgreements });
-                        }
-                        else
-                        {
-                            throw new Exception($"LeaseAgreement ID {leaseagreement.ID} is out of range for ByteId. It must be between 0 and 255.");
                         }
                     }
                     else if (entity is Service service)

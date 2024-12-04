@@ -47,7 +47,6 @@
             txtStaFN = new TextBox();
             txtStaLN = new TextBox();
             txtStaSex = new TextBox();
-            txtStaPos = new TextBox();
             txtStaHNo = new TextBox();
             txtStaSNo = new TextBox();
             txtStaCom = new TextBox();
@@ -68,6 +67,7 @@
             titleLabel = new Label();
             label17 = new Label();
             txtSearch = new TextBox();
+            cbbStaPos = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvSta).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -236,13 +236,6 @@
             txtStaSex.Size = new Size(224, 23);
             txtStaSex.TabIndex = 19;
             // 
-            // txtStaPos
-            // 
-            txtStaPos.Location = new Point(118, 191);
-            txtStaPos.Name = "txtStaPos";
-            txtStaPos.Size = new Size(224, 23);
-            txtStaPos.TabIndex = 21;
-            // 
             // txtStaHNo
             // 
             txtStaHNo.Location = new Point(118, 220);
@@ -373,6 +366,7 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(cbbStaPos);
             panel1.Controls.Add(dtpStaStop);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(dtpStaHD);
@@ -388,7 +382,6 @@
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(txtStaSNo);
             panel1.Controls.Add(txtStaHNo);
-            panel1.Controls.Add(txtStaPos);
             panel1.Controls.Add(txtStaSex);
             panel1.Controls.Add(txtStaLN);
             panel1.Controls.Add(txtStaFN);
@@ -462,6 +455,14 @@
             txtSearch.Size = new Size(615, 23);
             txtSearch.TabIndex = 49;
             // 
+            // cbbStaPos
+            // 
+            cbbStaPos.FormattingEnabled = true;
+            cbbStaPos.Location = new Point(118, 191);
+            cbbStaPos.Name = "cbbStaPos";
+            cbbStaPos.Size = new Size(224, 23);
+            cbbStaPos.TabIndex = 50;
+            // 
             // FormStaff
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -502,7 +503,6 @@
         private TextBox txtStaFN;
         private TextBox txtStaLN;
         private TextBox txtStaSex;
-        private TextBox txtStaPos;
         private TextBox txtStaHNo;
         private TextBox txtStaSNo;
         private TextBox txtStaCom;
@@ -523,5 +523,6 @@
         private Label label17;
         private TextBox txtSearch;
         private DateTimePicker dtpStaStop;
+        private ComboBox cbbStaPos;
     }
 }

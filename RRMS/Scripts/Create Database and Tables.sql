@@ -34,36 +34,58 @@ CREATE TABLE tblResident (
 -- Table VENDOR
 Create Table tblVendor (
 	VendorID int primary key identity(1,1),
-	Name nvarchar(50),
-	Contact nvarchar(20),
-	HNo nvarchar(30),
-	SNo nvarchar(30),
-	Commune nvarchar(30),
-	District nvarchar(30),
-	Province nvarchar(30),
-	ConStart Datetime,
-	ConEnd Datetime,
+	Name nvarchar(50) NOT NULL,
+	Contact nvarchar(20) NOT NULL,
+	HouseNo nvarchar(30) NOT NULL,
+	StreetNo nvarchar(30) NOT NULL,
+	Commune nvarchar(30) NOT NULL,
+	District nvarchar(30) NOT NULL,
+	Province nvarchar(30) NOT NULL,
+	ContractStart Datetime NOT NULL,
+	ContractEnd Datetime NOT NULL,
 	Status bit,
 	Description nvarchar(100)
 );
 
 -- Table STAFF
-Create Table tblStaff (
-	StaffID int primary key identity(1,1),
-	FName nvarchar(50),
-	LName nvarchar(50),
-	Sex nvarchar(10),
-	BD Datetime,
-	Position nvarchar(10),
-	HNo nvarchar(30),
-	SNo nvarchar(30),
-	Commune nvarchar(30),
-	District nvarchar(30),
-	Province nvarchar(30),
-	PerNum nvarchar(20),
-	Salary float,
-	HiredDate Datetime,
-	Stopped DateTime,
+CREATE TABLE tblStaff (
+    StaffID INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Sex NVARCHAR(10) NOT NULL,
+    BirthDate DATETIME NOT NULL,
+    Position NVARCHAR(20) NOT NULL,
+    HouseNo NVARCHAR(30),
+    StreetNo NVARCHAR(30),
+    Commune NVARCHAR(30),
+    District NVARCHAR(30),
+    Province NVARCHAR(30),
+    PersonalNumber NVARCHAR(20) NOT NULL,
+    Salary Float NOT NULL,
+    StartDate DATETIME NOT NULL,
+    StoppedDate DATETIME NULL
+);
+GO
+
+-- Table RoomType
+CREATE TABLE tblRoomType(
+    RoomTypeID INT PRIMARY KEY identity(1,1),
+    TypeName NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(100),
+    BasePrice FLOAT NOT NULL,
+    Capacity INT NOT NULL,
+    
+);
+GO
+
+-- LEASEAGREEMENT table
+CREATE TABLE tblLeaseAgreement (
+    LeaseAgreementID INT PRIMARY KEY IDENTITY(1,1),
+    StartDate DATETIME,
+    EndDate DATETIME,
+    TermsAndConditions NVARCHAR(MAX),
+    ResidentID INT,
+    Constraint FKResidentID Foreign Key(ResidentID) References tblResident(ResidentID) on Delete Cascade on Update Cascade
 );
 
 -- Table Amenity
@@ -109,15 +131,7 @@ CREATE TABLE tblFeedback (
     FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
 );
 
--- LEASEAGREEMENT table
-CREATE TABLE tblLeaseAgreement (
-    LeaseAgreementID INT PRIMARY KEY IDENTITY(1,1),
-    StartDate DATETIME2,
-    EndDate DATETIME2,
-    TermsAndConditions NVARCHAR(MAX),
-    ResidentID INT,
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
-);
+
 
 -- UTILITY table
 CREATE TABLE tblUtility (
@@ -151,15 +165,7 @@ CREATE TABLE tblService (
 );
 GO
 
-CREATE TABLE tblRoomType(
-    RoomTypeID INT PRIMARY KEY,
-    RoomTypeName NVARCHAR(100),
-    Capacity INT,
-    Feature NVARCHAR(100),
-    PricePerNight MONEY,
-    Status NVARCHAR(100),
-);
-GO
+
 
 -- Table Reservation
 CREATE TABLE tblReservation (

@@ -2,15 +2,426 @@ USE rrmsdb;
 GO
 
 
-CREATE PROCEDURE SP_GetResidentName
+-- Resident CRUD
+
+CREATE PROCEDURE SP_GetAllResidents
+AS
+BEGIN
+    SELECT ResidentID, Type, FirstName, LastName, Sex, BD, PrevHouseNo, PrevStNo, PrevCommune, PrevDistrict,
+           PrevProvince, PerNum, ConNum, CheckIn, CheckOut
+    FROM tblResident;
+END
+GO
+
+-- Get resident by ID
+CREATE PROCEDURE SP_GetResidentByID
     @ResidentID INT
 AS
 BEGIN
-    SELECT ResidentName 
-    FROM tblResident 
-    WHERE ResidentID = @ResidentID
+    SELECT *  FROM tblResident  WHERE ResidentID = @ResidentID;
 END
 GO
+
+-- Insert a new resident
+CREATE PROCEDURE SP_InsertResident
+    @ResType NVARCHAR(20), 
+    @ResFirstName NVARCHAR(50),
+    @ResLastName NVARCHAR(50),
+    @ResSex NVARCHAR(6),
+    @ResBD DATETIME,
+    @ResPrevHouseNo NVARCHAR(30),
+    @ResPrevStNo NVARCHAR(30),
+    @ResPrevCommune NVARCHAR(30),
+    @ResPrevDistrict NVARCHAR(30),
+    @ResPrevProvince NVARCHAR(30),
+    @ResPerNum NVARCHAR(20),
+    @ResConNum NVARCHAR(20),
+    @ResCheckIn DATETIME,  
+    @ResCheckOut DATETIME
+AS
+BEGIN
+    INSERT INTO tblResident (Type, FirstName, LastName, Sex, BD, PrevHouseNo, PrevStNo, PrevCommune,
+     PrevDistrict, PrevProvince, PerNum, ConNum, CheckIn, CheckOut)
+    VALUES (@ResType, @ResFirstName, @ResLastName, @ResSex, @ResBD, @ResPrevHouseNo, @ResPrevStNo,
+     @ResPrevCommune, @ResPrevDistrict, @ResPrevProvince, @ResPerNum, @ResConNum, @ResCheckIn, @ResCheckOut);
+END
+GO
+
+-- Update an existing resident
+CREATE PROCEDURE SP_UpdateResident
+    @ResidentID INT,
+    @ResType NVARCHAR(20),  
+    @ResFirstName NVARCHAR(50),
+    @ResLastName NVARCHAR(50), 
+    @ResSex NVARCHAR(6),
+    @ResBD DATETIME, 
+    @ResPrevHouseNo NVARCHAR(30),
+    @ResPrevStNo NVARCHAR(30),
+    @ResPrevCommune NVARCHAR(30),
+    @ResPrevDistrict NVARCHAR(30),
+    @ResPrevProvince NVARCHAR(30),
+    @ResPerNum NVARCHAR(20),
+    @ResConNum NVARCHAR(20),
+    @ResCheckIn DATETIME, 
+    @ResCheckOut DATETIME   
+AS
+BEGIN
+    UPDATE tblResident
+    SET Type = @ResType,
+        FirstName = @ResFirstName,
+        LastName = @ResLastName, 
+        Sex = @ResSex,
+        BD = @ResBD,
+        PrevHouseNo = @ResPrevHouseNo,
+        PrevStNo = @ResPrevStNo,
+        PrevCommune = @ResPrevCommune,
+        PrevDistrict = @ResPrevDistrict,
+        PrevProvince = @ResPrevProvince,
+        PerNum = @ResPerNum,
+        ConNum = @ResConNum,
+        CheckIn = @ResCheckIn,
+        CheckOut = @ResCheckOut
+    WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Delete a resident
+CREATE PROCEDURE SP_DeleteResident
+    @ResidentID INT
+AS
+BEGIN
+    DELETE FROM tblResident WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Get resident name by ID
+CREATE PROCEDURE SP_GetResidentNameByID
+    @ResidentID INT
+AS
+BEGIN
+    SELECT FirstName, LastName FROM tblResident WHERE ResidentID = @ResidentID;
+END
+GO
+
+-- Load resident IDs
+CREATE PROCEDURE SP_LoadResidentIDs
+AS
+BEGIN
+    SELECT FirstName, LastName, ResidentID FROM tblResident;
+END 
+GO  
+--End of Resident CRUD
+
+--Staff CRUD
+
+CREATE PROCEDURE SP_GetAllStaffs
+AS
+BEGIN
+    SELECT 
+        StaffID, FirstName, LastName, Sex, BirthDate, Position, HouseNo, StreetNo, Commune, District, Province,
+        PersonalNumber, Salary, StartDate, StoppedDate
+    FROM tblStaff;
+END
+GO
+
+CREATE PROCEDURE SP_GetStaffByID
+    @StaffID INT
+AS
+BEGIN
+    SELECT StaffID, FirstName, LastName, Sex, BirthDate, Position, HouseNo, StreetNo, Commune, District,
+        Province, PersonalNumber, Salary, StartDate, StoppedDate
+    FROM tblStaff WHERE StaffID = @StaffID;
+END
+GO
+
+CREATE PROCEDURE SP_InsertStaff
+    @StaFirstName NVARCHAR(50),
+    @StaLastName NVARCHAR(50),
+    @StaSex NVARCHAR(10),
+    @StaBD DATETIME,
+    @StaPosition NVARCHAR(50),
+    @StaHouseNo NVARCHAR(30),
+    @StaStreetNo NVARCHAR(30),
+    @StaCommune NVARCHAR(30),
+    @StaDistrict NVARCHAR(30),
+    @StaProvince NVARCHAR(30),
+    @StaPerNum NVARCHAR(30),
+    @StaSalary FLOAT,
+    @StaHiredDate DATETIME,
+    @StaStopped DATETIME = NULL
+AS
+BEGIN
+    INSERT INTO tblStaff (FirstName, LastName, Sex, BirthDate, Position, HouseNo, StreetNo, Commune, District,
+        Province, PersonalNumber, Salary, StartDate, StoppedDate)
+    VALUES (@StaFirstName, @StaLastName, @StaSex, @StaBD, @StaPosition, @StaHouseNo, @StaStreetNo, @StaCommune,
+		@StaDistrict, @StaProvince, @StaPerNum, @StaSalary, @StaHiredDate, @StaStopped);
+    SELECT SCOPE_IDENTITY() AS StaffID;
+END
+GO
+
+CREATE PROCEDURE SP_UpdateStaff
+	@StaID INT,
+    @StaFirstName NVARCHAR(50),
+    @StaLastName NVARCHAR(50),
+    @StaSex NVARCHAR(10),
+    @StaBD DATETIME,
+    @StaPosition NVARCHAR(50),
+    @StaHouseNo NVARCHAR(30),
+    @StaStreetNo NVARCHAR(30),
+    @StaCommune NVARCHAR(30),
+    @StaDistrict NVARCHAR(30),
+    @StaProvince NVARCHAR(30),
+    @StaPerNum NVARCHAR(30),
+    @StaSalary FLOAT,
+    @StaHiredDate DATETIME,
+    @StaStopped DATETIME = NULL
+AS
+BEGIN
+    UPDATE tblStaff
+    SET 
+        FirstName = @StaFirstName,
+        LastName = @StaLastName,
+        Sex = @StaSex,
+        BirthDate = @StaBD,
+        Position = @StaPosition,
+        HouseNo = @StaHouseNo,
+        StreetNo = @StaStreetNo,
+        Commune = @StaCommune,
+        District = @StaDistrict,
+        Province = @StaProvince,
+        PersonalNumber = @StaPerNum,
+        Salary = @StaSalary,
+        StartDate = @StaHiredDate,
+        StoppedDate = @StaStopped
+    WHERE StaffID = @StaID;
+END
+GO
+
+CREATE PROCEDURE SP_DeleteStaff
+    @StaffID INT
+AS
+BEGIN
+    DELETE FROM tblStaff WHERE StaffID = @StaffID;
+END
+GO
+--End of Staff CRUD
+
+-- Vendor CRUD
+
+CREATE PROCEDURE SP_LoadVendorIDs
+AS
+BEGIN
+    SELECT Name, VendorID FROM tblVendor
+END
+GO
+
+CREATE PROCEDURE SP_GetAllVendors
+AS
+BEGIN
+    SELECT VendorID, Name, Contact, HouseNo, StreetNo, Commune, District, Province, ContractStart, ContractEnd,
+           Status, Description
+    FROM tblVendor;
+END
+GO
+
+CREATE PROCEDURE SP_GetVendorByID
+    @VendorID INT
+AS
+BEGIN
+    SELECT TOP 1 VendorID, Name, Contact, HouseNo, StreetNo, Commune, District, Province, ContractStart,
+           ContractEnd, Status, Description
+    FROM tblVendor WHERE VendorID = @VendorID;
+END
+GO
+
+CREATE PROCEDURE SP_InsertVendor
+    @VenName NVARCHAR(50),
+    @VenContact NVARCHAR(20),
+    @VenHouseNo NVARCHAR(30),
+    @VenStreetNo NVARCHAR(30),
+    @VenCommune NVARCHAR(30),
+    @VenDistrict NVARCHAR(30),
+    @VenProvince NVARCHAR(30),
+    @VenConStart DATETIME,
+    @VenConEnd DATETIME,
+    @VenStatus BIT,
+    @VenDesc NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO tblVendor (Name, Contact, HouseNo, StreetNo, Commune, District, Province, ContractStart,
+        ContractEnd, Status, Description)
+    VALUES (@VenName, @VenContact, @VenHouseNo, @VenStreetNo, @VenCommune, @VenDistrict, @VenProvince,
+        @VenConStart, @VenConEnd, @VenStatus, @VenDesc);
+    SELECT SCOPE_IDENTITY() AS VendorID;
+END
+GO
+
+CREATE PROCEDURE SP_UpdateVendor
+    @VendorID INT,
+    @VenName NVARCHAR(50),
+    @VenContact NVARCHAR(20),
+    @VenHouseNo NVARCHAR(30),
+    @VenStreetNo NVARCHAR(30),
+    @VenCommune NVARCHAR(30),
+    @VenDistrict NVARCHAR(30),
+    @VenProvince NVARCHAR(30),
+    @VenConStart DATETIME,
+    @VenConEnd DATETIME,
+    @VenStatus BIT,
+    @VenDesc NVARCHAR(100)
+AS
+BEGIN
+    UPDATE tblVendor
+    SET Name = @VenName,
+        Contact = @VenContact,
+        HouseNo = @VenHouseNo,
+        StreetNo = @VenStreetNo,
+        Commune = @VenCommune,
+        District = @VenDistrict,
+        Province = @VenProvince,
+        ContractStart = @VenConStart,
+        ContractEnd = @VenConEnd,
+        Status = @VenStatus,
+        Description = @VenDesc
+    WHERE VendorID = @VendorID;
+END
+GO
+
+CREATE PROCEDURE SP_DeleteVendor
+    @VendorID INT
+AS
+BEGIN
+    DELETE FROM tblVendor WHERE VendorID = @VendorID;
+END
+GO
+--End of Vendor CRUD
+
+--RoomType CRUD
+
+Create Procedure SP_GetAllRoomTypes
+as
+Begin
+    Select RoomTypeID, TypeName, Description, BasePrice, Capacity
+    From tblRoomType
+END
+Go
+
+Create Procedure SP_GetRoomTypeByID
+    @RoomTypeID INT
+AS
+BEGIN
+    Select TypeName, Description, BasePrice, Capacity
+    From tblRoomType Where RoomTypeID = @RoomTypeID
+End
+GO
+
+Create Procedure SP_InsertRoomType
+    @TypeName NVARCHAR(50),
+    @Description NVARCHAR(100),
+    @BasePrice float,
+    @Capacity INT
+as
+Begin
+    Insert into tblRoomType (TypeName, Description, BasePrice, Capacity)
+    Values (@TypeName, @Description, @BasePrice, @Capacity);
+end
+GO
+
+Create Procedure SP_UpdateRoomType
+    @RoomTypeID INT,
+    @TypeName NVARCHAR(50),
+    @Description NVARCHAR(100),
+    @BasePrice float,
+    @Capacity INT
+AS
+BEGIN
+    Update tblRoomType
+    SET TypeName = @TypeName,
+        Description = @Description,
+        BasePrice = @BasePrice,
+        Capacity = @Capacity
+    Where RoomTypeID = @RoomTypeID;
+END
+GO
+
+Create Procedure SP_DeleteRoomType
+    @RoomTypeID INT
+As
+Begin
+    Delete From tblRoomType Where RoomTypeId = @RoomTypeID
+END
+GO
+--End of RoomType CRUD
+
+-- LeaseAgreement CRUD
+CREATE PROCEDURE SP_GetAllLeaseAgreements
+AS
+BEGIN
+    SELECT 
+        l.LeaseAgreementID,
+        l.StartDate,
+        l.EndDate,
+        l.TermsAndConditions,
+        l.ResidentID,
+        r.FirstName + ' ' + r.LastName AS ResName
+    FROM tblLeaseAgreement l
+    LEFT JOIN tblResident r ON l.ResidentID = r.ResidentID;
+END
+GO
+
+CREATE PROCEDURE SP_GetLeaseAgreementByID
+    @LeaseAgreementID INT
+AS
+BEGIN
+    SELECT 
+        l.LeaseAgreementID, l.StartDate, l.EndDate, l.TermsAndConditions, l.ResidentID,
+        r.FirstName + ' ' + r.LastName AS ResName
+    FROM tblLeaseAgreement l
+    LEFT JOIN tblResident r ON l.ResidentID = r.ResidentID
+    WHERE LeaseAgreementID = @LeaseAgreementID;
+END
+GO
+
+CREATE PROCEDURE SP_InsertLeaseAgreement
+    @StartDate DATETIME,
+    @EndDate DATETIME,
+    @TermsAndConditions NVARCHAR(MAX),
+    @ResidentID INT
+AS
+BEGIN
+    INSERT INTO tblLeaseAgreement (StartDate, EndDate, TermsAndConditions, ResidentID)
+    VALUES (@StartDate, @EndDate, @TermsAndConditions, @ResidentID);
+    SELECT SCOPE_IDENTITY() AS LeaseAgreementID;
+END
+GO
+
+CREATE PROCEDURE SP_UpdateLeaseAgreement
+    @LeaseAgreementID INT,
+    @StartDate DATETIME,
+    @EndDate DATETIME, 
+    @TermsAndConditions NVARCHAR(MAX),
+    @ResidentID INT
+AS
+BEGIN
+    UPDATE tblLeaseAgreement
+    SET
+        StartDate = @StartDate,
+        EndDate = @EndDate,
+        TermsAndConditions = @TermsAndConditions,
+        ResidentID = @ResidentID
+    WHERE LeaseAgreementID = @LeaseAgreementID;
+END
+GO
+
+CREATE PROCEDURE SP_DeleteLeaseAgreement
+    @LeaseAgreementID INT
+AS
+BEGIN
+    DELETE FROM tblLeaseAgreement 
+    WHERE LeaseAgreementID = @LeaseAgreementID;
+END
+GO
+--End of LeaseAgreement CRUD
 
 CREATE PROCEDURE SP_CheckRoomID
     @RoomID INT
@@ -85,62 +496,7 @@ BEGIN
 END
 GO
 
---End of Store Procedure LeaseAgreement
 
--- LeaseAgreement CRUD
-Create Procedure SP_GetAllLeaseAgreements
-as
-Begin
-    Select * from tblLeaseAgreement
-end
-GO
-
-Create Procedure SP_GetLeaseAgreementByID
-    @LeaseAgreementID INT
-AS
-BEGIN
-    Select * from tblLeaseAgreement
-    Where LeaseAgreementID = @LeaseID
-end
-Go
-
-CREATE PROCEDURE SP_InsertLeaseAgreement
-    @StartDate DATETIME2,
-    @EndDate DATETIME2,
-    @TermsAndConditions NVARCHAR(MAX),
-    @ResidentID INT
-AS
-BEGIN
-    INSERT INTO tblLeaseAgreement (StartDate, EndDate, TermsAndConditions, ResidentID)
-    VALUES (@StartDate, @EndDate, @TermsAndConditions, @ResidentID)
-END
-GO
-
-CREATE PROCEDURE SP_UpdateLeaseAgreement
-    @LeaseAgreementID INT,
-    @StartDate DATETIME2,
-    @EndDate DATETIME2,
-    @TermsAndConditions NVARCHAR(MAX),
-    @ResidentID INT
-AS
-BEGIN
-    UPDATE tblLeaseAgreement
-    SET StartDate = @StartDate,
-        EndDate = @EndDate,
-        TermsAndConditions = @TermsAndConditions,
-        ResidentID = @ResidentID
-    WHERE LeaseAgreementID = @LeaseAgreementID
-END
-GO
-
-CREATE PROCEDURE SP_DeleteLeaseAgreement
-    @LeaseAgreementID INT
-AS
-BEGIN
-    DELETE FROM tblLeaseAgreement WHERE LeaseAgreementID = @LeaseAgreementID
-END
-GO
---End of Store Procedure LeaseAgreement
 
 -- Utility CRUD
 Create Procedure SP_LoadUtilityIDs
@@ -315,175 +671,7 @@ END
 GO
 --End of Store Procedure Amenity
 
--- Resident CRUD
--- Resident CRUD
-
--- Get all residents
-CREATE PROCEDURE SP_GetAllResidents
-AS
-BEGIN
-    SELECT ResidentID,
-           Type,
-           FirstName,  -- Changed from Name to FirstName
-           LastName,   -- Added LastName for completeness
-           Sex,
-           BD AS BOD,  -- Assuming BD is the birth date
-           PrevHouseNo,
-           PrevStNo,
-           PrevCommune,
-           PrevDistrict,
-           PrevProvince,
-           PerNum,
-           ConNum,
-           CheckIn,
-           CheckOut
-    FROM tblResident;
-END
-GO
-
--- Get resident by ID
-CREATE PROCEDURE SP_GetResidentByID
-    @ResidentID INT
-AS
-BEGIN
-    SELECT * 
-    FROM tblResident 
-    WHERE ResidentID = @ResidentID;
-END
-GO
-
--- Insert a new resident
-CREATE PROCEDURE SP_InsertResident
-    @ResType NVARCHAR(20),  -- Increased length for Type
-    @ResFirstName NVARCHAR(50),
-    @ResLastName NVARCHAR(50),  -- Added LastName
-    @ResSex NVARCHAR(6),
-    @ResBD DATETIME2,  -- Changed to DATETIME2 for consistency
-    @ResPrevHouseNo NVARCHAR(30),
-    @ResPrevStNo NVARCHAR(30),
-    @ResPrevCommune NVARCHAR(30),
-    @ResPrevDistrict NVARCHAR(30),
-    @ResPrevProvince NVARCHAR(30),
-    @ResPerNum NVARCHAR(20),
-    @ResConNum NVARCHAR(20),
-    @ResCheckIn DATETIME2,  -- Changed to DATETIME2 for consistency
-    @ResCheckOut DATETIME2   -- Changed to DATETIME2 for consistency
-AS
-BEGIN
-    INSERT INTO tblResident
-    (Type,
-     FirstName,
-     LastName,  -- Added LastName
-     Sex,
-     BD,
-     PrevHouseNo,
-     PrevStNo,
-     PrevCommune,
-     PrevDistrict,
-     PrevProvince,
-     PerNum,
-     ConNum,
-     CheckIn,
-     CheckOut)
-    VALUES
-    (@ResType,
-     @ResFirstName,
-     @ResLastName,  -- Added LastName
-     @ResSex,
-     @ResBD,
-     @ResPrevHouseNo,
-     @ResPrevStNo,
-     @ResPrevCommune,
-     @ResPrevDistrict,
-     @ResPrevProvince,
-     @ResPerNum,
-     @ResConNum,
-     @ResCheckIn,
-     @ResCheckOut);
-END
-GO
-
--- Update an existing resident
-CREATE PROCEDURE SP_UpdateResident
-    @ResidentID INT,
-    @ResType NVARCHAR(20),  -- Increased length for Type
-    @ResFirstName NVARCHAR(50),
-    @ResLastName NVARCHAR(50),  -- Added LastName
-    @ResSex NVARCHAR(6),
-    @ResBD DATETIME2,  -- Changed to DATETIME2 for consistency
-    @ResPrevHouseNo NVARCHAR(30),
-    @ResPrevStNo NVARCHAR(30),
-    @ResPrevCommune NVARCHAR(30),
-    @ResPrevDistrict NVARCHAR(30),
-    @ResPrevProvince NVARCHAR(30),
-    @ResPerNum NVARCHAR(20),
-    @ResConNum NVARCHAR(20),
-    @ResCheckIn DATETIME2,  -- Changed to DATETIME2 for consistency
-    @ResCheckOut DATETIME2   -- Changed to DATETIME2 for consistency
-AS
-BEGIN
-    UPDATE tblResident
-    SET Type = @ResType,
-        FirstName = @ResFirstName,
-        LastName = @ResLastName,  -- Added LastName
-        Sex = @ResSex,
-        BD = @ResBD,
-        PrevHouseNo = @ResPrevHouseNo,
-        PrevStNo = @ResPrevStNo,
-        PrevCommune = @ResPrevCommune,
-        PrevDistrict = @ResPrevDistrict,
-        PrevProvince = @ResPrevProvince,
-        PerNum = @ResPerNum,
-        ConNum = @ResConNum,
-        CheckIn = @ResCheckIn,
-        CheckOut = @ResCheckOut
-    WHERE ResidentID = @ResidentID;
-END
-GO
-
--- Delete a resident
-CREATE PROCEDURE SP_DeleteResident
-    @ResidentID INT
-AS
-BEGIN
-    DELETE FROM tblResident
-    WHERE ResidentID = @ResidentID;
-END
-GO
-
--- Validate resident ID
-CREATE PROCEDURE SP_ValidateResidentID
-    @ResidentID INT
-AS
-BEGIN
-    SELECT COUNT(*) 
-    FROM tblResident 
-    WHERE ResidentID = @ResidentID;
-END
-GO
-
--- Get resident name by ID
-CREATE PROCEDURE SP_GetResidentNameByID
-    @ResidentID INT
-AS
-BEGIN
-    SELECT FirstName, LastName  -- Changed to include LastName
-    FROM tblResident
-    WHERE ResidentID = @ResidentID;
-END
-GO
-
--- Load resident IDs
-CREATE PROCEDURE SP_LoadResidentIDs
-AS
-BEGIN
-    SELECT FirstName, LastName, ResidentID  -- Changed to include LastName
-    FROM tblResident;
-END 
-GO
-
-    
---End of Store Procedure Resident
+t
 
 -- Policy CRUD
 
@@ -532,261 +720,9 @@ END
 GO
 --End of Store Procedure Policy
 
--- Staff CRUD
-
-Create Procedure SP_LoadStaffIDs
-As
-Begin
-	Select FName + '' + LName,
-			StaffID
-	From tblStaff
-END 
-GO
-
-CREATE PROCEDURE SP_GetAllStaffs
-AS
-BEGIN
-    SELECT * FROM tblStaff;
-END
-GO
 
 
-CREATE PROCEDURE SP_GetStaffByID
-    @StaID INT
-AS
-BEGIN
-    SELECT * FROM tblStaff WHERE StaffID = @StaID;
-END
-GO 
 
-CREATE PROCEDURE SP_InsertStaff
-    @StaFName NVARCHAR(50),
-    @StaLName NVARCHAR(50),
-    @StaSex NVARCHAR(10),
-    @StaBD DATETIME,
-    @StaPosition NVARCHAR(50),
-    @StaHNo NVARCHAR(30),
-    @StaSNo NVARCHAR(30),
-    @StaCommune NVARCHAR(30),
-    @StaDistrict NVARCHAR(30),
-    @StaProvince NVARCHAR(30),
-    @StaPerNum NVARCHAR(30),
-    @StaSalary FLOAT,
-    @StaHiredDate DATETIME,
-    @StaStopped DATETIME,
-AS
-BEGIN
-    INSERT INTO tblStaff (
-        FName, LName, Sex, BD, Position,
-        HNo, SNo, Commune, District, Province,
-        PerNum, Salary, HiredDate, Stopped
-    )
-    VALUES (
-        @StaFName, @StaLName, @StaSex, @StaBD, @StaPosition,
-        @StaHNo, @StaSNo, @StaCommune, @StaDistrict, @StaProvince,
-        @StaPerNum, @StaSalary, @StaHiredDate, @StaStopped
-    );
-END
-GO
-
-CREATE PROCEDURE SP_UpdateStaff
-    @StaID INT,
-    @StaFName NVARCHAR(50),
-    @StaLName NVARCHAR(50),
-    @StaSex NVARCHAR(10),
-    @StaBD DATETIME,
-    @StaPosition NVARCHAR(50),
-    @StaHNo NVARCHAR(30),
-    @StaSNo NVARCHAR(30),
-    @StaCommune NVARCHAR(30),
-    @StaDistrict NVARCHAR(30),
-    @StaProvince NVARCHAR(30),
-    @StaPerNum NVARCHAR(30),
-    @StaSalary NVARCHAR(20),
-    @StaHiredDate DATETIME,
-    @StaStopped DATETIME
-AS
-BEGIN
-    UPDATE tblStaff
-    SET 
-        FName = @StaFName,
-        LName = @StaLName,
-        Sex = @StaSex,
-        BD = @StaBD,
-        Position = @StaPosition,
-        HNo = @StaHNo,
-        SNo = @StaSNo,
-        Commune = @StaCommune,
-        District = @StaDistrict,
-        Province = @StaProvince,
-        PerNum = @StaPerNum,
-        Salary = @StaSalary,
-        HiredDate = @StaHiredDate,
-        Stopped = @StaStopped
-    WHERE StaffId = @StaID;
-END
-GO
-
-CREATE PROCEDURE SP_DeleteStaff 
-	@StaID INT 
-AS BEGIN DELETE FROM tblStaff WHERE StaffID = @StaID; 
-END
-GO
-
-CREATE PROCEDURE SP_ValidateStaffID
-    @StaffID INT
-AS
-BEGIN
-    SELECT COUNT(*) FROM tblStaff WHERE StaffId = @StaffID;
-END
-GO
---End of Store Precedure Staff
-
--- Vendor CRUD
-
-Create Procedure SP_LoadVendorIDs
-As
-Begin
-	Select Name,
-			VendorID
-	From tblVendor
-END 
-GO
-
-Create Procedure SP_GetAllVendors
-As
-Begin
-	Select VendorID,
-		   Name,
-		   Contact,
-		   HNo,
-		   SNo,
-		   Commune,
-		   District,
-		   Province,
-		   ConStart,
-		   ConEnd,
-		   Status,
-		   Description
-	From tblVendor;
-End
-Go
-
-Create Procedure SP_GetVendorById
-	@VenID INT
-As
-Begin
-	Select Top 1 VendorID,
-				 Name,
-				 Contact,
-				 HNo,
-				 SNo,
-				 Commune,
-				 District,
-				 Province,
-				 ConStart,
-				 ConEnd,
-				 Status,
-				 Description
-	From tblVendor
-	Where VendorID = @VenID;
-End
-Go
-
-Create Procedure SP_InsertVendor
-	@VenName NVARCHAR(50),
-	@VenContact NVARCHAR(20),
-	@VenHNo NVARCHAR(30),
-	@VenSNo NVARCHAR(30),
-	@VenCommune NVARCHAR(30),
-	@VenDistrict NVARCHAR(30),
-	@VenProvince NVARCHAR(30),
-	@VenConStart DATETIME,
-	@VenConEnd DATETIME,
-	@VenStatus BIT,
-	@VenDesc NVARCHAR(MAX)
-As
-Begin
-	Insert into tblVendor
-	(	Name,
-		Contact,
-		HNo,
-		SNo,
-		Commune,
-		District,
-		Province,
-		ConStart,
-		ConEnd,
-		Status,
-		Description
-	)
-	Values
-	(
-		@VenName,
-		@VenContact,
-		@VenHNo,
-		@VenSNo,
-		@VenCommune,
-		@VenDistrict,
-		@VenProvince,
-		@VenConStart,
-		@VenConEnd,
-		@VenStatus,
-		@VenDesc
-	)
-End
-Go
-
-Create Procedure SP_UpdateVendor
-	@VenID INT,
-	@VenName NVARCHAR(50),
-	@VenContact NVARCHAR(20),
-	@VenHNo NVARCHAR(30),
-	@VenSNo NVARCHAR(30),
-	@VenCommune NVARCHAR(30),
-	@VenDistrict NVARCHAR(30),
-	@VenProvince NVARCHAR(30),
-	@VenConStart DATETIME,
-	@VenConEnd DATETIME,
-	@VenStatus BIT,
-	@VenDesc NVARCHAR(MAX)
-As
-Begin
-	Update tblVendor
-	Set Name = @VenName,
-		Contact = @VenContact,
-		HNo = @VenHNo,
-		SNo = @VenSNo,
-		Commune = @VenCommune,
-	    District = @VenDistrict,
-		Province = @VenProvince,
-		ConStart = @VenConStart,
-		ConEnd = @VenConEnd,
-		Status = @VenStatus,
-		Description = @VenDesc
-	Where VendorID = @VenID
-End
-Go
-
-Create Procedure SP_DeleteVendor
-	@VenID INT
-As
-Begin
-	Delete from tblVendor
-	Where VendorID = @VenID;
-End
-Go
-
-Create Procedure SP_ValidateVendorID
-	@VendorID INT
-As
-Begin
-	Select Count(*) 
-	from tblVendor 
-	Where VendorID = @VendorID
-End
-Go
---End of Store Procedure Vendor
 
 -- Rent CRUD
 CREATE PROCEDURE SP_GetAllRents

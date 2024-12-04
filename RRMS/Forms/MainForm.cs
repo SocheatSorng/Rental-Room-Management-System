@@ -301,7 +301,7 @@ namespace RRMS.Forms
 
         private void btnRoomType_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormAmenity());
+            OpenChildForm(new FormRoomType());
         }
 
         private void btnRent_Click(object sender, EventArgs e)

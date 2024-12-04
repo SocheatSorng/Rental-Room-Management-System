@@ -44,7 +44,6 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            //btnClose.Click += (sender, e) => { this.Close(); };
             dgvVen.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch; // Attach the search event
         }
@@ -56,7 +55,6 @@ namespace RRMS.Forms
                 string searchValue = txtSearch.Text.Trim();
                 dgvVen.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
-                // Reset last highlighted index if the search term has changed
                 if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
                 {
                     lastHighlightedIndex = -1;
@@ -65,34 +63,32 @@ namespace RRMS.Forms
                 try
                 {
                     bool found = false;
-                    int startIndex = (lastHighlightedIndex + 1) % dgvVen.Rows.Count; // Start from the next row
+                    int startIndex = (lastHighlightedIndex + 1) % dgvVen.Rows.Count; 
 
                     for (int i = startIndex; i < dgvVen.Rows.Count + startIndex; i++)
                     {
-                        int currentIndex = i % dgvVen.Rows.Count; // Wrap around if necessary
+                        int currentIndex = i % dgvVen.Rows.Count; 
                         DataGridViewRow row = dgvVen.Rows[currentIndex];
 
                         string? id = row.Cells["colVenID"].Value?.ToString();
                         string? vendorName = row.Cells["colVendorName"].Value?.ToString();
 
-                        // Check if the current row matches the search value
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
                             (vendorName != null && vendorName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
-                            dgvVen.ClearSelection(); // Clear previous selections
-                            row.Selected = true; // Highlight the found row
-                            dgvVen.FirstDisplayedScrollingRowIndex = row.Index; // Scroll to the found row
-                            lastHighlightedIndex = currentIndex; // Update the last highlighted index
-                            found = true; // Set the flag to true
-                            break; // Exit the loop after finding the next match
+                            dgvVen.ClearSelection(); 
+                            row.Selected = true;
+                            dgvVen.FirstDisplayedScrollingRowIndex = row.Index; 
+                            lastHighlightedIndex = currentIndex; 
+                            found = true; 
+                            break; 
                         }
                     }
 
-                    // Optional: If no match is found, you can show a message
                     if (!found)
                     {
                         MessageBox.Show("No more matching vendors found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        lastHighlightedIndex = -1; // Reset to allow starting over
+                        lastHighlightedIndex = -1;
                     }
                 }
                 catch (Exception ex)
@@ -146,21 +142,6 @@ namespace RRMS.Forms
             ManageControl.EnableControl(txtVenID, false);
         }
 
-        private void DoClickInsert(object? sender, EventArgs e)
-        {
-            var vendor = GatherVendorInput();
-
-            if (TryParseInputs(vendor.VenName, vendor.VenContact, vendor.VenHNo, vendor.VenSNo, vendor.VenCommune, vendor.VenDistrict, vendor.VenProvince, vendor.VenDesc))
-            {
-                var entityService = new EntityService();
-                entityService.InsertOrUpdateEntity(vendor, "SP_InsertVendor", "Insert");
-            }
-            else
-            {
-                MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
         private void DoOnVendorDeleted(object? sender, EntityEventArgs e)
         {
             if (e.ByteId == 0) return;
@@ -169,7 +150,7 @@ namespace RRMS.Forms
             {
                 Invoke((MethodInvoker)delegate
                 {
-                    UpdateVendorView(); // Refresh the vendor view after deletion
+                    UpdateVendorView();
                 });
             });
         }
@@ -186,7 +167,7 @@ namespace RRMS.Forms
                 using var cmd = Program.Connection.CreateCommand(); 
                 cmd.CommandText = "SP_DeleteVendor"; 
                 cmd.CommandType = CommandType.StoredProcedure; 
-                cmd.Parameters.AddWithValue("@VenID", id); 
+                cmd.Parameters.AddWithValue("@VendorID", id); 
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show($"Successfully Deleted Vendor ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -221,9 +202,9 @@ namespace RRMS.Forms
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
                     var vendor = GatherVendorInput();
-                    vendor.VenID = id;
+                    vendor.ID = id;
 
-                    if (TryParseInputs(vendor.VenName, vendor.VenContact, vendor.VenHNo, vendor.VenSNo, vendor.VenCommune, vendor.VenDistrict, vendor.VenProvince, vendor.VenDesc))
+                    if (TryParseInputs(vendor.FirstName, vendor.ContactNumber, vendor.HouseNo, vendor.StreetNo, vendor.Commune, vendor.District, vendor.Province, vendor.Description))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(vendor, "SP_UpdateVendor", "Update");
@@ -246,7 +227,7 @@ namespace RRMS.Forms
 
         private void DoOnVendorInserted(object? sender, EntityEventArgs e)
         {
-            string SP_Name = "SP_GetVendorById"; 
+            string SP_Name = "SP_GetVendorById";
             if (e.ByteId == 0) return;
 
             Task.Run(() =>
@@ -265,28 +246,43 @@ namespace RRMS.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error); // Handle exceptions
+                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             });
 
-            DoClickNew(sender, e); // Call the method to handle new entry
+            DoClickNew(sender, e);
+        }
+        private void DoClickInsert(object? sender, EventArgs e)
+        {
+            var vendor = GatherVendorInput();
+
+            if (TryParseInputs(vendor.FirstName, vendor.ContactNumber, vendor.HouseNo, vendor.StreetNo, vendor.Commune, vendor.District, vendor.Province, vendor.Description))
+            {
+                var entityService = new EntityService();
+                entityService.InsertOrUpdateEntity(vendor, "SP_InsertVendor", "Insert");
+                UpdateVendorView();
+            }
+            else
+            {
+                MessageBox.Show("Invalid input. Please check your entries.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private Vendor GatherVendorInput()
         {
             return new Vendor()
             {
-                VenName = txtVenName.Text.Trim(),
-                VenContact = txtVenCN.Text.Trim(),
-                VenHNo = txtVenHNo.Text.Trim(),
-                VenSNo = txtVenSNo.Text.Trim(),
-                VenCommune = txtVenCom.Text.Trim(),
-                VenDistrict = txtVenDis.Text.Trim(),
-                VenProvince = txtVenPro.Text.Trim(),
-                VenConStart = dtpVenCS.Value,
-                VenConEnd = dtpVenCE.Value,
-                VenStatus = chkVenStat.Checked,
-                VenDesc = txtVenDesc.Text.Trim()
+                FirstName = txtVenName.Text.Trim(),
+                ContactNumber = txtVenCN.Text.Trim(),
+                HouseNo = txtVenHNo.Text.Trim(),
+                StreetNo = txtVenSNo.Text.Trim(),
+                Commune = txtVenCom.Text.Trim(),
+                District = txtVenDis.Text.Trim(),
+                Province = txtVenPro.Text.Trim(),
+                Start = dtpVenCS.Value,
+                End = dtpVenCE.Value,
+                Status = chkVenStat.Checked,
+                Description = txtVenDesc.Text.Trim()
             };
         }
 
@@ -294,18 +290,18 @@ namespace RRMS.Forms
         {
             if (vendor != null)
             {
-                txtVenID.Text = vendor.VenID.ToString();
-                txtVenName.Text = vendor.VenName;
-                txtVenCN.Text = vendor.VenContact;
-                txtVenHNo.Text = vendor.VenHNo;
-                txtVenSNo.Text = vendor.VenSNo;
-                txtVenCom.Text = vendor.VenCommune;
-                txtVenDis.Text = vendor.VenDistrict;
-                txtVenPro.Text = vendor.VenProvince;
-                dtpVenCS.Value = vendor.VenConStart ?? DateTime.Now;
-                dtpVenCE.Value = vendor.VenConEnd ?? DateTime.Now;
-                chkVenStat.Checked = vendor.VenStatus;
-                txtVenDesc.Text = vendor.VenDesc;
+                txtVenID.Text = vendor.ID.ToString();
+                txtVenName.Text = vendor.FirstName;
+                txtVenCN.Text = vendor.ContactNumber;
+                txtVenHNo.Text = vendor.HouseNo;
+                txtVenSNo.Text = vendor.StreetNo;
+                txtVenCom.Text = vendor.Commune;
+                txtVenDis.Text = vendor.District;
+                txtVenPro.Text = vendor.Province;
+                dtpVenCS.Value = vendor.Start ?? DateTime.Now;
+                dtpVenCE.Value = vendor.End ?? DateTime.Now;
+                chkVenStat.Checked = vendor.Status;
+                txtVenDesc.Text = vendor.Description;
             }
             else
             {
@@ -409,7 +405,7 @@ namespace RRMS.Forms
 
                 
                 var entityViewAdder = new EntityViewAdder<Vendor>(dgvVen,
-                    vendor => new object[] { vendor.VenID, vendor.VenName }
+                    vendor => new object[] { vendor.ID, vendor.FirstName }
                 );
               
                 foreach (var vendor in result)
@@ -426,8 +422,8 @@ namespace RRMS.Forms
         private void AddToView(Vendor vendor)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvVen, vendor.VenID, vendor.VenName);
-            row.Tag = vendor.VenID;
+            row.CreateCells(dgvVen, vendor.ID, vendor.FirstName);
+            row.Tag = vendor.ID;
             dgvVen.Rows.Add(row);
         }
     }

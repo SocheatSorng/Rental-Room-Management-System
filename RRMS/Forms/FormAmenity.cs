@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using RRMS;
 using RRMS.Model;
 using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace RRMS.Forms
 {
@@ -18,6 +19,8 @@ namespace RRMS.Forms
             DataGridView.CheckForIllegalCrossThreadCalls = false;
             ConfigView();
             _bs.DataSource = dgvAme;
+            LoadRoomIDs();
+            cbbRoomID.SelectedIndexChanged += cbbRoomID_SelectedIndexChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -41,11 +44,56 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            //btnClose.Click += (sender, e) => { this.Close(); };
             dgvAme.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }
-
+        private void LoadRoomIDs()
+        {
+            SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    object roomIDObj = dr["RoomID"];
+                    if (roomIDObj != DBNull.Value)
+                    {
+                        string? roomID = roomIDObj.ToString();
+                        cbbRoomID.Items.Add(roomID);
+                        cbbRoomID.DisplayMember = roomID;
+                        cbbRoomID.ValueMember = roomID;
+                    }
+                }
+            }
+        }
+        private void cbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbRoomID.SelectedItem != null)
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SP_GetRoomByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            txtRoomNum.Text = dr["Number"].ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtRoomNum.Text = string.Empty;
+                }
+            }
+            else
+            {
+                txtRoomNum.Text = "";
+            }
+        }
         private void DoSearch(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -85,8 +133,8 @@ namespace RRMS.Forms
 
                     if (!found)
                     {
-                        MessageBox.Show("No more matching amenities found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        lastHighlightedIndex = -1; // Reset to allow starting over
+                        MessageBox.Show("No more matching amenity found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        lastHighlightedIndex = -1;
                     }
                 }
                 catch (Exception ex)
@@ -163,7 +211,7 @@ namespace RRMS.Forms
                 using var cmd = Program.Connection.CreateCommand();
                 cmd.CommandText = "SP_DeleteAmenity";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@AmeID", id);
+                cmd.Parameters.AddWithValue("@AmenityID", id);
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show($"Successfully Deleted Amenity ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -200,7 +248,7 @@ namespace RRMS.Forms
                     var amenity = GatherAmenityInput();
                     amenity.ID = id;
 
-                    if (TryParseInputs(amenity.FirstName, amenity.Province, amenity.CostPrice, amenity.RentPrice))
+                    if (TryParseInputs(amenity.FirstName, amenity.CostPrice, amenity.RentPrice, amenity.RoomID))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(amenity, "SP_UpdateAmenity", "Update");
@@ -252,10 +300,11 @@ namespace RRMS.Forms
         private void DoClickInsert(object? sender, EventArgs e)
         {
             var amenity = GatherAmenityInput();
-            if (TryParseInputs(amenity.FirstName, amenity.Province ,amenity.CostPrice, amenity.RentPrice))
+            if (TryParseInputs(amenity.FirstName ,amenity.CostPrice, amenity.RentPrice, amenity.RoomID))
             {
                 var entityService = new EntityService();
                 entityService.InsertOrUpdateEntity(amenity, "SP_InsertAmenity", "Insert");
+                UpdateAmenityView();
             }
 
             else {
@@ -263,17 +312,12 @@ namespace RRMS.Forms
             }
             }
 
-        private bool TryParseInputs(string ameName, string ameLoc, double ameBP, double ameCPR)
+        private bool TryParseInputs(string ameName, double ameBP, double ameCPR, int ameRoomID)
         {
 
             if (string.IsNullOrEmpty(ameName))
             {
                 MessageBox.Show("Amenity name must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (string.IsNullOrEmpty(ameLoc))
-            {
-                MessageBox.Show("Amenity location must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (ameBP <= 0)
@@ -284,6 +328,11 @@ namespace RRMS.Forms
             if (ameCPR <= 0)
             {
                 MessageBox.Show("Amenity cost per rent must be a valid number.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if(ameRoomID < 0)
+            {
+                MessageBox.Show("Room ID is not selected.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -306,7 +355,7 @@ namespace RRMS.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Updating Amenitys", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Updating Amenity", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private Amenity GatherAmenityInput()
@@ -315,17 +364,24 @@ namespace RRMS.Forms
             double.TryParse(txtAmeBP.Text.Trim(), out cp);
             double rp;
             double.TryParse(txtAmeCPR.Text.Trim(), out rp);
-            return new Amenity()
+            int roomID;
+            if(cbbRoomID.SelectedIndex != null && int.TryParse(cbbRoomID.SelectedItem.ToString(), out roomID))
             {
-                
-                FirstName = txtAmeName.Text.Trim(),
-                Status = chkAmeAvail.Checked,
-                Province = txtAmeLoc.Text.Trim(),
-                CostPrice = cp,
-                RentPrice = rp,
-                Start = dtpAmeMD.Value,
-                Description = txtAmeDesc.Text.Trim(),
-            };
+                return new Amenity()
+                {
+
+                    FirstName = txtAmeName.Text.Trim(),
+                    CostPrice = cp,
+                    RentPrice = rp,
+                    Start = dtpAmeMD.Value,
+                    Description = txtAmeDesc.Text.Trim(),
+                };
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid Room ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
         }
 
         private void PopulateFields(Amenity? amenity)
@@ -334,23 +390,21 @@ namespace RRMS.Forms
             {
                 txtAmeID.Text = amenity.ID.ToString();
                 txtAmeName.Text = amenity.FirstName.ToString();
-                chkAmeAvail.Checked = amenity.Status;
-                txtAmeLoc.Text = amenity.Province;
                 txtAmeBP.Text = amenity.CostPrice.ToString("F2");
                 txtAmeCPR.Text = amenity.RentPrice.ToString("F2");
                 dtpAmeMD.Value = amenity.Start ?? DateTime.Now;
                 txtAmeDesc.Text = amenity.Description;
+                cbbRoomID.Text = amenity.RoomID.ToString();
             }
             else
             {
                 txtAmeID.Text = string.Empty;
                 txtAmeName.Text = string.Empty;
-                chkAmeAvail.Checked = false;
-                txtAmeLoc.Text = string.Empty;
                 txtAmeBP.Text = string.Empty;
                 txtAmeCPR.Text = string.Empty;
                 dtpAmeMD.Value = DateTime.Now;
                 txtAmeDesc.Text = string.Empty;
+                txtRoomNum.Text = string.Empty;
             }
         }
 

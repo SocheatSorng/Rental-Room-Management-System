@@ -30,15 +30,12 @@
         {
             label1 = new Label();
             label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
             label5 = new Label();
             label6 = new Label();
             label8 = new Label();
             label7 = new Label();
             txtAmeID = new TextBox();
             txtAmeName = new TextBox();
-            txtAmeLoc = new TextBox();
             txtAmeBP = new TextBox();
             txtAmeCPR = new TextBox();
             txtAmeDesc = new TextBox();
@@ -49,11 +46,14 @@
             dgvAme = new DataGridView();
             dtpAmeMD = new DateTimePicker();
             panel1 = new Panel();
-            chkAmeAvail = new CheckBox();
             label10 = new Label();
             titleLabel = new Label();
             label9 = new Label();
             txtSearch = new TextBox();
+            label3 = new Label();
+            txtRoomNum = new TextBox();
+            label4 = new Label();
+            cbbRoomID = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvAme).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -76,28 +76,10 @@
             label2.TabIndex = 1;
             label2.Text = "Name";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(17, 111);
-            label3.Name = "label3";
-            label3.Size = new Size(65, 15);
-            label3.TabIndex = 2;
-            label3.Text = "Availability";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(17, 142);
-            label4.Name = "label4";
-            label4.Size = new Size(53, 15);
-            label4.TabIndex = 3;
-            label4.Text = "Location";
-            // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(17, 174);
+            label5.Location = new Point(17, 113);
             label5.Name = "label5";
             label5.Size = new Size(75, 15);
             label5.TabIndex = 4;
@@ -106,7 +88,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(17, 212);
+            label6.Location = new Point(17, 151);
             label6.Name = "label6";
             label6.Size = new Size(78, 15);
             label6.TabIndex = 5;
@@ -115,7 +97,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(17, 282);
+            label8.Location = new Point(17, 221);
             label8.Name = "label8";
             label8.Size = new Size(67, 15);
             label8.TabIndex = 7;
@@ -124,7 +106,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(17, 249);
+            label7.Location = new Point(17, 188);
             label7.Name = "label7";
             label7.Size = new Size(103, 15);
             label7.TabIndex = 6;
@@ -136,42 +118,35 @@
             txtAmeID.Name = "txtAmeID";
             txtAmeID.ReadOnly = true;
             txtAmeID.Size = new Size(200, 23);
-            txtAmeID.TabIndex = 8;
+            txtAmeID.TabIndex = 2;
             // 
             // txtAmeName
             // 
             txtAmeName.Location = new Point(134, 74);
             txtAmeName.Name = "txtAmeName";
             txtAmeName.Size = new Size(200, 23);
-            txtAmeName.TabIndex = 9;
-            // 
-            // txtAmeLoc
-            // 
-            txtAmeLoc.Location = new Point(134, 139);
-            txtAmeLoc.Name = "txtAmeLoc";
-            txtAmeLoc.Size = new Size(200, 23);
-            txtAmeLoc.TabIndex = 11;
+            txtAmeName.TabIndex = 3;
             // 
             // txtAmeBP
             // 
-            txtAmeBP.Location = new Point(134, 174);
+            txtAmeBP.Location = new Point(134, 113);
             txtAmeBP.Name = "txtAmeBP";
             txtAmeBP.Size = new Size(200, 23);
-            txtAmeBP.TabIndex = 12;
+            txtAmeBP.TabIndex = 4;
             // 
             // txtAmeCPR
             // 
-            txtAmeCPR.Location = new Point(134, 212);
+            txtAmeCPR.Location = new Point(134, 151);
             txtAmeCPR.Name = "txtAmeCPR";
             txtAmeCPR.Size = new Size(200, 23);
-            txtAmeCPR.TabIndex = 13;
+            txtAmeCPR.TabIndex = 5;
             // 
             // txtAmeDesc
             // 
-            txtAmeDesc.Location = new Point(134, 282);
+            txtAmeDesc.Location = new Point(134, 221);
             txtAmeDesc.Name = "txtAmeDesc";
             txtAmeDesc.Size = new Size(200, 23);
-            txtAmeDesc.TabIndex = 15;
+            txtAmeDesc.TabIndex = 7;
             // 
             // btnNew
             // 
@@ -183,7 +158,7 @@
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(80, 26);
-            btnNew.TabIndex = 2;
+            btnNew.TabIndex = 10;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -197,7 +172,7 @@
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(80, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 11;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -211,7 +186,7 @@
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(80, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 12;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -225,7 +200,7 @@
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(80, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 13;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -235,19 +210,22 @@
             dgvAme.Location = new Point(371, 76);
             dgvAme.Name = "dgvAme";
             dgvAme.Size = new Size(661, 654);
-            dgvAme.TabIndex = 20;
+            dgvAme.TabIndex = 14;
             // 
             // dtpAmeMD
             // 
-            dtpAmeMD.Location = new Point(134, 249);
+            dtpAmeMD.Location = new Point(134, 188);
             dtpAmeMD.Name = "dtpAmeMD";
             dtpAmeMD.Size = new Size(200, 23);
-            dtpAmeMD.TabIndex = 24;
+            dtpAmeMD.TabIndex = 6;
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.Controls.Add(chkAmeAvail);
+            panel1.Controls.Add(cbbRoomID);
+            panel1.Controls.Add(txtRoomNum);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
             panel1.Controls.Add(label10);
             panel1.Controls.Add(txtAmeDesc);
             panel1.Controls.Add(dtpAmeMD);
@@ -256,7 +234,6 @@
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(txtAmeBP);
             panel1.Controls.Add(btnInsert);
-            panel1.Controls.Add(txtAmeLoc);
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(txtAmeName);
             panel1.Controls.Add(txtAmeID);
@@ -264,23 +241,12 @@
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 33);
             panel1.Name = "panel1";
             panel1.Size = new Size(353, 697);
             panel1.TabIndex = 25;
-            // 
-            // chkAmeAvail
-            // 
-            chkAmeAvail.AutoSize = true;
-            chkAmeAvail.Location = new Point(134, 110);
-            chkAmeAvail.Name = "chkAmeAvail";
-            chkAmeAvail.Size = new Size(15, 14);
-            chkAmeAvail.TabIndex = 49;
-            chkAmeAvail.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -322,7 +288,40 @@
             txtSearch.Location = new Point(425, 42);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(607, 23);
-            txtSearch.TabIndex = 49;
+            txtSearch.TabIndex = 1;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(16, 252);
+            label3.Name = "label3";
+            label3.Size = new Size(53, 15);
+            label3.TabIndex = 49;
+            label3.Text = "Room ID";
+            // 
+            // txtRoomNum
+            // 
+            txtRoomNum.Location = new Point(134, 281);
+            txtRoomNum.Name = "txtRoomNum";
+            txtRoomNum.Size = new Size(200, 23);
+            txtRoomNum.TabIndex = 9;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 281);
+            label4.Name = "label4";
+            label4.Size = new Size(86, 15);
+            label4.TabIndex = 51;
+            label4.Text = "Room Number";
+            // 
+            // cbbRoomID
+            // 
+            cbbRoomID.FormattingEnabled = true;
+            cbbRoomID.Location = new Point(134, 252);
+            cbbRoomID.Name = "cbbRoomID";
+            cbbRoomID.Size = new Size(200, 23);
+            cbbRoomID.TabIndex = 8;
             // 
             // FormAmenity
             // 
@@ -347,15 +346,12 @@
 
         private Label label1;
         private Label label2;
-        private Label label3;
-        private Label label4;
         private Label label5;
         private Label label6;
         private Label label8;
         private Label label7;
         private TextBox txtAmeID;
         private TextBox txtAmeName;
-        private TextBox txtAmeLoc;
         private TextBox txtAmeBP;
         private TextBox txtAmeCPR;
         private TextBox txtAmeDesc;
@@ -370,6 +366,9 @@
         private Label label10;
         private Label label9;
         private TextBox txtSearch;
-        private CheckBox chkAmeAvail;
+        private ComboBox cbbRoomID;
+        private TextBox txtRoomNum;
+        private Label label4;
+        private Label label3;
     }
 }

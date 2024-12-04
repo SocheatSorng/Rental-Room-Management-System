@@ -12,24 +12,23 @@ namespace RRMS
         // Original properties
         public int AmeID { get; set; }
         public string? AmeName { get; set; }
-        public bool AmeAvail { get; set; }
-        public string? AmeLoc { get; set; }
-        public double AmeBP { get; set; }
-        public double AmeCPR { get; set; }
-        public DateTime? AmeMD { get; set; }
-        public string? AmeDesc { get; set; }
+        public bool AmeAvailable { get; set; }
+        public double AmeBoughtPrice { get; set; }
+        public double AmeCostPerRent { get; set; }
+        public DateTime? AmeMaintenanceDate { get; set; }
+        public string? AmeDescription { get; set; }
+        public int RoomID { get; set; }
 
         // Implementing applicable interface members
         public int ID { get => AmeID; set => AmeID = value; }
         public string FirstName { get => AmeName ?? string.Empty; set => AmeName = value; }
-        public bool Status { get => AmeAvail; set => AmeAvail = value; }
-        public string Province { get => AmeLoc ?? string.Empty; set => AmeLoc = value; }
-        public double CostPrice { get => AmeBP; set => AmeBP = value; }
-        public double RentPrice { get => AmeCPR; set => AmeCPR = value; }
-        public DateTime? Start { get => AmeMD; set => AmeMD = value; }
-        public string Description { get => AmeDesc ?? string.Empty; set => AmeDesc = value; }
+        public double CostPrice { get => AmeBoughtPrice; set => AmeBoughtPrice= value; }
+        public double RentPrice { get => AmeCostPerRent; set => AmeCostPerRent = value; }
+        public DateTime? Start { get => AmeMaintenanceDate; set => AmeMaintenanceDate = value; }
+        public string Description { get => AmeDescription ?? string.Empty; set => AmeDescription = value; }
 
         // Not applicable properties
+        public bool Status { get => false; set => throw new NotSupportedException(); }
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
         public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
@@ -38,6 +37,7 @@ namespace RRMS
         public string StreetNo { get => string.Empty; set => throw new NotSupportedException(); }
         public string Commune { get => string.Empty; set => throw new NotSupportedException(); }
         public string District { get => string.Empty; set => throw new NotSupportedException(); }
+        public string Province { get => string.Empty; set => throw new NotSupportedException(); }
         public string PersonalNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public string ContactNumber { get => string.Empty; set => throw new NotSupportedException(); }
         public double Salary { get => 0; set => throw new NotSupportedException(); }
@@ -47,24 +47,22 @@ namespace RRMS
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@AmeName", AmeName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeAvail", AmeAvail as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeLoc", AmeLoc as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeBP", AmeBP as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeCPR", AmeCPR as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeMD", AmeMD as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@AmeDesc", AmeDesc as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Name", FirstName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@BoughtPrice", CostPrice as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@CostPerRent", RentPrice as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@MaintenanceDate", Start as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Description", Description as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@AmeID", AmeID);
+            cmd.Parameters.AddWithValue("@AmenityID", AmeID);
             AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@AmeID", AmeID);
+            cmd.Parameters.AddWithValue("@AmenityID", AmeID);
         }
     }
 }

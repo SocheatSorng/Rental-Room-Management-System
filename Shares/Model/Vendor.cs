@@ -52,8 +52,8 @@ namespace RRMS.Model
         {
             cmd.Parameters.AddWithValue("@VenName", VenName as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@VenContact", VenContact as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@VenHNo", VenHNo as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@VenSNo", VenSNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@VenHouseNo", VenHNo as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@VenStreetNo", VenSNo as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@VenCommune", VenCommune as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@VenDistrict", VenDistrict as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@VenProvince", VenProvince as object ?? DBNull.Value);
@@ -65,13 +65,13 @@ namespace RRMS.Model
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@VenID", VenID);
+            cmd.Parameters.AddWithValue("@VendorID", VenID);
             AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@VenID", VenID);
+            cmd.Parameters.AddWithValue("@VendorID", VenID);
         }
     }
 }

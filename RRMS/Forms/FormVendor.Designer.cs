@@ -180,7 +180,7 @@
             txtVenID.Name = "txtVenID";
             txtVenID.ReadOnly = true;
             txtVenID.Size = new Size(228, 23);
-            txtVenID.TabIndex = 12;
+            txtVenID.TabIndex = 2;
             // 
             // txtVenDesc
             // 
@@ -194,49 +194,49 @@
             txtVenPro.Location = new Point(168, 282);
             txtVenPro.Name = "txtVenPro";
             txtVenPro.Size = new Size(228, 23);
-            txtVenPro.TabIndex = 17;
+            txtVenPro.TabIndex = 9;
             // 
             // txtVenDis
             // 
             txtVenDis.Location = new Point(168, 248);
             txtVenDis.Name = "txtVenDis";
             txtVenDis.Size = new Size(228, 23);
-            txtVenDis.TabIndex = 18;
+            txtVenDis.TabIndex = 8;
             // 
             // txtVenCom
             // 
             txtVenCom.Location = new Point(168, 217);
             txtVenCom.Name = "txtVenCom";
             txtVenCom.Size = new Size(228, 23);
-            txtVenCom.TabIndex = 19;
+            txtVenCom.TabIndex = 7;
             // 
             // txtVenSNo
             // 
             txtVenSNo.Location = new Point(168, 179);
             txtVenSNo.Name = "txtVenSNo";
             txtVenSNo.Size = new Size(228, 23);
-            txtVenSNo.TabIndex = 20;
+            txtVenSNo.TabIndex = 6;
             // 
             // txtVenHNo
             // 
             txtVenHNo.Location = new Point(168, 145);
             txtVenHNo.Name = "txtVenHNo";
             txtVenHNo.Size = new Size(228, 23);
-            txtVenHNo.TabIndex = 21;
+            txtVenHNo.TabIndex = 5;
             // 
             // txtVenCN
             // 
             txtVenCN.Location = new Point(168, 110);
             txtVenCN.Name = "txtVenCN";
             txtVenCN.Size = new Size(228, 23);
-            txtVenCN.TabIndex = 22;
+            txtVenCN.TabIndex = 4;
             // 
             // txtVenName
             // 
             txtVenName.Location = new Point(168, 75);
             txtVenName.Name = "txtVenName";
             txtVenName.Size = new Size(228, 23);
-            txtVenName.TabIndex = 23;
+            txtVenName.TabIndex = 3;
             // 
             // btnNew
             // 
@@ -248,7 +248,7 @@
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
-            btnNew.TabIndex = 2;
+            btnNew.TabIndex = 14;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -262,7 +262,7 @@
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 15;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -276,7 +276,7 @@
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 16;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -290,7 +290,7 @@
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 17;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -300,14 +300,14 @@
             dgvVen.Location = new Point(429, 75);
             dgvVen.Name = "dgvVen";
             dgvVen.Size = new Size(603, 655);
-            dgvVen.TabIndex = 28;
+            dgvVen.TabIndex = 18;
             // 
             // txtSearch
             // 
             txtSearch.Location = new Point(504, 46);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(528, 23);
-            txtSearch.TabIndex = 30;
+            txtSearch.TabIndex = 1;
             // 
             // label13
             // 
@@ -324,14 +324,14 @@
             dtpVenCS.Location = new Point(168, 309);
             dtpVenCS.Name = "dtpVenCS";
             dtpVenCS.Size = new Size(228, 23);
-            dtpVenCS.TabIndex = 32;
+            dtpVenCS.TabIndex = 10;
             // 
             // dtpVenCE
             // 
             dtpVenCE.Location = new Point(168, 342);
             dtpVenCE.Name = "dtpVenCE";
             dtpVenCE.Size = new Size(228, 23);
-            dtpVenCE.TabIndex = 33;
+            dtpVenCE.TabIndex = 11;
             // 
             // chkVenStat
             // 
@@ -339,7 +339,7 @@
             chkVenStat.Location = new Point(168, 386);
             chkVenStat.Name = "chkVenStat";
             chkVenStat.Size = new Size(15, 14);
-            chkVenStat.TabIndex = 34;
+            chkVenStat.TabIndex = 12;
             chkVenStat.UseVisualStyleBackColor = true;
             // 
             // panel1

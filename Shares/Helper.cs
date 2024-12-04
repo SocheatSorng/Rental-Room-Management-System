@@ -106,15 +106,23 @@ namespace RRMS
         private const string LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD = "TermsAndConditions";
         private const string LEASEAGREEMENT_RESIDENTID_FIELD = "ResidentID"; //FK
 
+        // Table Policy
+        private const string POLICY_TBL_NAME = "tblPolicy";
+        private const string POLICY_POLICYID_FIELD = "PolicyID";
+        private const string POLICY_NAME_FIELD = "Name";
+        private const string POLICY_DESRIPTION_FIELD = "PolicyDescription";
+        private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
+        private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
+        private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
+        private const string POLICY_STAFFID_FIELD = "StaffID";
+
         // Table Amenity
         private const string AMENITY_TBL_NAME = "tblAmenity";
         private const string AMENITY_ID_FIELD = "AmenityID";
         private const string AMENITY_NAME_FIELD = "Name";
-        private const string AMENITY_AVAILABLE_FIELD = "Availability";
-        private const string AMENITY_LOCATION_FIELD = "Location";
         private const string AMENITY_BOUGHTPRICE_FIELD = "BoughtPrice";
-        private const string AMENITY_COSTPERRENT_FIELD = "CPR";
-        private const string AMENITY_MAINTENANCEDATE_FIELD = "MainDate";
+        private const string AMENITY_COSTPERRENT_FIELD = "CostPerRent";
+        private const string AMENITY_MAINTENANCEDATE_FIELD = "MaintenanceDate";
         private const string AMENITY_DESCRIPTION_FIELD = "Description";
         private const string AMENITY_ROOMID_FIELD = "RoomID";
 
@@ -126,15 +134,13 @@ namespace RRMS
         private const string FEEDBACK_COMMENT_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
 
-        // Table Policy
-        private const string POLICY_TBL_NAME = "tblPolicy";
-        private const string POLICY_POLICYID_FIELD = "PolicyID";
-        private const string POLICY_NAME_FIELD = "Name";
-        private const string POLICY_DESRIPTION_FIELD = "PolicyDescription";
-        private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
-        private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
-        private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
-        private const string POLICY_STAFFID_FIELD = "StaffID";
+        // Table Room
+        private const string ROOM_TBL_NAME = "tblRoom";
+        private const string ROOM_ID_FIELD = "RoomID";
+        private const string ROOM_NUMBER_FIELD = "Number";
+        private const string ROOM_TYPE_FIELD = "Type";
+        private const string ROOM_RESIDENTID_FIELD = "ResidentID";
+        private const string ROOM_ROOMTYPEID_FIELD = "RoomTypeID";
 
         // Table User
         private const string USER_TBL_NAME = "tblUser";
@@ -143,8 +149,6 @@ namespace RRMS
         private const string USER_PASS_FIELD = "Pass";
         private const string USER_STAFFID_FIELD = "StaffID"; //FK
 
-
-
         // Table Utility
         private const string UTILITY_TBL_NAME = "tblUtility";
         private const string UTILITY_UTILITYID_FIELD = "UtilityID";
@@ -152,12 +156,6 @@ namespace RRMS
         private const string UTILITY_COST_FIELD = "Cost";
         private const string UTILITY_USAGEDATE_FIELD = "UsageDate";
         private const string UTILITY_ROOMID_FIELD = "RoomID"; //FK
-
-        // Table Room
-        private const string ROOM_TBL_NAME = "tblRoom";
-        private const string ROOM_ID_FIELD = "RoomID";
-        private const string ROOM_NUMBER_FIELD = "Number";
-        private const string ROOM_ROOMTYPEID_FIELD = "RoomTypeID";
 
         // Table Service
         private const string SERVICE_TBL_NAME = "tblService";
@@ -303,6 +301,24 @@ namespace RRMS
                                 leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
                                 leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD));
                             }
+                            else if (entity is Policy policy)
+                            {
+                                policy.ID = reader.IsDBNull(reader.GetOrdinal(POLICY_POLICYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_POLICYID_FIELD));
+                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
+                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
+                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
+                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
+                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));
+                            }
+                            else if (entity is Room room)
+                            {
+                                room.ID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
+                                room.Description = reader.IsDBNull(reader.GetOrdinal(ROOM_NUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_NUMBER_FIELD));
+                                room.Type = reader.IsDBNull(reader.GetOrdinal(ROOM_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_TYPE_FIELD));
+                                room.ResidentID = reader.IsDBNull(reader.GetOrdinal(ROOM_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_RESIDENTID_FIELD));
+                                room.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD));
+                            }
                             else if (entity is Amenity amenity)
                             {
                                 amenity.ID = reader.IsDBNull(reader.GetOrdinal(AMENITY_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(AMENITY_ID_FIELD));
@@ -327,7 +343,7 @@ namespace RRMS
                                 service.FirstName = reader.IsDBNull(reader.GetOrdinal(SERVICE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_NAME_FIELD));
                                 service.Description = reader.IsDBNull(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(SERVICE_DESCRIPTION_FIELD));
                                 service.Cost = reader.IsDBNull(reader.GetOrdinal(SERVICE_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(SERVICE_COST_FIELD));
-                                service.VenID = reader.IsDBNull(reader.GetOrdinal(VENDOR_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
+                                service.VendorID = reader.IsDBNull(reader.GetOrdinal(VENDOR_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(VENDOR_ID_FIELD));
                                 service.RoomID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
                             }
                             else if (entity is Utility utility)
@@ -370,16 +386,6 @@ namespace RRMS
                                 rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
                                 rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
                             }
-                            else if (entity is Policy policy)
-                            {
-                                policy.ID = reader.IsDBNull(reader.GetOrdinal(POLICY_POLICYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_POLICYID_FIELD));
-                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
-                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
-                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
-                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
-                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));   
-                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));   
-                            }
                             else if (entity is Payment payment)
                             {
                                 payment.ID = reader.GetInt32(reader.GetOrdinal(PAYMENT_ID_FIELD));
@@ -394,15 +400,6 @@ namespace RRMS
                                 payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
                                 payment.IsUtilityOnly = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_UTILITY_ONLY_FIELD));
                             }
-                            //else if (entity is RoomType roomType)
-                            //{
-                            //    roomType.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_ROOMTYPEID_FIELD));
-                            //    roomType.RoomTypeName = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_ROOMTYPENAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_ROOMTYPENAME_FIELD));
-                            //    roomType.Capacity = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD));
-                            //    roomType.Feature = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_FEATURE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_FEATURE_FIELD));
-                            //    roomType.PricePerNight = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_PRICEPERNIGHT_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(ROOMTYPE_PRICEPERNIGHT_FIELD));
-                            //    roomType.Status = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_STATUS_FIELD));
-                            //}
                             //else if (entity is Invoice invoice)
                             //{
                             //    invoice.InvoiceID = reader.IsDBNull(reader.GetOrdinal(INVOICE_INVOICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_INVOICEID_FIELD));
@@ -516,6 +513,32 @@ namespace RRMS
                                 roomType.CostPrice = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD));
                                 roomType.RoomTypeCapacity = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD));
                             }
+                            else if (result is LeaseAgreement leaseagreement)
+                            {
+                                leaseagreement.ID = id;
+                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD));
+                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD));
+                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
+                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD));
+                            }
+                            else if (result is Policy policy)
+                            {
+                                policy.ID = id;
+                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
+                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
+                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
+                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
+                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));
+                            }
+                            else if (result is Room room)
+                            {
+                                room.ID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
+                                room.Description = reader.IsDBNull(reader.GetOrdinal(ROOM_NUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_NUMBER_FIELD));
+                                room.Type = reader.IsDBNull(reader.GetOrdinal(ROOM_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_TYPE_FIELD));
+                                room.ResidentID = reader.IsDBNull(reader.GetOrdinal(ROOM_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_RESIDENTID_FIELD));
+                                room.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD));
+                            }
                             else if (result is Amenity amenity)
                             {
                                 amenity.ID = id;
@@ -534,14 +557,7 @@ namespace RRMS
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
                                 feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                             }
-                            else if (result is LeaseAgreement leaseagreement)
-                            {
-                                leaseagreement.ID = id;
-                                leaseagreement.Start = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_STARTDATE_FIELD));
-                                leaseagreement.End = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(LEASEAGREEMENT_ENDDATE_FIELD));
-                                leaseagreement.Description = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(LEASEAGREEMENT_TERMSANDCONDITIONS_FIELD));
-                                leaseagreement.ResID = reader.IsDBNull(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(LEASEAGREEMENT_RESIDENTID_FIELD));
-                            }
+
                             else if (result is Feedback service)
                             {
                                 service.ID = id;
@@ -589,16 +605,7 @@ namespace RRMS
                                 rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
                                 rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
                             }
-                            else if (result is Policy policy)
-                            {
-                                policy.ID = id;
-                                policy.FirstName = reader.IsDBNull(reader.GetOrdinal(POLICY_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_NAME_FIELD));
-                                policy.Description = reader.IsDBNull(reader.GetOrdinal(POLICY_DESRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(POLICY_DESRIPTION_FIELD));
-                                policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
-                                policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
-                                policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
-                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));
-                            }
+
                             else if (result is Payment payment)
                             {
                                 payment.ID = id;
@@ -710,6 +717,18 @@ namespace RRMS
                         else
                         {
                             throw new Exception($"LeaseAgreement ID {leaseAgreement.ID} is out of range for ByteId.");
+                        }
+                    }
+                    else if(entity is Room room)
+                    {
+                        if(room.ID > 0 && room.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs()
+                            {
+                                ByteId = (byte)room.ID,
+                                Entity = EntityTypes.Rooms
+                            });
+                            entityId = room.ID.ToString();
                         }
                     }
                     else if(entity is Amenity amenity)
@@ -1100,6 +1119,13 @@ namespace RRMS
                         else
                         {
                             throw new Exception($"Room ID {roomType.ID} is out of range for ByteId. It must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Room room)
+                    {
+                        if(room.ID >= 0 && room.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs() { ByteId = (byte)room.ID, Entity = EntityTypes.RoomTypes });
                         }
                     }
                     else if (entity is LeaseAgreement leaseAgreement)

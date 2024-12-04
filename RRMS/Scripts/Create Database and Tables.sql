@@ -166,11 +166,16 @@ CREATE TABLE tblResident (
 );
 GO
 
+-- Table Service
 CREATE TABLE tblService (
     ServiceID INT PRIMARY KEY IDENTITY(1,1),
-    Name NVARCHAR(100),
-    Description NVARCHAR(MAX),
-    Cost DECIMAL(10,2)
+    ServiceName NVARCHAR(100) NOT NULL,
+    ServiceDescription NVARCHAR(MAX),
+    ServiceCost DECIMAL(10,2) NOT NULL,
+    VendorID INT,
+    RoomID INT,
+    CONSTRAINT FK_Service_Vendor FOREIGN KEY (VendorID) REFERENCES tblVendor(VendorID) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_Service_Room FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 GO
 

@@ -1427,158 +1427,111 @@ GO
 
 
 -- Service CRUD
+
+CREATE PROCEDURE SP_LoadServiceIDs
+AS
+BEGIN
+    SELECT ServiceID,
+           ServiceName,
+           CAST(ServiceCost as FLOAT) as ServiceCost,
+           ServiceDescription
+    FROM tblService
+    ORDER BY ServiceName;
+END
+GO
+
+
 CREATE PROCEDURE SP_GetAllServices
 AS
 BEGIN
-    SELECT 
-        ServiceID,
-        ServiceName,
-        ServiceDescription,
-        Cost
-    FROM Service
-    ORDER BY ServiceID DESC;
-END;
+    SELECT s.ServiceID, 
+           s.ServiceName, 
+           s.ServiceDescription, 
+           CAST(s.ServiceCost as FLOAT) as ServiceCost,
+           s.VendorID,
+           s.RoomID,
+           r.RoomNumber,
+           v.Name as VendorName
+    FROM tblService s
+    LEFT JOIN tblVendor v ON s.VendorID = v.VendorID
+    LEFT JOIN tblRoom r ON s.RoomID = r.RoomID;
+END
 GO
 
-CREATE PROCEDURE SP_GetServiceById
+CREATE PROCEDURE SP_GetServiceByID
     @ServiceID INT
 AS
 BEGIN
-    SELECT 
-        ServiceID,
-        ServiceName,
-        ServiceDescription,
-        Cost
-    FROM Service
-    WHERE ServiceID = @ServiceID;
-END;
-GO
-
-CREATE PROCEDURE SP_SearchServices
-    @SearchTerm NVARCHAR(100)
-AS
-BEGIN
-    SELECT 
-        ServiceID,
-        ServiceName,
-        ServiceDescription,
-        Cost
-    FROM Service
-    WHERE ServiceName LIKE @SearchTerm + '%'
-    OR ServiceDescription LIKE @SearchTerm + '%'
-    OR CAST(Cost AS NVARCHAR) LIKE @SearchTerm + '%'
-    ORDER BY ServiceID DESC;
-END;
+    SELECT s.ServiceID, 
+           s.ServiceName, 
+           s.ServiceDescription, 
+           CAST(s.ServiceCost as FLOAT) as ServiceCost,
+           s.VendorID,
+           s.RoomID,
+           r.RoomNumber,
+           v.Name as VendorName
+    FROM tblService s
+    LEFT JOIN tblVendor v ON s.VendorID = v.VendorID
+    LEFT JOIN tblRoom r ON s.RoomID = r.RoomID
+    WHERE s.ServiceID = @ServiceID;
+END
 GO
 
 CREATE PROCEDURE SP_InsertService
     @ServiceName NVARCHAR(100),
     @ServiceDescription NVARCHAR(MAX),
-    @Cost DECIMAL(10,2)
+    @ServiceCost FLOAT,
+    @VendorID INT = NULL,
+    @RoomID INT = NULL
 AS
 BEGIN
-    -- Validate service name is not empty
-    IF LTRIM(RTRIM(@ServiceName)) = ''
-    BEGIN
-        THROW 50001, 'Service name cannot be empty', 1;
-        RETURN;
-    END
-
-    -- Validate cost is not negative
-    IF @Cost < 0
-    BEGIN
-        THROW 50002, 'Cost cannot be negative', 1;
-        RETURN;
-    END
-
-    -- Check for duplicate service name
-    IF EXISTS (SELECT 1 FROM Service WHERE ServiceName = @ServiceName)
-    BEGIN
-        THROW 50003, 'Service name already exists', 1;
-        RETURN;
-    END
-
-    INSERT INTO Service (
-        ServiceName,
-        ServiceDescription,
-        Cost
+    INSERT INTO tblService (
+        ServiceName, 
+        ServiceDescription, 
+        ServiceCost, 
+        VendorID,
+        RoomID
     )
     VALUES (
-        @ServiceName,
-        @ServiceDescription,
-        @Cost
+        @ServiceName, 
+        @ServiceDescription, 
+        @ServiceCost, 
+        @VendorID,
+        @RoomID
     );
-
+    
     SELECT SCOPE_IDENTITY() AS ServiceID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_UpdateService
     @ServiceID INT,
     @ServiceName NVARCHAR(100),
     @ServiceDescription NVARCHAR(MAX),
-    @Cost DECIMAL(10,2)
+    @ServiceCost FLOAT,
+    @VendorID INT = NULL,
+    @RoomID INT = NULL
 AS
 BEGIN
-    -- Validate service exists
-    IF NOT EXISTS (SELECT 1 FROM Service WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50004, 'Service not found', 1;
-        RETURN;
-    END
-
-    -- Validate service name is not empty
-    IF LTRIM(RTRIM(@ServiceName)) = ''
-    BEGIN
-        THROW 50001, 'Service name cannot be empty', 1;
-        RETURN;
-    END
-
-    -- Validate cost is not negative
-    IF @Cost < 0
-    BEGIN
-        THROW 50002, 'Cost cannot be negative', 1;
-        RETURN;
-    END
-
-    -- Check for duplicate service name (excluding current service)
-    IF EXISTS (SELECT 1 FROM Service WHERE ServiceName = @ServiceName AND ServiceID != @ServiceID)
-    BEGIN
-        THROW 50003, 'Service name already exists', 1;
-        RETURN;
-    END
-
-    UPDATE Service
-    SET 
-        ServiceName = @ServiceName,
+    UPDATE tblService
+    SET ServiceName = @ServiceName,
         ServiceDescription = @ServiceDescription,
-        Cost = @Cost
+        ServiceCost = @ServiceCost,
+        VendorID = @VendorID,
+        RoomID = @RoomID
     WHERE ServiceID = @ServiceID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_DeleteService
     @ServiceID INT
 AS
 BEGIN
-    -- Validate service exists
-    IF NOT EXISTS (SELECT 1 FROM Service WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50004, 'Service not found', 1;
-        RETURN;
-    END
-
-    -- Check for existing requests using this service
-    IF EXISTS (SELECT 1 FROM Request WHERE ServiceID = @ServiceID)
-    BEGIN
-        THROW 50005, 'Cannot delete service because it is referenced in requests', 1;
-        RETURN;
-    END
-
-    DELETE FROM Service
+    DELETE FROM tblService 
     WHERE ServiceID = @ServiceID;
-END;
+END
 GO
+
 --End of Store Precedure Request
 
 --Start of Room CRUD

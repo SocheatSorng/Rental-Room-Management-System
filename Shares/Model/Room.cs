@@ -9,11 +9,12 @@ namespace RRMS.Model
         public string? RoomNumber { get; set; }
         public string? RoomType { get; set; }
         public int? ResidentID { get; set; }
+        public int RoomTypeID { get; set; }
 
         // Implementing applicable IEntity properties
         public int ID { get => RoomID; set => RoomID = value; }
-        public string Type { get => RoomType ?? string.Empty; set => RoomType = value; }
         public string Description { get => RoomNumber ?? string.Empty; set => RoomNumber = value; }
+        public string Type { get => RoomType ?? string.Empty; set => RoomType = value; }
 
         // Non-applicable properties from IEntity
         public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -42,6 +43,7 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@RoomNumber", RoomNumber as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomType", RoomType as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@RoomTypeID", RoomTypeID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)

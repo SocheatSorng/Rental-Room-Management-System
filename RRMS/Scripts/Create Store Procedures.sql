@@ -159,6 +159,15 @@ BEGIN
     SELECT SCOPE_IDENTITY() AS StaffID;
 END
 GO
+CREATE PROCEDURE SP_LoadStaffIDs
+AS
+BEGIN
+    SELECT 
+        FirstName + ' ' + LastName AS StaffName,
+        StaffID
+    FROM tblStaff;
+END
+GO
 
 CREATE PROCEDURE SP_UpdateStaff
 	@StaID INT,

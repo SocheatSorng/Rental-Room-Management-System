@@ -5,17 +5,18 @@ namespace RRMS.Model
     public class Policy : IEntity
     {
         // Original properties
-        public int PolID { get; set; }
+        public int PolicyID { get; set; }
         public string? Name { get; set; }
-        public string? Desc { get; set; }
+        public string? PolicyDescription { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int ResidentID { get; set; }
+        public int StaffID { get; set; }
 
         // Implementing applicable interface members
-        public int ID { get => PolID; set => PolID = value; }
+        public int ID { get => PolicyID; set => PolicyID = value; }
         public string FirstName { get => Name ?? string.Empty; set => Name = value; }
-        public string Description { get => Desc ?? string.Empty; set => Desc = value; }
+        public string Description { get => PolicyDescription ?? string.Empty; set => PolicyDescription = value; }
         public DateTime? Start { get => CreatedDate; set => CreatedDate = value; }
         public DateTime? End { get => UpdatedDate; set => UpdatedDate = value; }
 
@@ -41,21 +42,22 @@ namespace RRMS.Model
         public void AddParameters(SqlCommand cmd)
         {
             cmd.Parameters.AddWithValue("@Name", FirstName as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Description", Description as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Description", PolicyDescription as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@CreatedDate", Start as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@UpdatedDate", End as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@StaffID", StaffID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@PolicyID", PolID);
+            cmd.Parameters.AddWithValue("@PolicyID", PolicyID);
             AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@PolicyID", PolID);
+            cmd.Parameters.AddWithValue("@PolicyID", PolicyID);
         }
     }
 }

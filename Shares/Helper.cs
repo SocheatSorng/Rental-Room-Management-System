@@ -130,10 +130,11 @@ namespace RRMS
         private const string POLICY_TBL_NAME = "tblPolicy";
         private const string POLICY_POLICYID_FIELD = "PolicyID";
         private const string POLICY_NAME_FIELD = "Name";
-        private const string POLICY_DESRIPTION_FIELD = "Description";
+        private const string POLICY_DESRIPTION_FIELD = "PolicyDescription";
         private const string POLICY_CREATEDATE_FIELD = "CreatedDate";
         private const string POLICY_UPDATEDATE_FIELD = "UpdatedDate";
         private const string POLICY_RESIDENTID_FIELD = "ResidentID"; //FK
+        private const string POLICY_STAFFID_FIELD = "StaffID";
 
         // Table User
         private const string USER_TBL_NAME = "tblUser";
@@ -285,6 +286,7 @@ namespace RRMS
                                 staff.Start = reader.IsDBNull(reader.GetOrdinal(STAFF_HIREDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_HIREDDATE_FIELD));
                                 staff.End = reader.IsDBNull(reader.GetOrdinal(STAFF_STOPPED_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(STAFF_STOPPED_FIELD));
                             }
+
                             else if(entity is RoomType roomType)
                             {
                                 roomType.ID = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_ID_FIELD));
@@ -376,6 +378,7 @@ namespace RRMS
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
                                 policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));   
+                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));   
                             }
                             else if (entity is Payment payment)
                             {
@@ -594,6 +597,7 @@ namespace RRMS
                                 policy.Start = reader.IsDBNull(reader.GetOrdinal(POLICY_CREATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_CREATEDATE_FIELD));
                                 policy.End = reader.IsDBNull(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(POLICY_UPDATEDATE_FIELD));
                                 policy.ResidentID = reader.IsDBNull(reader.GetOrdinal(POLICY_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_RESIDENTID_FIELD));
+                                policy.StaffID = reader.IsDBNull(reader.GetOrdinal(POLICY_STAFFID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(POLICY_STAFFID_FIELD));
                             }
                             else if (result is Payment payment)
                             {

@@ -48,6 +48,14 @@
             label6 = new Label();
             cbbStaffID = new ComboBox();
             panel1 = new Panel();
+            txtServiceType = new TextBox();
+            cbbServiceID = new ComboBox();
+            label3 = new Label();
+            label7 = new Label();
+            cbServiceID = new CheckBox();
+            txtUtilityName = new TextBox();
+            cbbUtilityID = new ComboBox();
+            label2 = new Label();
             btnDelete = new Button();
             label17 = new Label();
             btnUpdate = new Button();
@@ -55,9 +63,6 @@
             btnNew = new Button();
             label1 = new Label();
             dgvPayment = new DataGridView();
-            label2 = new Label();
-            cbbUtilityID = new ComboBox();
-            txtUtilityName = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPayment).BeginInit();
             SuspendLayout();
@@ -74,7 +79,7 @@
             // txtRemainAmount
             // 
             txtRemainAmount.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtRemainAmount.Location = new Point(138, 375);
+            txtRemainAmount.Location = new Point(138, 454);
             txtRemainAmount.Name = "txtRemainAmount";
             txtRemainAmount.ReadOnly = true;
             txtRemainAmount.Size = new Size(261, 27);
@@ -93,7 +98,7 @@
             // 
             labelMajorID.AutoSize = true;
             labelMajorID.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelMajorID.Location = new Point(12, 382);
+            labelMajorID.Location = new Point(12, 461);
             labelMajorID.Name = "labelMajorID";
             labelMajorID.Size = new Size(114, 18);
             labelMajorID.TabIndex = 107;
@@ -151,7 +156,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label12.Location = new Point(12, 339);
+            label12.Location = new Point(12, 418);
             label12.Name = "label12";
             label12.Size = new Size(92, 18);
             label12.TabIndex = 169;
@@ -160,9 +165,8 @@
             // txtPaidAmount
             // 
             txtPaidAmount.Font = new Font("Segoe UI", 12F);
-            txtPaidAmount.Location = new Point(139, 328);
+            txtPaidAmount.Location = new Point(139, 407);
             txtPaidAmount.Name = "txtPaidAmount";
-            txtPaidAmount.ReadOnly = true;
             txtPaidAmount.Size = new Size(261, 29);
             txtPaidAmount.TabIndex = 168;
             txtPaidAmount.TextAlign = HorizontalAlignment.Center;
@@ -239,6 +243,11 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtServiceType);
+            panel1.Controls.Add(cbbServiceID);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label7);
+            panel1.Controls.Add(cbServiceID);
             panel1.Controls.Add(txtUtilityName);
             panel1.Controls.Add(cbbUtilityID);
             panel1.Controls.Add(label2);
@@ -268,13 +277,93 @@
             panel1.Size = new Size(410, 688);
             panel1.TabIndex = 180;
             // 
+            // txtServiceType
+            // 
+            txtServiceType.Font = new Font("Segoe UI", 12F);
+            txtServiceType.Location = new Point(138, 363);
+            txtServiceType.Name = "txtServiceType";
+            txtServiceType.ReadOnly = true;
+            txtServiceType.Size = new Size(261, 29);
+            txtServiceType.TabIndex = 193;
+            txtServiceType.TextAlign = HorizontalAlignment.Center;
+            // 
+            // cbbServiceID
+            // 
+            cbbServiceID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbServiceID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbServiceID.FormattingEnabled = true;
+            cbbServiceID.Location = new Point(138, 320);
+            cbbServiceID.Name = "cbbServiceID";
+            cbbServiceID.Size = new Size(264, 32);
+            cbbServiceID.TabIndex = 192;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft Sans Serif", 11.25F);
+            label3.Location = new Point(12, 374);
+            label3.Name = "label3";
+            label3.Size = new Size(93, 18);
+            label3.TabIndex = 191;
+            label3.Text = "Service Type";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Microsoft Sans Serif", 11.25F);
+            label7.Location = new Point(12, 327);
+            label7.Name = "label7";
+            label7.Size = new Size(83, 18);
+            label7.TabIndex = 190;
+            label7.Text = "Service ID :";
+            // 
+            // cbServiceID
+            // 
+            cbServiceID.AutoSize = true;
+            cbServiceID.Font = new Font("Microsoft Sans Serif", 11.25F);
+            cbServiceID.Location = new Point(117, 331);
+            cbServiceID.Name = "cbServiceID";
+            cbServiceID.Size = new Size(15, 14);
+            cbServiceID.TabIndex = 189;
+            cbServiceID.UseVisualStyleBackColor = true;
+            // 
+            // txtUtilityName
+            // 
+            txtUtilityName.Font = new Font("Segoe UI", 12F);
+            txtUtilityName.Location = new Point(138, 284);
+            txtUtilityName.Name = "txtUtilityName";
+            txtUtilityName.ReadOnly = true;
+            txtUtilityName.Size = new Size(261, 29);
+            txtUtilityName.TabIndex = 188;
+            txtUtilityName.TextAlign = HorizontalAlignment.Center;
+            // 
+            // cbbUtilityID
+            // 
+            cbbUtilityID.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbUtilityID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            cbbUtilityID.FormattingEnabled = true;
+            cbbUtilityID.Location = new Point(138, 241);
+            cbbUtilityID.Name = "cbbUtilityID";
+            cbbUtilityID.Size = new Size(264, 32);
+            cbbUtilityID.TabIndex = 187;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 11.25F);
+            label2.Location = new Point(12, 295);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 18);
+            label2.TabIndex = 186;
+            label2.Text = "Utility Name:";
+            // 
             // btnDelete
             // 
             btnDelete.BackColor = Color.FromArgb(217, 83, 79);
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(318, 445);
+            btnDelete.Location = new Point(316, 497);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -301,7 +390,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(212, 445);
+            btnUpdate.Location = new Point(210, 497);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -315,7 +404,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(111, 445);
+            btnInsert.Location = new Point(109, 497);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -329,7 +418,7 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(12, 445);
+            btnNew.Location = new Point(10, 497);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -357,36 +446,6 @@
             dgvPayment.Name = "dgvPayment";
             dgvPayment.Size = new Size(612, 647);
             dgvPayment.TabIndex = 182;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label2.Location = new Point(12, 295);
-            label2.Name = "label2";
-            label2.Size = new Size(91, 18);
-            label2.TabIndex = 186;
-            label2.Text = "Utility Name:";
-            // 
-            // cbbUtilityID
-            // 
-            cbbUtilityID.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbbUtilityID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            cbbUtilityID.FormattingEnabled = true;
-            cbbUtilityID.Location = new Point(138, 241);
-            cbbUtilityID.Name = "cbbUtilityID";
-            cbbUtilityID.Size = new Size(264, 32);
-            cbbUtilityID.TabIndex = 187;
-            // 
-            // txtUtilityName
-            // 
-            txtUtilityName.Font = new Font("Segoe UI", 12F);
-            txtUtilityName.Location = new Point(138, 284);
-            txtUtilityName.Name = "txtUtilityName";
-            txtUtilityName.ReadOnly = true;
-            txtUtilityName.Size = new Size(261, 29);
-            txtUtilityName.TabIndex = 188;
-            txtUtilityName.TextAlign = HorizontalAlignment.Center;
             // 
             // FormPayment
             // 
@@ -441,5 +500,10 @@
         private TextBox txtUtilityName;
         private ComboBox cbbUtilityID;
         private Label label2;
+        private TextBox txtServiceType;
+        private ComboBox cbbServiceID;
+        private Label label3;
+        private Label label7;
+        private CheckBox cbServiceID;
     }
 }

@@ -25,10 +25,13 @@ namespace RRMS.Forms
             LoadStaffIDs();
             LoadUtilityIDs();
             LoadReservationIDs();
+            LoadServiceIDs();
 
             cbbStaffID.SelectedIndexChanged += CbbStaffID_SelectedIndexChanged;
             cbbUtilityID.SelectedIndexChanged += CbbUtilityID_SelectedIndexChanged;
             cbUtilityID.CheckedChanged += CbUtilityID_CheckedChanged;
+            cbbServiceID.SelectedIndexChanged += CbbServiceID_SelectedIndexChanged;
+            cbServiceID.CheckedChanged += CbServiceID_CheckedChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -106,6 +109,22 @@ namespace RRMS.Forms
                 }
             }
         }
+        private void LoadServiceIDs()
+        {
+            SqlCommand cmd = new("SP_LoadServiceIDs", Program.Connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (SqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    if (dr["ServiceID"] != DBNull.Value)
+                    {
+                        string? serID = dr["ServiceID"].ToString();
+                        cbbServiceID.Items.Add(serID);
+                    }
+                }
+            }
+        }
 
         private void CbbStaffID_SelectedIndexChanged(object? sender, EventArgs e)
         {
@@ -135,8 +154,24 @@ namespace RRMS.Forms
                 {
                     while (dr.Read())
                     {
-                        txtUtilityName.Text = dr["UtilityTypeName"].ToString();
+                        txtUtilityName.Text = dr["UtilityType"].ToString();
                         txtRemainAmount.Text = dr["Cost"].ToString();
+                    }
+                }
+            }
+        }
+        private void CbbServiceID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbServiceID.SelectedItem != null)
+            {
+                SqlCommand cmd = new("SP_GetServiceByID", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ServiceID", cbbServiceID.SelectedItem);
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        txtServiceType.Text = dr["ServiceName"].ToString();
                     }
                 }
             }
@@ -157,6 +192,25 @@ namespace RRMS.Forms
             else
             {
                 cbbReservationID.SelectedIndex = -1;
+            }
+        }
+        private void CbServiceID_CheckedChanged(object? sender, EventArgs e)
+        {
+            bool isServicePayment = cbServiceID.Checked;
+            cbbServiceID.Enabled = isServicePayment;
+            txtServiceType.Enabled = isServicePayment;
+            cbbReservationID.Enabled = !isServicePayment;
+            cbUtilityID.Enabled = !isServicePayment;
+
+            if (!isServicePayment)
+            {
+                cbbServiceID.SelectedIndex = -1;
+                txtServiceType.Clear();
+            }
+            else
+            {
+                cbbReservationID.SelectedIndex = -1;
+                cbUtilityID.Checked = false;
             }
         }
 
@@ -414,12 +468,20 @@ namespace RRMS.Forms
             {
                 int? reservationId = null;
                 int? utilityId = null;
+                int? serviceId = null;
 
                 if (cbUtilityID.Checked)
                 {
                     if (cbbUtilityID.SelectedItem != null)
                     {
                         utilityId = int.Parse(cbbUtilityID.SelectedItem.ToString()!);
+                    }
+                }
+                else if (cbServiceID.Checked)
+                {
+                    if (cbbServiceID.SelectedItem != null)
+                    {
+                        serviceId = int.Parse(cbbServiceID.SelectedItem.ToString()!);
                     }
                 }
                 else if (cbbReservationID.SelectedItem != null)
@@ -439,9 +501,11 @@ namespace RRMS.Forms
                     ReservationID = reservationId,
                     StaffID = int.Parse(cbbStaffID.SelectedItem.ToString()!),
                     UtilityID = utilityId,
+                    ServiceID = serviceId,
                     PaidAmount = decimal.Parse(txtPaidAmount.Text),
                     RemainingAmount = decimal.Parse(txtRemainAmount.Text),
-                    IsUtilityOnly = cbUtilityID.Checked
+                    IsUtilityOnly = cbUtilityID.Checked,
+                    IsServiceOnly = cbServiceID.Checked
                 };
             }
             catch (Exception ex)
@@ -482,6 +546,17 @@ namespace RRMS.Forms
                 MessageBox.Show("Please select a reservation for reservation payment", "Validation Error");
                 return false;
             }
+            if (payment.IsServiceOnly && !payment.ServiceID.HasValue)
+            {
+                MessageBox.Show("Please select a service for service payment", "Validation Error");
+                return false;
+            }
+
+            if (payment.IsUtilityOnly && payment.IsServiceOnly)
+            {
+                MessageBox.Show("Payment cannot be both utility and service", "Validation Error");
+                return false;
+            }
 
             return true;
         }
@@ -494,18 +569,26 @@ namespace RRMS.Forms
                 dtPaymentDate.Value = payment.PaymentDate ?? DateTime.Now;
                 txtPaidAmount.Text = payment.PaidAmount.ToString();
                 txtRemainAmount.Text = payment.RemainingAmount.ToString();
-
+                cbServiceID.Checked = payment.IsServiceOnly;
                 cbUtilityID.Checked = payment.IsUtilityOnly;
+
                 if (payment.IsUtilityOnly)
                 {
                     cbbUtilityID.Text = payment.UtilityID.ToString();
                     txtUtilityName.Text = payment.Type;
+                }
+                if (payment.IsServiceOnly)
+                {
+                    cbbServiceID.Text = payment.ServiceID.ToString();
+                    txtServiceType.Text = payment.Type;
                 }
                 else
                 {
                     cbbReservationID.Text = payment.ReservationID.ToString();
                 }
 
+                cbUtilityID.Enabled = !payment.IsServiceOnly;
+                cbServiceID.Enabled = !payment.IsUtilityOnly;
                 cbbStaffID.Text = payment.StaffID.ToString();
             }
             else
@@ -520,6 +603,9 @@ namespace RRMS.Forms
                 cbbStaffID.SelectedIndex = -1;
                 txtStaffName.Clear();
                 cbUtilityID.Checked = false;
+                cbbServiceID.SelectedIndex = -1;
+                txtServiceType.Clear();
+                cbServiceID.Checked = false;
             }
         }
     }

@@ -69,20 +69,21 @@ namespace RRMS.Forms
                 {
                     while (dr.Read())
                     {
-                        txtRoomNum.Text = dr[1].ToString();
+                        txtRoomNum.Text = dr["RoomNumber"].ToString();
                     }
                 }
             }
         }
         private void LoadRoomIDs()
         {
+            cbbRoomID.Items.Clear();
             SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             using (SqlDataReader dr = cmd.ExecuteReader())
             {
                 while (dr.Read())
                 {
-                    object roomIDObj = dr["ID"];
+                    object roomIDObj = dr["RoomID"];
                     if (roomIDObj != DBNull.Value)
                     {
                         string? roomID = roomIDObj.ToString();
@@ -304,6 +305,7 @@ namespace RRMS.Forms
 
                 // Call InsertOrUpdateEntity method
                 entityService.InsertOrUpdateEntity(utility, "SP_InsertUtility", "Insert");
+                UpdateUtilityView();
             }
             else
             {
@@ -344,7 +346,7 @@ namespace RRMS.Forms
         private Utility GatherUtilityInput()
         {
             int roomID;
-            if (cbbUtiType.SelectedItem != null && int.TryParse(cbbUtiType.SelectedItem.ToString(), out roomID))
+            if (cbbRoomID.SelectedItem != null && int.TryParse(cbbRoomID.SelectedItem.ToString(), out roomID))
             {
                 return new Utility()
                 {
@@ -376,6 +378,7 @@ namespace RRMS.Forms
                 txtUtiCost.Text = string.Empty;
                 dtpUtiUD.Value = DateTime.Now;
                 cbbRoomID.SelectedIndex = -1;
+                txtRoomNum.Text = string.Empty;
             }
         }
         private void ConfigView()
@@ -412,222 +415,5 @@ namespace RRMS.Forms
             row.Tag = utility.ID;
             dgvUti.Rows.Add(row);
         }
-        //private void LoadUtilityData()
-        //{
-        //    try
-        //    {
-        //        listView1.Items.Clear();
-        //        string SP_Name = "SP_GetAllUtilitys";
-        //        var result = Helper.GetAllEntities<Model.Utility>(Program.Connection, SP_Name);
-
-        //        foreach (var utility in result)
-        //        {
-        //            AddToView(utility);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error loading utility data: {ex.Message}", "Error",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
-        //private void AddToView(Model.Utility utility)
-        //{
-        //    ListViewItem item = new ListViewItem(utility.ID.ToString());
-        //    item.SubItems.Add(utility.Type);
-        //    item.SubItems.Add(utility.Cost.ToString());
-        //    item.SubItems.Add(utility.Start.ToString("yyyy-MM-dd"));
-        //    item.SubItems.Add(utility.RoomID.ToString());
-        //    item.Tag = utility.ID;
-        //    listView1.Items.Add(item);
-        //}
-
-        //private void ListView1_SelectedIndexChanged(object? sender, EventArgs e)
-        //{
-        //    if (listView1.SelectedItems.Count > 0)
-        //    {
-        //        ListViewItem item = listView1.SelectedItems[0];
-        //        PopulateFields(item);
-        //        ManageControl.EnableControl(btnInsert, false);
-        //        ManageControl.EnableControl(btnUpdate, true);
-        //        ManageControl.EnableControl(btnDelete, true);
-        //        ManageControl.EnableControl(txtUtiID, false);
-        //    }
-        //}
-
-        //private void PopulateFields(ListViewItem item)
-        //{
-        //    txtUtiID.Text = item.SubItems[0].Text;
-        //    cbbUtiType.Text = item.SubItems[1].Text;
-        //    txtUtiCost.Text = item.SubItems[2].Text;
-        //    dtpUtiUD.Value = DateTime.Parse(item.SubItems[3].Text);
-        //    txtRoomID.Text = item.SubItems[4].Text;
-        //}
-
-        //private void DoClickNew(object? sender, EventArgs e)
-        //{
-        //    ClearForm();
-        //    ManageControl.EnableControl(btnInsert, true);
-        //    ManageControl.EnableControl(btnUpdate, false);
-        //    ManageControl.EnableControl(btnDelete, false);
-        //    ManageControl.EnableControl(txtUtiID, false);
-        //}
-
-        //private void DoOnUtilityInserted(object? sender, EntityEventArgs e)
-        //{
-        //    if (e.ByteId == 0) return;
-        //    Task.Run(() =>
-        //    {
-        //        try
-        //        {
-        //            var result = Helper.GetEntityById<Model.Utility>(
-        //                Program.Connection, e.ByteId, "SP_GetUtilityByID");
-
-        //            if (result != null)
-        //            {
-        //                Invoke((MethodInvoker)delegate
-        //                {
-        //                    AddToView(result);
-        //                });
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        }
-        //    });
-
-        //    DoClickNew(sender, e);
-        //}
-
-        //private void DoClickInsert(object? sender, EventArgs e)
-        //{
-        //    var utility = GatherUtilityInput();
-
-        //    if (ValidateInputs())
-        //    {
-        //        var entityService = new EntityService();
-        //        entityService.InsertOrUpdateEntity(utility, "SP_InsertUtility", "Insert");
-        //    }
-        //}
-
-        //private void DoOnUtilityUpdated(object? sender, EntityEventArgs e)
-        //{
-        //    LoadUtilityData();
-        //    if (listView1.SelectedItems.Count > 0)
-        //    {
-        //        listView1.SelectedItems[0].EnsureVisible();
-        //    }
-        //}
-
-        //private void DoClickUpdate(object? sender, EventArgs e)
-        //{
-        //    if (listView1.SelectedItems.Count > 0)
-        //    {
-        //        var utility = GatherUtilityInput();
-        //        utility.ID = int.Parse(txtUtiID.Text);
-
-        //        if (ValidateInputs())
-        //        {
-        //            var entityService = new EntityService();
-        //            entityService.InsertOrUpdateEntity(utility, "SP_UpdateUtility", "Update");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MessageBox.Show("Please select a utility to update.", "Selection Error",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        //    }
-        //}
-
-        //private void DoOnUtilityDeleted(object? sender, EntityEventArgs e)
-        //{
-        //    if (e.ByteId == 0) return;
-        //    Task.Run(() =>
-        //    {
-        //        Invoke((MethodInvoker)delegate
-        //        {
-        //            LoadUtilityData();
-        //        });
-        //    });
-        //}
-
-        //private void DoClickDelete(object? sender, EventArgs e)
-        //{
-        //    if (listView1.SelectedItems.Count <= 0) return;
-
-        //    try
-        //    {
-        //        int id = int.Parse(listView1.SelectedItems[0].Text);
-
-        //        DialogResult result = MessageBox.Show(
-        //            "Are you sure you want to delete this utility record?",
-        //            "Confirm Delete",
-        //            MessageBoxButtons.YesNo,
-        //            MessageBoxIcon.Warning);
-
-        //        if (result == DialogResult.Yes)
-        //        {
-        //            using var cmd = Program.Connection.CreateCommand();
-        //            cmd.CommandText = "SP_DeleteUtility";
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            cmd.Parameters.AddWithValue("@UtilityID", id);
-
-        //            cmd.ExecuteNonQuery();
-        //            MessageBox.Show($"Successfully Deleted Utility ID > {id}", "Deleting",
-        //                MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //            LoadUtilityData();
-        //            ClearForm();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Error: {ex.Message}", "Deleting",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
-        //private Model.Utility GatherUtilityInput()
-        //{
-        //    return new Model.Utility
-        //    {
-        //        Type = cbbUtiType.Text,
-        //        Cost = decimal.Parse(txtUtiCost.Text),
-        //        Start = dtpUtiUD.Value,
-        //        RoomID = int.Parse(txtRoomID.Text)
-        //    };
-        //}
-
-        //private bool ValidateInputs()
-        //{
-        //    if (string.IsNullOrWhiteSpace(cbbUtiType.Text))
-        //    {
-        //        MessageBox.Show("Please select utility type.", "Validation Error");
-        //        return false;
-        //    }
-
-        //    if (!decimal.TryParse(txtUtiCost.Text, out _))
-        //    {
-        //        MessageBox.Show("Please enter a valid cost amount.", "Validation Error");
-        //        return false;
-        //    }
-
-        //    if (!int.TryParse(txtRoomID.Text, out int roomId))
-        //    {
-        //        MessageBox.Show("Please enter a valid Room ID.", "Validation Error");
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-        //private void ClearForm()
-        //{
-        //    txtUtiID.Clear();
-        //    cbbUtiType.SelectedIndex = -1;
-        //    txtUtiCost.Clear();
-        //    dtpUtiUD.Value = DateTime.Now;
-        //    txtRoomID.Clear();
-        //}
     }
 }

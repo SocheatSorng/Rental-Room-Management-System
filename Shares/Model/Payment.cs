@@ -10,10 +10,12 @@ namespace RRMS.Model
         public int? ReservationID { get; set; }
         public int StaffID { get; set; }
         public int? UtilityID { get; set; }
+        public int? ServiceID { get; set; }
         public decimal PaidAmount { get; set; }
         public decimal RemainingAmount { get; set; }
         public bool IsSecondPaymentDone { get; set; }
         public bool IsUtilityOnly { get; set; }
+        public bool IsServiceOnly {  get; set; }
 
         // IEntity implementation
         public int ID { get => PaymentID; set => PaymentID = value; }
@@ -47,6 +49,7 @@ namespace RRMS.Model
             cmd.Parameters.AddWithValue("@ReservationID", ReservationID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@StaffID", StaffID);
             cmd.Parameters.AddWithValue("@UtilityID", UtilityID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ServiceID", ServiceID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@PaidAmount", PaidAmount);
             cmd.Parameters.AddWithValue("@RemainingAmount", RemainingAmount);
             cmd.Parameters.AddWithValue("@IsSecondPaymentDone", IsSecondPaymentDone);

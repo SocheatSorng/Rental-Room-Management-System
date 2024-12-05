@@ -306,7 +306,7 @@ namespace RRMS.Forms
 
         private void btnRent_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormRoom());
+            OpenChildForm(new FormRent());
         }
 
         private void btnReservation_Click(object sender, EventArgs e)
@@ -331,7 +331,7 @@ namespace RRMS.Forms
 
         private void btnInvoice_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormService());
+            OpenChildForm(new FormInvoice());
         }
 
         private void btnLeaseAgreement_Click(object sender, EventArgs e)

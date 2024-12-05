@@ -8,6 +8,7 @@ CREATE TABLE tblRoom (
     RoomID INT PRIMARY KEY IDENTITY(1,1),
     RoomType NVARCHAR(50),
     RoomNumber NVARCHAR(20),
+    Status Bit default 0,
     ResidentID INT,
     RoomTypeID INT
 );
@@ -93,12 +94,12 @@ CREATE TABLE tblLeaseAgreement (
 Create table tblAmenity(
 	AmenityID int primary key identity(1,1),
 	Name nvarchar(30),
-	Availability bit,
-	Location nvarchar(30),
 	BoughtPrice float,
-	CPR float,
-	MainDate Datetime,
-	Description nvarchar(100)
+	CostPerRent float,
+	MaintenanceDate Datetime,
+	Description nvarchar(100),
+    RoomID int
+    Constraint FKAmenityRoomID Foreign Key(RoomID) References tblRoom(RoomID) on delete cascade on update cascade
 );
 
 -- Table User
@@ -129,15 +130,12 @@ GO
 -- FEEDBACK table
 CREATE TABLE tblFeedback (
     FeedbackID INT PRIMARY KEY IDENTITY(1,1),
-	Date DATETIME,
+	FeedbackDate DATETIME,
 	Content NVARCHAR(100),
     Comment NVARCHAR(MAX),
     ResidentID INT,
-    ResName NVARCHAR(50),
-    FOREIGN KEY (ResidentID) REFERENCES tblResident(ID)
+    Constraint FKFeedbackResident FOREIGN KEY(ResidentID) REFERENCES tblResident(ResidentID)
 );
-
-
 
 -- UTILITY table
 CREATE TABLE tblUtility (
@@ -146,7 +144,7 @@ CREATE TABLE tblUtility (
     Cost float,
     UsageDate DATETIME2,
     RoomID INT,
-    FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
+    Constraint FKUtilityRoom FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
 );
 
 CREATE TABLE tblRoom (
@@ -179,19 +177,19 @@ CREATE TABLE tblService (
 );
 GO
 
-
-
 -- Table Reservation
 CREATE TABLE tblReservation (
     ReservationID INT PRIMARY KEY IDENTITY(1,1),
-    ReserDate DATETIME2,
-    StartDate DATETIME2,
-    EndDate DATETIME2,
-    ReserStatus NVARCHAR(50),
+    ReservationDate DATETIME NOT NULL,
+    StartDate DATETIME NULL,
+    EndDate DATETIME NULL,
+    Status NVARCHAR(50),
     ResidentID INT,
     RoomID INT,
-    FOREIGN KEY (ResidentID) REFERENCES Resident(ResidentID),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
+    PaidAmount DECIMAL(10,2),
+    RemainingAmount DECIMAL(10,2),
+    CONSTRAINT FK_Reservation_Resident FOREIGN KEY (ResidentID) REFERENCES tblResident(ResidentID),
+    CONSTRAINT FK_Reservation_Room FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
 );
 GO
 
@@ -212,13 +210,10 @@ CREATE TABLE tblRent (
     RentID INT PRIMARY KEY IDENTITY(1,1),
     StartDate DATE,
     EndDate DATE,
-    Amount DECIMAL(10,2),
-    ResidentID INT,
+    Amount float,
     RoomID INT,
-    ResidentName NVARCHAR(100),
     RoomNumber NVARCHAR(20),
-    FOREIGN KEY (ResidentID) REFERENCES Resident(ResidentID),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
+    Constraint FKRentRoom FOREIGN KEY (RoomID) REFERENCES tblRoom(RoomID)
 );
 GO
 
@@ -239,59 +234,34 @@ CREATE TABLE tblPayment (
 )
 GO
 
--- Create triggers (each in its own batch)
-CREATE TRIGGER trg_UpdateReservationDenormalizedData
-ON Reservation
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    UPDATE r
-    SET 
-        r.ResidentName = res.ResidentName,
-        r.RoomNumber = rm.RoomNumber
-    FROM Reservation r
-    JOIN Resident res ON r.ResidentID = res.ResidentID
-    JOIN Room rm ON r.RoomID = rm.RoomID
-    WHERE r.ReservationID IN (SELECT ReservationID FROM inserted);
-END;
+CREATE TABLE tblPayment (
+    PaymentID INT PRIMARY KEY IDENTITY(1,1),
+    PaymentDate DATETIME NOT NULL,
+    ReservationID INT NULL,
+    StaffID INT NOT NULL,
+    UtilityID INT NULL,
+    ServiceID INT NULL,  -- Added for service payments
+    PaidAmount DECIMAL(10,2) NOT NULL,
+    RemainingAmount DECIMAL(10,2) NOT NULL,
+    IsSecondPaymentDone BIT DEFAULT 0,
+    IsUtilityOnly BIT DEFAULT 0,
+    IsServiceOnly BIT DEFAULT 0,  -- Added for service payments
+    Description NVARCHAR(MAX) NULL,  -- Added for payment notes/description
+    Status BIT DEFAULT 1,  -- Added for payment status tracking
+    CONSTRAINT FK_Payment_Reservation FOREIGN KEY (ReservationID) 
+        REFERENCES tblReservation(ReservationID) ON DELETE NO ACTION,
+    CONSTRAINT FK_Payment_Staff FOREIGN KEY (StaffID) 
+        REFERENCES tblStaff(StaffID) ON DELETE NO ACTION,
+    CONSTRAINT FK_Payment_Utility FOREIGN KEY (UtilityID) 
+        REFERENCES tblUtility(UtilityID) ON DELETE NO ACTION,
+    CONSTRAINT FK_Payment_Service FOREIGN KEY (ServiceID)
+        REFERENCES tblService(ServiceID) ON DELETE NO ACTION,
+    CONSTRAINT CK_Payment_Type CHECK (
+        (IsUtilityOnly = 1 AND IsServiceOnly = 0 AND ReservationID IS NULL AND UtilityID IS NOT NULL) OR
+        (IsServiceOnly = 1 AND IsUtilityOnly = 0 AND ReservationID IS NULL AND ServiceID IS NOT NULL) OR
+        (IsUtilityOnly = 0 AND IsServiceOnly = 0 AND ReservationID IS NOT NULL AND UtilityID IS NULL AND ServiceID IS NULL)
+    )
+)
 GO
 
-CREATE TRIGGER trg_UpdateRequestDenormalizedData
-ON Request
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    UPDATE r
-    SET 
-        r.ResidentName = res.ResidentName,
-        r.ServiceName = s.ServiceName
-    FROM Request r
-    JOIN Resident res ON r.ResidentID = res.ResidentID
-    JOIN Service s ON r.ServiceID = s.ServiceID
-    WHERE r.RequestID IN (SELECT RequestID FROM inserted);
-END;
-GO
 
-CREATE TRIGGER trg_UpdateRentDenormalizedData
-ON Rent
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    UPDATE r
-    SET 
-        r.ResidentName = res.ResidentName,
-        r.RoomNumber = rm.RoomNumber
-    FROM Rent r
-    JOIN Resident res ON r.ResidentID = res.ResidentID
-    JOIN Room rm ON r.RoomID = rm.RoomID
-    WHERE r.RentID IN (SELECT RentID FROM inserted);
-END;
-GO
-
--- Create indexes
-CREATE INDEX IX_Reservation_Dates ON Reservation(ReservationDate, StartDate, EndDate);
-CREATE INDEX IX_Request_Date ON Request(RequestDate);
-CREATE INDEX IX_Rent_Dates ON Rent(StartDate, EndDate);
-CREATE INDEX IX_Resident_Name ON Resident(ResidentName);
-CREATE INDEX IX_Room_Number ON Room(RoomNumber);
-CREATE INDEX IX_Service_Name ON Service(ServiceName);

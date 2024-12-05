@@ -129,7 +129,7 @@ namespace RRMS
         // Table Feedback
         private const string FEEDBACK_TBL_NAME = "tblFeedback";
         private const string FEEDBACK_ID_FIELD = "FeedbackID";
-        private const string FEEDBACK_DATE_FIELD = "Date";
+        private const string FEEDBACK_DATE_FIELD = "FeedbackDate";
         private const string FEEDBACK_CONTENT_FIELD = "Content";
         private const string FEEDBACK_COMMENT_FIELD = "Comment";
         private const string FEEDBACK_RESIDENTID_FIELD = "ResidentID"; //FK
@@ -137,10 +137,10 @@ namespace RRMS
         // Table Room
         private const string ROOM_TBL_NAME = "tblRoom";
         private const string ROOM_ID_FIELD = "RoomID";
-        private const string ROOM_NUMBER_FIELD = "Number";
-        private const string ROOM_TYPE_FIELD = "Type";
+        private const string ROOM_NUMBER_FIELD = "RoomNumber";
         private const string ROOM_RESIDENTID_FIELD = "ResidentID";
         private const string ROOM_ROOMTYPEID_FIELD = "RoomTypeID";
+        private const string ROOM_STATUS_FIELD = "Status";
 
         // Table User
         private const string USER_TBL_NAME = "tblUser";
@@ -152,7 +152,7 @@ namespace RRMS
         // Table Utility
         private const string UTILITY_TBL_NAME = "tblUtility";
         private const string UTILITY_UTILITYID_FIELD = "UtilityID";
-        private const string UTILITY_TYPE_FIELD = "Type";
+        private const string UTILITY_TYPE_FIELD = "UtilityType";
         private const string UTILITY_COST_FIELD = "Cost";
         private const string UTILITY_USAGEDATE_FIELD = "UsageDate";
         private const string UTILITY_ROOMID_FIELD = "RoomID"; //FK
@@ -168,16 +168,15 @@ namespace RRMS
 
         // Table Reservation
 
-        private const string RESERVATION_TBL_NAME = "tblReservation";
         private const string RESERVATION_RESERVATIONID_FIELD = "ReservationID";
-        private const string RESERVATION_DATE_FIELD = "Date";
+        private const string RESERVATION_DATE_FIELD = "ReservationDate";
         private const string RESERVATION_STARTDATE_FIELD = "StartDate";
         private const string RESERVATION_ENDDATE_FIELD = "EndDate";
         private const string RESERVATION_STATUS_FIELD = "Status";
+        private const string RESERVATION_PAIDAMOUNT_FIELD = "PaidAmount";
+        private const string RESERVATION_REMAININGAMOUNT_FIELD = "RemainingAmount";
         private const string RESERVATION_RESIDENTID_FIELD = "ResidentID";
         private const string RESERVATION_ROOMID_FIELD = "RoomID";
-        private const string RESERVATION_RESIDENTNAME_FIELD = "ResidentName";
-        private const string RESERVATION_ROOMNUMBER_FIELD = "RoomNumber";
 
         // Table Request
 
@@ -196,10 +195,7 @@ namespace RRMS
         private const string RENT_STARTDATE_FIELD = "StartDate";
         private const string RENT_ENDDATE_FIELD = "EndDate";
         private const string RENT_AMOUNT_FIELD = "Amount";
-        private const string RENT_RESIDENTID_FIELD = "ResidentID";
         private const string RENT_ROOMID_FIELD = "RoomID";
-        private const string RENT_RESIDENTNAME_FIELD = "ResidentName";
-        private const string RENT_ROOMNUMBER_FIELD = "RoomNumber";
 
         // Table Payment
 
@@ -209,6 +205,7 @@ namespace RRMS
         private const string PAYMENT_RESERVATIONID_FIELD = "ReservationID";
         private const string PAYMENT_STAFFID_FIELD = "StaffID";
         private const string PAYMENT_UTILITYID_FIELD = "UtilityID";
+        private const string PAYMENT_SERVICEID_FIELD = "ServiceID";
         private const string PAYMENT_PAID_AMOUNT_FIELD = "PaidAmount";
         private const string PAYMENT_REMAINING_AMOUNT_FIELD = "RemainingAmount";
         private const string PAYMENT_IS_SECOND_PAYMENT_FIELD = "IsSecondPaymentDone";
@@ -315,9 +312,9 @@ namespace RRMS
                             {
                                 room.ID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
                                 room.Description = reader.IsDBNull(reader.GetOrdinal(ROOM_NUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_NUMBER_FIELD));
-                                room.Type = reader.IsDBNull(reader.GetOrdinal(ROOM_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_TYPE_FIELD));
                                 room.ResidentID = reader.IsDBNull(reader.GetOrdinal(ROOM_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_RESIDENTID_FIELD));
                                 room.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD));
+                                room.Status = reader.IsDBNull(reader.GetOrdinal(ROOM_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(ROOM_STATUS_FIELD));
                             }
                             else if (entity is Amenity amenity)
                             {
@@ -335,7 +332,7 @@ namespace RRMS
                                 feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
-                                feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
+                                feedback.ResidentID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                             }
                             else if (entity is Service service)
                             {
@@ -350,26 +347,36 @@ namespace RRMS
                             {
                                 utility.ID = reader.IsDBNull(reader.GetOrdinal(UTILITY_UTILITYID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_UTILITYID_FIELD));
                                 utility.Type = reader.IsDBNull(reader.GetOrdinal(UTILITY_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(UTILITY_TYPE_FIELD));
-                                utility.Cost = reader.IsDBNull(reader.GetOrdinal(UTILITY_COST_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(UTILITY_COST_FIELD));
+                                utility.CostPrice = reader.IsDBNull(reader.GetOrdinal(UTILITY_COST_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(UTILITY_COST_FIELD));
                                 utility.Start = reader.IsDBNull(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(UTILITY_USAGEDATE_FIELD));
                                 utility.RoomID = reader.IsDBNull(reader.GetOrdinal(UTILITY_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(UTILITY_ROOMID_FIELD));
                             }
                             else if (entity is Reservation reservation)
                             {
-                                reservation.ID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD));
-                                reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
-                                reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
-                                reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
-                                reservation.Description = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
-                                reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
-                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
+                                reservation.ID = reader.GetInt32(reader.GetOrdinal(RESERVATION_RESERVATIONID_FIELD));
+                                reservation.ReservationDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ?
+                                    DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
+                                reservation.StartDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ?
+                                    null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
+                                reservation.EndDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ?
+                                    null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
+                                reservation._Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ?
+                                    string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.PaidAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD)) ?
+                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD));
+                                reservation.RemainingAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD)) ?
+                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD));
+                                reservation.ResidentID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ?
+                                    0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
+                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ?
+                                    0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
                             }
                             else if (entity is Request request)
                             {
                                 request.ID = reader.IsDBNull(reader.GetOrdinal(REQUEST_REQUESTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_REQUESTID_FIELD));
                                 request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
                                 request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
-                                request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
+                                request.Type = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_STATUS_FIELD));
                                 request.ResidentID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
                                 request.ServiceID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
                             }
@@ -379,10 +386,7 @@ namespace RRMS
                                 rent.Start = reader.IsDBNull(reader.GetOrdinal(RENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_STARTDATE_FIELD));
                                 rent.End = reader.IsDBNull(reader.GetOrdinal(RENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_ENDDATE_FIELD));
                                 rent.RentPrice = reader.IsDBNull(reader.GetOrdinal(RENT_AMOUNT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(RENT_AMOUNT_FIELD));
-                                rent.ResID = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RESIDENTID_FIELD));
                                 rent.RoomID = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_ROOMID_FIELD));
-                                rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
-                                rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
                             }
                             else if (entity is Payment payment)
                             {
@@ -393,6 +397,8 @@ namespace RRMS
                                 payment.StaffID = reader.GetInt32(reader.GetOrdinal(PAYMENT_STAFFID_FIELD));
                                 payment.UtilityID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD)) ?
                                     null : reader.GetInt32(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD));
+                                payment.ServiceID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_SERVICEID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_SERVICEID_FIELD));
                                 payment.PaidAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_PAID_AMOUNT_FIELD));
                                 payment.RemainingAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_REMAINING_AMOUNT_FIELD));
                                 payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
@@ -506,7 +512,6 @@ namespace RRMS
                             else if (result is RoomType roomType)
                             {
                                 roomType.ID = id;
-                                roomType.Type = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_NAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_NAME_FIELD));
                                 roomType.Description = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOMTYPE_DESCRIPTION_FIELD));
                                 roomType.CostPrice = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(ROOMTYPE_BASEPRICE_FIELD));
                                 roomType.RoomTypeCapacity = reader.IsDBNull(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOMTYPE_CAPACITY_FIELD));
@@ -533,9 +538,9 @@ namespace RRMS
                             {
                                 room.ID = reader.IsDBNull(reader.GetOrdinal(ROOM_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ID_FIELD));
                                 room.Description = reader.IsDBNull(reader.GetOrdinal(ROOM_NUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_NUMBER_FIELD));
-                                room.Type = reader.IsDBNull(reader.GetOrdinal(ROOM_TYPE_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(ROOM_TYPE_FIELD));
                                 room.ResidentID = reader.IsDBNull(reader.GetOrdinal(ROOM_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_RESIDENTID_FIELD));
                                 room.RoomTypeID = reader.IsDBNull(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(ROOM_ROOMTYPEID_FIELD));
+                                room.Status = reader.IsDBNull(reader.GetOrdinal(ROOM_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(ROOM_STATUS_FIELD));
                             }
                             else if (result is Amenity amenity)
                             {
@@ -553,7 +558,7 @@ namespace RRMS
                                 feedback.Start = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(FEEDBACK_DATE_FIELD));
                                 feedback.Type = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_CONTENT_FIELD));
                                 feedback.Description = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(FEEDBACK_COMMENT_FIELD));
-                                feedback.ResID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
+                                feedback.ResidentID = reader.IsDBNull(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(FEEDBACK_RESIDENTID_FIELD));
                             }
 
                             else if (result is Service service)
@@ -576,19 +581,29 @@ namespace RRMS
                             else if (result is Reservation reservation)
                             {
                                 reservation.ID = id;
-                                reservation.Booking = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
-                                reservation.Start = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
-                                reservation.End = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
-                                reservation.Description = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
-                                reservation.ResID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
-                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
+                                reservation.ReservationDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_DATE_FIELD)) ?
+                                    DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RESERVATION_DATE_FIELD));
+                                reservation.StartDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD)) ?
+                                    null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_STARTDATE_FIELD));
+                                reservation.EndDate = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD)) ?
+                                    null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
+                                reservation._Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ?
+                                    string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
+                                reservation.PaidAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD)) ?
+                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD));
+                                reservation.RemainingAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD)) ?
+                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD));
+                                reservation.ResidentID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ?
+                                    0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
+                                reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ?
+                                    0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_ROOMID_FIELD));
                             }
                             else if (result is Request request)
                             {
                                 request.ID = id;
                                 request.Start = reader.IsDBNull(reader.GetOrdinal(REQUEST_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(REQUEST_DATE_FIELD));
                                 request.Description = reader.IsDBNull(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_DESCRIPTION_FIELD));
-                                request.Status = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(REQUEST_STATUS_FIELD));
+                                request.Type = reader.IsDBNull(reader.GetOrdinal(REQUEST_STATUS_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(REQUEST_STATUS_FIELD));
                                 request.ResidentID = reader.IsDBNull(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_RESIDENTID_FIELD));
                                 request.ServiceID = reader.IsDBNull(reader.GetOrdinal(REQUEST_SERVICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(REQUEST_SERVICEID_FIELD));
                             }
@@ -598,10 +613,7 @@ namespace RRMS
                                 rent.Start = reader.IsDBNull(reader.GetOrdinal(RENT_STARTDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_STARTDATE_FIELD));
                                 rent.End = reader.IsDBNull(reader.GetOrdinal(RENT_ENDDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(RENT_ENDDATE_FIELD));
                                 rent.RentPrice = reader.IsDBNull(reader.GetOrdinal(RENT_AMOUNT_FIELD)) ? 0 : reader.GetDouble(reader.GetOrdinal(RENT_AMOUNT_FIELD));
-                                rent.ResID = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_RESIDENTID_FIELD));
                                 rent.RoomID = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(RENT_ROOMID_FIELD));
-                                rent.FirstName = reader.IsDBNull(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_RESIDENTNAME_FIELD));
-                                rent.Type = reader.IsDBNull(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(RENT_ROOMNUMBER_FIELD));
                             }
 
                             else if (result is Payment payment)
@@ -613,6 +625,8 @@ namespace RRMS
                                 payment.StaffID = reader.GetInt32(reader.GetOrdinal(PAYMENT_STAFFID_FIELD));
                                 payment.UtilityID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD)) ?
                                     null : reader.GetInt32(reader.GetOrdinal(PAYMENT_UTILITYID_FIELD));
+                                payment.ServiceID = reader.IsDBNull(reader.GetOrdinal(PAYMENT_SERVICEID_FIELD)) ?
+                                    null : reader.GetInt32(reader.GetOrdinal(PAYMENT_SERVICEID_FIELD));
                                 payment.PaidAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_PAID_AMOUNT_FIELD));
                                 payment.RemainingAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_REMAINING_AMOUNT_FIELD));
                                 payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
@@ -928,6 +942,13 @@ namespace RRMS
                         else
                         {
                             throw new ArgumentOutOfRangeException(nameof(roomType.ID), "RoomType ID must be between 0 and 255.");
+                        }
+                    }
+                    else if (entity is Room room)
+                    {
+                        if (room.ID >= 0 && room.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs() { ByteId = (byte)room.ID, Entity = EntityTypes.Rooms });
                         }
                     }
                     else if (entity is LeaseAgreement leaseAgreement)

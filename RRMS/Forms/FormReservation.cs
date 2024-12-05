@@ -18,6 +18,13 @@ namespace RRMS.Forms
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             DataGridView.CheckForIllegalCrossThreadCalls = false;
+            cbbStatus.Items.AddRange(new string[] {
+                "Pending",
+                "Completed",
+                "In Progress"
+            });
+            cbbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbbStatus.SelectedIndex = 0; // Set default to "Pending"
             ConfigView();
             _bs.DataSource = dgvReservation;
             LoadResidentIDs();
@@ -52,6 +59,8 @@ namespace RRMS.Forms
             btnNew.Click += DoClickNew;
             dgvReservation.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
+
+
         }
 
         private void LoadResidentIDs()
@@ -71,16 +80,39 @@ namespace RRMS.Forms
 
         private void LoadRoomIDs()
         {
-            using SqlCommand cmd = new SqlCommand("SP_GetAvailableRooms", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            using SqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
+            try
             {
-                if (dr["RoomID"] != DBNull.Value)
+                cbbRoomID.Items.Clear();
+                using SqlCommand cmd = new("SP_LoadRoomIDs", Program.Connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                using SqlDataReader dr = cmd.ExecuteReader();
+                bool hasRooms = false;
+
+                while (dr.Read())
                 {
-                    string? roomID = dr["RoomID"].ToString();
-                    cbbRoomID.Items.Add(roomID);
+                    hasRooms = true;
+                    string roomId = dr["RoomID"]?.ToString() ?? "";
+                    string roomNumber = dr["RoomNumber"]?.ToString() ?? "";
+                    string typeName = dr["TypeName"]?.ToString() ?? "";
+
+                    if (!string.IsNullOrEmpty(roomId) && !string.IsNullOrEmpty(roomNumber))
+                    {
+                        string roomInfo = $"{roomId} - {roomNumber} ({typeName})";
+                        cbbRoomID.Items.Add(roomInfo);
+                    }
                 }
+
+                if (!hasRooms)
+                {
+                    MessageBox.Show("No rooms found in database. Please check room configuration.",
+                        "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading rooms: {ex.Message}\n{ex.StackTrace}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -96,7 +128,9 @@ namespace RRMS.Forms
                     using SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.Read())
                     {
-                        txtResName.Text = dr["ResidentName"].ToString();
+                        string firstName = dr["FirstName"].ToString() ?? string.Empty;
+                        string lastName = dr["LastName"].ToString() ?? string.Empty;
+                        txtResName.Text = $"{firstName} {lastName}".Trim();
                     }
                 }
                 catch (Exception ex)
@@ -113,33 +147,88 @@ namespace RRMS.Forms
             {
                 try
                 {
+                    string selectedItem = cbbRoomID.SelectedItem.ToString() ?? string.Empty;
+                    int roomId = int.Parse(selectedItem.Split('-')[0].Trim());
+
                     using SqlCommand cmd = new SqlCommand("SP_GetRoomDetailsWithPrice", Program.Connection);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
+                    cmd.Parameters.AddWithValue("@RoomID", roomId);
+
                     using SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.Read())
                     {
-                        txtRoomNum.Text = dr["RoomNumber"].ToString();
-                        decimal roomAmount = dr.GetDecimal(dr.GetOrdinal("RoomAmount"));
-                        txtReserRem.Text = roomAmount.ToString("F2");
+                        txtRoomNum.Text = dr["RoomNumber"]?.ToString() ?? string.Empty;
+
+                        // Handle the BasePrice value properly
+                        decimal basePrice;
+                        if (dr["BasePrice"] != DBNull.Value)
+                        {
+                            if (dr["BasePrice"] is decimal decimalValue)
+                            {
+                                basePrice = decimalValue;
+                            }
+                            else
+                            {
+                                // Convert other numeric types to decimal
+                                basePrice = Convert.ToDecimal(dr["BasePrice"]);
+                            }
+                        }
+                        else
+                        {
+                            basePrice = 0m;
+                        }
+
+                        // Store the base price as decimal in Tag
+                        txtReserRem.Tag = basePrice;
+                        txtReserRem.Text = basePrice.ToString("F2");
+                        txtReserPA.Text = "0.00";
+                        txtReserRem.BackColor = SystemColors.Window;
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error retrieving room details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error retrieving room details: {ex.Message}",
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtRoomNum.Text = string.Empty;
                     txtReserRem.Text = "0.00";
+                    txtReserPA.Text = "0.00";
+                    txtReserRem.Tag = 0m;  // Store as decimal
+                    txtReserRem.BackColor = SystemColors.Window;
                 }
             }
         }
 
         private void TxtPaidAmount_TextChanged(object? sender, EventArgs e)
         {
-            if (decimal.TryParse(txtReserPA.Text, out decimal paidAmount) &&
-                decimal.TryParse(txtReserRem.Text, out decimal totalAmount))
+            if (decimal.TryParse(txtReserPA.Text, out decimal paidAmount))
             {
-                decimal remainingAmount = totalAmount - paidAmount;
+                decimal basePrice = txtReserRem.Tag != null ?
+                    Convert.ToDecimal(txtReserRem.Tag) : 0m;
+
+                // Round to 2 decimal places
+                paidAmount = Math.Round(paidAmount, 2);
+
+                if (paidAmount > basePrice)
+                {
+                    txtReserPA.Text = basePrice.ToString("F2");
+                    txtReserRem.Text = "0.00";
+                    txtReserRem.BackColor = Color.LightPink;
+                    MessageBox.Show("Warning: Paid amount cannot exceed room price!", "Overpayment Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                decimal remainingAmount = basePrice - paidAmount;
                 txtReserRem.Text = remainingAmount.ToString("F2");
+                txtReserRem.BackColor = SystemColors.Window;
+            }
+            else
+            {
+                txtReserPA.Text = "0.00";
+                decimal basePrice = txtReserRem.Tag != null ?
+                    Convert.ToDecimal(txtReserRem.Tag) : 0m;
+                txtReserRem.Text = basePrice.ToString("F2");
+                txtReserRem.BackColor = SystemColors.Window;
             }
         }
 
@@ -355,32 +444,70 @@ namespace RRMS.Forms
 
         private Reservation GatherReservationInput()
         {
-            if (!int.TryParse(cbbResID.SelectedItem?.ToString(), out int residentId) ||
-                !int.TryParse(cbbRoomID.SelectedItem?.ToString(), out int roomId) ||
-                !double.TryParse(txtReserPA.Text, out double paidAmount))
+            try
             {
-                MessageBox.Show("Please enter valid values for all required fields.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Validate ResidentID
+                if (!int.TryParse(cbbResID.SelectedItem?.ToString(), out int residentId))
+                {
+                    MessageBox.Show("Please select a valid resident.", "Validation Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                // Extract RoomID from the selected item (format: "1 - 101 (10x10 m)")
+                if (cbbRoomID.SelectedItem == null)
+                {
+                    MessageBox.Show("Please select a room.", "Validation Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                string roomSelection = cbbRoomID.SelectedItem.ToString();
+                int roomId = int.Parse(roomSelection.Split('-')[0].Trim());
+
+                // Validate paid amount
+                if (!decimal.TryParse(txtReserPA.Text, out decimal paidAmount))
+                {
+                    MessageBox.Show("Please enter a valid paid amount.", "Validation Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                // Get remaining amount
+                if (!decimal.TryParse(txtReserRem.Text, out decimal remainingAmount))
+                {
+                    MessageBox.Show("Invalid remaining amount.", "Validation Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                // Validate status is selected
+                if (cbbStatus.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a status.", "Validation Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                // Create and return the reservation object
+                return new Reservation
+                {
+                    ReservationDate = dtpReserDate.Value,
+                    StartDate = dtpReserSD.Value,
+                    EndDate = dtpReserED.Value,
+                    _Status = cbbStatus.Text,
+                    ResidentID = residentId,
+                    RoomID = roomId,
+                    PaidAmount = paidAmount,
+                    RemainingAmount = remainingAmount
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error gathering reservation input: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
-
-            if (!double.TryParse(txtReserRem.Text, out double remainingAmount))
-            {
-                MessageBox.Show("Invalid remaining amount format.", "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return null;
-            }
-
-            return new Reservation
-            {
-                Booking = dtpReserDate.Value,
-                Start = dtpReserSD.Value,
-                End = dtpReserED.Value,
-                Description = txtReserStat.Text,
-                ResidentID = residentId,
-                RoomID = roomId,
-                ReservationAmount = paidAmount,
-            };
         }
 
 
@@ -404,9 +531,25 @@ namespace RRMS.Forms
                 return false;
             }
 
-            if (reservation.ReservationAmount < 0)
+            if (reservation.PaidAmount < 0)
             {
                 MessageBox.Show("Paid amount cannot be negative.", "Validation Error");
+                return false;
+            }
+
+            // Convert the base price from double to decimal for comparison
+            decimal basePrice = txtReserRem.Tag != null ?
+                Convert.ToDecimal(txtReserRem.Tag) : 0m;
+
+            if (reservation.PaidAmount > basePrice)
+            {
+                MessageBox.Show("Paid amount cannot exceed room price.", "Validation Error");
+                return false;
+            }
+
+            if (reservation.RemainingAmount < 0)
+            {
+                MessageBox.Show("Remaining amount cannot be negative.", "Validation Error");
                 return false;
             }
 
@@ -421,28 +564,41 @@ namespace RRMS.Forms
                 dtpReserDate.Value = reservation.Booking;
                 dtpReserSD.Value = reservation.Start ?? DateTime.Now;
                 dtpReserED.Value = reservation.End ?? DateTime.Now;
-                txtReserStat.Text = reservation.Description;
+                cbbStatus.Text = reservation.Description ?? "Pending";
                 cbbResID.Text = reservation.ResidentID.ToString();
-                cbbRoomID.Text = reservation.RoomID.ToString();
-                txtReserPA.Text = reservation.ReservationAmount.ToString("F2");
 
-                // Trigger the ID selection events to populate names
+                // Find and select the correct room item
+                for (int i = 0; i < cbbRoomID.Items.Count; i++)
+                {
+                    string item = cbbRoomID.Items[i].ToString() ?? string.Empty;
+                    if (item.StartsWith(reservation.RoomID.ToString()))
+                    {
+                        cbbRoomID.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                // These will trigger in correct order
                 CbbResidentID_SelectedIndexChanged(null, EventArgs.Empty);
                 CbbRoomID_SelectedIndexChanged(null, EventArgs.Empty);
+
+                // Set paid amount last
+                txtReserPA.Text = reservation.PaidAmount.ToString("F2");
             }
             else
             {
                 txtReserID.Text = string.Empty;
                 dtpReserDate.Value = DateTime.Now;
                 dtpReserSD.Value = DateTime.Now;
-                dtpReserED.Value = DateTime.Now.AddDays(30); // Default 30-day reservation
-                txtReserStat.Text = "Pending"; // Default status
+                dtpReserED.Value = DateTime.Now.AddDays(30);
+                cbbStatus.SelectedIndex = 0;
                 cbbResID.SelectedIndex = -1;
                 cbbRoomID.SelectedIndex = -1;
                 txtResName.Text = string.Empty;
                 txtRoomNum.Text = string.Empty;
                 txtReserPA.Text = "0.00";
                 txtReserRem.Text = "0.00";
+                txtReserRem.Tag = 0m;  // Store as decimal
             }
         }
 

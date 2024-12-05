@@ -28,45 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            rentid = new TextBox();
+            txtRentID = new TextBox();
             text1 = new Label();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            label4 = new Label();
             label5 = new Label();
-            label6 = new Label();
             label7 = new Label();
-            rentamount = new TextBox();
-            roomid = new TextBox();
-            residentname = new TextBox();
-            roomnum = new TextBox();
-            residentid = new TextBox();
-            startdate = new DateTimePicker();
-            enddate = new DateTimePicker();
-            btnClear = new Button();
+            txtRentAmount = new TextBox();
+            txtRoomNumber = new TextBox();
+            dtpRentSD = new DateTimePicker();
+            dtpRentED = new DateTimePicker();
+            btnNew = new Button();
             btnUpdate = new Button();
-            dataGridView1 = new DataGridView();
+            dgvRent = new DataGridView();
             label8 = new Label();
-            searchbox = new TextBox();
+            txtSearch = new TextBox();
             btnInsert = new Button();
             btnDelete = new Button();
             inputGroup = new Panel();
+            cbbRoomID = new ComboBox();
             label10 = new Label();
             titleLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRent).BeginInit();
             inputGroup.SuspendLayout();
             SuspendLayout();
             // 
-            // rentid
+            // txtRentID
             // 
-            rentid.Font = new Font("Segoe UI", 12F);
-            rentid.Location = new Point(136, 34);
-            rentid.Name = "rentid";
-            rentid.ReadOnly = true;
-            rentid.Size = new Size(230, 29);
-            rentid.TabIndex = 0;
-            rentid.TextAlign = HorizontalAlignment.Center;
+            txtRentID.Font = new Font("Segoe UI", 12F);
+            txtRentID.Location = new Point(136, 34);
+            txtRentID.Name = "txtRentID";
+            txtRentID.ReadOnly = true;
+            txtRentID.Size = new Size(230, 29);
+            txtRentID.TabIndex = 2;
+            txtRentID.TextAlign = HorizontalAlignment.Center;
             // 
             // text1
             // 
@@ -110,16 +106,6 @@
             label3.TabIndex = 4;
             label3.Text = "RentAmount :";
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F);
-            label4.Location = new Point(17, 341);
-            label4.Name = "label4";
-            label4.Size = new Size(92, 21);
-            label4.TabIndex = 5;
-            label4.Text = "ResidentID :";
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -130,104 +116,66 @@
             label5.TabIndex = 6;
             label5.Text = "RoomID :";
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F);
-            label6.Location = new Point(17, 245);
-            label6.Name = "label6";
-            label6.Size = new Size(119, 21);
-            label6.TabIndex = 7;
-            label6.Text = "ResidentName :";
-            // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 12F);
-            label7.Location = new Point(19, 298);
+            label7.Location = new Point(17, 255);
             label7.Name = "label7";
             label7.Size = new Size(117, 21);
             label7.TabIndex = 8;
             label7.Text = "RoomNumber :";
             // 
-            // rentamount
+            // txtRentAmount
             // 
-            rentamount.Font = new Font("Segoe UI", 12F);
-            rentamount.Location = new Point(136, 156);
-            rentamount.Name = "rentamount";
-            rentamount.Size = new Size(230, 29);
-            rentamount.TabIndex = 9;
-            rentamount.TextAlign = HorizontalAlignment.Center;
+            txtRentAmount.Font = new Font("Segoe UI", 12F);
+            txtRentAmount.Location = new Point(136, 156);
+            txtRentAmount.Name = "txtRentAmount";
+            txtRentAmount.Size = new Size(230, 29);
+            txtRentAmount.TabIndex = 5;
+            txtRentAmount.TextAlign = HorizontalAlignment.Center;
             // 
-            // roomid
+            // txtRoomNumber
             // 
-            roomid.Font = new Font("Segoe UI", 12F);
-            roomid.Location = new Point(136, 198);
-            roomid.Name = "roomid";
-            roomid.Size = new Size(230, 29);
-            roomid.TabIndex = 10;
-            roomid.TextAlign = HorizontalAlignment.Center;
+            txtRoomNumber.Font = new Font("Segoe UI", 12F);
+            txtRoomNumber.Location = new Point(136, 247);
+            txtRoomNumber.Name = "txtRoomNumber";
+            txtRoomNumber.ReadOnly = true;
+            txtRoomNumber.Size = new Size(230, 29);
+            txtRoomNumber.TabIndex = 7;
+            txtRoomNumber.TextAlign = HorizontalAlignment.Center;
             // 
-            // residentname
+            // dtpRentSD
             // 
-            residentname.Font = new Font("Segoe UI", 12F);
-            residentname.Location = new Point(136, 245);
-            residentname.Name = "residentname";
-            residentname.ReadOnly = true;
-            residentname.Size = new Size(230, 29);
-            residentname.TabIndex = 11;
-            residentname.TextAlign = HorizontalAlignment.Center;
+            dtpRentSD.CalendarFont = new Font("Segoe UI", 9F);
+            dtpRentSD.Font = new Font("Segoe UI", 9F);
+            dtpRentSD.Location = new Point(136, 77);
+            dtpRentSD.Name = "dtpRentSD";
+            dtpRentSD.Size = new Size(230, 23);
+            dtpRentSD.TabIndex = 3;
             // 
-            // roomnum
+            // dtpRentED
             // 
-            roomnum.Font = new Font("Segoe UI", 12F);
-            roomnum.Location = new Point(136, 290);
-            roomnum.Name = "roomnum";
-            roomnum.ReadOnly = true;
-            roomnum.Size = new Size(230, 29);
-            roomnum.TabIndex = 12;
-            roomnum.TextAlign = HorizontalAlignment.Center;
+            dtpRentED.CalendarFont = new Font("Segoe UI", 9F);
+            dtpRentED.Font = new Font("Segoe UI", 9F);
+            dtpRentED.Location = new Point(136, 118);
+            dtpRentED.Name = "dtpRentED";
+            dtpRentED.Size = new Size(230, 23);
+            dtpRentED.TabIndex = 4;
             // 
-            // residentid
+            // btnNew
             // 
-            residentid.Font = new Font("Segoe UI", 12F);
-            residentid.Location = new Point(136, 333);
-            residentid.Name = "residentid";
-            residentid.Size = new Size(230, 29);
-            residentid.TabIndex = 13;
-            residentid.TextAlign = HorizontalAlignment.Center;
-            // 
-            // startdate
-            // 
-            startdate.CalendarFont = new Font("Segoe UI", 9F);
-            startdate.Font = new Font("Segoe UI", 9F);
-            startdate.Location = new Point(136, 77);
-            startdate.Name = "startdate";
-            startdate.Size = new Size(230, 23);
-            startdate.TabIndex = 14;
-            // 
-            // enddate
-            // 
-            enddate.CalendarFont = new Font("Segoe UI", 9F);
-            enddate.Font = new Font("Segoe UI", 9F);
-            enddate.Location = new Point(136, 118);
-            enddate.Name = "enddate";
-            enddate.Size = new Size(230, 23);
-            enddate.TabIndex = 15;
-            // 
-            // btnClear
-            // 
-            btnClear.BackColor = Color.FromArgb(217, 83, 79);
-            btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(18, 376);
-            btnClear.Margin = new Padding(3, 2, 3, 2);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(83, 26);
-            btnClear.TabIndex = 2;
-            btnClear.Text = "New";
-            btnClear.UseVisualStyleBackColor = false;
+            btnNew.BackColor = Color.FromArgb(217, 83, 79);
+            btnNew.FlatStyle = FlatStyle.Flat;
+            btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnNew.ForeColor = Color.White;
+            btnNew.Location = new Point(18, 376);
+            btnNew.Margin = new Padding(3, 2, 3, 2);
+            btnNew.Name = "btnNew";
+            btnNew.Size = new Size(83, 26);
+            btnNew.TabIndex = 8;
+            btnNew.Text = "New";
+            btnNew.UseVisualStyleBackColor = false;
             // 
             // btnUpdate
             // 
@@ -239,17 +187,17 @@
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 10;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
-            // dataGridView1
+            // dgvRent
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(394, 70);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(638, 660);
-            dataGridView1.TabIndex = 41;
+            dgvRent.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRent.Location = new Point(394, 70);
+            dgvRent.Name = "dgvRent";
+            dgvRent.Size = new Size(638, 660);
+            dgvRent.TabIndex = 12;
             // 
             // label8
             // 
@@ -261,12 +209,12 @@
             label8.TabIndex = 42;
             label8.Text = "Search :";
             // 
-            // searchbox
+            // txtSearch
             // 
-            searchbox.Location = new Point(464, 44);
-            searchbox.Name = "searchbox";
-            searchbox.Size = new Size(568, 23);
-            searchbox.TabIndex = 43;
+            txtSearch.Location = new Point(464, 44);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(568, 23);
+            txtSearch.TabIndex = 1;
             // 
             // btnInsert
             // 
@@ -278,7 +226,7 @@
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 9;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -292,34 +240,30 @@
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 11;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
             // inputGroup
             // 
             inputGroup.BackColor = Color.White;
+            inputGroup.Controls.Add(cbbRoomID);
             inputGroup.Controls.Add(label10);
             inputGroup.Controls.Add(btnDelete);
             inputGroup.Controls.Add(btnInsert);
             inputGroup.Controls.Add(label3);
             inputGroup.Controls.Add(label2);
-            inputGroup.Controls.Add(btnClear);
+            inputGroup.Controls.Add(btnNew);
             inputGroup.Controls.Add(label1);
             inputGroup.Controls.Add(btnUpdate);
             inputGroup.Controls.Add(text1);
-            inputGroup.Controls.Add(rentid);
-            inputGroup.Controls.Add(residentid);
-            inputGroup.Controls.Add(enddate);
-            inputGroup.Controls.Add(roomnum);
-            inputGroup.Controls.Add(rentamount);
-            inputGroup.Controls.Add(residentname);
-            inputGroup.Controls.Add(startdate);
-            inputGroup.Controls.Add(roomid);
-            inputGroup.Controls.Add(label4);
+            inputGroup.Controls.Add(txtRentID);
+            inputGroup.Controls.Add(dtpRentED);
+            inputGroup.Controls.Add(txtRoomNumber);
+            inputGroup.Controls.Add(txtRentAmount);
+            inputGroup.Controls.Add(dtpRentSD);
             inputGroup.Controls.Add(label7);
             inputGroup.Controls.Add(label5);
-            inputGroup.Controls.Add(label6);
             inputGroup.Font = new Font("Segoe UI", 10F);
             inputGroup.Location = new Point(16, 39);
             inputGroup.Margin = new Padding(3, 2, 3, 2);
@@ -328,6 +272,14 @@
             inputGroup.Size = new Size(372, 691);
             inputGroup.TabIndex = 1;
             inputGroup.Text = "Lease Agreement Details";
+            // 
+            // cbbRoomID
+            // 
+            cbbRoomID.FormattingEnabled = true;
+            cbbRoomID.Location = new Point(136, 206);
+            cbbRoomID.Name = "cbbRoomID";
+            cbbRoomID.Size = new Size(230, 25);
+            cbbRoomID.TabIndex = 6;
             // 
             // label10
             // 
@@ -361,13 +313,13 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1044, 742);
             Controls.Add(titleLabel);
-            Controls.Add(searchbox);
+            Controls.Add(txtSearch);
             Controls.Add(inputGroup);
             Controls.Add(label8);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvRent);
             Name = "FormRent";
             Text = "RentForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRent).EndInit();
             inputGroup.ResumeLayout(false);
             inputGroup.PerformLayout();
             ResumeLayout(false);
@@ -376,31 +328,27 @@
 
         #endregion
 
-        private TextBox rentid;
+        private TextBox txtRentID;
         private Label text1;
         private Label label1;
         private Label label2;
         private Label label3;
-        private Label label4;
         private Label label5;
-        private Label label6;
         private Label label7;
-        private TextBox rentamount;
-        private TextBox roomid;
-        private TextBox residentname;
-        private TextBox roomnum;
-        private TextBox residentid;
-        private DateTimePicker startdate;
-        private DateTimePicker enddate;
-        private Button btnClear;
+        private TextBox txtRentAmount;
+        private TextBox txtRoomNumber;
+        private DateTimePicker dtpRentSD;
+        private DateTimePicker dtpRentED;
+        private Button btnNew;
         private Button btnUpdate;
-        private DataGridView dataGridView1;
+        private DataGridView dgvRent;
         private Label label8;
-        private TextBox searchbox;
+        private TextBox txtSearch;
         private Button btnDelete;
         private Panel inputGroup;
         private Label titleLabel;
         private Button btnInsert;
         private Label label10;
+        private ComboBox cbbRoomID;
     }
 }

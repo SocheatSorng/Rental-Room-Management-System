@@ -24,9 +24,9 @@ namespace RRMS.Forms
 
             btnInsert.Click += (sender, e) =>
             {
-                Helper.Added += DoOnAmenityAdded;
+                Helper.Added += DoOnAmenityInserted;
                 DoClickInsert(sender, e);
-                Helper.Added -= DoOnAmenityAdded;
+                Helper.Added -= DoOnAmenityInserted;
             };
 
             btnUpdate.Click += (sender, e) =>
@@ -49,6 +49,7 @@ namespace RRMS.Forms
         }
         private void LoadRoomIDs()
         {
+        
             SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
             using (SqlDataReader dr = cmd.ExecuteReader())
@@ -79,13 +80,13 @@ namespace RRMS.Forms
                     {
                         if (dr.Read())
                         {
-                            txtRoomNum.Text = dr["Number"].ToString();
+                            txtRoomNum.Text = dr["RoomNumber"].ToString();
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error retrieving room number: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtRoomNum.Text = string.Empty;
                 }
             }
@@ -208,14 +209,23 @@ namespace RRMS.Forms
                 int rowIndex = dgvAme.SelectedCells[0].RowIndex;
                 int id = Convert.ToInt32(dgvAme.Rows[rowIndex].Cells["colAmeID"].Value);
 
-                using var cmd = Program.Connection.CreateCommand();
-                cmd.CommandText = "SP_DeleteAmenity";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@AmenityID", id);
+                DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this rent record?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show($"Successfully Deleted Amenity ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ConfigView();
+                if (result == DialogResult.Yes)
+                {
+                    using var cmd = Program.Connection.CreateCommand();
+                    cmd.CommandText = "SP_DeleteAmenity";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AmenityID", id);
+
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show($"Successfully Deleted Amenity ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConfigView();
+                }
             }
             catch (Exception ex)
             {
@@ -269,7 +279,7 @@ namespace RRMS.Forms
             }
         }
 
-        private void DoOnAmenityAdded(object? sender, EntityEventArgs e)
+        private void DoOnAmenityInserted(object? sender, EntityEventArgs e)
         {
             string SP_Name = "SP_GetAmenityByID";
             if (e.ByteId == 0) return;
@@ -375,6 +385,7 @@ namespace RRMS.Forms
                     RentPrice = rp,
                     Start = dtpAmeMD.Value,
                     Description = txtAmeDesc.Text.Trim(),
+                    RoomID = roomID
                 };
             }
             else
@@ -404,6 +415,7 @@ namespace RRMS.Forms
                 txtAmeCPR.Text = string.Empty;
                 dtpAmeMD.Value = DateTime.Now;
                 txtAmeDesc.Text = string.Empty;
+                cbbRoomID.SelectedIndex = -1;
                 txtRoomNum.Text = string.Empty;
             }
         }

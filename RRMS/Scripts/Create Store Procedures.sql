@@ -443,76 +443,81 @@ BEGIN
 END
 GO
 
-
-
 -- Feedback CRUD
+
 CREATE PROCEDURE SP_GetAllFeedbacks
 AS
 BEGIN
-    Select * FROM tblFeedback;
+    SELECT 
+        f.FeedbackID,
+        f.FeedbackDate,
+        f.Content,
+        f.Comment,
+        f.ResidentID,
+        r.FirstName + ' ' + r.LastName AS ResidentName
+    FROM tblFeedback f
+    LEFT JOIN tblResident r ON f.ResidentID = r.ResidentID
 END
 GO
 
 CREATE PROCEDURE SP_GetFeedbackByID
-    @FeedID INT
+    @FeedbackID INT
 AS
 BEGIN
-    SELECT * FROM tblFeedback WHERE FeedbackID = @FeedID;
+    SELECT f.FeedbackID, f.FeedbackDate, f.Content, f.Comment, f.ResidentID,
+			r.FirstName + ' ' + r.LastName AS ResidentName
+    FROM tblFeedback f
+    LEFT JOIN tblResident r ON f.ResidentID = r.ResidentID
+    WHERE FeedbackID = @FeedbackID
 END
 GO
 
 CREATE PROCEDURE SP_InsertFeedback
-	@FeedDate DATETIME,
-    @FeedCon NVARCHAR(50),
-    @FeedCom NVARCHAR(50),
-    @ResID INT,
-    @ResName VARCHAR(50)
+    @FeedbackDate DATETIME,
+    @Content NVARCHAR(100),
+    @Comment NVARCHAR(MAX),
+    @ResidentID INT
 AS
 BEGIN
-    Insert INTO tblFeedback(
-        Date, Content, Comment, ResidentID, ResName
-    )
-    VALUES(
-        @FeedDate, @FeedCon, @FeedCom, @ResID, @ResName
-    );
+    INSERT INTO tblFeedback (FeedbackDate, Content, Comment, ResidentID)
+    VALUES (@FeedbackDate, @Content, @Comment, @ResidentID );
+    SELECT SCOPE_IDENTITY() AS FeedbackID;
 END
 GO
 
 CREATE PROCEDURE SP_UpdateFeedback
-    @FeedID INT,
-	@Date DATETIME,
-    @Content NVARCHAR(50),
-    @Comment NVARCHAR(50),
-    @ResID INT,
-    @ResName NVARCHAR(50)
+    @FeedbackID INT,
+    @FeedbackDate DATETIME,
+    @Content NVARCHAR(100),
+    @Comment NVARCHAR(MAX),
+    @ResidentID INT
 AS
 BEGIN
-    Update tblFeedback
-    SET
-		DATE = @FeedDate,
+    UPDATE tblFeedback
+    SET 
+        FeedbackDate = @FeedbackDate,
         Content = @Content,
         Comment = @Comment,
-        ResidentID = @ResID,
-        ResName = @ResName
-    WHERE FeedbackID = @FeedID;
+        ResidentID = @ResidentID
+    WHERE FeedbackID = @FeedbackID
 END
 GO
 
 CREATE PROCEDURE SP_DeleteFeedback
-    @FeedID INT
-AS 
+    @FeedbackID INT
+AS
 BEGIN
-    DELETE FROM tblFeedback WHERE FeedbackID = @FeedID;
+    DELETE FROM tblFeedback WHERE FeedbackID = @FeedbackID
 END
 GO
-
-
+--End of Feedback CRUD
 
 -- Utility CRUD
+
 Create Procedure SP_LoadUtilityIDs
 As
 Begin
-	Select Type,
+	Select UtilityType,
 			UtilityID
 	From tblUtility
 END 
@@ -521,42 +526,46 @@ GO
 CREATE PROCEDURE SP_GetAllUtilitys
 AS
 BEGIN
-    select * from tblUtility
+    SELECT u.UtilityID, u.UtilityType, u.Cost, u.UsageDate, u.RoomID, r.RoomNumber
+    FROM tblUtility u LEFT JOIN tblRoom r ON u.RoomID = r.RoomID
 END
 GO
 
 CREATE PROCEDURE SP_GetUtilityByID
-	@UtilityID INT
+    @UtilityID INT
 AS
 BEGIN
-    SELECT * FROM tblUtility WHERE UtilityID = @UtilityID;
+    SELECT u.UtilityID, u.UtilityType, u.Cost, u.UsageDate, u.RoomID, r.RoomNumber
+    FROM tblUtility u LEFT JOIN tblRoom r ON u.RoomID = r.RoomID WHERE u.UtilityID = @UtilityID
 END
 GO
     
 
 CREATE PROCEDURE SP_InsertUtility
-    @Type NVARCHAR(50),
-    @Cost float,
+    @UtilityType NVARCHAR(50),
+    @Cost FLOAT,
     @UsageDate DATETIME2,
     @RoomID INT
 AS
 BEGIN
-    INSERT INTO tblUtility (Type, Cost, UsageDate, RoomID)
-    VALUES (@Type, @Cost, @UsageDate, @RoomID)
+    INSERT INTO tblUtility ( UtilityType, Cost, UsageDate, RoomID)
+    VALUES (@UtilityType, @Cost, @UsageDate, @RoomID);
+    SELECT SCOPE_IDENTITY() AS UtilityID;
 END
 GO
 
 
 CREATE PROCEDURE SP_UpdateUtility
     @UtilityID INT,
-    @Type NVARCHAR(50),
-    @Cost DECIMAL(10,2),
-    @UsageDate DATE,
+    @UtilityType NVARCHAR(50),
+    @Cost FLOAT,
+    @UsageDate DATETIME2,
     @RoomID INT
 AS
 BEGIN
     UPDATE tblUtility
-    SET Type = @Type,
+    SET 
+        UtilityType = @UtilityType,
         Cost = @Cost,
         UsageDate = @UsageDate,
         RoomID = @RoomID
@@ -570,115 +579,92 @@ AS
 BEGIN
     DELETE FROM tblUtility WHERE UtilityID = @UtilityID
 END
-GO 
+GO
 --End of Store Procedure Utility
 
 -- Amenity CRUD
 CREATE PROCEDURE SP_GetAllAmenitys
 AS
 BEGIN
-	SELECT AmenityID,
-		   Name,
-		   Availability,
-		   Location,
-		   BoughtPrice,
-		   CPR,
-		   MainDate,
-		   Description
-	FROM tblAmenity;
+    SELECT a.AmenityID, a.Name, a.BoughtPrice, a.CostPerRent, a.MaintenanceDate, a.Description, a.RoomID, r.RoomNumber
+    FROM tblAmenity a LEFT JOIN tblRoom r ON a.RoomID = r.RoomID;
 END
 GO
 
 CREATE PROCEDURE SP_GetAmenityByID
-	@AmeID INT
+    @AmenityID INT
 AS
 BEGIN
-	SELECT TOP 1 AmenityID,
-				 Name,
-				 Availability,
-				 Location,
-				 BoughtPrice,
-				 CPR,
-				 MainDate,
-				 Description
-	FROM tblAmenity
-	WHERE AmenityID = @AmeID;
+    SELECT a.AmenityID, a.Name, a.BoughtPrice, a.CostPerRent, a.MaintenanceDate, a.Description, a.RoomID, r.RoomNumber
+    FROM tblAmenity a LEFT JOIN tblRoom r ON a.RoomID = r.RoomID WHERE a.AmenityID = @AmenityID;
 END
 GO
 
 CREATE PROCEDURE SP_InsertAmenity
-	@AmeName NVARCHAR(30),
-	@AmeAvail BIT,
-	@AmeLoc NVARCHAR(30),
-	@AmeBP FLOAT,
-	@AmeCPR FLOAT,
-	@AmeMD DATETIME,
-	@AmeDesc NVARCHAR(100)
+    @Name NVARCHAR(30),
+    @BoughtPrice FLOAT,
+    @CostPerRent FLOAT,
+    @MaintenanceDate DATETIME,
+    @Description NVARCHAR(100),
+    @RoomID INT
 AS
 BEGIN
-	INSERT INTO tblAmenity
-	(	Name,
-		Availability,
-		Location,
-		BoughtPrice,
-		CPR,
-		MainDate,
-		Description
-	)
-	VALUES
-	(
-		@AmeName,
-		@AmeAvail,
-		@AmeLoc,
-		@AmeBP,
-		@AmeCPR,
-		@AmeMD,
-		@AmeDesc
-	)
+    IF @RoomID IS NOT NULL AND NOT EXISTS (SELECT 1 FROM tblRoom WHERE RoomID = @RoomID)
+    BEGIN
+        THROW 50001, 'Invalid RoomID specified', 1;
+        RETURN;
+    END
+
+    INSERT INTO tblAmenity (Name, BoughtPrice, CostPerRent, MaintenanceDate, Description, RoomID)
+    VALUES (@Name, @BoughtPrice, @CostPerRent, @MaintenanceDate, @Description, @RoomID);
+    
+    SELECT SCOPE_IDENTITY() AS AmenityID;
 END
 GO
 
 CREATE PROCEDURE SP_UpdateAmenity
-	@AmeID INT,
-	@AmeName NVARCHAR(30),
-	@AmeAvail BIT,
-	@AmeLoc NVARCHAR(30),
-	@AmeBP FLOAT,
-	@AmeCPR FLOAT,
-	@AmeMD DATETIME,
-	@AmeDesc NVARCHAR(100)
+    @AmenityID INT,
+    @Name NVARCHAR(30),
+    @BoughtPrice FLOAT,
+    @CostPerRent FLOAT,
+    @MaintenanceDate DATETIME,
+    @Description NVARCHAR(100),
+    @RoomID INT
 AS
 BEGIN
-	UPDATE tblAmenity
-	SET Name = @AmeName,
-		Availability = @AmeAvail,
-		Location = @AmeLoc,
-		BoughtPrice = @AmeBP,
-		CPR = @AmeCPR,
-		MainDate = @AmeMD,
-		Description = @AmeDesc
-	WHERE AmenityID = @AmeID
+    IF NOT EXISTS (SELECT 1 FROM tblAmenity WHERE AmenityID = @AmenityID)
+    BEGIN
+        THROW 50002, 'Amenity not found', 1;
+        RETURN;
+    END
+
+    IF @RoomID IS NOT NULL AND NOT EXISTS (SELECT 1 FROM tblRoom WHERE RoomID = @RoomID)
+    BEGIN
+        THROW 50001, 'Invalid RoomID specified', 1;
+        RETURN;
+    END
+
+    UPDATE tblAmenity
+    SET 
+        Name = @Name,
+        BoughtPrice = @BoughtPrice,
+        CostPerRent = @CostPerRent,
+        MaintenanceDate = @MaintenanceDate,
+        Description = @Description,
+        RoomID = @RoomID
+    WHERE AmenityID = @AmenityID;
 END
 GO
 
 CREATE PROCEDURE SP_DeleteAmenity
-	@AmeID INT
+	@AmenityID INTgoo
 AS
 BEGIN
 	DELETE FROM tblAmenity
-	WHERE AmenityID = @AmeID;
+	WHERE AmenityID = @AmenityID;
 END
 GO
 
-CREATE PROCEDURE SP_ValidateAmenityID
-	@AmenityID INT
-AS
-BEGIN
-	SELECT COUNT(*) 
-	FROM tblAmenity 
-	WHERE AmenityID = @AmenityID
-END
-GO
 --End of Store Procedure Amenity
 
 -- Policy CRUD
@@ -781,10 +767,6 @@ GO
 
 --End of Store Procedure Policy
 
-
-
-
-
 -- Rent CRUD
 CREATE PROCEDURE SP_GetAllRents
 AS
@@ -793,213 +775,69 @@ BEGIN
         r.RentID,
         r.StartDate,
         r.EndDate,
-        r.RentAmount,
-        r.ResidentID,
+        r.Amount,
         r.RoomID,
-        res.ResidentName,
         rm.RoomNumber
-    FROM Rent r
-    INNER JOIN Resident res ON r.ResidentID = res.ResidentID
-    INNER JOIN Room rm ON r.RoomID = rm.RoomID
-    ORDER BY r.RentID DESC;
-END;
+    FROM tblRent r
+    LEFT JOIN tblRoom rm ON r.RoomID = rm.RoomID
+END
 GO
 
-CREATE PROCEDURE SP_SearchRents
-    @SearchTerm NVARCHAR(100)
+CREATE PROCEDURE SP_GetRentByID
+    @RentID INT
 AS
 BEGIN
     SELECT 
         r.RentID,
-        r.StartDate,
+        r.StartDate, 
         r.EndDate,
-        r.RentAmount,
-        r.ResidentID,
+        r.Amount,
         r.RoomID,
-        res.ResidentName,
         rm.RoomNumber
-    FROM Rent r
-    INNER JOIN Resident res ON r.ResidentID = res.ResidentID
-    INNER JOIN Room rm ON r.RoomID = rm.RoomID
-    WHERE res.ResidentName LIKE @SearchTerm + '%'
-    ORDER BY r.RentID DESC;
-END;
-GO
-
-CREATE PROCEDURE SP_GetRoomNumberById
-    @RoomID INT
-AS
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Room WHERE RoomID = @RoomID)
-    BEGIN
-        THROW 50002, 'Room not found', 1;
-        RETURN;
-    END
-
-    SELECT RoomNumber
-    FROM Room
-    WHERE RoomID = @RoomID;
-END;
+    FROM tblRent r
+    LEFT JOIN tblRoom rm ON r.RoomID = rm.RoomID
+    WHERE RentID = @RentID
+END
 GO
 
 CREATE PROCEDURE SP_InsertRent
     @StartDate DATE,
     @EndDate DATE,
-    @RentAmount DECIMAL(10,2),
-    @ResidentID INT,
+    @Amount float,
     @RoomID INT
 AS
 BEGIN
-    -- Validate resident exists
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    -- Validate room exists
-    IF NOT EXISTS (SELECT 1 FROM Room WHERE RoomID = @RoomID)
-    BEGIN
-        THROW 50002, 'Room not found', 1;
-        RETURN;
-    END
-
-    -- Validate dates
-    IF @EndDate < @StartDate
-    BEGIN
-        THROW 50003, 'End date cannot be earlier than start date', 1;
-        RETURN;
-    END
-
-    -- Validate rent amount
-    IF @RentAmount <= 0
-    BEGIN
-        THROW 50004, 'Rent amount must be greater than zero', 1;
-        RETURN;
-    END
-
-    -- Check for overlapping rent periods
-    IF EXISTS (
-        SELECT 1 
-        FROM Rent 
-        WHERE RoomID = @RoomID 
-        AND (
-            (@StartDate BETWEEN StartDate AND EndDate)
-            OR (@EndDate BETWEEN StartDate AND EndDate)
-            OR (StartDate BETWEEN @StartDate AND @EndDate)
-        )
-    )
-    BEGIN
-        THROW 50005, 'Room is already rented during this period', 1;
-        RETURN;
-    END
-
-    -- Insert the rent record
-    INSERT INTO Rent (
-        StartDate,
-        EndDate,
-        RentAmount,
-        ResidentID,
-        RoomID
-    )
-    VALUES (
-        @StartDate,
-        @EndDate,
-        @RentAmount,
-        @ResidentID,
-        @RoomID
-    );
-
+    INSERT INTO tblRent (StartDate, EndDate, Amount, RoomID)
+    VALUES (@StartDate, @EndDate, @Amount, @RoomID);
     SELECT SCOPE_IDENTITY() AS RentID;
-END;
+END
 GO
 
 CREATE PROCEDURE SP_UpdateRent
     @RentID INT,
     @StartDate DATE,
     @EndDate DATE,
-    @RentAmount DECIMAL(10,2)
+    @Amount float,
+    @RoomID INT
 AS
 BEGIN
-    -- Validate rent exists
-    IF NOT EXISTS (SELECT 1 FROM Rent WHERE RentID = @RentID)
-    BEGIN
-        THROW 50006, 'Rent record not found', 1;
-        RETURN;
-    END
-
-    -- Validate dates
-    IF @EndDate < @StartDate
-    BEGIN
-        THROW 50003, 'End date cannot be earlier than start date', 1;
-        RETURN;
-    END
-
-    -- Validate rent amount
-    IF @RentAmount <= 0
-    BEGIN
-        THROW 50004, 'Rent amount must be greater than zero', 1;
-        RETURN;
-    END
-
-    -- Get the RoomID for the current rent record
-    DECLARE @CurrentRoomID INT;
-    SELECT @CurrentRoomID = RoomID FROM Rent WHERE RentID = @RentID;
-
-    -- Check for overlapping rent periods (excluding current record)
-    IF EXISTS (
-        SELECT 1 
-        FROM Rent 
-        WHERE RoomID = @CurrentRoomID 
-        AND RentID != @RentID
-        AND (
-            (@StartDate BETWEEN StartDate AND EndDate)
-            OR (@EndDate BETWEEN StartDate AND EndDate)
-            OR (StartDate BETWEEN @StartDate AND @EndDate)
-        )
-    )
-    BEGIN
-        THROW 50005, 'Room is already rented during this period', 1;
-        RETURN;
-    END
-
-    -- Update the rent record
-    UPDATE Rent
-    SET 
+    UPDATE tblRent
+    SET
         StartDate = @StartDate,
         EndDate = @EndDate,
-        RentAmount = @RentAmount
-    WHERE RentID = @RentID;
-END;
+        Amount = @Amount,
+        RoomID = @RoomID
+    WHERE RentID = @RentID
+END
 GO
 
 CREATE PROCEDURE SP_DeleteRent
     @RentID INT
 AS
 BEGIN
-    -- Validate rent exists
-    IF NOT EXISTS (SELECT 1 FROM Rent WHERE RentID = @RentID)
-    BEGIN
-        THROW 50006, 'Rent record not found', 1;
-        RETURN;
-    END
-
-    -- Check if this is an active rent
-    IF EXISTS (
-        SELECT 1 
-        FROM Rent 
-        WHERE RentID = @RentID 
-        AND GETDATE() BETWEEN StartDate AND EndDate
-    )
-    BEGIN
-        THROW 50007, 'Cannot delete an active rent record', 1;
-        RETURN;
-    END
-
-    -- Delete the rent record
-    DELETE FROM Rent
-    WHERE RentID = @RentID;
-END;
+    DELETE FROM tblRent 
+    WHERE RentID = @RentID
+END
 GO
 --End of Store Precedure Rent
 
@@ -1102,111 +940,96 @@ GO
 --End of Store Precedure Request
 
 -- Reservation CRUD
-Create Procedure SP_LoadReservationIDs
-As
-Begin
-	Select ReserStatus,
-			ReservationID
-	From tblReservation
-END 
-GO
-
 CREATE PROCEDURE SP_GetAllReservations
 AS
 BEGIN
-    SELECT 
-        r.ReservationID,
-        r.ReservationDate,
-        r.StartDate,
-        r.EndDate,
-        r.Status,
-        r.ResidentID,
-        r.RoomID,
-        res.ResidentName,
-        rm.RoomNumber
-    FROM Reservation r
-    LEFT JOIN Resident res ON r.ResidentID = res.ResidentID
-    LEFT JOIN Room rm ON r.RoomID = rm.RoomID
-    ORDER BY r.ReservationID DESC;
-END;
+   SELECT 
+       r.ReservationID,
+       r.ReservationDate,
+       r.StartDate,
+       r.EndDate,
+       r.Status,
+       r.ResidentID,
+       r.RoomID, 
+       r.PaidAmount,
+       r.RemainingAmount,
+       res.FirstName + ' ' + res.LastName AS ResidentName,
+       rm.RoomNumber,
+       rt.BasePrice as RoomAmount
+   FROM tblReservation r
+   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+   LEFT JOIN tblRoom rm ON r.RoomID = rm.RoomID
+   LEFT JOIN tblRoomType rt ON rm.RoomTypeID = rt.RoomTypeID;
+END
 GO
 
-CREATE PROCEDURE SP_GetReservationById
-    @ReservationID INT
+-- Get reservation by ID
+CREATE PROCEDURE SP_GetReservationByID
+   @ReservationID INT
 AS
 BEGIN
-    SELECT 
-        r.ReservationID,
-        r.ReservationDate,
-        r.StartDate,
-        r.EndDate,
-        r.Status,
-        r.ResidentID,
-        r.RoomID,
-        res.ResidentName,
-        rm.RoomNumber
-    FROM Reservation r
-    LEFT JOIN Resident res ON r.ResidentID = res.ResidentID
-    LEFT JOIN Room rm ON r.RoomID = rm.RoomID
-    WHERE r.ReservationID = @ReservationID;
-END;
+   SELECT 
+       r.ReservationID,
+       r.ReservationDate,
+       r.StartDate,
+       r.EndDate,
+       r.Status,
+       r.ResidentID,
+       r.RoomID,
+       r.PaidAmount,
+       r.RemainingAmount,
+       res.FirstName + ' ' + res.LastName AS ResidentName,
+       rm.RoomNumber,
+       rt.BasePrice as RoomAmount
+   FROM tblReservation r
+   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+   LEFT JOIN tblRoom rm ON r.RoomID = rm.RoomID
+   LEFT JOIN tblRoomType rt ON rm.RoomTypeID = rt.RoomTypeID
+   WHERE r.ReservationID = @ReservationID;
+END
 GO
 
+-- Get room amount and calculate remaining
+CREATE PROCEDURE SP_GetRoomAmount
+   @RoomID INT,
+   @PaidAmount DECIMAL(10,2),
+   @RemainingAmount DECIMAL(10,2) OUTPUT
+AS
+BEGIN
+   DECLARE @BasePrice DECIMAL(10,2)
+
+   SELECT @BasePrice = rt.BasePrice
+   FROM tblRoom r
+   JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+   WHERE r.RoomID = @RoomID;
+
+   SET @RemainingAmount = @BasePrice - @PaidAmount;
+
+   SELECT @BasePrice AS BasePrice, @RemainingAmount AS RemainingAmount;
+END
+GO
+
+-- Insert reservation
 CREATE PROCEDURE SP_InsertReservation
-    @ReservationDate DATE,
-    @StartDate DATE,
-    @EndDate DATE,
+    @ReservationDate DATETIME,
+    @StartDate DATETIME,
+    @EndDate DATETIME,
     @Status NVARCHAR(50),
     @ResidentID INT,
-    @RoomID INT
+    @RoomID INT,
+    @PaidAmount DECIMAL(10,2),
+    @RemainingAmount DECIMAL(10,2)
 AS
 BEGIN
-    -- Validate resident exists
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
-    BEGIN
-        THROW 50001, 'Resident not found', 1;
-        RETURN;
-    END
-
-    -- Validate room exists
-    IF NOT EXISTS (SELECT 1 FROM Room WHERE RoomID = @RoomID)
-    BEGIN
-        THROW 50002, 'Room not found', 1;
-        RETURN;
-    END
-
-    -- Validate dates
-    IF @StartDate > @EndDate
-    BEGIN
-        THROW 50003, 'Start date cannot be after end date', 1;
-        RETURN;
-    END
-
-    -- Check for overlapping reservations
-    IF EXISTS (
-        SELECT 1 
-        FROM Reservation 
-        WHERE RoomID = @RoomID 
-        AND Status != 'Cancelled'
-        AND (
-            (@StartDate BETWEEN StartDate AND EndDate)
-            OR (@EndDate BETWEEN StartDate AND EndDate)
-            OR (StartDate BETWEEN @StartDate AND @EndDate)
-        )
-    )
-    BEGIN
-        THROW 50004, 'Room is already reserved for this period', 1;
-        RETURN;
-    END
-
-    -- Insert the reservation
-    INSERT INTO Reservation (
+    INSERT INTO tblReservation (
         ReservationDate,
         StartDate,
         EndDate,
         Status,
         ResidentID,
-        RoomID
+        RoomID,
+        PaidAmount,
+        RemainingAmount
     )
     VALUES (
         @ReservationDate,
@@ -1214,56 +1037,49 @@ BEGIN
         @EndDate,
         @Status,
         @ResidentID,
-        @RoomID
+        @RoomID,
+        @PaidAmount,
+        @RemainingAmount
     );
     
-    -- Return the inserted ID
-    SELECT SCOPE_IDENTITY() AS ReservationID;
-END;
-GO
+    SELECT SCOPE_IDENTITY() as ReservationID;
+END
 
 CREATE PROCEDURE SP_UpdateReservation
     @ReservationID INT,
-    @ReservationDate DATE,
-    @StartDate DATE,
-    @EndDate DATE,
+    @ReservationDate DATETIME,
+    @StartDate DATETIME,
+    @EndDate DATETIME, 
     @Status NVARCHAR(50),
     @ResidentID INT,
-    @RoomID INT
+    @RoomID INT,
+    @PaidAmount DECIMAL(10,2),
+    @RemainingAmount DECIMAL(10,2)
 AS
 BEGIN
-    -- Check if reservation exists
-    IF NOT EXISTS (SELECT 1 FROM Reservation WHERE ReservationID = @ReservationID)
-    BEGIN
-        THROW 50005, 'Reservation not found', 1;
-        RETURN;
-    END
-
-    -- Validate resident exists
-    IF NOT EXISTS (SELECT 1 FROM Resident WHERE ResidentID = @ResidentID)
+    -- Validate inputs
+    IF NOT EXISTS (SELECT 1 FROM tblResident WHERE ResidentID = @ResidentID)
     BEGIN
         THROW 50001, 'Resident not found', 1;
         RETURN;
     END
 
-    -- Validate room exists
-    IF NOT EXISTS (SELECT 1 FROM Room WHERE RoomID = @RoomID)
+    IF NOT EXISTS (SELECT 1 FROM tblRoom WHERE RoomID = @RoomID)
     BEGIN
         THROW 50002, 'Room not found', 1;
         RETURN;
     END
 
-    -- Validate dates
-    IF @StartDate > @EndDate
+    IF @EndDate <= @StartDate
     BEGIN
-        THROW 50003, 'Start date cannot be after end date', 1;
+        THROW 50003, 'End date must be after start date', 1;
         RETURN;
     END
 
     -- Check for overlapping reservations (excluding current reservation)
     IF EXISTS (
         SELECT 1 
-        FROM Reservation 
+        FROM tblReservation 
         WHERE RoomID = @RoomID 
         AND ReservationID != @ReservationID
         AND Status != 'Cancelled'
@@ -1279,50 +1095,86 @@ BEGIN
     END
 
     -- Update the reservation
-    UPDATE Reservation
+    UPDATE tblReservation
     SET 
         ReservationDate = @ReservationDate,
         StartDate = @StartDate,
         EndDate = @EndDate,
         Status = @Status,
         ResidentID = @ResidentID,
-        RoomID = @RoomID
+        RoomID = @RoomID,
+        PaidAmount = @PaidAmount,
+        RemainingAmount = @RemainingAmount
     WHERE ReservationID = @ReservationID;
-END;
-GO
 
-CREATE PROCEDURE SP_DeleteReservation
-    @ReservationID INT
-AS
-BEGIN
-    -- Check if reservation exists
-    IF NOT EXISTS (SELECT 1 FROM Reservation WHERE ReservationID = @ReservationID)
+    -- If no rows were updated, the reservation doesn't exist
+    IF @@ROWCOUNT = 0
     BEGIN
         THROW 50005, 'Reservation not found', 1;
-        RETURN;
     END
-
-    -- Check if the reservation can be deleted (you might want to add more business rules here)
-    IF EXISTS (
-        SELECT 1 
-        FROM Reservation 
-        WHERE ReservationID = @ReservationID 
-        AND Status = 'Confirmed'
-        AND StartDate <= GETDATE()
-        AND EndDate >= GETDATE()
-    )
-    BEGIN
-        THROW 50006, 'Cannot delete an active confirmed reservation', 1;
-        RETURN;
-    END
-
-    -- Delete the reservation
-    DELETE FROM Reservation
-    WHERE ReservationID = @ReservationID;
-END;
+END
 GO
 
---End of Store Precedure Resident
+-- Delete reservation
+CREATE PROCEDURE SP_DeleteReservation
+   @ReservationID INT
+AS
+BEGIN
+   DELETE FROM tblReservation 
+   WHERE ReservationID = @ReservationID;
+END
+GO
+
+-- Get room details with price
+CREATE PROCEDURE SP_GetRoomDetailsWithPrice
+   @RoomID INT
+AS
+BEGIN
+   SELECT 
+       r.RoomID,
+       r.RoomNumber,
+       rt.TypeName,
+       ISNULL(rt.BasePrice, 0) as BasePrice,  -- Handle NULL values
+       rt.Capacity
+   FROM tblRoom r
+   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+   WHERE r.RoomID = @RoomID;
+END
+GO
+
+-- Get available rooms
+CREATE PROCEDURE SP_GetAvailableRooms
+AS
+BEGIN
+   SELECT 
+       r.RoomID,
+       r.RoomNumber,
+       rt.TypeName,
+       rt.BasePrice as RoomAmount,
+       rt.Capacity,
+       r.Status,  -- Added room status
+       r.LastModifiedDate,  -- Added modification tracking
+       r.LastModifiedBy    -- Added who modified it
+   FROM tblRoom r
+   INNER JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+   WHERE r.ResidentID IS NULL
+   AND r.Status = 'Available'  -- Only show rooms marked as available
+   AND r.Status NOT IN ('UnderMaintenance', 'Renovation', 'OutOfService')  -- Exclude rooms under modification
+   ORDER BY r.RoomNumber;
+END
+GO
+
+-- Load reservation IDs
+CREATE PROCEDURE SP_LoadReservationIDs
+AS
+BEGIN
+   SELECT 
+       ReservationID,
+       Status
+   FROM tblReservation;
+END
+GO
+--End of Reservation CRUD
 
 
 -- Service CRUD
@@ -1438,73 +1290,84 @@ CREATE PROCEDURE SP_LoadRoomIDs
 AS
 BEGIN
    SELECT 
-       RoomNumber,
-       RoomID,
-       rt.TypeName
+       r.RoomNumber,
+       r.RoomID,
+       rt.TypeName,
+       rt.BasePrice
    FROM tblRoom r
-   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID;
+   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+   ORDER BY r.RoomID;
 END 
 GO
 
 CREATE PROCEDURE SP_GetAllRooms
 AS
 BEGIN
-   SELECT 
-       r.RoomID,
-       r.RoomNumber,
-       r.ResidentID,
-       r.RoomTypeID,
-       res.FirstName + ' ' + res.LastName AS ResidentName,
-       rt.TypeName
-   FROM tblRoom r
-   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
-   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID;
+    SELECT r.RoomID,
+           r.RoomNumber,
+           r.ResidentID,
+           r.RoomTypeID,
+           r.Status,
+           rt.TypeName as RoomTypeName,
+           CASE WHEN r.ResidentID IS NOT NULL 
+                THEN res.FirstName + ' ' + res.LastName 
+                ELSE NULL 
+           END as ResidentName
+    FROM tblRoom r
+    LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+    LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID;
 END
 GO
 
 CREATE PROCEDURE SP_GetRoomByID
-   @RoomID INT
+    @RoomID INT
 AS
 BEGIN
-   SELECT 
-       r.RoomID,
-       r.RoomNumber, 
-       r.ResidentID,
-       r.RoomTypeID,
-       res.FirstName + ' ' + res.LastName AS ResidentName,
-       rt.TypeName
-   FROM tblRoom r
-   LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
-   LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
-   WHERE r.RoomID = @RoomID;
+    SELECT r.RoomID,
+           r.RoomNumber,
+           r.ResidentID,
+           r.RoomTypeID,
+           r.Status,
+           rt.TypeName as RoomTypeName,
+           CASE WHEN r.ResidentID IS NOT NULL 
+                THEN res.FirstName + ' ' + res.LastName 
+                ELSE NULL 
+           END as ResidentName
+    FROM tblRoom r
+    LEFT JOIN tblRoomType rt ON r.RoomTypeID = rt.RoomTypeID
+    LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+    WHERE r.RoomID = @RoomID;
 END
 GO
 
 CREATE PROCEDURE SP_InsertRoom
-   @RoomNumber NVARCHAR(20),
-   @ResidentID INT = NULL,
-   @RoomTypeID INT = NULL
+    @RoomNumber NVARCHAR(10),
+    @ResidentID INT = NULL,
+    @RoomTypeID INT,
+    @Status BIT = 0
 AS
 BEGIN
-   INSERT INTO tblRoom (RoomNumber, ResidentID, RoomTypeID)
-   VALUES (@RoomNumber, @ResidentID, @RoomTypeID);
-   SELECT SCOPE_IDENTITY() AS RoomID;
+    INSERT INTO tblRoom (RoomNumber, ResidentID, RoomTypeID, Status)
+    VALUES (@RoomNumber, @ResidentID, @RoomTypeID, @Status);
+    
+    SELECT SCOPE_IDENTITY() AS RoomID;
 END
 GO
 
 CREATE PROCEDURE SP_UpdateRoom
-   @RoomID INT,
-   @RoomNumber NVARCHAR(20),
-   @ResidentID INT = NULL,
-   @RoomTypeID INT = NULL
+    @RoomID INT,
+    @RoomNumber NVARCHAR(10),
+    @ResidentID INT = NULL,
+    @RoomTypeID INT,
+    @Status BIT
 AS
 BEGIN
-   UPDATE tblRoom
-   SET 
-       RoomNumber = @RoomNumber,
-       ResidentID = @ResidentID,
-       RoomTypeID = @RoomTypeID
-   WHERE RoomID = @RoomID;
+    UPDATE tblRoom
+    SET RoomNumber = @RoomNumber,
+        ResidentID = @ResidentID,
+        RoomTypeID = @RoomTypeID,
+        Status = @Status
+    WHERE RoomID = @RoomID;
 END
 GO
 
@@ -1523,15 +1386,22 @@ AS
 BEGIN
     SELECT 
         p.*,
-        u.Type,
-        s.FName + ' ' + s.LName AS StaffName,
-        r.ResidentID
+        u.UtilityType AS UtilityType,
+        sv.ServiceName,
+        s.FirstName + ' ' + s.LastName AS StaffName,
+        r.ResidentID,
+        res.FirstName + ' ' + res.LastName AS ResidentName
     FROM tblPayment p
     LEFT JOIN tblUtility u ON p.UtilityID = u.UtilityID 
+    LEFT JOIN tblService sv ON p.ServiceID = sv.ServiceID
     LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
     LEFT JOIN tblReservation r ON p.ReservationID = r.ReservationID
+    LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+    WHERE p.Status = 1
+    ORDER BY p.PaymentDate DESC
 END
 GO
+
 
 CREATE PROCEDURE SP_GetPaymentByID
     @PaymentID INT
@@ -1539,14 +1409,18 @@ AS
 BEGIN
     SELECT 
         p.*,
-        u.Type,
-        s.FName + ' ' + s.LName AS StaffName,
-        r.ResidentID
+        u.UtilityType AS UtilityType,
+        sv.ServiceName,
+        s.FirstName + ' ' + s.LastName AS StaffName,
+        r.ResidentID,
+        res.FirstName + ' ' + res.LastName AS ResidentName
     FROM tblPayment p
     LEFT JOIN tblUtility u ON p.UtilityID = u.UtilityID
+    LEFT JOIN tblService sv ON p.ServiceID = sv.ServiceID
     LEFT JOIN tblStaff s ON p.StaffID = s.StaffID
     LEFT JOIN tblReservation r ON p.ReservationID = r.ReservationID
-    WHERE p.PaymentID = @PaymentID
+    LEFT JOIN tblResident res ON r.ResidentID = res.ResidentID
+    WHERE p.PaymentID = @PaymentID AND p.Status = 1
 END
 GO
 
@@ -1555,19 +1429,24 @@ CREATE PROCEDURE SP_InsertPayment
     @ReservationID INT = NULL,
     @StaffID INT,
     @UtilityID INT = NULL,
+    @ServiceID INT = NULL,
     @PaidAmount DECIMAL(10,2),
     @RemainingAmount DECIMAL(10,2),
     @IsSecondPaymentDone BIT = 0,
-    @IsUtilityOnly BIT = 0
+    @IsUtilityOnly BIT = 0,
+    @IsServiceOnly BIT = 0,
+    @Description NVARCHAR(MAX) = NULL
 AS
 BEGIN
     INSERT INTO tblPayment (
-        PaymentDate, ReservationID, StaffID, UtilityID,
-        PaidAmount, RemainingAmount, IsSecondPaymentDone, IsUtilityOnly
+        PaymentDate, ReservationID, StaffID, UtilityID, ServiceID,
+        PaidAmount, RemainingAmount, IsSecondPaymentDone, 
+        IsUtilityOnly, IsServiceOnly, Description, Status
     )
     VALUES (
-        @PaymentDate, @ReservationID, @StaffID, @UtilityID,
-        @PaidAmount, @RemainingAmount, @IsSecondPaymentDone, @IsUtilityOnly
+        @PaymentDate, @ReservationID, @StaffID, @UtilityID, @ServiceID,
+        @PaidAmount, @RemainingAmount, @IsSecondPaymentDone, 
+        @IsUtilityOnly, @IsServiceOnly, @Description, 1
     );
     SELECT SCOPE_IDENTITY() AS PaymentID;
 END
@@ -1579,10 +1458,13 @@ CREATE PROCEDURE SP_UpdatePayment
     @ReservationID INT = NULL,
     @StaffID INT,
     @UtilityID INT = NULL,
+    @ServiceID INT = NULL,
     @PaidAmount DECIMAL(10,2),
     @RemainingAmount DECIMAL(10,2),
     @IsSecondPaymentDone BIT,
-    @IsUtilityOnly BIT
+    @IsUtilityOnly BIT,
+    @IsServiceOnly BIT,
+    @Description NVARCHAR(MAX) = NULL
 AS
 BEGIN
     UPDATE tblPayment
@@ -1591,11 +1473,14 @@ BEGIN
         ReservationID = @ReservationID,
         StaffID = @StaffID,
         UtilityID = @UtilityID,
+        ServiceID = @ServiceID,
         PaidAmount = @PaidAmount,
         RemainingAmount = @RemainingAmount,
         IsSecondPaymentDone = @IsSecondPaymentDone,
-        IsUtilityOnly = @IsUtilityOnly
-    WHERE PaymentID = @PaymentID
+        IsUtilityOnly = @IsUtilityOnly,
+        IsServiceOnly = @IsServiceOnly,
+        Description = @Description
+    WHERE PaymentID = @PaymentID AND Status = 1
 END
 GO
 
@@ -1615,10 +1500,12 @@ BEGIN
 END
 GO
 
-Create Procedure SP_DeletePayment
-    @PaymentID
+CREATE PROCEDURE SP_DeletePayment
+    @PaymentID INT
 AS
 BEGIN
-    Delete from tblPayment where PaymentID = @PaymentID
-End
+    UPDATE tblPayment 
+    SET Status = 0
+    WHERE PaymentID = @PaymentID
+END
 GO

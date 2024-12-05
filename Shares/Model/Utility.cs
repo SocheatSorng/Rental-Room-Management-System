@@ -5,17 +5,19 @@ namespace RRMS.Model
     public class Utility : IEntity
     {
         // Original properties
-        public int UtilID { get; set; }
-        public string? UtilType { get; set; }
-        public decimal Cost { get; set; }
-        public DateTime? UsaDate { get; set; }
-        public int RoomID { get; set; }
+        private int UtilityID { get; set; }
+        private string? UtilityType { get; set; }
+        private double Cost { get; set; }
+        private DateTime? UsageDate { get; set; }
+        private int roomID;
+        public int RoomID { get => roomID; set => roomID = value; }
+
 
         // Implementing applicable interface members
-        public int ID { get => UtilID; set => UtilID = value; }
-        public string Type { get => UtilType ?? string.Empty; set => UtilType = value; }
-        public double CostPrice { get => (double)Cost; set => Cost = (decimal)value; }
-        public DateTime? Start { get => UsaDate; set => UsaDate = value; }
+        public int ID { get => UtilityID; set => UtilityID = value; }
+        public string Type { get => UtilityType ?? string.Empty; set => UtilityType = value; }
+        public double CostPrice { get => Cost; set => Cost = value; }
+        public DateTime? Start { get => UsageDate; set => UsageDate = value; }
 
         // Not applicable properties
         public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -39,24 +41,21 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@UtilType", UtilType as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@UtilityType", UtilityType as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@UsaDate", UsaDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@UsageDate", UsageDate as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@UtilID", UtilID);
-            cmd.Parameters.AddWithValue("@UtilType", UtilType as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Cost", Cost as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@UsaDate", UsaDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@UtilityID", UtilityID);
+            AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@UtilID", UtilID);
+            cmd.Parameters.AddWithValue("@UtilityID", UtilityID);
         }
     }
 }

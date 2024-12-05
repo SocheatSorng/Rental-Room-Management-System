@@ -5,21 +5,26 @@ namespace RRMS.Model
     public class Feedback : IEntity
     {
         // Original properties
-        public int FeedID { get; set; }
-        public DateTime? Date { get; set; }
-        public string? Content { get; set; }
-        public string? Comment { get; set; }
-        public int ResID { get; set; }
-        public string? ResName { get; set; }
+        private int FeedbackID { get; set; }
+        private DateTime? FeedbackDate { get; set; }
+        private string? Content { get; set; }
+        private string? Comment { get; set; }
+        private int residentID;
+
+        public int ResidentID
+        {
+            get => residentID; 
+            set => residentID = value;
+        }
 
         // Implementing applicable interface members
-        public int ID { get => FeedID; set => FeedID = value; }
-        public DateTime? Start { get => Date; set => Date = value; }
+        public int ID { get => FeedbackID; set => FeedbackID = value; }
+        public DateTime? Start { get => FeedbackDate; set => FeedbackDate = value; }
         public string Type { get => Content ?? string.Empty; set => Content = value; }
         public string Description { get => Comment ?? string.Empty; set => Comment = value; }
-        public string FirstName { get => ResName ?? string.Empty; set => ResName = value; }
 
         // Not applicable properties
+        public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }
         public string LastName { get => string.Empty; set => throw new NotSupportedException(); }
         public string Sex { get => string.Empty; set => throw new NotSupportedException(); }
         public DateTime? BirthDate { get => DateTime.MinValue; set => throw new NotSupportedException(); }
@@ -40,22 +45,21 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@Date", Date as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Content", Content as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Comment", Comment as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResID", ResID as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResName", ResName as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@FeedbackDate", Start as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Content", Type as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@Comment", Description as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@FeedID", FeedID);
+            cmd.Parameters.AddWithValue("@FeedbackID", ID);
             AddParameters(cmd);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@FeedID", FeedID);
+            cmd.Parameters.AddWithValue("@FeedbackID", ID);
         }
     }
 } 

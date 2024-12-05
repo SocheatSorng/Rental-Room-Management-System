@@ -21,7 +21,7 @@ namespace RRMS.Forms
             ConfigView();
             _bs.DataSource = dgvFeed;
             LoadResidentIDs();
-            cbbResID.SelectedIndexChanged += cbbResID_SelectedIndexChanged;
+            cbbResID.SelectedIndexChanged += cbbResidentID_SelectedIndexChanged;
             
 
             btnInsert.Click += (sender, e) =>
@@ -49,19 +49,29 @@ namespace RRMS.Forms
             dgvFeed.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
         }
-        private void cbbResID_SelectedIndexChanged(object? sender, EventArgs e)
+        private void cbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            if(cbbResID.SelectedItem != null)
+            if (cbbResID.SelectedItem != null)
             {
-                SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", cbbResID.SelectedItem);
-                using(SqlDataReader dr = cmd.ExecuteReader())
+                try
                 {
-                    while (dr.Read())
+                    SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ResidentID", cbbResID.SelectedItem);
+                    using (SqlDataReader dr = cmd.ExecuteReader())
                     {
-                        txtResName.Text = dr[2].ToString();
+                        if (dr.Read())
+                        {
+                            string firstName = dr["FirstName"].ToString() ?? string.Empty;
+                            string lastName = dr["LastName"].ToString() ?? string.Empty;
+                            txtResName.Text = $"{firstName} {lastName}".Trim();
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtResName.Text = string.Empty;
                 }
             }
             else
@@ -77,7 +87,7 @@ namespace RRMS.Forms
             {
                 while (dr.Read())
                 {
-                    object resIDObj = dr["ID"];
+                    object resIDObj = dr["ResidentID"];
                     if(resIDObj != DBNull.Value)
                     {
                         string? resID = resIDObj.ToString();
@@ -205,7 +215,7 @@ namespace RRMS.Forms
                 using var cmd = Program.Connection.CreateCommand();
                 cmd.CommandText = "SP_DeleteFeedback";
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@FeedID", id);
+                cmd.Parameters.AddWithValue("@FeedbackID", id);
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show($"Successfully Deleted Feedback ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -242,7 +252,7 @@ namespace RRMS.Forms
                     var feedback = GatherFeedbackInput();
                     feedback.ID = id;
 
-                    if (TryParseInputs(feedback.Type, feedback.Description, feedback.ResID))
+                    if (TryParseInputs(feedback.Type, feedback.Description, feedback.ResidentID))
                     {
                         var entityService = new EntityService();
                         entityService.InsertOrUpdateEntity(feedback, "SP_UpdateFeedback", "Update");
@@ -292,13 +302,14 @@ namespace RRMS.Forms
         {
             var feedback = GatherFeedbackInput();
 
-            if (TryParseInputs(feedback.Type, feedback.Description, feedback.ResID))
+            if (TryParseInputs(feedback.Type, feedback.Description, feedback.ResidentID))
             {
                 // Create an instance of EntityService
                 var entityService = new EntityService();
 
                 // Call InsertOrUpdateEntity method
                 entityService.InsertOrUpdateEntity(feedback, "SP_InsertFeedback", "Insert");
+                UpdateFeedbackView();
             }
             else
             {
@@ -353,11 +364,10 @@ namespace RRMS.Forms
             {
                 return new Feedback()
                 {
-                    Date = dtpFeedDate.Value,
+                    Start = dtpFeedDate.Value,
                     Type = txtFeedCon.Text.Trim(),
                     Description = txtFeedCom.Text.Trim(),
-                    ResID = resID,
-                    ResName = txtResName.Text.Trim(),
+                    ResidentID = resID,
                 };
             }
             
@@ -376,8 +386,7 @@ namespace RRMS.Forms
                 dtpFeedDate.Value = feedback.Start ?? DateTime.Now;
                 txtFeedCon.Text = feedback.Type;
                 txtFeedCom.Text = feedback.Description;
-                cbbResID.Text = feedback.ResID.ToString();
-                txtResName.Text = feedback.ResName;
+                cbbResID.Text = feedback.ResidentID.ToString();
             }
             else
             {

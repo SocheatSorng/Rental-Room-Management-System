@@ -12,7 +12,6 @@ namespace RRMS
         // Original properties
         public int AmeID { get; set; }
         public string? AmeName { get; set; }
-        public bool AmeAvailable { get; set; }
         public double AmeBoughtPrice { get; set; }
         public double AmeCostPerRent { get; set; }
         public DateTime? AmeMaintenanceDate { get; set; }
@@ -52,6 +51,7 @@ namespace RRMS
             cmd.Parameters.AddWithValue("@CostPerRent", RentPrice as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@MaintenanceDate", Start as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Description", Description as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)

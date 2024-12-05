@@ -210,6 +210,14 @@ namespace RRMS
         private const string PAYMENT_REMAINING_AMOUNT_FIELD = "RemainingAmount";
         private const string PAYMENT_IS_SECOND_PAYMENT_FIELD = "IsSecondPaymentDone";
         private const string PAYMENT_IS_UTILITY_ONLY_FIELD = "IsUtilityOnly";
+
+
+        // Table Invoice
+        private const string INVOICE_TBL_NAME = "tblInvoice";
+        private const string INVOICE_ID_FIELD = "InvoiceID";
+        private const string INVOICE_NO_FIELD = "InvoiceNo";
+        private const string INVOICE_DATE_FIELD = "InvoiceDate";
+        private const string INVOICE_PAYMENTID_FIELD = "PaymentID";
         #endregion
 
 
@@ -404,13 +412,13 @@ namespace RRMS
                                 payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
                                 payment.IsUtilityOnly = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_UTILITY_ONLY_FIELD));
                             }
-                            //else if (entity is Invoice invoice)
-                            //{
-                            //    invoice.InvoiceID = reader.IsDBNull(reader.GetOrdinal(INVOICE_INVOICEID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_INVOICEID_FIELD));
-                            //    invoice.CustomerName = reader.IsDBNull(reader.GetOrdinal(INVOICE_CUSTOMERNAME_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_CUSTOMERNAME_FIELD));
-                            //    invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_INVOICEDATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_INVOICEDATE_FIELD));
-                            //    invoice.TotalAmount = reader.IsDBNull(reader.GetOrdinal(INVOICE_TOTALAMOUNT_FIELD)) ? 0 : reader.GetDecimal(reader.GetOrdinal(INVOICE_TOTALAMOUNT_FIELD));
-                            //}
+                            else if (entity is Invoice invoice)
+                            {
+                                invoice.InvoiceID = reader.IsDBNull(reader.GetOrdinal(INVOICE_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_ID_FIELD));
+                                invoice.InvoiceNo = reader.IsDBNull(reader.GetOrdinal(INVOICE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_NO_FIELD));
+                                invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_DATE_FIELD));
+                                invoice.PaymentID = reader.IsDBNull(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD));
+                            }
                             entities.Add(entity);
                         }
                     }
@@ -446,6 +454,7 @@ namespace RRMS
                           typeof(T) == typeof(Room) ? "RoomID" :
                           typeof(T) == typeof(Payment) ? "PaymentID" :
                           typeof(T) == typeof(RoomType) ? "RoomTypeID" :
+                          typeof(T) == typeof(Invoice) ? "Invoices" :
                           throw new ArgumentException($"Unsupported entity type: {typeof(T).Name}");
                 cmd.Parameters.AddWithValue(parameterName, id);
 
@@ -631,6 +640,13 @@ namespace RRMS
                                 payment.RemainingAmount = reader.GetDecimal(reader.GetOrdinal(PAYMENT_REMAINING_AMOUNT_FIELD));
                                 payment.IsSecondPaymentDone = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_SECOND_PAYMENT_FIELD));
                                 payment.IsUtilityOnly = reader.GetBoolean(reader.GetOrdinal(PAYMENT_IS_UTILITY_ONLY_FIELD));
+                            }
+                            else if (result is Invoice invoice)
+                            {
+                                invoice.ID = id;
+                                invoice.InvoiceNo = reader.IsDBNull(reader.GetOrdinal(INVOICE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_NO_FIELD));
+                                invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_DATE_FIELD));
+                                invoice.PaymentID = reader.IsDBNull(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD));
                             }
                         }
                     }
@@ -867,6 +883,22 @@ namespace RRMS
                             throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
                         }
                     }
+                    else if (entity is Invoice invoice)
+                    {
+                        if (invoice.ID >= 0 && invoice.ID <= 255)
+                        {
+                            Added?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)invoice.ID,
+                                Entity = EntityTypes.Invoices
+                            });
+                            entityId = invoice.ID.ToString();
+                        }
+                        else
+                        {
+                            throw new Exception($"Invoice ID {invoice.ID} is out of range for ByteId.");
+                        }
+                    }
 
 
                     // Add other entity type handling here if needed
@@ -1065,6 +1097,21 @@ namespace RRMS
                             throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
                         }
                     }
+                    else if (entity is Invoice invoice)
+                    {
+                        if (invoice.ID >= 0 && invoice.ID <= 255)
+                        {
+                            Updated?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)invoice.ID,
+                                Entity = EntityTypes.Invoices
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Invoice ID {invoice.ID} is out of range for ByteId.");
+                        }
+                    }
 
                     else
                     {
@@ -1259,6 +1306,21 @@ namespace RRMS
                         else
                         {
                             throw new Exception($"Payment ID {payment.ID} is out of range for ByteId.");
+                        }
+                    }
+                    else if (entity is Invoice invoice)
+                    {
+                        if (invoice.ID >= 0 && invoice.ID <= 255)
+                        {
+                            Deleted?.Invoke(null, new EntityEventArgs
+                            {
+                                ByteId = (byte)invoice.ID,
+                                Entity = EntityTypes.Invoices
+                            });
+                        }
+                        else
+                        {
+                            throw new Exception($"Invoice ID {invoice.ID} is out of range for ByteId.");
                         }
                     }
 

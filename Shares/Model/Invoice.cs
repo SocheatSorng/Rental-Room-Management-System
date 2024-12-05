@@ -10,11 +10,6 @@ namespace RRMS.Model
         public DateTime? InvoiceDate { get; set; }
         public int PaymentID { get; set; }
 
-        // Additional properties for display (from joins)
-        public decimal Amount { get; private set; }
-        public string? ResidentName { get; private set; }
-        public string? StaffName { get; private set; }
-
         // Implementing IEntity interface
         public int ID { get => InvoiceID; set => InvoiceID = value; }
         public string Type { get => InvoiceNo ?? string.Empty; set => InvoiceNo = value; }

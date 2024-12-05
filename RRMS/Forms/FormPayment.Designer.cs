@@ -63,6 +63,8 @@
             btnNew = new Button();
             label1 = new Label();
             dgvPayment = new DataGridView();
+            cbReservationID = new CheckBox();
+            txtTotalAmount = new TextBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPayment).BeginInit();
             SuspendLayout();
@@ -243,6 +245,8 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtTotalAmount);
+            panel1.Controls.Add(cbReservationID);
             panel1.Controls.Add(txtServiceType);
             panel1.Controls.Add(cbbServiceID);
             panel1.Controls.Add(label3);
@@ -447,6 +451,25 @@
             dgvPayment.Size = new Size(612, 647);
             dgvPayment.TabIndex = 182;
             // 
+            // cbReservationID
+            // 
+            cbReservationID.AutoSize = true;
+            cbReservationID.Font = new Font("Microsoft Sans Serif", 11.25F);
+            cbReservationID.Location = new Point(120, 132);
+            cbReservationID.Name = "cbReservationID";
+            cbReservationID.Size = new Size(15, 14);
+            cbReservationID.TabIndex = 194;
+            cbReservationID.UseVisualStyleBackColor = true;
+            // 
+            // txtTotalAmount
+            // 
+            txtTotalAmount.Font = new Font("Segoe UI", 12F);
+            txtTotalAmount.Location = new Point(138, 544);
+            txtTotalAmount.Name = "txtTotalAmount";
+            txtTotalAmount.Size = new Size(261, 29);
+            txtTotalAmount.TabIndex = 195;
+            txtTotalAmount.TextAlign = HorizontalAlignment.Center;
+            // 
             // FormPayment
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -505,5 +528,7 @@
         private Label label3;
         private Label label7;
         private CheckBox cbServiceID;
+        private CheckBox cbReservationID;
+        private TextBox txtTotalAmount;
     }
 }

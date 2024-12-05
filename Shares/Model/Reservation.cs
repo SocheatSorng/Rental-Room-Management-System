@@ -5,24 +5,22 @@ namespace RRMS.Model
     public class Reservation : IEntity
     {
         // Original properties
-        public int ReserID { get; set; }
-        public DateTime ReserDate { get; set; }
-        public DateTime? StaDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public string Stat { get; set; }
-        public int ResID { get; set; }
-        //public string? ResName { get; set; }
+        public int ReservationID { get; set; }
+        public DateTime ReservationDate { get; set; }
+        public DateTime? ReservationStartDate { get; set; }
+        public DateTime? ReservationEndDate { get; set; }
+        public string? ReservationType { get; set; }
+        public double ReservationAmount { get; set; }
+        public int ResidentID { get; set; }
         public int RoomID { get; set; }
-        //public string? RoomNum { get; set; }
-        public double PaidAmount { get; set; }
 
         // Implementing applicable interface members
-        public int ID { get => ReserID; set => ReserID = value; }
-        public DateTime Booking { get => ReserDate; set => ReserDate = value; }
-        public DateTime? Start { get => StaDate; set => StaDate = value; }
-        public DateTime? End { get => EndDate; set => EndDate = value; }
-        public string Description { get => Stat; set => Stat = value; }
-        public double CostPrice { get => PaidAmount; set => PaidAmount = value; }
+        public int ID { get => ReservationID; set => ReservationID = value; }
+        public DateTime Booking { get => ReservationDate; set => ReservationDate = value; }
+        public DateTime? Start { get => ReservationStartDate; set => ReservationStartDate = value; }
+        public DateTime? End { get => ReservationEndDate; set => ReservationEndDate = value; }
+        public string Description { get => ReservationType; set => ReservationType = value; }
+        public double CostPrice { get => ReservationAmount; set => ReservationAmount = value; }
 
         // Not applicable properties
         public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }
@@ -44,28 +42,30 @@ namespace RRMS.Model
 
         public void AddParameters(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ReserDate", ReserDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@StartDate", StaDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Status", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResidentID", ResID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationDate", ReservationDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationStartDate", ReservationStartDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationEndDate", ReservationEndDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationType", ReservationType as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationAmount", ReservationAmount as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddParametersWithID(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ReserID", ReserID);
-            cmd.Parameters.AddWithValue("@ReserDate", ReserDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@StartDate", StaDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@EndDate", EndDate as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Status", Stat as object ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ResidentID", ResID as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReserID", ReservationID);
+            cmd.Parameters.AddWithValue("@ReservationDate", ReservationDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationStartDate", ReservationStartDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationEndDate", ReservationEndDate as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationType", ReservationType as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ReservationAmount", ReservationAmount as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@ResidentID", ResidentID as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RoomID", RoomID as object ?? DBNull.Value);
         }
 
         public void AddOnlyIDParameter(SqlCommand cmd)
         {
-            cmd.Parameters.AddWithValue("@ReservationID", ReserID);
+            cmd.Parameters.AddWithValue("@ReservationID", ReservationID);
         }
     }
 }

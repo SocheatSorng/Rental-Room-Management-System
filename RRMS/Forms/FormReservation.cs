@@ -1,7 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Data;
 using RRMS.Model;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace RRMS.Forms
 {
@@ -9,23 +12,27 @@ namespace RRMS.Forms
     {
         BindingSource _bs = new();
         private int lastHighlightedIndex = -1;
+
         public FormReservation()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             DataGridView.CheckForIllegalCrossThreadCalls = false;
             ConfigView();
-            _bs.DataSource = dgvReser;
+            _bs.DataSource = dgvReservation;
             LoadResidentIDs();
-            cbbResID.SelectedIndexChanged += cbbResID_SelectedIndexChanged;
             LoadRoomIDs();
-            cbbRoomID.SelectedIndexChanged += cbbRoomID_SelectedIndexChanged;
+
+            // Event handlers
+            cbbResID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
+            cbbRoomID.SelectedIndexChanged += CbbRoomID_SelectedIndexChanged;
+            txtReserPA.TextChanged += TxtPaidAmount_TextChanged;
 
             btnInsert.Click += (sender, e) =>
             {
                 Helper.Added += DoOnReservationInserted;
                 DoClickInsert(sender, e);
-                Helper.Added += DoOnReservationInserted;
+                Helper.Added -= DoOnReservationInserted;
             };
 
             btnUpdate.Click += (sender, e) =>
@@ -43,96 +50,105 @@ namespace RRMS.Forms
             };
 
             btnNew.Click += DoClickNew;
-            dgvReser.SelectionChanged += DoClickRecord;
+            dgvReservation.SelectionChanged += DoClickRecord;
             txtSearch.KeyDown += DoSearch;
-        }
-
-        private void cbbResID_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            if (cbbResID.SelectedItem != null)
-            {
-                SqlCommand cmd = new SqlCommand("SP_GetResidentByID", Program.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ResID", cbbResID.SelectedItem);
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        txtResName.Text = dr[2].ToString();
-                    }
-                }
-            }
-            else
-            {
-                txtResName.Text = "";
-            }
-        }
-
-        private void cbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            if (cbbRoomID.SelectedItem != null)
-            {
-                SqlCommand cmd = new SqlCommand("SP_GetRoomByID", Program.Connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        txtRoomNum.Text = dr[1].ToString();
-                    }
-                }
-            }
-            else
-            {
-                txtRoomNum.Text = "";
-            }
         }
 
         private void LoadResidentIDs()
         {
-            SqlCommand cmd = new SqlCommand("SP_LoadResidentIDs", Program.Connection);
+            using SqlCommand cmd = new SqlCommand("SP_LoadResidentIDs", Program.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            using (SqlDataReader dr = cmd.ExecuteReader())
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                while (dr.Read())
+                if (dr["ResidentID"] != DBNull.Value)
                 {
-                    object resIDObj = dr["ID"];
-                    if (resIDObj != DBNull.Value)
-                    {
-                        string? resID = resIDObj.ToString();
-                        cbbResID.Items.Add(resID);
-                        cbbResID.DisplayMember = resID;
-                        cbbResID.ValueMember = resID;
-                    }
+                    string? resID = dr["ResidentID"].ToString();
+                    cbbResID.Items.Add(resID);
                 }
             }
         }
+
         private void LoadRoomIDs()
         {
-            SqlCommand cmd = new SqlCommand("SP_LoadRoomIDs", Program.Connection);
+            using SqlCommand cmd = new SqlCommand("SP_GetAvailableRooms", Program.Connection);
             cmd.CommandType = CommandType.StoredProcedure;
-            using (SqlDataReader dr = cmd.ExecuteReader())
+            using SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
             {
-                while (dr.Read())
+                if (dr["RoomID"] != DBNull.Value)
                 {
-                    object roomIDObj = dr["RoomID"];
-                    if (roomIDObj != DBNull.Value)
-                    {
-                        string? resID = roomIDObj.ToString();
-                        cbbRoomID.Items.Add(resID);
-                        cbbRoomID.DisplayMember = resID;
-                        cbbRoomID.ValueMember = resID;
-                    }
+                    string? roomID = dr["RoomID"].ToString();
+                    cbbRoomID.Items.Add(roomID);
                 }
             }
         }
+
+        private void CbbResidentID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbResID.SelectedItem != null)
+            {
+                try
+                {
+                    using SqlCommand cmd = new SqlCommand("SP_GetResidentNameByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ResidentID", cbbResID.SelectedItem);
+                    using SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        txtResName.Text = dr["ResidentName"].ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving resident name: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtResName.Text = string.Empty;
+                }
+            }
+        }
+
+        private void CbbRoomID_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (cbbRoomID.SelectedItem != null)
+            {
+                try
+                {
+                    using SqlCommand cmd = new SqlCommand("SP_GetRoomDetailsWithPrice", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RoomID", cbbRoomID.SelectedItem);
+                    using SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        txtRoomNum.Text = dr["RoomNumber"].ToString();
+                        decimal roomAmount = dr.GetDecimal(dr.GetOrdinal("RoomAmount"));
+                        txtReserRem.Text = roomAmount.ToString("F2");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving room details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtRoomNum.Text = string.Empty;
+                    txtReserRem.Text = "0.00";
+                }
+            }
+        }
+
+        private void TxtPaidAmount_TextChanged(object? sender, EventArgs e)
+        {
+            if (decimal.TryParse(txtReserPA.Text, out decimal paidAmount) &&
+                decimal.TryParse(txtReserRem.Text, out decimal totalAmount))
+            {
+                decimal remainingAmount = totalAmount - paidAmount;
+                txtReserRem.Text = remainingAmount.ToString("F2");
+            }
+        }
+
         private void DoSearch(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 string searchValue = txtSearch.Text.Trim();
-                dgvReser.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvReservation.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
                 if (lastHighlightedIndex == -1 || txtSearch.Text != searchValue)
                 {
@@ -142,25 +158,24 @@ namespace RRMS.Forms
                 try
                 {
                     bool found = false;
-                    int startIndex = (lastHighlightedIndex + 1) % dgvReser.Rows.Count;
+                    int startIndex = (lastHighlightedIndex + 1) % dgvReservation.Rows.Count;
 
-                    for (int i = startIndex; i < dgvReser.Rows.Count + startIndex; i++)
+                    for (int i = startIndex; i < dgvReservation.Rows.Count + startIndex; i++)
                     {
-                        int currentIndex = i % dgvReser.Rows.Count;
-                        DataGridViewRow row = dgvReser.Rows[currentIndex];
+                        int currentIndex = i % dgvReservation.Rows.Count;
+                        DataGridViewRow row = dgvReservation.Rows[currentIndex];
 
                         string? id = row.Cells["colReserID"].Value?.ToString();
-                        string? reservationDate = row.Cells["colReserDate"].Value?.ToString();
-                        //string? residentName = row.Cells["colResName"].Value?.ToString();
+                        string? residentName = row.Cells["colResidentName"].Value?.ToString();
+                        string? roomNumber = row.Cells["colRoomNumber"].Value?.ToString();
 
                         if ((id != null && id.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                            (reservationDate != null && reservationDate.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
+                            (residentName != null && residentName.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                            (roomNumber != null && roomNumber.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0))
                         {
-
-                            dgvReser.ClearSelection();
-
+                            dgvReservation.ClearSelection();
                             row.Selected = true;
-                            dgvReser.FirstDisplayedScrollingRowIndex = row.Index;
+                            dgvReservation.FirstDisplayedScrollingRowIndex = row.Index;
                             lastHighlightedIndex = currentIndex;
                             found = true;
                             break;
@@ -169,7 +184,8 @@ namespace RRMS.Forms
 
                     if (!found)
                     {
-                        MessageBox.Show("No more matching reservations found. Starting over.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("No more matching reservations found. Starting over.", "Search Result",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                         lastHighlightedIndex = -1;
                     }
                 }
@@ -179,19 +195,17 @@ namespace RRMS.Forms
                 }
             }
         }
+
         private void DoClickRecord(object? sender, EventArgs e)
         {
-            if (dgvReser.SelectedCells.Count > 0)
+            if (dgvReservation.SelectedCells.Count > 0)
             {
-                int rowIndex = dgvReser.SelectedCells[0].RowIndex;
-                DataGridViewRow row = dgvReser.Rows[rowIndex];
+                int rowIndex = dgvReservation.SelectedCells[0].RowIndex;
+                DataGridViewRow row = dgvReservation.Rows[rowIndex];
 
-                object cellValue = row.Cells["colReserID"].Value;
-                int? reservationID = cellValue != null ? (int?)Convert.ToInt32(cellValue) : null;
-
-                if (reservationID.HasValue)
+                if (int.TryParse(row.Cells["colReserID"].Value?.ToString(), out int reservationId))
                 {
-                    var reservation = Helper.GetEntityById<Reservation>(Program.Connection, reservationID.Value, "SP_GetReservationbyID");
+                    var reservation = Helper.GetEntityById<Reservation>(Program.Connection, reservationId, "SP_GetReservationByID");
                     if (reservation != null)
                     {
                         PopulateFields(reservation);
@@ -201,10 +215,6 @@ namespace RRMS.Forms
                         MessageBox.Show("Reservation not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Invalid reservation ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
             }
 
             ManageControl.EnableControl(btnInsert, false);
@@ -212,15 +222,16 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnDelete, true);
             ManageControl.EnableControl(txtReserID, false);
         }
+
         private void DoClickNew(object? sender, EventArgs e)
         {
             PopulateFields(null);
-
             ManageControl.EnableControl(btnInsert, true);
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
             ManageControl.EnableControl(txtReserID, false);
         }
+
         private void DoOnReservationDeleted(object? sender, EntityEventArgs e)
         {
             if (e.ByteId == 0) return;
@@ -229,83 +240,94 @@ namespace RRMS.Forms
                 Invoke((MethodInvoker)delegate
                 {
                     UpdateReservationView();
+                    MessageBox.Show("Reservation deleted successfully!", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 });
             });
         }
+
         private void DoClickDelete(object? sender, EventArgs e)
         {
-            if (dgvReser.SelectedCells.Count <= 0) return;
+            if (dgvReservation.SelectedCells.Count <= 0) return;
+
             try
             {
-                int rowIndex = dgvReser.SelectedCells[0].RowIndex;
-                int id = Convert.ToInt32(dgvReser.Rows[rowIndex].Cells["colReserID"].Value);
+                int rowIndex = dgvReservation.SelectedCells[0].RowIndex;
+                int id = Convert.ToInt32(dgvReservation.Rows[rowIndex].Cells["colReserID"].Value);
 
-                using var cmd = Program.Connection.CreateCommand();
-                cmd.CommandText = "SP_DeleteReservation";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ReserID", id);
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you want to delete this reservation?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show($"Successfully Deleted Reservation ID > {id}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ConfigView();
+                if (result == DialogResult.Yes)
+                {
+                    using var cmd = Program.Connection.CreateCommand();
+                    cmd.CommandText = "SP_DeleteReservation";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ReservationID", id);
+                    cmd.ExecuteNonQuery();
+                    ConfigView();
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Deleting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Delete Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void DoOnReservationUpdated(object? sender, EntityEventArgs e)
         {
-            if (dgvReser.CurrentCell == null) return;
-            int rowIndex = dgvReser.CurrentCell.RowIndex;
+            if (dgvReservation.CurrentCell == null) return;
+            int rowIndex = dgvReservation.CurrentCell.RowIndex;
 
             UpdateReservationView();
 
-            // Restore selection to the updated row
-            if (rowIndex < dgvReser.Rows.Count)
+            if (rowIndex < dgvReservation.Rows.Count)
             {
-                dgvReser.Rows[rowIndex].Selected = true;
-                dgvReser.CurrentCell = dgvReser[0, rowIndex];
+                dgvReservation.Rows[rowIndex].Selected = true;
+                dgvReservation.CurrentCell = dgvReservation[0, rowIndex];
             }
+
+            MessageBox.Show("Reservation updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
         private void DoClickUpdate(object? sender, EventArgs e)
         {
-            if (dgvReser.SelectedCells.Count > 0)
+            if (dgvReservation.SelectedCells.Count > 0)
             {
-                int rowIndex = dgvReser.SelectedCells[0].RowIndex;
-                object cellValue = dgvReser.Rows[rowIndex].Cells["colReserID"].Value;
+                int rowIndex = dgvReservation.SelectedCells[0].RowIndex;
+                object cellValue = dgvReservation.Rows[rowIndex].Cells["colReserID"].Value;
 
                 if (cellValue != null && int.TryParse(cellValue.ToString(), out int id))
                 {
                     var reservation = GatherReservationInput();
-                    reservation.ID = id;
-
-                    var entityService = new EntityService();
-                    entityService.InsertOrUpdateEntity(reservation, "SP_UpdateReservation", "Update");
+                    if (reservation != null)
+                    {
+                        reservation.ID = id;
+                        if (ValidateReservationInput(reservation))
+                        {
+                            var entityService = new EntityService();
+                            entityService.InsertOrUpdateEntity(reservation, "SP_UpdateReservation", "Update");
+                        }
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Please select a valid reservation to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Please select a reservation to update.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
         private void DoOnReservationInserted(object? sender, EntityEventArgs e)
         {
-            string SP_Name = "SP_GetReservationByID";
             if (e.ByteId == 0) return;
             Task.Run(() =>
             {
                 try
                 {
-                    var result = Helper.GetEntityById<Reservation>(Program.Connection, e.ByteId, SP_Name);
-
+                    var result = Helper.GetEntityById<Reservation>(Program.Connection, e.ByteId, "SP_GetReservationByID");
                     if (result != null)
                     {
-                        dgvReser.Invoke((MethodInvoker)delegate
+                        dgvReservation.Invoke((MethodInvoker)delegate
                         {
                             AddToView(result);
                         });
@@ -313,52 +335,122 @@ namespace RRMS.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Insert Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             });
 
             DoClickNew(sender, e);
         }
+
         private void DoClickInsert(object? sender, EventArgs e)
         {
-            var feedback = GatherReservationInput();
-
-            // Create an instance of EntityService
-            var entityService = new EntityService();
-
-            // Call InsertOrUpdateEntity method
-            entityService.InsertOrUpdateEntity(feedback, "SP_InsertReservation", "Insert");
+            var reservation = GatherReservationInput();
+            if (reservation != null && ValidateReservationInput(reservation))
+            {
+                var entityService = new EntityService();
+                entityService.InsertOrUpdateEntity(reservation, "SP_InsertReservation", "Insert");
+                UpdateReservationView();
+            }
         }
 
-        private bool TryParseInputs(string type, string desc, int resID, int roomID)
+        private Reservation GatherReservationInput()
         {
+            if (!int.TryParse(cbbResID.SelectedItem?.ToString(), out int residentId) ||
+                !int.TryParse(cbbRoomID.SelectedItem?.ToString(), out int roomId) ||
+                !double.TryParse(txtReserPA.Text, out double paidAmount))
+            {
+                MessageBox.Show("Please enter valid values for all required fields.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
 
-            if (string.IsNullOrEmpty(type))
+            if (!double.TryParse(txtReserRem.Text, out double remainingAmount))
             {
-                MessageBox.Show("Content must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid remaining amount format.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
+
+            return new Reservation
+            {
+                Booking = dtpReserDate.Value,
+                Start = dtpReserSD.Value,
+                End = dtpReserED.Value,
+                Description = txtReserStat.Text,
+                ResidentID = residentId,
+                RoomID = roomId,
+                ReservationAmount = paidAmount,
+            };
+        }
+
+
+        private bool ValidateReservationInput(Reservation reservation)
+        {
+            if (reservation.ResidentID <= 0)
+            {
+                MessageBox.Show("Please select a valid resident.", "Validation Error");
                 return false;
             }
-            if (string.IsNullOrEmpty(desc))
+
+            if (reservation.RoomID <= 0)
             {
-                MessageBox.Show("Comment must not be empty.", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a valid room.", "Validation Error");
                 return false;
             }
-            if (resID < 0)
+
+            if (reservation.End <= reservation.Start)
             {
-                MessageBox.Show("Resident ID is not selected", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("End date must be after start date.", "Validation Error");
                 return false;
             }
-            if(roomID < 0)
+
+            if (reservation.ReservationAmount < 0)
             {
-                MessageBox.Show("Room ID is not selected", "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Paid amount cannot be negative.", "Validation Error");
+                return false;
             }
+
             return true;
         }
+
+        private void PopulateFields(Reservation? reservation)
+        {
+            if (reservation != null)
+            {
+                txtReserID.Text = reservation.ID.ToString();
+                dtpReserDate.Value = reservation.Booking;
+                dtpReserSD.Value = reservation.Start ?? DateTime.Now;
+                dtpReserED.Value = reservation.End ?? DateTime.Now;
+                txtReserStat.Text = reservation.Description;
+                cbbResID.Text = reservation.ResidentID.ToString();
+                cbbRoomID.Text = reservation.RoomID.ToString();
+                txtReserPA.Text = reservation.ReservationAmount.ToString("F2");
+
+                // Trigger the ID selection events to populate names
+                CbbResidentID_SelectedIndexChanged(null, EventArgs.Empty);
+                CbbRoomID_SelectedIndexChanged(null, EventArgs.Empty);
+            }
+            else
+            {
+                txtReserID.Text = string.Empty;
+                dtpReserDate.Value = DateTime.Now;
+                dtpReserSD.Value = DateTime.Now;
+                dtpReserED.Value = DateTime.Now.AddDays(30); // Default 30-day reservation
+                txtReserStat.Text = "Pending"; // Default status
+                cbbResID.SelectedIndex = -1;
+                cbbRoomID.SelectedIndex = -1;
+                txtResName.Text = string.Empty;
+                txtRoomNum.Text = string.Empty;
+                txtReserPA.Text = "0.00";
+                txtReserRem.Text = "0.00";
+            }
+        }
+
         private void UpdateReservationView()
         {
             try
             {
-                dgvReser.Rows.Clear();
+                dgvReservation.Rows.Clear();
                 string SP_Name = "SP_GetAllReservations";
 
                 var result = Helper.GetAllEntities<Reservation>(Program.Connection, SP_Name);
@@ -367,104 +459,88 @@ namespace RRMS.Forms
                 {
                     AddToView(reservation);
                 }
-                dgvReser.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvReser.ClearSelection();
+                dgvReservation.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvReservation.ClearSelection();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Updating Reservations", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private Reservation GatherReservationInput()
-        {
-            int resID;
-            int roomID;
-            if (cbbResID.SelectedItem != null &&
-                int.TryParse(cbbResID.SelectedItem.ToString(), out resID) &&
-                cbbRoomID.SelectedItem != null &&
-                int.TryParse(cbbRoomID.SelectedItem.ToString(), out roomID))
-            {
-                return new Reservation()
-                {
-                    Booking = dtpReserDate.Value,
-                    Start = dtpReserSD.Value,
-                    End = dtpReserED.Value,
-                    Description = txtReserStat.Text.Trim(),
-                    ResID = resID,
-                    RoomID = roomID
-                };
-            }
 
-            else
-            {
-                MessageBox.Show("Please select a valid Resident ID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-        private void PopulateFields(Reservation? reservation)
-        {
-            if(reservation != null)
-            {
-                txtReserID.Text = reservation.ID.ToString();
-                dtpReserDate.Value = reservation.Booking;
-                dtpReserSD.Value = reservation.Start ?? DateTime.Now;
-                dtpReserED.Value = reservation.End ?? DateTime.Now;
-                txtReserStat.Text = reservation.Description;
-                cbbResID.Text = reservation.ResID.ToString();
-                txtResName.Text = 
-                cbbRoomID.Text = reservation.RoomID.ToString();
-                txtRoomNum.Text =
-                txtReserPA.Text = reservation.CostPrice.ToString();
-                txtReserRem.Text = reservation.CostPrice.ToString();
-            }
-            else
-            {
-                txtReserID.Text = string.Empty;
-                dtpReserDate.Value = DateTime.Now;
-                dtpReserSD.Value = DateTime.Now;
-                dtpReserED.Value = DateTime.Now;
-                txtReserStat.Text = string.Empty;
-                cbbResID.SelectedIndex = -1;
-                txtResName.Text = string.Empty;
-                cbbRoomID.SelectedIndex = -1;
-                txtRoomNum.Text = string.Empty;
-                txtReserPA.Text = string.Empty;
-                txtReserRem.Text = string.Empty;
-            }
-        }
         private void ConfigView()
         {
-            dgvReser.Columns.Clear();
-            dgvReser.Columns.Add("colReserID", "Reservation ID");
-            dgvReser.Columns.Add("colReserDate", "Reservation Date");
-            dgvReser.Columns[0].Width = 100;
-            dgvReser.Columns[0].Width = 200;
-            dgvReser.DefaultCellStyle.BackColor = Color.White;
-            dgvReser.ScrollBars = ScrollBars.Both;
+            dgvReservation.Columns.Clear();
+            dgvReservation.Columns.Add("colReserID", "Reservation ID");
+            dgvReservation.Columns.Add("colReserDate", "Reservation Date");
+            dgvReservation.Columns.Add("colStartDate", "Start Date");
+            dgvReservation.Columns.Add("colEndDate", "End Date");
+            dgvReservation.Columns.Add("colStatus", "Status");
+            dgvReservation.Columns.Add("colResidentName", "Resident");
+            dgvReservation.Columns.Add("colRoomNumber", "Room");
+            dgvReservation.Columns.Add("colPaidAmount", "Paid Amount");
+            dgvReservation.Columns.Add("colRemainingAmount", "Remaining");
+
+            dgvReservation.Columns["colReserID"].Width = 80;
+            dgvReservation.Columns["colReserDate"].Width = 100;
+            dgvReservation.Columns["colStartDate"].Width = 100;
+            dgvReservation.Columns["colEndDate"].Width = 100;
+            dgvReservation.Columns["colStatus"].Width = 80;
+            dgvReservation.Columns["colResidentName"].Width = 150;
+            dgvReservation.Columns["colRoomNumber"].Width = 80;
+            dgvReservation.Columns["colPaidAmount"].Width = 100;
+            dgvReservation.Columns["colRemainingAmount"].Width = 100;
+
+            dgvReservation.DefaultCellStyle.BackColor = Color.White;
+            dgvReservation.ScrollBars = ScrollBars.Both;
 
             try
             {
                 string SP_Name = "SP_GetAllReservations";
                 var result = Helper.GetAllEntities<Reservation>(Program.Connection, SP_Name);
-                dgvReser.Rows.Clear();
+                dgvReservation.Rows.Clear();
 
-                var entityViewAdder = new EntityViewAdder<Reservation>(dgvReser, reservation => new object[] { reservation.ID, reservation.Booking });
+                var entityViewAdder = new EntityViewAdder<Reservation>(
+                    dgvReservation,
+                    reservation => new object[]
+                    {
+                        reservation.ID,
+                        reservation.Booking.ToString("yyyy-MM-dd"),
+                        reservation.Start?.ToString("yyyy-MM-dd") ?? string.Empty,
+                        reservation.End?.ToString("yyyy-MM-dd") ?? string.Empty,
+                        reservation.Description,
+                        reservation.FirstName, // This should contain the resident name from the SP
+                        reservation.Type,      // This should contain the room number from the SP
+                        reservation.CostPrice.ToString("C"),
+                    }
+                );
+
                 foreach (var reservation in result)
                 {
                     entityViewAdder.AddToView(reservation);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Retrieving reservations", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Retrieving Reservations", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void AddToView(Reservation reservation)
         {
             DataGridViewRow row = new DataGridViewRow();
-            row.CreateCells(dgvReser, reservation.ID, reservation.Booking);
+            row.CreateCells(dgvReservation,
+                reservation.ID,
+                reservation.Booking.ToString("yyyy-MM-dd"),
+                reservation.Start?.ToString("yyyy-MM-dd") ?? string.Empty,
+                reservation.End?.ToString("yyyy-MM-dd") ?? string.Empty,
+                reservation.Description,
+                reservation.FirstName, // Resident name
+                reservation.Type,      // Room number
+                reservation.CostPrice.ToString("C")
+            );
             row.Tag = reservation.ID;
-            dgvReser.Rows.Add(row);
+            dgvReservation.Rows.Add(row);
         }
     }
 }

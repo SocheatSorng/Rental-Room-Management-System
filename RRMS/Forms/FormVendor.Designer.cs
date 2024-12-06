@@ -69,173 +69,194 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 44);
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(25, 40);
             label1.Name = "label1";
-            label1.Size = new Size(58, 15);
+            label1.Size = new Size(82, 20);
             label1.TabIndex = 0;
             label1.Text = "Vendor ID";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(20, 75);
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(25, 80);
             label2.Name = "label2";
-            label2.Size = new Size(39, 15);
+            label2.Size = new Size(51, 20);
             label2.TabIndex = 1;
             label2.Text = "Name";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(20, 418);
+            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(25, 480);
             label3.Name = "label3";
-            label3.Size = new Size(67, 15);
+            label3.Size = new Size(89, 20);
             label3.TabIndex = 2;
             label3.Text = "Description";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(20, 348);
+            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(25, 400);
             label4.Name = "label4";
-            label4.Size = new Size(76, 15);
+            label4.Size = new Size(103, 20);
             label4.TabIndex = 3;
             label4.Text = "Contract End";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(20, 386);
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(25, 440);
             label5.Name = "label5";
-            label5.Size = new Size(39, 15);
+            label5.Size = new Size(56, 20);
             label5.TabIndex = 4;
             label5.Text = "Status";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(20, 315);
+            label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(25, 360);
             label6.Name = "label6";
-            label6.Size = new Size(80, 15);
+            label6.Size = new Size(109, 20);
             label6.TabIndex = 5;
             label6.Text = "Contract Start";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(20, 282);
+            label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(25, 320);
             label7.Name = "label7";
-            label7.Size = new Size(53, 15);
+            label7.Size = new Size(69, 20);
             label7.TabIndex = 6;
             label7.Text = "Province";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(20, 248);
+            label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(25, 280);
             label8.Name = "label8";
-            label8.Size = new Size(44, 15);
+            label8.Size = new Size(58, 20);
             label8.TabIndex = 7;
             label8.Text = "District";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(20, 217);
+            label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(25, 240);
             label9.Name = "label9";
-            label9.Size = new Size(64, 15);
+            label9.Size = new Size(82, 20);
             label9.TabIndex = 8;
             label9.Text = "Commune";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(20, 179);
+            label10.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(25, 200);
             label10.Name = "label10";
-            label10.Size = new Size(59, 15);
+            label10.Size = new Size(81, 20);
             label10.TabIndex = 9;
             label10.Text = "Street No.";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(20, 145);
+            label11.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(25, 160);
             label11.Name = "label11";
-            label11.Size = new Size(63, 15);
+            label11.Size = new Size(84, 20);
             label11.TabIndex = 10;
             label11.Text = "House No.";
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(20, 113);
+            label12.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Location = new Point(25, 120);
             label12.Name = "label12";
-            label12.Size = new Size(96, 15);
+            label12.Size = new Size(125, 20);
             label12.TabIndex = 11;
             label12.Text = "Contact Number";
             // 
             // txtVenID
             // 
-            txtVenID.Location = new Point(168, 41);
+            txtVenID.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenID.Location = new Point(160, 40);
             txtVenID.Name = "txtVenID";
             txtVenID.ReadOnly = true;
-            txtVenID.Size = new Size(228, 23);
+            txtVenID.Size = new Size(215, 26);
             txtVenID.TabIndex = 2;
             // 
             // txtVenDesc
             // 
-            txtVenDesc.Location = new Point(168, 415);
+            txtVenDesc.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenDesc.Location = new Point(160, 480);
             txtVenDesc.Name = "txtVenDesc";
-            txtVenDesc.Size = new Size(228, 23);
+            txtVenDesc.Size = new Size(215, 26);
             txtVenDesc.TabIndex = 13;
             // 
             // txtVenPro
             // 
-            txtVenPro.Location = new Point(168, 282);
+            txtVenPro.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenPro.Location = new Point(160, 320);
             txtVenPro.Name = "txtVenPro";
-            txtVenPro.Size = new Size(228, 23);
+            txtVenPro.Size = new Size(215, 26);
             txtVenPro.TabIndex = 9;
             // 
             // txtVenDis
             // 
-            txtVenDis.Location = new Point(168, 248);
+            txtVenDis.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenDis.Location = new Point(160, 280);
             txtVenDis.Name = "txtVenDis";
-            txtVenDis.Size = new Size(228, 23);
+            txtVenDis.Size = new Size(215, 26);
             txtVenDis.TabIndex = 8;
             // 
             // txtVenCom
             // 
-            txtVenCom.Location = new Point(168, 217);
+            txtVenCom.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenCom.Location = new Point(160, 240);
             txtVenCom.Name = "txtVenCom";
-            txtVenCom.Size = new Size(228, 23);
+            txtVenCom.Size = new Size(215, 26);
             txtVenCom.TabIndex = 7;
             // 
             // txtVenSNo
             // 
-            txtVenSNo.Location = new Point(168, 179);
+            txtVenSNo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenSNo.Location = new Point(160, 200);
             txtVenSNo.Name = "txtVenSNo";
-            txtVenSNo.Size = new Size(228, 23);
+            txtVenSNo.Size = new Size(215, 26);
             txtVenSNo.TabIndex = 6;
             // 
             // txtVenHNo
             // 
-            txtVenHNo.Location = new Point(168, 145);
+            txtVenHNo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenHNo.Location = new Point(160, 160);
             txtVenHNo.Name = "txtVenHNo";
-            txtVenHNo.Size = new Size(228, 23);
+            txtVenHNo.Size = new Size(215, 26);
             txtVenHNo.TabIndex = 5;
             // 
             // txtVenCN
             // 
-            txtVenCN.Location = new Point(168, 110);
+            txtVenCN.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenCN.Location = new Point(160, 120);
             txtVenCN.Name = "txtVenCN";
-            txtVenCN.Size = new Size(228, 23);
+            txtVenCN.Size = new Size(215, 26);
             txtVenCN.TabIndex = 4;
             // 
             // txtVenName
             // 
-            txtVenName.Location = new Point(168, 75);
+            txtVenName.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtVenName.Location = new Point(160, 80);
             txtVenName.Name = "txtVenName";
-            txtVenName.Size = new Size(228, 23);
+            txtVenName.Size = new Size(215, 26);
             txtVenName.TabIndex = 3;
             // 
             // btnNew
@@ -244,7 +265,7 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(20, 455);
+            btnNew.Location = new Point(25, 526);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
@@ -258,7 +279,7 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(117, 455);
+            btnInsert.Location = new Point(114, 526);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
@@ -272,7 +293,7 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(215, 455);
+            btnUpdate.Location = new Point(203, 526);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
@@ -286,7 +307,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(313, 455);
+            btnDelete.Location = new Point(292, 526);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
@@ -297,46 +318,47 @@
             // dgvVen
             // 
             dgvVen.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVen.Location = new Point(429, 75);
+            dgvVen.Location = new Point(552, 75);
             dgvVen.Name = "dgvVen";
-            dgvVen.Size = new Size(603, 655);
+            dgvVen.Size = new Size(432, 588);
             dgvVen.TabIndex = 18;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(504, 46);
+            txtSearch.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSearch.Location = new Point(634, 40);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(528, 23);
+            txtSearch.Size = new Size(350, 26);
             txtSearch.TabIndex = 1;
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 12F);
-            label13.Location = new Point(429, 44);
+            label13.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(560, 40);
             label13.Name = "label13";
-            label13.Size = new Size(64, 21);
+            label13.Size = new Size(68, 20);
             label13.TabIndex = 31;
             label13.Text = "Search: ";
             // 
             // dtpVenCS
             // 
-            dtpVenCS.Location = new Point(168, 309);
+            dtpVenCS.Location = new Point(160, 360);
             dtpVenCS.Name = "dtpVenCS";
-            dtpVenCS.Size = new Size(228, 23);
+            dtpVenCS.Size = new Size(215, 23);
             dtpVenCS.TabIndex = 10;
             // 
             // dtpVenCE
             // 
-            dtpVenCE.Location = new Point(168, 342);
+            dtpVenCE.Location = new Point(160, 400);
             dtpVenCE.Name = "dtpVenCE";
-            dtpVenCE.Size = new Size(228, 23);
+            dtpVenCE.Size = new Size(215, 23);
             dtpVenCE.TabIndex = 11;
             // 
             // chkVenStat
             // 
             chkVenStat.AutoSize = true;
-            chkVenStat.Location = new Point(168, 386);
+            chkVenStat.Location = new Point(160, 440);
             chkVenStat.Name = "chkVenStat";
             chkVenStat.Size = new Size(15, 14);
             chkVenStat.TabIndex = 12;
@@ -374,9 +396,9 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(10, 36);
+            panel1.Location = new Point(1, 33);
             panel1.Name = "panel1";
-            panel1.Size = new Size(413, 694);
+            panel1.Size = new Size(550, 630);
             panel1.TabIndex = 35;
             // 
             // label17
@@ -387,7 +409,7 @@
             label17.ForeColor = Color.White;
             label17.Location = new Point(0, 0);
             label17.Name = "label17";
-            label17.Size = new Size(413, 29);
+            label17.Size = new Size(550, 29);
             label17.TabIndex = 49;
             label17.Text = "Vendor Details";
             label17.TextAlign = ContentAlignment.MiddleCenter;
@@ -400,7 +422,7 @@
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(1044, 30);
+            titleLabel.Size = new Size(984, 30);
             titleLabel.TabIndex = 44;
             titleLabel.Text = "Vendor Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -409,7 +431,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1044, 742);
+            ClientSize = new Size(984, 661);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(label13);

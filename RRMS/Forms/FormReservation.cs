@@ -33,7 +33,6 @@ namespace RRMS.Forms
             // Event handlers
             cbbResID.SelectedIndexChanged += CbbResidentID_SelectedIndexChanged;
             cbbRoomID.SelectedIndexChanged += CbbRoomID_SelectedIndexChanged;
-            txtReserPA.TextChanged += TxtPaidAmount_TextChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -158,31 +157,6 @@ namespace RRMS.Forms
                     if (dr.Read())
                     {
                         txtRoomNum.Text = dr["RoomNumber"]?.ToString() ?? string.Empty;
-
-                        // Handle the BasePrice value properly
-                        decimal basePrice;
-                        if (dr["BasePrice"] != DBNull.Value)
-                        {
-                            if (dr["BasePrice"] is decimal decimalValue)
-                            {
-                                basePrice = decimalValue;
-                            }
-                            else
-                            {
-                                // Convert other numeric types to decimal
-                                basePrice = Convert.ToDecimal(dr["BasePrice"]);
-                            }
-                        }
-                        else
-                        {
-                            basePrice = 0m;
-                        }
-
-                        // Store the base price as decimal in Tag
-                        txtReserRem.Tag = basePrice;
-                        txtReserRem.Text = basePrice.ToString("F2");
-                        txtReserPA.Text = "0.00";
-                        txtReserRem.BackColor = SystemColors.Window;
                     }
                 }
                 catch (Exception ex)
@@ -190,48 +164,9 @@ namespace RRMS.Forms
                     MessageBox.Show($"Error retrieving room details: {ex.Message}",
                         "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtRoomNum.Text = string.Empty;
-                    txtReserRem.Text = "0.00";
-                    txtReserPA.Text = "0.00";
-                    txtReserRem.Tag = 0m;  // Store as decimal
-                    txtReserRem.BackColor = SystemColors.Window;
                 }
             }
         }
-
-        private void TxtPaidAmount_TextChanged(object? sender, EventArgs e)
-        {
-            if (decimal.TryParse(txtReserPA.Text, out decimal paidAmount))
-            {
-                decimal basePrice = txtReserRem.Tag != null ?
-                    Convert.ToDecimal(txtReserRem.Tag) : 0m;
-
-                // Round to 2 decimal places
-                paidAmount = Math.Round(paidAmount, 2);
-
-                if (paidAmount > basePrice)
-                {
-                    txtReserPA.Text = basePrice.ToString("F2");
-                    txtReserRem.Text = "0.00";
-                    txtReserRem.BackColor = Color.LightPink;
-                    MessageBox.Show("Warning: Paid amount cannot exceed room price!", "Overpayment Warning",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                decimal remainingAmount = basePrice - paidAmount;
-                txtReserRem.Text = remainingAmount.ToString("F2");
-                txtReserRem.BackColor = SystemColors.Window;
-            }
-            else
-            {
-                txtReserPA.Text = "0.00";
-                decimal basePrice = txtReserRem.Tag != null ?
-                    Convert.ToDecimal(txtReserRem.Tag) : 0m;
-                txtReserRem.Text = basePrice.ToString("F2");
-                txtReserRem.BackColor = SystemColors.Window;
-            }
-        }
-
         private void DoSearch(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -454,7 +389,7 @@ namespace RRMS.Forms
                     return null;
                 }
 
-                // Extract RoomID from the selected item (format: "1 - 101 (10x10 m)")
+                // Extract RoomID from the selected item
                 if (cbbRoomID.SelectedItem == null)
                 {
                     MessageBox.Show("Please select a room.", "Validation Error",
@@ -464,22 +399,6 @@ namespace RRMS.Forms
 
                 string roomSelection = cbbRoomID.SelectedItem.ToString();
                 int roomId = int.Parse(roomSelection.Split('-')[0].Trim());
-
-                // Validate paid amount
-                if (!decimal.TryParse(txtReserPA.Text, out decimal paidAmount))
-                {
-                    MessageBox.Show("Please enter a valid paid amount.", "Validation Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return null;
-                }
-
-                // Get remaining amount
-                if (!decimal.TryParse(txtReserRem.Text, out decimal remainingAmount))
-                {
-                    MessageBox.Show("Invalid remaining amount.", "Validation Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return null;
-                }
 
                 // Validate status is selected
                 if (cbbStatus.SelectedIndex == -1)
@@ -497,9 +416,7 @@ namespace RRMS.Forms
                     EndDate = dtpReserED.Value,
                     _Status = cbbStatus.Text,
                     ResidentID = residentId,
-                    RoomID = roomId,
-                    PaidAmount = paidAmount,
-                    RemainingAmount = remainingAmount
+                    RoomID = roomId
                 };
             }
             catch (Exception ex)
@@ -531,28 +448,6 @@ namespace RRMS.Forms
                 return false;
             }
 
-            if (reservation.PaidAmount < 0)
-            {
-                MessageBox.Show("Paid amount cannot be negative.", "Validation Error");
-                return false;
-            }
-
-            // Convert the base price from double to decimal for comparison
-            decimal basePrice = txtReserRem.Tag != null ?
-                Convert.ToDecimal(txtReserRem.Tag) : 0m;
-
-            if (reservation.PaidAmount > basePrice)
-            {
-                MessageBox.Show("Paid amount cannot exceed room price.", "Validation Error");
-                return false;
-            }
-
-            if (reservation.RemainingAmount < 0)
-            {
-                MessageBox.Show("Remaining amount cannot be negative.", "Validation Error");
-                return false;
-            }
-
             return true;
         }
 
@@ -581,9 +476,6 @@ namespace RRMS.Forms
                 // These will trigger in correct order
                 CbbResidentID_SelectedIndexChanged(null, EventArgs.Empty);
                 CbbRoomID_SelectedIndexChanged(null, EventArgs.Empty);
-
-                // Set paid amount last
-                txtReserPA.Text = reservation.PaidAmount.ToString("F2");
             }
             else
             {
@@ -596,9 +488,6 @@ namespace RRMS.Forms
                 cbbRoomID.SelectedIndex = -1;
                 txtResName.Text = string.Empty;
                 txtRoomNum.Text = string.Empty;
-                txtReserPA.Text = "0.00";
-                txtReserRem.Text = "0.00";
-                txtReserRem.Tag = 0m;  // Store as decimal
             }
         }
 
@@ -634,8 +523,6 @@ namespace RRMS.Forms
             dgvReservation.Columns.Add("colStatus", "Status");
             dgvReservation.Columns.Add("colResidentName", "Resident");
             dgvReservation.Columns.Add("colRoomNumber", "Room");
-            dgvReservation.Columns.Add("colPaidAmount", "Paid Amount");
-            dgvReservation.Columns.Add("colRemainingAmount", "Remaining");
 
             dgvReservation.Columns["colReserID"].Width = 80;
             dgvReservation.Columns["colReserDate"].Width = 100;
@@ -644,8 +531,6 @@ namespace RRMS.Forms
             dgvReservation.Columns["colStatus"].Width = 80;
             dgvReservation.Columns["colResidentName"].Width = 150;
             dgvReservation.Columns["colRoomNumber"].Width = 80;
-            dgvReservation.Columns["colPaidAmount"].Width = 100;
-            dgvReservation.Columns["colRemainingAmount"].Width = 100;
 
             dgvReservation.DefaultCellStyle.BackColor = Color.White;
             dgvReservation.ScrollBars = ScrollBars.Both;
@@ -686,14 +571,13 @@ namespace RRMS.Forms
         {
             DataGridViewRow row = new DataGridViewRow();
             row.CreateCells(dgvReservation,
-                reservation.ID,
-                reservation.Booking.ToString("yyyy-MM-dd"),
-                reservation.Start?.ToString("yyyy-MM-dd") ?? string.Empty,
-                reservation.End?.ToString("yyyy-MM-dd") ?? string.Empty,
-                reservation.Description,
-                reservation.FirstName, // Resident name
-                reservation.Type,      // Room number
-                reservation.CostPrice.ToString("C")
+            reservation.ID,
+            reservation.Booking.ToString("yyyy-MM-dd"),
+            reservation.Start?.ToString("yyyy-MM-dd") ?? string.Empty,
+            reservation.End?.ToString("yyyy-MM-dd") ?? string.Empty,
+            reservation.Description,
+            reservation.FirstName, // Resident name
+            reservation.Type
             );
             row.Tag = reservation.ID;
             dgvReservation.Rows.Add(row);

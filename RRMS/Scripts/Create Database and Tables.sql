@@ -265,3 +265,12 @@ CREATE TABLE tblPayment (
 GO
 
 
+CREATE TABLE tblInvoice (
+    InvoiceID INT PRIMARY KEY IDENTITY(1,1),
+    InvoiceNo NVARCHAR(50) NOT NULL,
+    InvoiceDate DATETIME NOT NULL,
+    PaymentID INT NOT NULL,
+    Status BIT DEFAULT 1,
+    FOREIGN KEY (PaymentID) REFERENCES tblPayment(PaymentID)
+);
+GO

@@ -30,17 +30,10 @@ namespace RRMS.Forms
             cbbStaffID.SelectedIndexChanged += CbbStaffID_SelectedIndexChanged;
             cbbUtilityID.SelectedIndexChanged += CbbUtilityID_SelectedIndexChanged;
             cbUtilityID.CheckedChanged += CbUtilityID_CheckedChanged;
-            cbbServiceID.SelectedIndexChanged += CbbServiceID_SelectedIndexChanged;
-            cbServiceID.CheckedChanged += CbServiceID_CheckedChanged;
+            txtPaidAmount.Leave += TxtPaidAmount_Leave;
             cbbReservationID.SelectedIndexChanged += CbbReservationID_SelectedIndexChanged;
-            txtPaidAmount.TextChanged += TxtPaidAmount_TextChanged;
-            cbReservationID.CheckedChanged += CbReservationID_CheckedChanged;
-            txtPaidAmount.TextChanged += TxtPaidAmount_TextChanged;
-            dgvPayment.CellClick += new DataGridViewCellEventHandler(DoClickRecord);
-
-            cbbUtilityID.Enabled = false;
-            cbbServiceID.Enabled = false;
-            cbbReservationID.Enabled = false;
+            cbServiceID.CheckedChanged += CbServiceID_CheckedChanged;
+            cbbServiceID.SelectedIndexChanged += CbbServiceID_SelectedIndexChanged;
 
             btnInsert.Click += (sender, e) =>
             {
@@ -66,6 +59,14 @@ namespace RRMS.Forms
             btnNew.Click += DoClickNew;
             dgvPayment.SelectionChanged += DoClickRecord;
             txtSearchPayment.KeyDown += DoSearch;
+
+            txtPaidAmount.ReadOnly = false;
+            txtRemainAmount.ReadOnly = true;
+            cbbUtilityID.Enabled = false;
+            txtUtilityName.Enabled = false;
+            cbbServiceID.Enabled = false;
+            txtServiceName.Enabled = false;
+
         }
 
         private void LoadStaffIDs()
@@ -128,13 +129,12 @@ namespace RRMS.Forms
                 {
                     if (dr["ServiceID"] != DBNull.Value)
                     {
-                        string? serID = dr["ServiceID"].ToString();
-                        cbbServiceID.Items.Add(serID);
+                        string? serviceID = dr["ServiceID"].ToString();
+                        cbbServiceID.Items.Add(serviceID);
                     }
                 }
             }
         }
-
         private void CbbStaffID_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cbbStaffID.SelectedItem != null)
@@ -159,78 +159,246 @@ namespace RRMS.Forms
                 SqlCommand cmd = new("SP_GetUtilityByID", Program.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UtilityID", cbbUtilityID.SelectedItem);
-
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.Read())
+                    while (dr.Read())
                     {
                         txtUtilityName.Text = dr["UtilityType"].ToString();
                         txtRemainAmount.Text = dr["Cost"].ToString();
-                        txtRemainAmount.ReadOnly = true;
-                        txtPaidAmount.ReadOnly = false;
-                        txtPaidAmount.Clear();
                     }
                 }
+            }
+        }
+
+        private void CbUtilityID_CheckedChanged(object? sender, EventArgs e)
+        {
+            bool isUtilityPayment = cbUtilityID.Checked;
+
+            // Enable/disable utility controls
+            cbbUtilityID.Enabled = isUtilityPayment;
+            txtUtilityName.Enabled = isUtilityPayment;
+
+            // Disable other payment options
+            cbbReservationID.Enabled = !isUtilityPayment;
+            cbServiceID.Enabled = !isUtilityPayment;
+            cbbServiceID.Enabled = false;
+
+            txtPaidAmount.ReadOnly = false;
+
+            if (isUtilityPayment)
+            {
+                // Clear other payment options
+                cbbReservationID.SelectedIndex = -1;
+                cbbServiceID.SelectedIndex = -1;
+                txtServiceName.Clear();
+
+                // Clear payment fields
+                txtPaidAmount.Clear();
+                txtRemainAmount.Clear();
+                txtRemainAmount.ReadOnly = true;
+            }
+            else
+            {
+                // Clear utility fields
+                cbbUtilityID.SelectedIndex = -1;
+                txtUtilityName.Clear();
+            }
+        }
+
+        private void CbServiceID_CheckedChanged(object? sender, EventArgs e)
+        {
+            bool isServicePayment = cbServiceID.Checked;
+
+            // Enable/disable service controls
+            cbbServiceID.Enabled = isServicePayment;
+            txtServiceName.Enabled = isServicePayment;
+
+            // Disable other payment options
+            cbbReservationID.Enabled = !isServicePayment;
+            cbUtilityID.Enabled = !isServicePayment;
+            cbbUtilityID.Enabled = false;
+
+            txtPaidAmount.ReadOnly = false;
+
+            if (isServicePayment)
+            {
+                // Clear other payment options
+                cbbReservationID.SelectedIndex = -1;
+                cbbUtilityID.SelectedIndex = -1;
+                txtUtilityName.Clear();
+
+                // Clear payment fields
+                txtPaidAmount.Clear();
+                txtRemainAmount.Clear();
+                txtRemainAmount.ReadOnly = true;
+            }
+            else
+            {
+                // Clear service fields
+                cbbServiceID.SelectedIndex = -1;
+                txtServiceName.Clear();
             }
         }
         private void CbbServiceID_SelectedIndexChanged(object? sender, EventArgs e)
         {
             if (cbbServiceID.SelectedItem != null)
             {
-                SqlCommand cmd = new("SP_GetServiceByID", Program.Connection);
+                using SqlCommand cmd = new("SP_GetServiceByID", Program.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ServiceID", cbbServiceID.SelectedItem);
-
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
                     if (dr.Read())
                     {
-                        txtServiceType.Text = dr["ServiceName"].ToString();
+                        txtServiceName.Text = dr["ServiceName"].ToString();
                         txtRemainAmount.Text = dr["ServiceCost"].ToString();
-                        txtRemainAmount.ReadOnly = true;
-                        txtPaidAmount.ReadOnly = false;
-                        txtPaidAmount.Clear();
                     }
                 }
             }
         }
-
-
-        private void CbUtilityID_CheckedChanged(object? sender, EventArgs e)
+        private void TxtPaidAmount_Leave(object? sender, EventArgs e)
         {
-            bool isUtilityPayment = cbUtilityID.Checked;
-            cbbUtilityID.Enabled = isUtilityPayment;
-            txtUtilityName.Enabled = isUtilityPayment;
+            if (string.IsNullOrEmpty(txtPaidAmount.Text)) return;
 
-            cbServiceID.Enabled = !isUtilityPayment;
-            cbReservationID.Enabled = !isUtilityPayment;
-
-            if (!isUtilityPayment)
+            if (!decimal.TryParse(txtPaidAmount.Text, out decimal paidAmount))
             {
-                cbbUtilityID.SelectedIndex = -1;
-                txtUtilityName.Clear();
+                MessageBox.Show("Please enter a valid amount", "Invalid Input");
                 txtPaidAmount.Clear();
-                txtRemainAmount.Clear();
+                return;
+            }
+
+            try
+            {
+                decimal totalAmount = 0;
+                decimal remainingAmount = 0;
+
+                // Handle Utility Payment
+                if (cbUtilityID.Checked && cbbUtilityID.SelectedItem != null)
+                {
+                    using SqlCommand cmd = new("SP_GetUtilityByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UtilityID", int.Parse(cbbUtilityID.SelectedItem.ToString()!));
+
+                    using SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        totalAmount = Convert.ToDecimal(dr["Cost"]);
+                        remainingAmount = totalAmount - paidAmount;
+
+                        if (remainingAmount < 0)
+                        {
+                            MessageBox.Show("Paid amount cannot exceed the utility cost.", "Invalid Amount");
+                            txtPaidAmount.Clear();
+                            return;
+                        }
+
+                        txtRemainAmount.Text = remainingAmount.ToString("N2");
+                    }
+                }
+                // Handle Service Payment
+                else if (cbServiceID.Checked && cbbServiceID.SelectedItem != null)
+                {
+                    using SqlCommand cmd = new("SP_GetServiceByID", Program.Connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ServiceID", int.Parse(cbbServiceID.SelectedItem.ToString()!));
+
+                    using SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        totalAmount = Convert.ToDecimal(dr["ServiceCost"]);
+                        remainingAmount = totalAmount - paidAmount;
+
+                        if (remainingAmount < 0)
+                        {
+                            MessageBox.Show("Paid amount cannot exceed the service cost.", "Invalid Amount");
+                            txtPaidAmount.Clear();
+                            return;
+                        }
+
+                        txtRemainAmount.Text = remainingAmount.ToString("N2");
+                    }
+                }
+                // Handle Reservation Payment
+                else if (cbbReservationID.SelectedItem != null)
+                {
+                    if (decimal.TryParse(txtRemainAmount.Text, out decimal currentRemaining))
+                    {
+                        remainingAmount = currentRemaining - paidAmount;
+
+                        if (remainingAmount < 0)
+                        {
+                            MessageBox.Show("Paid amount cannot exceed the remaining amount.", "Invalid Amount");
+                            txtPaidAmount.Clear();
+                            return;
+                        }
+
+                        txtRemainAmount.Text = remainingAmount.ToString("N2");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error calculating remaining amount: {ex.Message}",
+                    "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPaidAmount.Clear();
             }
         }
-        private void CbServiceID_CheckedChanged(object? sender, EventArgs e)
+
+        private void CbbReservationID_SelectedIndexChanged(object? sender, EventArgs e)
         {
-            bool isServicePayment = cbServiceID.Checked;
-            cbbServiceID.Enabled = isServicePayment;
-            txtServiceType.Enabled = isServicePayment;
+            if (cbbReservationID.SelectedItem == null) return;
 
-            cbUtilityID.Enabled = !isServicePayment;
-            cbReservationID.Enabled = !isServicePayment;
-
-            if (!isServicePayment)
+            using (var connection = new SqlConnection(Program.Connection.ConnectionString))
             {
-                cbbServiceID.SelectedIndex = -1;
-                txtServiceType.Clear();
-                txtPaidAmount.Clear();
-                txtRemainAmount.Clear();
+                try
+                {
+                    connection.Open();
+                    int reservationId = int.Parse(cbbReservationID.SelectedItem.ToString()!);
+
+                    // First check if there are any previous payments for this reservation
+                    using (SqlCommand cmdPayment = new("SP_GetLastPaymentByReservationID", connection))
+                    {
+                        cmdPayment.CommandType = CommandType.StoredProcedure;
+                        cmdPayment.Parameters.AddWithValue("@ReservationID", reservationId);
+
+                        using SqlDataReader paymentDr = cmdPayment.ExecuteReader();
+                        if (paymentDr.Read() && paymentDr["RemainingAmount"] != DBNull.Value)
+                        {
+                            // If there's a previous payment, use its remaining amount
+                            decimal remainingAmount = Convert.ToDecimal(paymentDr["RemainingAmount"]);
+                            txtRemainAmount.Text = remainingAmount.ToString("N2");
+                        }
+                        else
+                        {
+                            paymentDr.Close();
+                            // If no previous payment, get the base price from room type
+                            using SqlCommand cmdRoom = new("SP_GetReservationRoomTypePrice", connection);
+                            cmdRoom.CommandType = CommandType.StoredProcedure;
+                            cmdRoom.Parameters.AddWithValue("@ReservationID", reservationId);
+
+                            using SqlDataReader roomDr = cmdRoom.ExecuteReader();
+                            if (roomDr.Read())
+                            {
+                                decimal basePrice = Convert.ToDecimal(roomDr["BasePrice"]);
+                                txtRemainAmount.Text = basePrice.ToString("N2");
+                            }
+                        }
+                    }
+
+                    txtRemainAmount.ReadOnly = true;
+                    txtPaidAmount.ReadOnly = false;
+                    txtPaidAmount.Clear();
+
+                    // Disable utility option when reservation is selected
+                    cbUtilityID.Enabled = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error retrieving payment information: {ex.Message}",
+                        "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
-
         private void DoSearch(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -308,70 +476,12 @@ namespace RRMS.Forms
             ManageControl.EnableControl(txtPaymentNo, false);
         }
 
-        private decimal GetTotalAmount(Payment payment)
-        {
-            if (payment.IsUtilityOnly)
-                return GetUtilityCost(payment.UtilityID!.Value);
-            else if (payment.IsServiceOnly)
-                return GetServiceCost(payment.ServiceID!.Value);
-            else
-                return GetReservationAmount(payment.ReservationID!.Value);
-        }
-        private void CbbReservationID_SelectedIndexChanged(object? sender, EventArgs e)
-        {
-            if (cbbReservationID.SelectedItem == null) return;
-
-            int reservationId = int.Parse(cbbReservationID.SelectedItem.ToString()!);
-
-            // Check first payment status
-            using SqlCommand checkCmd = new("SELECT TOP 1 IsSecondPaymentDone FROM tblPayment WHERE ReservationID = @ReservationID AND Status = 1", Program.Connection);
-            checkCmd.Parameters.AddWithValue("@ReservationID", reservationId);
-            object? result = checkCmd.ExecuteScalar();
-            bool isSecondPaymentDone = result != null && (bool)result;
-
-            if (isSecondPaymentDone)
-            {
-                MessageBox.Show("Second payment already completed.", "Payment Status");
-                cbbReservationID.SelectedIndex = -1;
-                return;
-            }
-
-            using SqlCommand cmd = new("SP_GetReservationByID", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ReservationID", reservationId);
-
-            using SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
-            {
-                decimal roomAmount = Convert.ToDecimal(dr["RoomAmount"]);
-                bool hasFirstPayment = result != null;
-
-                txtTotalAmount.Text = roomAmount.ToString("N2");
-                if (!hasFirstPayment)
-                {
-                    txtPaidAmount.Clear();
-                    txtRemainAmount.Clear();
-                }
-                else
-                {
-                    txtPaidAmount.Text = dr["RemainingAmount"].ToString();
-                    txtRemainAmount.Clear();
-                }
-
-                txtPaidAmount.ReadOnly = false;
-                txtRemainAmount.ReadOnly = true;
-                cbUtilityID.Enabled = false;
-                cbServiceID.Enabled = false;
-            }
-        }
-
-
         private void ConfigureView()
         {
             dgvPayment.Columns.Clear();
             dgvPayment.Columns.Add("colPaymentID", "Payment ID");
             dgvPayment.Columns.Add("colDate", "Payment Date");
-            dgvPayment.Columns.Add("colAmount", "Remaining Amount");
+            dgvPayment.Columns.Add("colAmount", "Amount");
             dgvPayment.Columns.Add("colType", "Payment Type");
 
             dgvPayment.Columns[0].Width = 100;
@@ -381,7 +491,6 @@ namespace RRMS.Forms
 
             dgvPayment.DefaultCellStyle.BackColor = Color.White;
             dgvPayment.ScrollBars = ScrollBars.Both;
-            dgvPayment.Sort(dgvPayment.Columns["colPaymentID"], System.ComponentModel.ListSortDirection.Descending);
 
             UpdatePaymentView();
         }
@@ -407,30 +516,15 @@ namespace RRMS.Forms
 
         private void AddToView(Payment payment)
         {
-            string paymentType;
-
-            if (payment.IsUtilityOnly)
-            {
-                paymentType = "Utility";
-            }
-            else if (payment.IsServiceOnly)
-            {
-                paymentType = "Service";
-            }
-            else if (payment.ReservationID.HasValue)
-            {
-                paymentType = "Reservation";
-            }
-            else
-            {
-                paymentType = "Unknown";
-            }
-
+            string paymentType = payment.IsUtilityOnly ? "Utility" :
+                                payment.IsServiceOnly ? "Service" :
+                                "Reservation";
             DataGridViewRow row = new();
             row.CreateCells(dgvPayment,
                 payment.ID,
                 payment.PaymentDate.HasValue ? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : string.Empty,
-                payment.RemainingAmount,
+                payment.PaymentDate.HasValue ? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : string.Empty,
+                payment.PaidAmount,
                 paymentType
             );
             row.Tag = payment.ID;
@@ -444,11 +538,6 @@ namespace RRMS.Forms
             ManageControl.EnableControl(btnUpdate, false);
             ManageControl.EnableControl(btnDelete, false);
             ManageControl.EnableControl(txtPaymentNo, false);
-
-            txtPaidAmount.ReadOnly = false;
-            txtRemainAmount.ReadOnly = false;
-            cbUtilityID.Enabled = true;
-            cbServiceID.Enabled = true;
         }
 
         private void DoClickInsert(object? sender, EventArgs e)
@@ -456,94 +545,33 @@ namespace RRMS.Forms
             var payment = GatherPaymentInput();
             if (payment != null && ValidatePayment(payment))
             {
-                try
-                {
-                    using (var cmd = new SqlCommand("SP_InsertPayment", Program.Connection))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        payment.AddParameters(cmd);
-
-                        decimal totalAmount = GetTotalAmount(payment);
-                        cmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Check if the exception is due to the CHECK constraint
-                    if (ex.Message.Contains("CK_Payment_Type"))
-                    {
-                        MessageBox.Show("You can only select one payment type: Reservation, Utility, or Service.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Error inserting payment: {ex.Message}", "Insert Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                var entityService = new EntityService();
+                entityService.InsertOrUpdateEntity(payment, "SP_InsertPayment", "Insert");
+                ConfigureView();
             }
-        }
-        private decimal GetUtilityCost(int utilityId)
-        {
-            using SqlCommand cmd = new("SP_GetUtilityByID", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UtilityID", utilityId);
-            using SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
-            {
-                return Convert.ToDecimal(dr["Cost"]);
-            }
-            return 0;
-        }
-
-        private decimal GetServiceCost(int serviceId)
-        {
-            using SqlCommand cmd = new("SP_GetServiceByID", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ServiceID", serviceId);
-            using SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
-            {
-                return Convert.ToDecimal(dr["ServiceCost"]);
-            }
-            return 0;
-        }
-
-        private decimal GetReservationAmount(int reservationId)
-        {
-            using SqlCommand cmd = new("SP_GetReservationByID", Program.Connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ReservationID", reservationId);
-            using SqlDataReader dr = cmd.ExecuteReader();
-            if (dr.Read())
-            {
-                return Convert.ToDecimal(dr["PaidAmount"]);
-            }
-            return 0;
         }
 
         private void DoOnPaymentInserted(object? sender, EntityEventArgs e)
         {
             if (e.ByteId == 0) return;
-
-            try
+            Task.Run(() =>
             {
-                var result = Helper.GetEntityById<Payment>(Program.Connection, e.ByteId, "SP_GetPaymentByID");
-                if (result != null)
+                try
                 {
-                    // Use Invoke to update UI from background thread
-                    Invoke((MethodInvoker)delegate
+                    var result = Helper.GetEntityById<Payment>(Program.Connection, e.ByteId, "SP_GetPaymentByID");
+                    if (result != null)
                     {
-                        AddToView(result);
-                        dgvPayment.Refresh();
-                        dgvPayment.Sort(dgvPayment.Columns["colPaymentID"], System.ComponentModel.ListSortDirection.Descending);
-                    });
+                        Invoke((MethodInvoker)delegate
+                        {
+                            AddToView(result);
+                        });
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Inserting", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            });
 
             DoClickNew(sender, e);
         }
@@ -611,24 +639,6 @@ namespace RRMS.Forms
             }
         }
 
-        private void CbReservationID_CheckedChanged(object? sender, EventArgs e)
-        {
-            bool isReservationPayment = cbReservationID.Checked;
-            cbbReservationID.Enabled = isReservationPayment;
-
-            cbUtilityID.Enabled = !isReservationPayment;
-            cbServiceID.Enabled = !isReservationPayment;
-
-            if (!isReservationPayment)
-            {
-                cbbReservationID.SelectedIndex = -1;
-                txtPaidAmount.ReadOnly = false;
-                txtRemainAmount.ReadOnly = false;
-                txtPaidAmount.Clear();
-                txtRemainAmount.Clear();
-            }
-        }
-
         private void DoOnPaymentDeleted(object? sender, EntityEventArgs e)
         {
             if (e.ByteId == 0) return;
@@ -648,28 +658,18 @@ namespace RRMS.Forms
                 int? reservationId = null;
                 int? utilityId = null;
                 int? serviceId = null;
-                bool isUtilityOnly = false;
-                bool isServiceOnly = false;
-                bool isSecondPaymentDone = false;
-                decimal totalAmount = decimal.Parse(txtTotalAmount.Text);
 
-                if (cbReservationID.Checked && cbbReservationID.SelectedItem != null)
-                {
-                    reservationId = int.Parse(cbbReservationID.SelectedItem.ToString()!);
-
-                    using SqlCommand cmd = new("SELECT TOP 1 PaymentID FROM tblPayment WHERE ReservationID = @ReservationID AND Status = 1", Program.Connection);
-                    cmd.Parameters.AddWithValue("@ReservationID", reservationId);
-                    isSecondPaymentDone = cmd.ExecuteScalar() != null;
-                }
-                else if (cbUtilityID.Checked && cbbUtilityID.SelectedItem != null)
+                if (cbUtilityID.Checked && cbbUtilityID.SelectedItem != null)
                 {
                     utilityId = int.Parse(cbbUtilityID.SelectedItem.ToString()!);
-                    isUtilityOnly = true;
                 }
                 else if (cbServiceID.Checked && cbbServiceID.SelectedItem != null)
                 {
                     serviceId = int.Parse(cbbServiceID.SelectedItem.ToString()!);
-                    isServiceOnly = true;
+                }
+                else if (cbbReservationID.SelectedItem != null)
+                {
+                    reservationId = int.Parse(cbbReservationID.SelectedItem.ToString()!);
                 }
 
                 if (cbbStaffID.SelectedItem == null)
@@ -686,9 +686,9 @@ namespace RRMS.Forms
                     UtilityID = utilityId,
                     ServiceID = serviceId,
                     PaidAmount = decimal.Parse(txtPaidAmount.Text),
-                    IsSecondPaymentDone = isSecondPaymentDone,
-                    IsUtilityOnly = isUtilityOnly,
-                    IsServiceOnly = isServiceOnly
+                    RemainingAmount = decimal.Parse(txtRemainAmount.Text),
+                    IsUtilityOnly = cbUtilityID.Checked,
+                    IsServiceOnly = cbServiceID.Checked
                 };
             }
             catch (Exception ex)
@@ -697,7 +697,6 @@ namespace RRMS.Forms
                 return null;
             }
         }
-
 
         private bool ValidatePayment(Payment payment)
         {
@@ -719,19 +718,19 @@ namespace RRMS.Forms
                 return false;
             }
 
-            if (cbUtilityID.Checked && !payment.UtilityID.HasValue)
+            if (payment.IsUtilityOnly && !payment.UtilityID.HasValue)
             {
                 MessageBox.Show("Please select a utility for utility payment", "Validation Error");
                 return false;
             }
 
-            if (cbServiceID.Checked && !payment.ServiceID.HasValue)
+            if (payment.IsServiceOnly && !payment.ServiceID.HasValue)
             {
                 MessageBox.Show("Please select a service for service payment", "Validation Error");
                 return false;
             }
 
-            if (cbReservationID.Checked && !payment.ReservationID.HasValue)
+            if (!payment.IsUtilityOnly && !payment.IsServiceOnly && !payment.ReservationID.HasValue)
             {
                 MessageBox.Show("Please select a reservation for reservation payment", "Validation Error");
                 return false;
@@ -739,6 +738,7 @@ namespace RRMS.Forms
 
             return true;
         }
+
         private void PopulateFields(Payment? payment)
         {
             if (payment != null)
@@ -747,26 +747,24 @@ namespace RRMS.Forms
                 dtPaymentDate.Value = payment.PaymentDate ?? DateTime.Now;
                 txtPaidAmount.Text = payment.PaidAmount.ToString();
                 txtRemainAmount.Text = payment.RemainingAmount.ToString();
-                cbServiceID.Checked = payment.IsServiceOnly;
-                cbUtilityID.Checked = payment.IsUtilityOnly;
 
+                cbUtilityID.Checked = payment.IsUtilityOnly;
+                cbServiceID.Checked = payment.IsServiceOnly;
                 if (payment.IsUtilityOnly)
                 {
                     cbbUtilityID.Text = payment.UtilityID.ToString();
                     txtUtilityName.Text = payment.Type;
                 }
-                if (payment.IsServiceOnly)
+                else if (payment.IsServiceOnly)
                 {
                     cbbServiceID.Text = payment.ServiceID.ToString();
-                    txtServiceType.Text = payment.Type;
+                    txtServiceName.Text = payment.FirstName; // Service name is stored in FirstName
                 }
                 else
                 {
                     cbbReservationID.Text = payment.ReservationID.ToString();
                 }
 
-                cbUtilityID.Enabled = !payment.IsServiceOnly;
-                cbServiceID.Enabled = !payment.IsUtilityOnly;
                 cbbStaffID.Text = payment.StaffID.ToString();
             }
             else
@@ -777,47 +775,14 @@ namespace RRMS.Forms
                 txtRemainAmount.Clear();
                 cbbUtilityID.SelectedIndex = -1;
                 txtUtilityName.Clear();
+                cbbServiceID.SelectedIndex = -1;
+                txtServiceName.Clear();
                 cbbReservationID.SelectedIndex = -1;
                 cbbStaffID.SelectedIndex = -1;
                 txtStaffName.Clear();
                 cbUtilityID.Checked = false;
-                cbbServiceID.SelectedIndex = -1;
-                txtServiceType.Clear();
                 cbServiceID.Checked = false;
             }
-        }
-        private void TxtPaidAmount_TextChanged(object? sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtPaidAmount.Text) || string.IsNullOrEmpty(txtTotalAmount.Text)) return;
-
-            if (decimal.TryParse(txtPaidAmount.Text, out decimal paidAmount) &&
-                decimal.TryParse(txtTotalAmount.Text, out decimal totalAmount))
-            {
-                txtRemainAmount.Text = (totalAmount - paidAmount).ToString("N2");
-            }
-        }
-        private void InitializeButtons()
-        {
-            btnInsert.Enabled = false;
-
-            // Enable insert when valid inputs exist
-            txtPaidAmount.TextChanged += (s, e) => ValidateInputs();
-            cbUtilityID.CheckedChanged += (s, e) => ValidateInputs();
-            cbServiceID.CheckedChanged += (s, e) => ValidateInputs();
-            cbReservationID.CheckedChanged += (s, e) => ValidateInputs();
-        }
-        private void ValidateInputs()
-        {
-            bool hasValidInput = false;
-
-            if (cbUtilityID.Checked && cbbUtilityID.SelectedItem != null && !string.IsNullOrEmpty(txtPaidAmount.Text))
-                hasValidInput = true;
-            else if (cbServiceID.Checked && cbbServiceID.SelectedItem != null && !string.IsNullOrEmpty(txtPaidAmount.Text))
-                hasValidInput = true;
-            else if (cbReservationID.Checked && cbbReservationID.SelectedItem != null && !string.IsNullOrEmpty(txtPaidAmount.Text))
-                hasValidInput = true;
-
-            btnInsert.Enabled = hasValidInput;
         }
     }
 }

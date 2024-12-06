@@ -30,19 +30,15 @@
         {
             dtInvoiceDate = new DateTimePicker();
             txtInvoiceNo = new TextBox();
-            labelStaffID = new Label();
             labelInvoiceDate = new Label();
             LabelInvoiceNo = new Label();
-            txtSearchInvoice = new TextBox();
+            txtSearch = new TextBox();
             labelSearch = new Label();
-            txtResName = new TextBox();
             cbbPaymentID = new ComboBox();
             labelPaymentStatusID = new Label();
-            labelMajorCost = new Label();
-            txtAmount = new TextBox();
-            txtStaName = new TextBox();
-            label2 = new Label();
             panel1 = new Panel();
+            txtPaymentType = new TextBox();
+            label1 = new Label();
             btnDelete = new Button();
             btnUpdate = new Button();
             btnInsert = new Button();
@@ -58,159 +54,116 @@
             // 
             dtInvoiceDate.CustomFormat = "yyyy/MM/dd";
             dtInvoiceDate.Font = new Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dtInvoiceDate.Location = new Point(143, 112);
+            dtInvoiceDate.Location = new Point(160, 80);
             dtInvoiceDate.Name = "dtInvoiceDate";
             dtInvoiceDate.Size = new Size(257, 24);
-            dtInvoiceDate.TabIndex = 146;
+            dtInvoiceDate.TabIndex = 3;
             // 
             // txtInvoiceNo
             // 
             txtInvoiceNo.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtInvoiceNo.Location = new Point(143, 65);
+            txtInvoiceNo.Location = new Point(160, 40);
             txtInvoiceNo.Name = "txtInvoiceNo";
             txtInvoiceNo.ReadOnly = true;
             txtInvoiceNo.Size = new Size(257, 27);
-            txtInvoiceNo.TabIndex = 141;
-            // 
-            // labelStaffID
-            // 
-            labelStaffID.AutoSize = true;
-            labelStaffID.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelStaffID.Location = new Point(12, 189);
-            labelStaffID.Name = "labelStaffID";
-            labelStaffID.Size = new Size(110, 18);
-            labelStaffID.TabIndex = 138;
-            labelStaffID.Text = "Resident Name";
+            txtInvoiceNo.TabIndex = 2;
             // 
             // labelInvoiceDate
             // 
             labelInvoiceDate.AutoSize = true;
-            labelInvoiceDate.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelInvoiceDate.Location = new Point(12, 112);
+            labelInvoiceDate.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelInvoiceDate.Location = new Point(25, 80);
             labelInvoiceDate.Name = "labelInvoiceDate";
-            labelInvoiceDate.Size = new Size(89, 18);
+            labelInvoiceDate.Size = new Size(98, 20);
             labelInvoiceDate.TabIndex = 134;
             labelInvoiceDate.Text = "Invoice Date";
             // 
             // LabelInvoiceNo
             // 
             LabelInvoiceNo.AutoSize = true;
-            LabelInvoiceNo.Font = new Font("Microsoft Sans Serif", 11.25F);
-            LabelInvoiceNo.Location = new Point(12, 67);
+            LabelInvoiceNo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            LabelInvoiceNo.Location = new Point(25, 40);
             LabelInvoiceNo.Name = "LabelInvoiceNo";
-            LabelInvoiceNo.Size = new Size(78, 18);
+            LabelInvoiceNo.Size = new Size(83, 20);
             LabelInvoiceNo.TabIndex = 133;
             LabelInvoiceNo.Text = "Invoice No";
             // 
-            // txtSearchInvoice
+            // txtSearch
             // 
-            txtSearchInvoice.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtSearchInvoice.Location = new Point(527, 43);
-            txtSearchInvoice.Name = "txtSearchInvoice";
-            txtSearchInvoice.Size = new Size(513, 27);
-            txtSearchInvoice.TabIndex = 131;
+            txtSearch.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            txtSearch.Location = new Point(622, 41);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(355, 27);
+            txtSearch.TabIndex = 1;
             // 
             // labelSearch
             // 
             labelSearch.AutoSize = true;
-            labelSearch.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelSearch.Location = new Point(445, 50);
+            labelSearch.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelSearch.Location = new Point(556, 43);
             labelSearch.Name = "labelSearch";
-            labelSearch.Size = new Size(76, 18);
+            labelSearch.Size = new Size(60, 20);
             labelSearch.TabIndex = 130;
-            labelSearch.Text = "Search By";
-            // 
-            // txtResName
-            // 
-            txtResName.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtResName.Location = new Point(143, 189);
-            txtResName.Name = "txtResName";
-            txtResName.ReadOnly = true;
-            txtResName.Size = new Size(257, 27);
-            txtResName.TabIndex = 161;
+            labelSearch.Text = "Search";
             // 
             // cbbPaymentID
             // 
             cbbPaymentID.DropDownStyle = ComboBoxStyle.DropDownList;
             cbbPaymentID.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
             cbbPaymentID.FormattingEnabled = true;
-            cbbPaymentID.Location = new Point(143, 142);
+            cbbPaymentID.Location = new Point(160, 120);
             cbbPaymentID.Name = "cbbPaymentID";
             cbbPaymentID.Size = new Size(257, 32);
-            cbbPaymentID.TabIndex = 143;
+            cbbPaymentID.TabIndex = 4;
             // 
             // labelPaymentStatusID
             // 
             labelPaymentStatusID.AutoSize = true;
-            labelPaymentStatusID.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelPaymentStatusID.Location = new Point(12, 149);
+            labelPaymentStatusID.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            labelPaymentStatusID.Location = new Point(25, 120);
             labelPaymentStatusID.Name = "labelPaymentStatusID";
-            labelPaymentStatusID.Size = new Size(84, 18);
+            labelPaymentStatusID.Size = new Size(92, 20);
             labelPaymentStatusID.TabIndex = 136;
             labelPaymentStatusID.Text = "Payment ID";
-            // 
-            // labelMajorCost
-            // 
-            labelMajorCost.AutoSize = true;
-            labelMajorCost.Font = new Font("Microsoft Sans Serif", 11.25F);
-            labelMajorCost.Location = new Point(12, 269);
-            labelMajorCost.Name = "labelMajorCost";
-            labelMajorCost.Size = new Size(59, 18);
-            labelMajorCost.TabIndex = 153;
-            labelMajorCost.Text = "Amount";
-            // 
-            // txtAmount
-            // 
-            txtAmount.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
-            txtAmount.Location = new Point(143, 267);
-            txtAmount.Name = "txtAmount";
-            txtAmount.ReadOnly = true;
-            txtAmount.Size = new Size(257, 27);
-            txtAmount.TabIndex = 154;
-            // 
-            // txtStaName
-            // 
-            txtStaName.Location = new Point(143, 230);
-            txtStaName.Margin = new Padding(3, 2, 3, 2);
-            txtStaName.Name = "txtStaName";
-            txtStaName.ReadOnly = true;
-            txtStaName.Size = new Size(257, 23);
-            txtStaName.TabIndex = 181;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 11.25F);
-            label2.Location = new Point(12, 230);
-            label2.Name = "label2";
-            label2.Size = new Size(86, 18);
-            label2.TabIndex = 180;
-            label2.Text = "Staff Name:";
             // 
             // panel1
             // 
             panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtPaymentType);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(btnDelete);
             panel1.Controls.Add(btnUpdate);
             panel1.Controls.Add(btnInsert);
             panel1.Controls.Add(btnNew);
             panel1.Controls.Add(label17);
-            panel1.Controls.Add(txtStaName);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(txtResName);
-            panel1.Controls.Add(txtAmount);
-            panel1.Controls.Add(labelMajorCost);
             panel1.Controls.Add(dtInvoiceDate);
             panel1.Controls.Add(cbbPaymentID);
             panel1.Controls.Add(txtInvoiceNo);
-            panel1.Controls.Add(labelStaffID);
             panel1.Controls.Add(labelPaymentStatusID);
             panel1.Controls.Add(labelInvoiceDate);
             panel1.Controls.Add(LabelInvoiceNo);
-            panel1.Location = new Point(10, 39);
+            panel1.Location = new Point(0, 32);
             panel1.Name = "panel1";
-            panel1.Size = new Size(429, 687);
+            panel1.Size = new Size(550, 630);
             panel1.TabIndex = 182;
+            // 
+            // txtPaymentType
+            // 
+            txtPaymentType.Font = new Font("Sitka Small", 12F, FontStyle.Bold);
+            txtPaymentType.Location = new Point(160, 160);
+            txtPaymentType.Name = "txtPaymentType";
+            txtPaymentType.Size = new Size(257, 27);
+            txtPaymentType.TabIndex = 5;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(25, 160);
+            label1.Name = "label1";
+            label1.Size = new Size(109, 20);
+            label1.TabIndex = 187;
+            label1.Text = "Payment Type";
             // 
             // btnDelete
             // 
@@ -218,11 +171,11 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(317, 305);
+            btnDelete.Location = new Point(334, 210);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
-            btnDelete.TabIndex = 185;
+            btnDelete.TabIndex = 9;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -232,11 +185,11 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(213, 305);
+            btnUpdate.Location = new Point(229, 210);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
-            btnUpdate.TabIndex = 184;
+            btnUpdate.TabIndex = 8;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -246,11 +199,11 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(115, 305);
+            btnInsert.Location = new Point(126, 210);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
-            btnInsert.TabIndex = 183;
+            btnInsert.TabIndex = 7;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -260,11 +213,11 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(18, 305);
+            btnNew.Location = new Point(25, 210);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
-            btnNew.TabIndex = 186;
+            btnNew.TabIndex = 6;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -272,11 +225,11 @@
             // 
             label17.BackColor = Color.FromArgb(51, 122, 183);
             label17.Dock = DockStyle.Top;
-            label17.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label17.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label17.ForeColor = Color.White;
             label17.Location = new Point(0, 0);
             label17.Name = "label17";
-            label17.Size = new Size(429, 29);
+            label17.Size = new Size(550, 29);
             label17.TabIndex = 182;
             label17.Text = "Invoice Details";
             label17.TextAlign = ContentAlignment.MiddleCenter;
@@ -285,11 +238,11 @@
             // 
             titleLabel.BackColor = Color.FromArgb(51, 122, 183);
             titleLabel.Dock = DockStyle.Top;
-            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(1040, 30);
+            titleLabel.Size = new Size(980, 30);
             titleLabel.TabIndex = 183;
             titleLabel.Text = "Invoice Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -297,22 +250,22 @@
             // dgvInvoice
             // 
             dgvInvoice.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvInvoice.Location = new Point(445, 76);
+            dgvInvoice.Location = new Point(550, 76);
             dgvInvoice.Name = "dgvInvoice";
-            dgvInvoice.Size = new Size(595, 650);
-            dgvInvoice.TabIndex = 184;
+            dgvInvoice.Size = new Size(480, 586);
+            dgvInvoice.TabIndex = 10;
             // 
             // FormInvoice
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
-            ClientSize = new Size(1040, 738);
+            ClientSize = new Size(980, 657);
             Controls.Add(dgvInvoice);
             Controls.Add(titleLabel);
             Controls.Add(panel1);
             Controls.Add(labelSearch);
-            Controls.Add(txtSearchInvoice);
+            Controls.Add(txtSearch);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
             Name = "FormInvoice";
@@ -328,18 +281,12 @@
         #endregion
         private DateTimePicker dtInvoiceDate;
         private TextBox txtInvoiceNo;
-        private Label labelStaffID;
         private Label labelInvoiceDate;
         private Label LabelInvoiceNo;
-        private TextBox txtSearchInvoice;
+        private TextBox txtSearch;
         private Label labelSearch;
-        private TextBox txtResName;
         private ComboBox cbbPaymentID;
         private Label labelPaymentStatusID;
-        private Label labelMajorCost;
-        private TextBox txtAmount;
-        private TextBox txtStaName;
-        private Label label2;
         private Panel panel1;
         private Label titleLabel;
         private Label label17;
@@ -348,5 +295,7 @@
         private Button btnInsert;
         private Button btnNew;
         private DataGridView dgvInvoice;
+        private Label label1;
+        private TextBox txtPaymentType;
     }
 }

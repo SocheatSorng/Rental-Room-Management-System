@@ -1424,7 +1424,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_InsertPayment
+ALTER PROCEDURE SP_InsertPayment
     @PaymentDate DATETIME,
     @ReservationID INT = NULL,
     @StaffID INT,
@@ -1434,23 +1434,64 @@ CREATE PROCEDURE SP_InsertPayment
     @RemainingAmount DECIMAL(10,2),
     @IsSecondPaymentDone BIT = 0,
     @IsUtilityOnly BIT = 0,
-    @IsServiceOnly BIT = 0,
-    @Description NVARCHAR(MAX) = NULL
+    @IsServiceOnly BIT = 0
 AS
 BEGIN
+    SET NOCOUNT ON;
+    
+    -- Validate that only one type of payment is selected
+    IF (@IsUtilityOnly = 1 AND @IsServiceOnly = 1)
+    BEGIN
+        RAISERROR ('Cannot be both utility and service payment', 16, 1)
+        RETURN
+    END
+
+    -- Validate appropriate IDs are provided based on payment type
+    IF @IsUtilityOnly = 1 AND @UtilityID IS NULL
+    BEGIN
+        RAISERROR ('Utility payment requires UtilityID', 16, 1)
+        RETURN
+    END
+
+    IF @IsServiceOnly = 1 AND @ServiceID IS NULL
+    BEGIN
+        RAISERROR ('Service payment requires ServiceID', 16, 1)
+        RETURN
+    END
+
+    IF @IsUtilityOnly = 0 AND @IsServiceOnly = 0 AND @ReservationID IS NULL
+    BEGIN
+        RAISERROR ('Regular payment requires ReservationID', 16, 1)
+        RETURN
+    END
+
     INSERT INTO tblPayment (
-        PaymentDate, ReservationID, StaffID, UtilityID, ServiceID,
-        PaidAmount, RemainingAmount, IsSecondPaymentDone, 
-        IsUtilityOnly, IsServiceOnly, Description, Status
+        PaymentDate, 
+        ReservationID, 
+        StaffID, 
+        UtilityID,
+        ServiceID,
+        PaidAmount, 
+        RemainingAmount, 
+        IsSecondPaymentDone, 
+        IsUtilityOnly,
+        IsServiceOnly
     )
     VALUES (
-        @PaymentDate, @ReservationID, @StaffID, @UtilityID, @ServiceID,
-        @PaidAmount, @RemainingAmount, @IsSecondPaymentDone, 
-        @IsUtilityOnly, @IsServiceOnly, @Description, 1
-    );
-    SELECT SCOPE_IDENTITY() AS PaymentID;
+        @PaymentDate,
+        @ReservationID,
+        @StaffID,
+        @UtilityID,
+        @ServiceID,
+        @PaidAmount,
+        @RemainingAmount,
+        @IsSecondPaymentDone,
+        @IsUtilityOnly,
+        @IsServiceOnly
+    )
+
+    SELECT SCOPE_IDENTITY() AS PaymentID
 END
-GO
 
 CREATE PROCEDURE SP_UpdatePayment
     @PaymentID INT,
@@ -1507,5 +1548,352 @@ BEGIN
     UPDATE tblPayment 
     SET Status = 0
     WHERE PaymentID = @PaymentID
+END
+GO
+
+-- Update store procedure
+CREATE PROCEDURE SP_UpdateReservation
+    @ReservationID INT,
+    @ReservationDate DATE,
+    @StartDate DATE,
+    @EndDate DATE,
+    @Status NVARCHAR(50),
+    @ResidentID INT,
+    @RoomID INT
+AS
+BEGIN
+    -- Validate reservation exists
+    IF NOT EXISTS (SELECT 1 FROM tblReservation WHERE ReservationID = @ReservationID)
+    BEGIN
+        THROW 50005, 'Reservation not found', 1;
+        RETURN;
+    END
+
+    -- Rest of validations same as insert
+    IF NOT EXISTS (SELECT 1 FROM tblResident WHERE ResidentID = @ResidentID)
+    BEGIN
+        THROW 50001, 'Resident not found', 1;
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM tblRoom WHERE RoomID = @RoomID)
+    BEGIN
+        THROW 50002, 'Room not found', 1;
+        RETURN;
+    END
+
+    IF @StartDate > @EndDate
+    BEGIN
+        THROW 50003, 'Start date cannot be after end date', 1;
+        RETURN;
+    END
+
+    -- Check for overlapping reservations (excluding current)
+    IF EXISTS (
+        SELECT 1 
+        FROM tblReservation 
+        WHERE RoomID = @RoomID 
+        AND ReservationID != @ReservationID
+        AND Status != 'Cancelled'
+        AND (
+            (@StartDate BETWEEN StartDate AND EndDate)
+            OR (@EndDate BETWEEN StartDate AND EndDate)
+            OR (StartDate BETWEEN @StartDate AND @EndDate)
+        )
+    )
+    BEGIN
+        THROW 50004, 'Room is already reserved for this period', 1;
+        RETURN;
+    END
+
+    -- Update the reservation
+    UPDATE tblReservation
+    SET 
+        ReservationDate = @ReservationDate,
+        StartDate = @StartDate,
+        EndDate = @EndDate,
+        Status = @Status,
+        ResidentID = @ResidentID,
+        RoomID = @RoomID
+    WHERE ReservationID = @ReservationID;
+END;
+GO
+
+-- Insert store procedure
+CREATE PROCEDURE SP_InsertReservation
+    @ReservationDate DATE,
+    @StartDate DATE,
+    @EndDate DATE,
+    @Status NVARCHAR(50),
+    @ResidentID INT,
+    @RoomID INT
+AS
+BEGIN
+    -- Validate resident exists
+    IF NOT EXISTS (SELECT 1 FROM tblResident WHERE ResidentID = @ResidentID)
+    BEGIN
+        THROW 50001, 'Resident not found', 1;
+        RETURN;
+    END
+
+    -- Validate room exists
+    IF NOT EXISTS (SELECT 1 FROM tblRoom WHERE RoomID = @RoomID)
+    BEGIN
+        THROW 50002, 'Room not found', 1;
+        RETURN;
+    END
+
+    -- Validate dates
+    IF @StartDate > @EndDate
+    BEGIN
+        THROW 50003, 'Start date cannot be after end date', 1;
+        RETURN;
+    END
+
+    -- Check for overlapping reservations
+    IF EXISTS (
+        SELECT 1 
+        FROM tblReservation 
+        WHERE RoomID = @RoomID 
+        AND Status != 'Cancelled'
+        AND (
+            (@StartDate BETWEEN StartDate AND EndDate)
+            OR (@EndDate BETWEEN StartDate AND EndDate)
+            OR (StartDate BETWEEN @StartDate AND @EndDate)
+        )
+    )
+    BEGIN
+        THROW 50004, 'Room is already reserved for this period', 1;
+        RETURN;
+    END
+
+    -- Insert the reservation
+    INSERT INTO tblReservation (
+        ReservationDate,
+        StartDate,
+        EndDate,
+        Status,
+        ResidentID,
+        RoomID
+    )
+    VALUES (
+        @ReservationDate,
+        @StartDate,
+        @EndDate,
+        @Status,
+        @ResidentID,
+        @RoomID
+    );
+    
+    SELECT SCOPE_IDENTITY() AS ReservationID;
+END;
+GO
+
+-- Delete store procedure
+CREATE PROCEDURE SP_DeleteReservation
+    @ReservationID INT
+AS
+BEGIN
+    -- Validate reservation exists
+    IF NOT EXISTS (SELECT 1 FROM tblReservation WHERE ReservationID = @ReservationID)
+    BEGIN
+        THROW 50005, 'Reservation not found', 1;
+        RETURN;
+    END
+
+    -- Delete the reservation
+    DELETE FROM tblReservation WHERE ReservationID = @ReservationID;
+END;
+GO
+
+CREATE PROCEDURE SP_GetReservationRoomTypePrice
+    @ReservationID INT
+AS
+BEGIN
+    SELECT 
+        rt.BasePrice,
+        r.RoomID,
+        rt.TypeName as RoomType,
+        ro.RoomNumber
+    FROM tblReservation r
+    INNER JOIN tblRoom ro ON r.RoomID = ro.RoomID
+    INNER JOIN tblRoomType rt ON ro.RoomTypeID = rt.RoomTypeID
+    WHERE r.ReservationID = @ReservationID
+END
+GO
+
+CREATE PROCEDURE SP_GetLastPaymentByReservationID
+    @ReservationID INT
+AS
+BEGIN
+    SELECT TOP 1 
+        PaymentID,
+        PaymentDate,
+        PaidAmount,
+        RemainingAmount
+    FROM tblPayment 
+    WHERE ReservationID = @ReservationID 
+    AND Status = 1
+    ORDER BY PaymentDate DESC, PaymentID DESC
+END
+GO
+
+-- Trigger to update Utility cost after payment
+CREATE TRIGGER TR_Payment_UpdateUtilityCost
+ON tblPayment
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Update Utility costs when utility payment is made
+    UPDATE u
+    SET u.Cost = p.RemainingAmount
+    FROM tblUtility u
+    INNER JOIN inserted i ON u.UtilityID = i.UtilityID
+    INNER JOIN tblPayment p ON i.PaymentID = p.PaymentID
+    WHERE i.IsUtilityOnly = 1
+    AND i.UtilityID IS NOT NULL;
+
+    -- Update Service costs when service payment is made
+    UPDATE s
+    SET s.ServiceCost = p.RemainingAmount
+    FROM tblService s
+    INNER JOIN inserted i ON s.ServiceID = i.ServiceID
+    INNER JOIN tblPayment p ON i.PaymentID = p.PaymentID
+    WHERE i.IsServiceOnly = 1
+    AND i.ServiceID IS NOT NULL;
+END;
+GO
+
+-- Trigger to handle deletion of payments
+CREATE TRIGGER TR_Payment_RestoreCost
+ON tblPayment
+AFTER DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Restore Utility cost when payment is deleted
+    UPDATE u
+    SET u.Cost = u.Cost + d.PaidAmount
+    FROM tblUtility u
+    INNER JOIN deleted d ON u.UtilityID = d.UtilityID
+    WHERE d.IsUtilityOnly = 1
+    AND d.UtilityID IS NOT NULL;
+
+    -- Restore Service cost when payment is deleted
+    UPDATE s
+    SET s.ServiceCost = s.ServiceCost + d.PaidAmount
+    FROM tblService s
+    INNER JOIN deleted d ON s.ServiceID = d.ServiceID
+    WHERE d.IsServiceOnly = 1
+    AND d.ServiceID IS NOT NULL;
+END;
+GO
+
+-- First drop the existing constraint
+IF EXISTS (
+    SELECT * FROM sys.check_constraints 
+    WHERE name = 'CK_Payment_Type' AND parent_object_id = OBJECT_ID('tblPayment')
+)
+BEGIN
+    ALTER TABLE tblPayment
+    DROP CONSTRAINT CK_Payment_Type
+END;
+
+-- Add the modified constraint
+ALTER TABLE tblPayment 
+ADD CONSTRAINT CK_Payment_Type 
+CHECK (
+    -- Only one type of payment should be true
+    (CASE WHEN IsUtilityOnly = 1 THEN 1 ELSE 0 END + 
+     CASE WHEN IsServiceOnly = 1 THEN 1 ELSE 0 END) <= 1
+    AND
+    -- If IsUtilityOnly is true, must have UtilityID and no ReservationID
+    (IsUtilityOnly = 0 OR (IsUtilityOnly = 1 AND UtilityID IS NOT NULL AND ReservationID IS NULL))
+    AND
+    -- If IsServiceOnly is true, must have ServiceID and no ReservationID
+    (IsServiceOnly = 0 OR (IsServiceOnly = 1 AND ServiceID IS NOT NULL AND ReservationID IS NULL))
+    AND
+    -- If neither is true, must have ReservationID
+    ((IsUtilityOnly = 1 OR IsServiceOnly = 1) OR 
+     (IsUtilityOnly = 0 AND IsServiceOnly = 0 AND ReservationID IS NOT NULL))
+);
+
+ALTER PROCEDURE SP_InsertPayment
+    @PaymentDate DATETIME,
+    @ReservationID INT = NULL,
+    @StaffID INT,
+    @UtilityID INT = NULL,
+    @ServiceID INT = NULL,
+    @PaidAmount DECIMAL(10,2),
+    @RemainingAmount DECIMAL(10,2),
+    @IsSecondPaymentDone BIT = 0,
+    @IsUtilityOnly BIT = 0,
+    @IsServiceOnly BIT = 0
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Validate that only one type of payment is selected
+    IF (@IsUtilityOnly = 1 AND @IsServiceOnly = 1)
+    BEGIN
+        RAISERROR ('Cannot be both utility and service payment', 16, 1)
+        RETURN
+    END
+
+    -- Payment type-specific validations
+    IF @IsUtilityOnly = 1
+    BEGIN
+        IF @UtilityID IS NULL
+        BEGIN
+            RAISERROR ('Utility payment requires UtilityID', 16, 1)
+            RETURN
+        END
+    END
+    ELSE IF @IsServiceOnly = 1
+    BEGIN
+        IF @ServiceID IS NULL
+        BEGIN
+            RAISERROR ('Service payment requires ServiceID', 16, 1)
+            RETURN
+        END
+    END
+    ELSE -- Regular reservation payment
+    BEGIN
+        IF @ReservationID IS NULL
+        BEGIN
+            RAISERROR ('Regular payment requires ReservationID', 16, 1)
+            RETURN
+        END
+    END
+
+    INSERT INTO tblPayment (
+        PaymentDate, 
+        ReservationID, 
+        StaffID, 
+        UtilityID,
+        ServiceID,
+        PaidAmount, 
+        RemainingAmount, 
+        IsSecondPaymentDone, 
+        IsUtilityOnly,
+        IsServiceOnly
+    )
+    VALUES (
+        @PaymentDate,
+        @ReservationID,
+        @StaffID,
+        @UtilityID,
+        @ServiceID,
+        @PaidAmount,
+        @RemainingAmount,
+        @IsSecondPaymentDone,
+        @IsUtilityOnly,
+        @IsServiceOnly
+    )
+
+    SELECT SCOPE_IDENTITY() AS PaymentID
 END
 GO

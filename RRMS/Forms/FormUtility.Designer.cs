@@ -46,86 +46,88 @@ namespace RRMS.Forms
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(16, 42);
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(25, 40);
             label1.Name = "label1";
-            label1.Size = new Size(67, 19);
+            label1.Size = new Size(72, 20);
             label1.TabIndex = 0;
             label1.Text = "Utility ID:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(16, 84);
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(25, 80);
             label2.Name = "label2";
-            label2.Size = new Size(81, 19);
+            label2.Size = new Size(89, 20);
             label2.TabIndex = 1;
             label2.Text = "Utility Type:";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(14, 120);
+            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(25, 120);
             label3.Name = "label3";
-            label3.Size = new Size(41, 19);
+            label3.Size = new Size(46, 20);
             label3.TabIndex = 2;
             label3.Text = "Cost:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(16, 156);
+            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(25, 160);
             label4.Name = "label4";
-            label4.Size = new Size(83, 19);
+            label4.Size = new Size(99, 20);
             label4.TabIndex = 3;
             label4.Text = "Usage Date:";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(16, 183);
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(25, 200);
             label5.Name = "label5";
-            label5.Size = new Size(69, 19);
+            label5.Size = new Size(77, 20);
             label5.TabIndex = 4;
             label5.Text = "Room ID:";
             // 
             // txtUtiID
             // 
-            txtUtiID.Location = new Point(122, 42);
+            txtUtiID.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUtiID.Location = new Point(160, 40);
             txtUtiID.Margin = new Padding(3, 2, 3, 2);
             txtUtiID.Name = "txtUtiID";
             txtUtiID.ReadOnly = true;
-            txtUtiID.Size = new Size(219, 23);
-            txtUtiID.TabIndex = 8;
+            txtUtiID.Size = new Size(215, 26);
+            txtUtiID.TabIndex = 2;
             // 
             // txtUtiCost
             // 
-            txtUtiCost.Location = new Point(122, 116);
+            txtUtiCost.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUtiCost.Location = new Point(160, 120);
             txtUtiCost.Margin = new Padding(3, 2, 3, 2);
             txtUtiCost.Name = "txtUtiCost";
-            txtUtiCost.Size = new Size(219, 23);
-            txtUtiCost.TabIndex = 10;
+            txtUtiCost.Size = new Size(215, 26);
+            txtUtiCost.TabIndex = 4;
             // 
             // cbbUtiType
             // 
             cbbUtiType.Items.AddRange(new object[] { "Electricity", "Water", "Internet", "Other" });
-            cbbUtiType.Location = new Point(122, 84);
+            cbbUtiType.Location = new Point(160, 80);
             cbbUtiType.Margin = new Padding(3, 2, 3, 2);
             cbbUtiType.Name = "cbbUtiType";
-            cbbUtiType.Size = new Size(219, 23);
-            cbbUtiType.TabIndex = 9;
+            cbbUtiType.Size = new Size(215, 23);
+            cbbUtiType.TabIndex = 3;
             // 
             // dtpUtiUD
             // 
-            dtpUtiUD.Location = new Point(122, 152);
+            dtpUtiUD.Location = new Point(160, 160);
             dtpUtiUD.Margin = new Padding(3, 2, 3, 2);
             dtpUtiUD.Name = "dtpUtiUD";
-            dtpUtiUD.Size = new Size(219, 23);
-            dtpUtiUD.TabIndex = 11;
+            dtpUtiUD.Size = new Size(215, 23);
+            dtpUtiUD.TabIndex = 5;
             // 
             // btnInsert
             // 
@@ -133,11 +135,11 @@ namespace RRMS.Forms
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(103, 253);
+            btnInsert.Location = new Point(114, 295);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(83, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 9;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -147,11 +149,11 @@ namespace RRMS.Forms
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(192, 253);
+            btnUpdate.Location = new Point(203, 295);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(83, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 10;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -161,11 +163,11 @@ namespace RRMS.Forms
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(281, 253);
+            btnDelete.Location = new Point(292, 295);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(83, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 11;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
@@ -191,35 +193,36 @@ namespace RRMS.Forms
             panel1.Controls.Add(label1);
             panel1.Location = new Point(12, 38);
             panel1.Name = "panel1";
-            panel1.Size = new Size(373, 692);
+            panel1.Size = new Size(550, 630);
             panel1.TabIndex = 16;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(16, 218);
+            label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(25, 240);
             label7.Name = "label7";
-            label7.Size = new Size(103, 19);
+            label7.Size = new Size(116, 20);
             label7.TabIndex = 52;
             label7.Text = "Room Number:";
             // 
             // txtRoomNum
             // 
-            txtRoomNum.Location = new Point(122, 214);
+            txtRoomNum.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtRoomNum.Location = new Point(160, 240);
             txtRoomNum.Margin = new Padding(3, 2, 3, 2);
             txtRoomNum.Name = "txtRoomNum";
-            txtRoomNum.Size = new Size(219, 23);
-            txtRoomNum.TabIndex = 51;
+            txtRoomNum.Size = new Size(215, 26);
+            txtRoomNum.TabIndex = 7;
             // 
             // cbbRoomID
             // 
             cbbRoomID.Items.AddRange(new object[] { "Electricity", "Water", "Internet", "Other" });
-            cbbRoomID.Location = new Point(122, 183);
+            cbbRoomID.Location = new Point(160, 200);
             cbbRoomID.Margin = new Padding(3, 2, 3, 2);
             cbbRoomID.Name = "cbbRoomID";
-            cbbRoomID.Size = new Size(219, 23);
-            cbbRoomID.TabIndex = 50;
+            cbbRoomID.Size = new Size(215, 23);
+            cbbRoomID.TabIndex = 6;
             // 
             // btnNew
             // 
@@ -227,10 +230,10 @@ namespace RRMS.Forms
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(14, 253);
+            btnNew.Location = new Point(25, 295);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(83, 26);
-            btnNew.TabIndex = 49;
+            btnNew.TabIndex = 8;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -238,11 +241,11 @@ namespace RRMS.Forms
             // 
             label10.BackColor = Color.FromArgb(51, 122, 183);
             label10.Dock = DockStyle.Top;
-            label10.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            label10.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.White;
             label10.Location = new Point(0, 0);
             label10.Name = "label10";
-            label10.Size = new Size(373, 29);
+            label10.Size = new Size(550, 29);
             label10.TabIndex = 48;
             label10.Text = "Utility Details";
             label10.TextAlign = ContentAlignment.MiddleCenter;
@@ -251,11 +254,11 @@ namespace RRMS.Forms
             // 
             titleLabel.BackColor = Color.FromArgb(51, 122, 183);
             titleLabel.Dock = DockStyle.Top;
-            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(1044, 30);
+            titleLabel.Size = new Size(984, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Utility Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -263,34 +266,35 @@ namespace RRMS.Forms
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(391, 38);
+            label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(570, 40);
             label6.Name = "label6";
-            label6.Size = new Size(67, 19);
+            label6.Size = new Size(60, 20);
             label6.TabIndex = 50;
-            label6.Text = "Utility ID:";
+            label6.Text = "Search";
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(464, 38);
+            txtSearch.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSearch.Location = new Point(636, 35);
             txtSearch.Margin = new Padding(3, 2, 3, 2);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(568, 23);
-            txtSearch.TabIndex = 50;
+            txtSearch.Size = new Size(396, 26);
+            txtSearch.TabIndex = 1;
             // 
             // dgvUti
             // 
             dgvUti.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUti.Location = new Point(391, 66);
+            dgvUti.Location = new Point(565, 66);
             dgvUti.Name = "dgvUti";
-            dgvUti.Size = new Size(641, 664);
-            dgvUti.TabIndex = 51;
+            dgvUti.Size = new Size(467, 602);
+            dgvUti.TabIndex = 12;
             // 
             // FormUtility
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1044, 742);
+            ClientSize = new Size(984, 661);
             Controls.Add(dgvUti);
             Controls.Add(txtSearch);
             Controls.Add(label6);

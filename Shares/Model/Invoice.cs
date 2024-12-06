@@ -9,11 +9,14 @@ namespace RRMS.Model
         public string? InvoiceNo { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public int PaymentID { get; set; }
+        public bool _Status { get; set; }
+
 
         // Implementing IEntity interface
         public int ID { get => InvoiceID; set => InvoiceID = value; }
         public string Type { get => InvoiceNo ?? string.Empty; set => InvoiceNo = value; }
         public DateTime? Start { get => InvoiceDate; set => InvoiceDate = value; }
+
 
         // Not used but required by interface
         public string FirstName { get => string.Empty; set => throw new NotSupportedException(); }

@@ -173,8 +173,6 @@ namespace RRMS
         private const string RESERVATION_STARTDATE_FIELD = "StartDate";
         private const string RESERVATION_ENDDATE_FIELD = "EndDate";
         private const string RESERVATION_STATUS_FIELD = "Status";
-        private const string RESERVATION_PAIDAMOUNT_FIELD = "PaidAmount";
-        private const string RESERVATION_REMAININGAMOUNT_FIELD = "RemainingAmount";
         private const string RESERVATION_RESIDENTID_FIELD = "ResidentID";
         private const string RESERVATION_ROOMID_FIELD = "RoomID";
 
@@ -218,6 +216,7 @@ namespace RRMS
         private const string INVOICE_NO_FIELD = "InvoiceNo";
         private const string INVOICE_DATE_FIELD = "InvoiceDate";
         private const string INVOICE_PAYMENTID_FIELD = "PaymentID";
+        private const string INVOICE_STATUS_FIELD = "Status";
         #endregion
 
 
@@ -370,10 +369,6 @@ namespace RRMS
                                     null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
                                 reservation._Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ?
                                     string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
-                                reservation.PaidAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD)) ?
-                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD));
-                                reservation.RemainingAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD)) ?
-                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD));
                                 reservation.ResidentID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ?
                                     0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
                                 reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ?
@@ -414,11 +409,13 @@ namespace RRMS
                             }
                             else if (entity is Invoice invoice)
                             {
-                                invoice.InvoiceID = reader.IsDBNull(reader.GetOrdinal(INVOICE_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_ID_FIELD));
+                                invoice.ID = reader.IsDBNull(reader.GetOrdinal(INVOICE_ID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_ID_FIELD));
                                 invoice.InvoiceNo = reader.IsDBNull(reader.GetOrdinal(INVOICE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_NO_FIELD));
                                 invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_DATE_FIELD));
                                 invoice.PaymentID = reader.IsDBNull(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD));
+                                invoice._Status = reader.IsDBNull(reader.GetOrdinal(INVOICE_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(INVOICE_STATUS_FIELD));
                             }
+
                             entities.Add(entity);
                         }
                     }
@@ -598,10 +595,6 @@ namespace RRMS
                                     null : reader.GetDateTime(reader.GetOrdinal(RESERVATION_ENDDATE_FIELD));
                                 reservation._Status = reader.IsDBNull(reader.GetOrdinal(RESERVATION_STATUS_FIELD)) ?
                                     string.Empty : reader.GetString(reader.GetOrdinal(RESERVATION_STATUS_FIELD));
-                                reservation.PaidAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD)) ?
-                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_PAIDAMOUNT_FIELD));
-                                reservation.RemainingAmount = reader.IsDBNull(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD)) ?
-                                    0 : reader.GetDecimal(reader.GetOrdinal(RESERVATION_REMAININGAMOUNT_FIELD));
                                 reservation.ResidentID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD)) ?
                                     0 : reader.GetInt32(reader.GetOrdinal(RESERVATION_RESIDENTID_FIELD));
                                 reservation.RoomID = reader.IsDBNull(reader.GetOrdinal(RESERVATION_ROOMID_FIELD)) ?
@@ -644,9 +637,10 @@ namespace RRMS
                             else if (result is Invoice invoice)
                             {
                                 invoice.ID = id;
-                                invoice.InvoiceNo = reader.IsDBNull(reader.GetOrdinal(INVOICE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_NO_FIELD));
+                                invoice.InvoiceID = reader.IsDBNull(reader.GetOrdinal(INVOICE_NO_FIELD)) ? string.Empty : reader.GetString(reader.GetOrdinal(INVOICE_NO_FIELD));
                                 invoice.InvoiceDate = reader.IsDBNull(reader.GetOrdinal(INVOICE_DATE_FIELD)) ? DateTime.MinValue : reader.GetDateTime(reader.GetOrdinal(INVOICE_DATE_FIELD));
                                 invoice.PaymentID = reader.IsDBNull(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD)) ? 0 : reader.GetInt32(reader.GetOrdinal(INVOICE_PAYMENTID_FIELD));
+                                invoice._Status = reader.IsDBNull(reader.GetOrdinal(INVOICE_STATUS_FIELD)) ? false : reader.GetBoolean(reader.GetOrdinal(INVOICE_STATUS_FIELD));
                             }
                         }
                     }

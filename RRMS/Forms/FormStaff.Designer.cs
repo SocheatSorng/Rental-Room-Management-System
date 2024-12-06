@@ -62,12 +62,12 @@
             dtpStaBD = new DateTimePicker();
             dtpStaHD = new DateTimePicker();
             panel1 = new Panel();
+            cbbStaPos = new ComboBox();
             dtpStaStop = new DateTimePicker();
             label5 = new Label();
             titleLabel = new Label();
             label17 = new Label();
             txtSearch = new TextBox();
-            cbbStaPos = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvSta).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -75,215 +75,241 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 48);
+            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(25, 40);
             label1.Name = "label1";
-            label1.Size = new Size(45, 15);
+            label1.Size = new Size(65, 20);
             label1.TabIndex = 0;
             label1.Text = "Staff ID";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(19, 77);
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(25, 70);
             label2.Name = "label2";
-            label2.Size = new Size(64, 15);
+            label2.Size = new Size(86, 20);
             label2.TabIndex = 1;
             label2.Text = "First Name";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(19, 469);
+            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(25, 460);
             label3.Name = "label3";
-            label3.Size = new Size(82, 15);
+            label3.Size = new Size(111, 20);
             label3.TabIndex = 2;
             label3.Text = "Stopped Work";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(19, 439);
+            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(25, 430);
             label4.Name = "label4";
-            label4.Size = new Size(60, 15);
+            label4.Size = new Size(82, 20);
             label4.TabIndex = 3;
             label4.Text = "HiredDate";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(19, 410);
+            label6.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(25, 400);
             label6.Name = "label6";
-            label6.Size = new Size(38, 15);
+            label6.Size = new Size(53, 20);
             label6.TabIndex = 5;
             label6.Text = "Salary";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(19, 381);
+            label7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(25, 370);
             label7.Name = "label7";
-            label7.Size = new Size(99, 15);
+            label7.Size = new Size(131, 20);
             label7.TabIndex = 6;
             label7.Text = "Personal Number";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(20, 352);
+            label8.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label8.Location = new Point(25, 340);
             label8.Name = "label8";
-            label8.Size = new Size(53, 15);
+            label8.Size = new Size(69, 20);
             label8.TabIndex = 7;
             label8.Text = "Province";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(20, 318);
+            label9.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(25, 310);
             label9.Name = "label9";
-            label9.Size = new Size(44, 15);
+            label9.Size = new Size(58, 20);
             label9.TabIndex = 8;
             label9.Text = "District";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(20, 289);
+            label10.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(25, 280);
             label10.Name = "label10";
-            label10.Size = new Size(64, 15);
+            label10.Size = new Size(82, 20);
             label10.TabIndex = 9;
             label10.Text = "Commune";
             // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(20, 260);
+            label11.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(25, 250);
             label11.Name = "label11";
-            label11.Size = new Size(59, 15);
+            label11.Size = new Size(81, 20);
             label11.TabIndex = 10;
             label11.Text = "Street No.";
             // 
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(23, 228);
+            label12.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label12.Location = new Point(25, 220);
             label12.Name = "label12";
-            label12.Size = new Size(63, 15);
+            label12.Size = new Size(84, 20);
             label12.TabIndex = 11;
             label12.Text = "House No.";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(19, 199);
+            label13.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(25, 190);
             label13.Name = "label13";
-            label13.Size = new Size(50, 15);
+            label13.Size = new Size(65, 20);
             label13.TabIndex = 12;
             label13.Text = "Position";
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(20, 170);
+            label14.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.Location = new Point(25, 160);
             label14.Name = "label14";
-            label14.Size = new Size(59, 15);
+            label14.Size = new Size(81, 20);
             label14.TabIndex = 13;
             label14.Text = "Birth Date";
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(19, 135);
+            label15.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Location = new Point(25, 130);
             label15.Name = "label15";
-            label15.Size = new Size(25, 15);
+            label15.Size = new Size(36, 20);
             label15.TabIndex = 14;
             label15.Text = "Sex";
             // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.Location = new Point(18, 103);
+            label16.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(25, 100);
             label16.Name = "label16";
-            label16.Size = new Size(63, 15);
+            label16.Size = new Size(86, 20);
             label16.TabIndex = 15;
             label16.Text = "Last Name";
             // 
             // txtStaID
             // 
-            txtStaID.Location = new Point(118, 40);
+            txtStaID.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaID.Location = new Point(170, 40);
             txtStaID.Name = "txtStaID";
             txtStaID.ReadOnly = true;
-            txtStaID.Size = new Size(224, 23);
-            txtStaID.TabIndex = 16;
+            txtStaID.Size = new Size(224, 26);
+            txtStaID.TabIndex = 2;
             // 
             // txtStaFN
             // 
-            txtStaFN.Location = new Point(118, 69);
+            txtStaFN.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaFN.Location = new Point(170, 70);
             txtStaFN.Name = "txtStaFN";
-            txtStaFN.Size = new Size(224, 23);
-            txtStaFN.TabIndex = 17;
+            txtStaFN.Size = new Size(224, 26);
+            txtStaFN.TabIndex = 3;
             // 
             // txtStaLN
             // 
-            txtStaLN.Location = new Point(118, 103);
+            txtStaLN.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaLN.Location = new Point(170, 100);
             txtStaLN.Name = "txtStaLN";
-            txtStaLN.Size = new Size(224, 23);
-            txtStaLN.TabIndex = 18;
+            txtStaLN.Size = new Size(224, 26);
+            txtStaLN.TabIndex = 4;
             // 
             // txtStaSex
             // 
-            txtStaSex.Location = new Point(118, 132);
+            txtStaSex.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaSex.Location = new Point(170, 130);
             txtStaSex.Name = "txtStaSex";
-            txtStaSex.Size = new Size(224, 23);
-            txtStaSex.TabIndex = 19;
+            txtStaSex.Size = new Size(224, 26);
+            txtStaSex.TabIndex = 5;
             // 
             // txtStaHNo
             // 
-            txtStaHNo.Location = new Point(118, 220);
+            txtStaHNo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaHNo.Location = new Point(170, 220);
             txtStaHNo.Name = "txtStaHNo";
-            txtStaHNo.Size = new Size(224, 23);
-            txtStaHNo.TabIndex = 22;
+            txtStaHNo.Size = new Size(224, 26);
+            txtStaHNo.TabIndex = 8;
             // 
             // txtStaSNo
             // 
-            txtStaSNo.Location = new Point(118, 257);
+            txtStaSNo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaSNo.Location = new Point(170, 250);
             txtStaSNo.Name = "txtStaSNo";
-            txtStaSNo.Size = new Size(224, 23);
-            txtStaSNo.TabIndex = 23;
+            txtStaSNo.Size = new Size(224, 26);
+            txtStaSNo.TabIndex = 9;
             // 
             // txtStaCom
             // 
-            txtStaCom.Location = new Point(118, 286);
+            txtStaCom.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaCom.Location = new Point(170, 280);
             txtStaCom.Name = "txtStaCom";
-            txtStaCom.Size = new Size(224, 23);
-            txtStaCom.TabIndex = 24;
+            txtStaCom.Size = new Size(224, 26);
+            txtStaCom.TabIndex = 10;
             // 
             // txtStaDis
             // 
-            txtStaDis.Location = new Point(118, 315);
+            txtStaDis.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaDis.Location = new Point(170, 310);
             txtStaDis.Name = "txtStaDis";
-            txtStaDis.Size = new Size(224, 23);
-            txtStaDis.TabIndex = 25;
+            txtStaDis.Size = new Size(224, 26);
+            txtStaDis.TabIndex = 11;
             // 
             // txtStaPro
             // 
-            txtStaPro.Location = new Point(118, 344);
+            txtStaPro.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaPro.Location = new Point(170, 340);
             txtStaPro.Name = "txtStaPro";
-            txtStaPro.Size = new Size(224, 23);
-            txtStaPro.TabIndex = 26;
+            txtStaPro.Size = new Size(224, 26);
+            txtStaPro.TabIndex = 12;
             // 
             // txtStaPN
             // 
-            txtStaPN.Location = new Point(118, 373);
+            txtStaPN.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaPN.Location = new Point(170, 370);
             txtStaPN.Name = "txtStaPN";
-            txtStaPN.Size = new Size(224, 23);
-            txtStaPN.TabIndex = 27;
+            txtStaPN.Size = new Size(224, 26);
+            txtStaPN.TabIndex = 13;
             // 
             // txtStaSal
             // 
-            txtStaSal.Location = new Point(118, 402);
+            txtStaSal.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtStaSal.Location = new Point(170, 400);
             txtStaSal.Name = "txtStaSal";
-            txtStaSal.Size = new Size(224, 23);
-            txtStaSal.TabIndex = 28;
+            txtStaSal.Size = new Size(224, 26);
+            txtStaSal.TabIndex = 14;
             // 
             // btnNew
             // 
@@ -291,11 +317,11 @@
             btnNew.FlatStyle = FlatStyle.Flat;
             btnNew.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnNew.ForeColor = Color.White;
-            btnNew.Location = new Point(18, 506);
+            btnNew.Location = new Point(25, 506);
             btnNew.Margin = new Padding(3, 2, 3, 2);
             btnNew.Name = "btnNew";
             btnNew.Size = new Size(72, 26);
-            btnNew.TabIndex = 2;
+            btnNew.TabIndex = 17;
             btnNew.Text = "New";
             btnNew.UseVisualStyleBackColor = false;
             // 
@@ -305,11 +331,11 @@
             btnInsert.FlatStyle = FlatStyle.Flat;
             btnInsert.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnInsert.ForeColor = Color.White;
-            btnInsert.Location = new Point(96, 506);
+            btnInsert.Location = new Point(123, 506);
             btnInsert.Margin = new Padding(3, 2, 3, 2);
             btnInsert.Name = "btnInsert";
             btnInsert.Size = new Size(72, 26);
-            btnInsert.TabIndex = 0;
+            btnInsert.TabIndex = 18;
             btnInsert.Text = "Insert";
             btnInsert.UseVisualStyleBackColor = false;
             // 
@@ -319,11 +345,11 @@
             btnUpdate.FlatStyle = FlatStyle.Flat;
             btnUpdate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(174, 506);
+            btnUpdate.Location = new Point(223, 506);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(72, 26);
-            btnUpdate.TabIndex = 1;
+            btnUpdate.TabIndex = 19;
             btnUpdate.Text = "Update";
             btnUpdate.UseVisualStyleBackColor = false;
             // 
@@ -333,35 +359,35 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(252, 506);
+            btnDelete.Location = new Point(322, 506);
             btnDelete.Margin = new Padding(3, 2, 3, 2);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(72, 26);
-            btnDelete.TabIndex = 2;
+            btnDelete.TabIndex = 20;
             btnDelete.Text = "Delete";
             btnDelete.UseVisualStyleBackColor = false;
             // 
             // dgvSta
             // 
             dgvSta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSta.Location = new Point(363, 64);
+            dgvSta.Location = new Point(550, 64);
             dgvSta.Name = "dgvSta";
-            dgvSta.Size = new Size(669, 666);
-            dgvSta.TabIndex = 35;
+            dgvSta.Size = new Size(482, 596);
+            dgvSta.TabIndex = 21;
             // 
             // dtpStaBD
             // 
-            dtpStaBD.Location = new Point(118, 164);
+            dtpStaBD.Location = new Point(170, 160);
             dtpStaBD.Name = "dtpStaBD";
             dtpStaBD.Size = new Size(224, 23);
-            dtpStaBD.TabIndex = 39;
+            dtpStaBD.TabIndex = 6;
             // 
             // dtpStaHD
             // 
-            dtpStaHD.Location = new Point(118, 431);
+            dtpStaHD.Location = new Point(170, 430);
             dtpStaHD.Name = "dtpStaHD";
             dtpStaHD.Size = new Size(224, 23);
-            dtpStaHD.TabIndex = 40;
+            dtpStaHD.TabIndex = 15;
             // 
             // panel1
             // 
@@ -401,27 +427,35 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(12, 33);
+            panel1.Location = new Point(0, 33);
             panel1.Name = "panel1";
-            panel1.Size = new Size(345, 697);
+            panel1.Size = new Size(550, 630);
             panel1.TabIndex = 42;
+            // 
+            // cbbStaPos
+            // 
+            cbbStaPos.FormattingEnabled = true;
+            cbbStaPos.Location = new Point(170, 190);
+            cbbStaPos.Name = "cbbStaPos";
+            cbbStaPos.Size = new Size(224, 23);
+            cbbStaPos.TabIndex = 7;
             // 
             // dtpStaStop
             // 
-            dtpStaStop.Location = new Point(118, 463);
+            dtpStaStop.Location = new Point(170, 460);
             dtpStaStop.Name = "dtpStaStop";
             dtpStaStop.Size = new Size(224, 23);
-            dtpStaStop.TabIndex = 49;
+            dtpStaStop.TabIndex = 16;
             // 
             // label5
             // 
             label5.BackColor = Color.FromArgb(51, 122, 183);
             label5.Dock = DockStyle.Top;
-            label5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            label5.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.White;
             label5.Location = new Point(0, 0);
             label5.Name = "label5";
-            label5.Size = new Size(345, 29);
+            label5.Size = new Size(550, 29);
             label5.TabIndex = 48;
             label5.Text = "Staff Details";
             label5.TextAlign = ContentAlignment.MiddleCenter;
@@ -430,11 +464,11 @@
             // 
             titleLabel.BackColor = Color.FromArgb(51, 122, 183);
             titleLabel.Dock = DockStyle.Top;
-            titleLabel.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            titleLabel.Font = new Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             titleLabel.ForeColor = Color.White;
             titleLabel.Location = new Point(0, 0);
             titleLabel.Name = "titleLabel";
-            titleLabel.Size = new Size(1044, 30);
+            titleLabel.Size = new Size(984, 30);
             titleLabel.TabIndex = 43;
             titleLabel.Text = "Staff Management";
             titleLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -442,32 +476,25 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(363, 42);
+            label17.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Location = new Point(550, 40);
             label17.Name = "label17";
-            label17.Size = new Size(48, 15);
+            label17.Size = new Size(68, 20);
             label17.TabIndex = 49;
             label17.Text = "Search: ";
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(417, 34);
+            txtSearch.Location = new Point(626, 34);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(615, 23);
-            txtSearch.TabIndex = 49;
-            // 
-            // cbbStaPos
-            // 
-            cbbStaPos.FormattingEnabled = true;
-            cbbStaPos.Location = new Point(118, 191);
-            cbbStaPos.Name = "cbbStaPos";
-            cbbStaPos.Size = new Size(224, 23);
-            cbbStaPos.TabIndex = 50;
+            txtSearch.Size = new Size(406, 23);
+            txtSearch.TabIndex = 1;
             // 
             // FormStaff
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1044, 742);
+            ClientSize = new Size(984, 661);
             Controls.Add(txtSearch);
             Controls.Add(label17);
             Controls.Add(titleLabel);
